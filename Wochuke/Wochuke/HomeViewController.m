@@ -110,7 +110,7 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
         id<JCAppIntfPrx> proxy = [[ICETool shareInstance] createProxy];
         @try {
-            JCMutableGuideList * list = [proxy getGuideListByType:nil filter:JCFEATURED timestamp:nil pageIdx:0 pageSize:20];
+            JCMutableGuideList * list = [proxy getGuideListByType:nil filterCode:0 timestamp:nil pageIdx:1 pageSize:20];
             if (list) {
                 _datas = [list retain];
             }

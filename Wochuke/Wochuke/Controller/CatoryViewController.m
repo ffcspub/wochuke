@@ -16,7 +16,7 @@
 #import "GuideViewController.h"
 
 @interface CatoryViewController (){
-    JCTypeFilter filter;
+    int filter;
     NSMutableArray * _datas;
     int pageIndex;
     int pageSize;
@@ -39,7 +39,7 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
         id<JCAppIntfPrx> proxy = [[ICETool shareInstance] createProxy];
         @try {
-            JCMutableGuideList * list = [proxy getGuideListByType:typeId filter:filter timestamp:nil pageIdx:pageIndex pageSize:pageSize];
+            JCMutableGuideList * list = [proxy getGuideListByType:typeId filterCode:filter timestamp:nil pageIdx:pageIndex pageSize:pageSize];
             if (list) {
                 if (pageIndex == 0) {
                     [_datas removeAllObjects];
@@ -103,7 +103,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    filter = JCFEATURED;
+    filter = 0;
     pageSize = 20;
     _datas = [[NSMutableArray alloc]init];
     

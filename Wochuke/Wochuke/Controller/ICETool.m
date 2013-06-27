@@ -60,7 +60,7 @@ static ICETool *_shareInstance;
 
 -(id<JCAppIntfPrx>)createProxy
 {
-    NSString* prxStr = @"chukeIntf";
+    NSString* prxStr = @"testIntf";
     
     ICEObjectPrx* prx = [communicator stringToProxy:prxStr];
     

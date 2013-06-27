@@ -4,21 +4,11 @@
 ["objc:prefix:JC"]
 module AirGuide { 
 
-    //用户角色：管理员、运营人员、采编人员、普通用户、虚拟用户
-    enum UserRole { ADMIN, OPERATOR, EDITOR, NORMAL, DUMMY };
-
-    //按分类获取指南列表的过滤类型：精选、热门、最新
-    enum TypeFilter { FEATURED, POPULAR, RECENT };
-
-    //获取用户相关的指南列表的过滤类型：草稿、已发布、收藏
-    enum UserFilter { DRAFT, PUBLISHED, FAVORITE }; 
-
-    ["java:type:java.util.ArrayList<String>"]
+    ["java:type:java.util.ArrayList<String>:java.util.List<String>"]
     sequence<string> StringList;
 
-    ["java:type:java.util.HashMap<String, String>"]
-    dictionary<string, string> StringMap;
-    
+    ["java:type:java.util.HashMap<String, String>:java.util.Map<String, String>"]
+    dictionary<string, string> StringMap;    
     
     //媒体文件
     struct FileInfo {
@@ -40,20 +30,21 @@ module AirGuide {
         string mobile; //手机号
         string realname;  //真实姓名
         string intro;  //个人介绍
-        UserRole role; //用户角色
+        int roleCode; //用户角色，0管理员、1运营人员、2采编人员、3普通用户、4虚拟用户
         
         int followerCount; //粉丝人数
         int followingCount; //关注人数
         
-        int draftCount;  //草稿数量
-        int publishedCount; //发布数量
+        //int draftCount;  //草稿数量
+        //int publishedCount; //发布数量
+        int createdCount; //创建数量：草稿+发布
         int favoriteCount;  //收藏数量
 
         StringMap snsIds; //社交网络账号信息，key和value表示约定如下：
                           //-新浪微博的key为"sinaId"，value为UID值
                           //-QQ的key为"qqId"，value为openid的值
     };
-    ["java:type:java.util.ArrayList<User>"]
+    ["java:type:java.util.ArrayList<User>:java.util.List<User>"]
     sequence<User> UserList;
     
     //指南，对应一个菜谱
@@ -69,13 +60,12 @@ module AirGuide {
 
         string userId; //作者用户Id
         string userName; //作者用户名称
-        //是否需要这个字段？还是提供一个获取头像的接口方法        
-        FileInfo userAvatar; //作者用户头像照片文件信息
+        FileInfo userAvatar; //作者头像信息
         
         string publishedTime; //发布时间，格式[yyyy-MM-dd HH:mm:ss]
-        bool isLoaded = false; //仅客户端使用，服务端不处理
         bool published; //是否已发布
         bool featured; //是否特色精选
+        bool isLoaded = false; //仅客户端使用，服务端不处理
         
         int viewCount; //查看数
         int favoriteCount; //收藏数
@@ -83,7 +73,7 @@ module AirGuide {
         int mutedCount; //被屏蔽数
         int reportedCount; //被举报数
     };
-    ["java:type:java.util.ArrayList<Guide>"]
+    ["java:type:java.util.ArrayList<Guide>:java.util.List<Guide>"]
     sequence<Guide> GuideList;
     
     //指南材料
@@ -93,7 +83,7 @@ module AirGuide {
         string name; //材料名称
         string quantity; //材料数量
     };
-    ["java:type:java.util.ArrayList<Supply>"]
+    ["java:type:java.util.ArrayList<Supply>:java.util.List<Supply>"]
     sequence<Supply> SupplyList;
         
     //指南步骤
@@ -113,7 +103,7 @@ module AirGuide {
         int commentCount; //评论数
         bool isLoaded = false; //仅客户端使用，服务端不处理
     };
-    ["java:type:java.util.ArrayList<Step>"]
+    ["java:type:java.util.ArrayList<Step>:java.util.List<Step>"]
     sequence<Step> StepList;
     
     //评论
@@ -126,11 +116,9 @@ module AirGuide {
 
         string userId;  //评论用户Id
         string userName;  //评论用户名
-        //是否需要这个字段？还是提供一个获取头像的接口方法        
-        FileInfo userAvatar; //评论用户头像照片文件信息
-        
+        FileInfo userAvatar; //评论用户头像信息        
     };
-    ["java:type:java.util.ArrayList<Comment>"]
+    ["java:type:java.util.ArrayList<Comment>:java.util.List<Comment>"]
     sequence<Comment> CommentList;
     
     struct GuideDetail {
@@ -162,7 +150,7 @@ module AirGuide {
         FileInfo cover; //分类封面文件信息
         bool isSelected = false; //仅客户端使用，服务端不处理
     };
-    ["java:type:java.util.ArrayList<Type>"]
+    ["java:type:java.util.ArrayList<Type>:java.util.List<Type>"]
     sequence<Type> TypeList;
     
     //指南专题，一个指南可以归属于多个专题
@@ -174,7 +162,7 @@ module AirGuide {
         string memo; //专题说明
         FileInfo cover; //专题封面文件信息
     };
-    ["java:type:java.util.ArrayList<Topic>"]
+    ["java:type:java.util.ArrayList<Topic>:java.util.List<Topic>"]
     sequence<Topic> TopicList;
      
     //文件数据块
@@ -186,21 +174,52 @@ module AirGuide {
         Ice::ByteSeq data; //数据内容 
     };
 
-    //异常，reason包含异常原因描述
+    //动态信息
+    struct ActInfo {
+        string userId; //用户Id
+        string userName;  //用户名
+        FileInfo userAvatar; //用户头像信息        
+
+        string guideId; //指南Id
+        string guideTitle; //指南标题
+        
+        int actCode;  //行动代码：0发布，1查看，2收藏，3评论
+        string actMemo;  //行动摘要信息，如评论内容等
+        string timestamp; //时间戳
+
+    };
+    ["java:type:java.util.ArrayList<ActInfo>:java.util.List<ActInfo>"]
+    sequence<ActInfo> ActInfoList;
+    
+    
+    //终端设备信息
+    struct TermInfo {
+        string id; //终端ID，使用OpenUDID
+        string model; //机型
+        string msisdn; //手机号，可能没有值
+        string resolution; //分辨率
+        string osVersion; //操作系统版本
+        string appVersion; //应用版本
+    };
+    
+    //日志信息
+    struct LogInfo {
+        string termId; //终端ID
+        string userId; //用户ID，未登录为空
+        string page; //所在的页面
+        string action; //所进行的操作
+        string timestamp; //时间戳
+    };
+    
+    //异常，reason包含异常原因描述，可直接用于终端显示
     exception GuideException { 
          string reason;
     };
     
-    //手机信息
-    struct ClientInfo {
-        string mobileType; //主机型号
-        string osVersion; //操作系统版本号
-        string appVersion; //应用版本号
-        string resolution; //分辨率
-    };
-    
-    
-    ["amd"] interface AppIntf {                      
+    ["amd"] interface AppIntf {
+            //获取首页的口号
+            idempotent string getSlogon();
+
             //使用社交网络账号信息获取用户信息
             //idKey 对应User中snsIds的key
             //idValue 对应User中snsIds的value
@@ -233,8 +252,8 @@ module AirGuide {
             idempotent UserList getUserListByFollow(string userId, bool flag, string timestamp, int pageIdx, int pageSize);
             
             //取指南的相关用户列表
-            //bhType表示行为类型，0表示查看过该指南的用户，1表示收藏该指南的用户
-            idempotent UserList getUserListByGuide(string guideId, int bhType, string timestamp, int pageIdx, int pageSize);
+            //actCode表示行为类型：1查看，2收藏
+            idempotent UserList getUserListByGuide(string guideId, int actCode, string timestamp, int pageIdx, int pageSize);
             
             //取分类列表
             //timestamp为最近一次获取该列表的时间戳，用于列表刷新，格式[yyyy-MM-dd HH:mm:ss]
@@ -248,8 +267,9 @@ module AirGuide {
                         
             //按指定分类获取指南列表
             //typeId为空字符串时，表示取全部分类
+            //filterCode:0精选，1热门，2最新
             //timestamp为最近一次获取该列表的时间戳，用于列表刷新，格式[yyyy-MM-dd HH:mm:ss]
-            idempotent GuideList getGuideListByType(string typeId, TypeFilter filter, string timestamp, int pageIdx, int pageSize);
+            idempotent GuideList getGuideListByType(string typeId, int filterCode, string timestamp, int pageIdx, int pageSize);
      
             //按关键词的获取指定分类下的指南列表，相当于搜索操作
             //typeId为空字符串时，表示取全部分类
@@ -260,14 +280,15 @@ module AirGuide {
             idempotent GuideList getGuideListByTopic(string topicId, string timestamp, int pageIdx, int pageSize);
      
             //获取指定用户的指南列表
+            //filterCode:0创建（草稿+发布），1收藏
             //timestamp为最近一次获取该列表的时间戳，用于列表刷新
-            idempotent GuideList getGuideListByUser(string userId, string timestamp, UserFilter filter, int pageIdx, int pageSize);
+            idempotent GuideList getGuideListByUser(string userId, int filterCode, string timestamp, int pageIdx, int pageSize);
 
             //获取指南的详细信息：材料列表、步骤列表和最新评论列表
             idempotent GuideDetail getGuideDetail(string guideId, string userId);
 
             //获取指南的评论列表，stepId为空字符串时代表取整个指南的评论，已经排好序
-            idempotent CommentList getCommentList(string guideId, string stepId, int pageIdx, int pageSize);
+            idempotent CommentList getCommentList(string guideId, string stepId, string timestamp, int pageIdx, int pageSize);
 
             //获取文件数据块
             idempotent FileBlock getFileBlock(string fileId, int blockIdx, int blockSize); 
@@ -287,35 +308,44 @@ module AirGuide {
             //保存指南的步骤列表
             StepList saveStepList(StepList steps) throws GuideException;
                             
+            //保存收藏，flag为true表示收藏，flag为false表示取消收藏
+            //返回操作后的收藏状态，收藏为true，未收藏为false
+            bool favorite(string userId, string guideId, bool flag) throws GuideException;
+            
+            //保存屏蔽，flag为true表示屏蔽，flag为false表示取消屏蔽
+            //返回操作后的屏蔽状态，屏蔽为true，未屏蔽为false
+            bool mute(string userId, string guideId, bool flag) throws GuideException;
+            
+            //举报指南，当指南内容不合法时，用户可以进行举报，必须登录
+            //content举报内容文字
+            void report(string userId, string guideId, string content) throws GuideException;
+                            
             //添加或保存评论，id为空字符串表示添加，有值表示保存更改
             Comment saveComment(Comment commentInfo) throws GuideException;
 
             //删除评论 
             void deleteComment(string userId, string commentId) throws GuideException;
                             
-            //保存收藏，flag为true表示收藏，flag为false表示取消收藏
-            void favorite(string userId, string guideId, bool flag) throws GuideException;
-            
-            //保存收藏
-            void markFavorite(string userId, string guideId) throws GuideException;
-
-            //取消收藏
-            void cancelFavorite(string userId, string guideId) throws GuideException;
-
-            //举报指南，当指南内容不合法时，用户可以进行举报，允许userId为空（未登录用户）
-            void report(string userId, string guideId) throws GuideException;
-                            
             //保存文件数据块
             void saveFileBlock(FileBlock block) throws GuideException;
+            
+            //获取动态信息
+            //timestamp为最近一次获取该列表的时间戳，用于列表刷新
+            //filterCode:0全部，1关注
+            idempotent ActInfoList getActInfoList(string userId, int filterCode, string timestamp, int pageIdx, int pageSize);
             
             //获取搜索热词
             idempotent StringList getHotWordList();
             
             //保存意见反馈
-            void saveFeedBack(string content, string contact, ClientInfo info);
+            //content 反馈的内容，contact 联系方式，termId 终端ID，userId 当前用户ID（未登录为空）
+            void saveFeedback(string content, string contact, string termId, string userId) throws GuideException;
             
-            //获取首页的口号
-            idempotent string getSlogon();
+            //保存终端信息
+            void saveTermInfo(TermInfo info) throws GuideException;
+            
+            //保存用户行为日志
+            void log(LogInfo info) throws GuideException;
     };                           
 };
 

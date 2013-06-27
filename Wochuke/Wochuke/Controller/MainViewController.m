@@ -113,6 +113,10 @@
     [_searchViewNaviationController release];
     [_myViewNaviationController release];
     [_toolBar release];
+    [_btn_type release];
+    [_btn_catory release];
+    [_btn_search release];
+    [_btn_mine release];
     [super dealloc];
 }
 
@@ -123,15 +127,63 @@
     _searchViewNaviationController = nil;
     _myViewNaviationController = nil;
     [self setToolBar:nil];
+    [self setBtn_type:nil];
+    [self setBtn_catory:nil];
+    [self setBtn_search:nil];
+    [self setBtn_mine:nil];
     [super viewDidUnload];
-    
 }
 
 #pragma mark -
 -(IBAction)showControllerView:(id)sender;{
     UIView *view = (UIView *)sender;
     int tag = view.tag;
+    
+    BOOL nothingChange = NO;
+    nothingChange = (currentController == _homeViewNaviationController && tag == 1) || (currentController == _catoryViewNaviationController && tag == 2) || (currentController == _searchViewNaviationController && tag ==3) || (currentController == _myViewNaviationController && tag == 4);
+    if (nothingChange) {
+        return;
+    }
+    
+    [_btn_type setImage:[UIImage imageNamed:@"bg_home_good_bottom_pressed"] forState:UIControlStateSelected];
+    [_btn_type setImage:[UIImage imageNamed:@"bg_home_good_bottom"] forState:UIControlStateNormal];
+    [_btn_catory setImage:[UIImage imageNamed:@"bg_home_classify_bottom"] forState:UIControlStateNormal];
+    [_btn_catory setImage:[UIImage imageNamed:@"bg_home_good_bottom_pressed"] forState:UIControlStateSelected];
+    [_btn_search setImage:[UIImage imageNamed:@"bg_home_search_bottom"] forState:UIControlStateNormal];
+    [_btn_search setImage:[UIImage imageNamed:@"bg_home_search_bottom_pressed"] forState:UIControlStateSelected];
+    [_btn_mine setImage:[UIImage imageNamed:@"bg_home_user_bottom"] forState:UIControlStateNormal];
+    [_btn_mine setImage:[UIImage imageNamed:@"bg_home_user_bottom_pressed"] forState:UIControlStateSelected];
+    if (tag == 1) {
+        [_btn_type setImage:[UIImage imageNamed:@"bg_home_good_bottom_pressed"] forState:UIControlStateNormal];
+    }else if(tag == 2){
+        [_btn_catory setImage:[UIImage imageNamed:@"bg_home_classify_bottom_pressed"] forState:UIControlStateNormal];
+    }else if(tag == 3){
+        [_btn_search setImage:[UIImage imageNamed:@"bg_home_search_bottom_pressed"] forState:UIControlStateNormal];
+    }else if(tag == 4){
+        [_btn_mine setImage:[UIImage imageNamed:@"bg_home_user_bottom_pressed"] forState:UIControlStateNormal];
+    }
     [self showNaviationController:tag];
+}
+
+- (IBAction)typeAction:(id)sender {
+    [self showControllerView:sender];
+    
+    
+}
+
+- (IBAction)catoryAction:(id)sender {
+    [self showControllerView:sender];
+    
+}
+
+- (IBAction)searchAction:(id)sender {
+    [self showControllerView:sender];
+    
+}
+
+- (IBAction)mineAction:(id)sender {
+    
+    [self showControllerView:sender];
 }
 
 @end
