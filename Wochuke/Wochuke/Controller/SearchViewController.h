@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "TopViewController.h"
+#import "UIKeyboardViewController.h"
 
-@interface SearchViewController : TopViewController<UITableViewDataSource,UITableViewDelegate>
+@interface SearchViewController : TopViewController<UITableViewDataSource,UITableViewDelegate,UIKeyboardViewControllerDelegate>
 
 @property (retain, nonatomic) IBOutlet UIScrollView *scrollView;
 

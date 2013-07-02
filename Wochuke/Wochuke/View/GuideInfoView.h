@@ -10,19 +10,38 @@
 #import <Guide.h>
 #import "MyWebImgView.h"
 #import "Bee_UIGridCell.h"
+#import "HPGrowingTextView.h"
+#import "UIKeyboardViewController.h"
 
 //简介页面
-@interface GuideInfoView : UIView{
-    UILabel *lb_title;
+@interface GuideInfoView : UIView<HPGrowingTextViewDelegate>{
+    UIImageView *backImageView;
+    UIImageView *backTopImageView;
+    HPGrowingTextView *tv_title;
     MyWebImgView *iv_photo;
     UILabel *lb_publisher;
     UIButton *btn_viewCount;
     UIButton *btn_favoriteCount;
     UIButton *btn_commentCount;
-    UITextView *tv_content;
+    HPGrowingTextView *tv_content;
 }
 
 @property(nonatomic,retain) JCGuide *guide;
+
+@end
+
+@interface GuideEditView : UIView<HPGrowingTextViewDelegate,UIKeyboardViewControllerDelegate>{
+    UIImageView *backImageView;
+    UIImageView *backTopImageView;
+    HPGrowingTextView *tv_title;
+    MyWebImgView *iv_photo;
+    UILabel *lb_publisher;
+    HPGrowingTextView *tv_content;
+    UILabel *lb_empty;
+    UIKeyboardViewController *keyBoardController;
+    
+    CGPoint oldCenter;
+}
 
 @end
 

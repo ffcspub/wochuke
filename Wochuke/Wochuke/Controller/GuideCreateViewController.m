@@ -6,7 +6,7 @@
 //  Copyright (c) 2013年 he songhang. All rights reserved.
 //
 
-#import "GuideViewController.h"
+#import "GuideCreateViewController.h"
 #import <Ice/Ice.h>
 #import "ICETool.h"
 #import "SVProgressHUD.h"
@@ -15,14 +15,23 @@
 #import "StepView.h"
 #import "StepPreviewController.h"
 
-@interface GuideViewController (){
+@interface GuideCreateViewController (){
     JCGuideDetail *_detail;
 }
 
 @end
 
-@implementation GuideViewController
+@implementation GuideCreateViewController
 
+
+-(void)setGuide:(JCGuide *)guide{
+    if (_guide) {
+        [_guide release];
+        _guide = nil;
+    }
+    _guide = [guide retain];
+    [ShareVaule shareInstance].editGuide = [guide copy];
+}
 
 -(void)loadDetail{
     [SVProgressHUD show];
@@ -129,7 +138,7 @@
 
 #pragma mark -PagedFlowViewDelegate
 - (CGSize)sizeForPageInFlowView:(PagedFlowView *)flowView;{
-    return  CGSizeMake(flowView.frame.size.width - 50, flowView.frame.size.height - 10);
+    return  CGSizeMake(flowView.frame.size.width - 30, flowView.frame.size.height - 10);
 }
 
 
@@ -145,23 +154,29 @@
 //返回给某列使用的View
 - (UIView *)flowView:(PagedFlowView *)flowView cellForPageAtIndex:(NSInteger)index;{
     if (index == 0) {
-        GuideInfoView *view = [[[GuideInfoView alloc]init]autorelease];
-        view.guide = _guide;
+        GuideEditView *view = (GuideEditView *)[flowView dequeueReusableCellWithClass:[GuideEditView class]];
+        if (!view) {
+            view = [[[GuideEditView alloc]init]autorelease];
+        }
         return view;
     }else if(_detail.supplies.count>0 && index == 1){
-        SuppliesView *view = [[[SuppliesView alloc]init]autorelease];
+        SuppliesView *view = (SuppliesView *)[flowView dequeueReusableCellWithClass:[SuppliesView class]];
+        if (!view) {
+            view = [[[SuppliesView alloc]init]autorelease];
+        }
         view.list = _detail.supplies;
         return view;
     }else{
         StepView *view = (StepView *)[flowView dequeueReusableCellWithClass:[StepView class]];
         if (!view) {
-            view = [[StepView alloc]init];
+            view = [[[StepView alloc]init]autorelease];
         }
         int indextemp = index - 1;
         if (_detail.supplies.count>0) {
             indextemp = index - 2;
         }
         view.step = [_detail.steps objectAtIndex:indextemp];
+        view.stepCount = _detail.steps.count;
         return view;
     }
     return nil;

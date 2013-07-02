@@ -9,11 +9,14 @@
 #import <UIKit/UIKit.h>
 #import "TopViewController.h"
 
-@interface CatoryViewController : TopViewController
+@interface CatoryViewController : TopViewController<UIActionSheetDelegate>
 
 @property (retain, nonatomic) IBOutlet UITableView *tableView;
 
+@property (retain, nonatomic) IBOutlet UIButton *btn_type;
+
 - (IBAction)catoryChangAction:(id)sender;
 
+- (IBAction)typeChooseAction:(id)sender;
 
 @end

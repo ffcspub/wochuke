@@ -15,6 +15,7 @@
 #import "GuideCoverView.h"
 #import "GuideViewController.h"
 #import "ICETool.h"
+#import "GuideCreateViewController.h"
 
 @interface HomeViewController (){
     JCMutableGuideList *_datas;
@@ -150,7 +151,7 @@
 }
 
 - (void)flowView:(PagedFlowView *)flowView didTapPageAtIndex:(NSInteger)index;{
-    GuideViewController *vlc =[[[GuideViewController alloc]initWithNibName:@"GuideViewController" bundle:nil]autorelease];
+    GuideCreateViewController *vlc =[[[GuideCreateViewController alloc]initWithNibName:@"GuideCreateViewController" bundle:nil]autorelease];
     JCGuide *guide = [_datas objectAtIndex:index];
     vlc.guide = guide;
     [self.navigationController pushViewController:vlc animated:YES];

@@ -12,6 +12,9 @@
 #import "NSObject+Notification.h"
 
 @interface StepView : UIView{
+    UIImageView *backImageView;
+    UIImageView *tagImageView;
+    UILabel *lb_step;
     MyWebImgView *imageView;
     UILabel *lb_text;
     UIButton *btn_comment;
@@ -19,6 +22,7 @@
 }
 
 @property(nonatomic,retain) JCStep *step;
+@property(nonatomic,assign) int stepCount;
 
 @end
 

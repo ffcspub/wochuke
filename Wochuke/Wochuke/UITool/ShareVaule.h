@@ -10,3 +10,18 @@
 
 #define NOTIFICATION_HIDETOOLBAR @"NOTIFICATION_HIDETOOLBAR"
 #define NOTIFICATION_SHOWTOOLBAR @"NOTIFICATION_SHOWTOOLBAR"
+
+#define KEY_TYPELIST @"KEY_TYPELIST"
+
+#import <Foundation/Foundation.h>
+#import <Guide.h>
+
+@interface ShareVaule : NSObject{
+    
+}
+
++(ShareVaule *)shareInstance;
+
+@property(nonatomic,retain) JCGuide *editGuide;
+
+@end

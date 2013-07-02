@@ -14,24 +14,125 @@
 #import "GuideInfoView.h"
 #import "UITableView+BeeUIGirdCell.h"
 #import "GuideViewController.h"
+#import "KxMenu.h"
+
 
 @interface CatoryViewController (){
     int filter;
     NSMutableArray * _datas;
+    NSMutableArray * _types;
     int pageIndex;
     int pageSize;
     NSString *typeId;
     BOOL hasNextPage;
 }
 
+-(void)loadDatas;
+-(void)loadTypes;
+
 @end
 
 @implementation CatoryViewController
 
+//选择分类
+-(void)menuItemSelected:(id)sender{
+    KxMenuItem *item = (KxMenuItem *)sender;
+    int index = item.tag;
+    NSString *_typeId = nil;
+    if (index == 0) {
+        _typeId = nil;
+        [_btn_type setTitle:@"全部分类" forState:UIControlStateNormal];
+    }else{
+        JCType *type = [_types objectAtIndex:index-1];
+        _typeId = type.id_;
+        [_btn_type setTitle:type.name forState:UIControlStateNormal];
+    }
+    if ([typeId isEqual:_typeId] || _typeId==typeId) {
+        return;
+    }
+    if(typeId){
+        [typeId release];
+        typeId = nil;
+    }
+    typeId = [_typeId retain];
+    [self reloadDatas];
+}
+
+
+-(void)showTypes{
+    NSMutableArray *menuItems = [NSMutableArray array];
+    
+    KxMenuItem *item = [KxMenuItem menuItem:@"全部分类"
+                                      image:nil
+                                     target:self
+                                     action:@selector(menuItemSelected:)];
+    item.tag = 0;
+    if (typeId == nil) {
+        item.foreColor = [UIColor colorWithRed:47/255.0f green:112/255.0f blue:225/255.0f alpha:1.0];
+    }
+    [menuItems addObject:item ];
+    
+    int i = 1;
+    for (JCType *type in _types) {
+        KxMenuItem *item = [KxMenuItem menuItem:type.name
+                                          image:nil
+                                         target:self
+                                         action:@selector(menuItemSelected:)];
+        item.tag = i;
+        
+        if ([type.id_ isEqual:typeId]) {
+           item.foreColor = [UIColor colorWithRed:47/255.0f green:112/255.0f blue:225/255.0f alpha:1.0];
+        }
+        [menuItems addObject:item ];
+        i++;
+    }
+    [KxMenu showMenuInView:self.view
+                  fromRect:_btn_type.frame
+                 menuItems:menuItems];
+    
+}
+
 -(void)reloadDatas{
-    [_tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
+    if (_datas.count>0) {
+        [_tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
+        
+    }
     pageIndex = 0;
     [self loadDatas];
+}
+
+-(void)loadTypes;{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+        id<JCAppIntfPrx> proxy = [[ICETool shareInstance] createProxy];
+        @try {
+            JCTypeList * list = [proxy getTypeList:nil];
+            if (list.count>0) {
+                [_types removeAllObjects];
+                [_types addObjectsFromArray:list];
+                [[NSUserDefaults standardUserDefaults]setObject:list forKey:KEY_TYPELIST];
+            }
+        }
+        @catch (ICEException *exception) {
+            if ([exception isKindOfClass:[JCGuideException class]]) {
+                JCGuideException *_exception = (JCGuideException *)exception;
+                if (_exception.reason_) {
+//                    dispatch_async(dispatch_get_main_queue(), ^{
+//                        [SVProgressHUD showErrorWithStatus:_exception.reason_];
+//                    });
+                }else{
+//                    dispatch_async(dispatch_get_main_queue(), ^{
+//                        [SVProgressHUD showErrorWithStatus:ERROR_MESSAGE];
+//                    });
+                }
+            }else{
+                
+            }
+        }
+        @finally {
+            
+        }
+        
+    });
 }
 
 -(void)loadDatas{
@@ -106,6 +207,13 @@
     filter = 0;
     pageSize = 20;
     _datas = [[NSMutableArray alloc]init];
+    _types = [[NSMutableArray alloc]init];
+    NSArray *array = [[NSUserDefaults standardUserDefaults]arrayForKey:KEY_TYPELIST];
+    if (array) {
+        [_types addObjectsFromArray:array];
+    }else{
+        [self loadTypes];
+    }
     
     [self.tableView addInfiniteScrollingWithActionHandler:^{
         [self loadDatas];
@@ -131,11 +239,17 @@
 - (void)dealloc {
     [_tableView release];
     [_datas release];
+    [_types release];
     [typeId release];
+    [_btn_type release];
     [super dealloc];
 }
 - (void)viewDidUnload {
     [self setTableView:nil];
+    _datas = nil;
+    _types = nil;
+    typeId = nil;
+    [self setBtn_type:nil];
     [super viewDidUnload];
 }
 
@@ -143,6 +257,10 @@
     UISegmentedControl *control = (UISegmentedControl *)sender;
     filter = control.selectedSegmentIndex;
     [self reloadDatas];
+}
+
+- (IBAction)typeChooseAction:(id)sender {
+    [self showTypes];
 }
 
 #pragma mark -UITableViewDataSource

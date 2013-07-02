@@ -13,25 +13,38 @@
 
 -(void)setFrame:(CGRect)frame{
     [super setFrame:frame];
-    _tableView.frame = CGRectMake(0, 0, frame.size.width, frame.size.height);
+    backImageView.frame = CGRectMake(0, 0, frame.size.width, frame.size.height);
+    _tableView.frame = CGRectMake(10, 10, frame.size.width-20, frame.size.height-20);
+    iv_omit.frame = CGRectMake(0, 20, 45, 25);
+    lb_omit.frame = CGRectMake(10, 20, 35, 20);
 }
 
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if (self) {
+        backImageView = [[[UIImageView alloc]init]autorelease];
+        self.backgroundColor = [UIColor clearColor];
+        [self addSubview:backImageView];
+
+        
+        UIImage *backImage = [[UIImage imageNamed:@"lightBoard"]resizableImageWithCapInsets:UIEdgeInsetsMake(12, 12, 12, 12)];
+        [backImageView setImage:backImage];
+        
         _tableView = [[[UITableView alloc]initWithFrame:CGRectZero style:UITableViewStylePlain]autorelease];
         _tableView.delegate = self;
         _tableView.dataSource = self;
         [self addSubview:_tableView];
         
+        iv_omit = [[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"tag_home_card"]]autorelease];
+        [self addSubview:iv_omit];
+        
         lb_omit = [[[UILabel alloc]init]autorelease];
+        lb_omit.font = [UIFont systemFontOfSize:14];
+        lb_omit.backgroundColor = [UIColor clearColor];
+        lb_omit.textColor = [UIColor whiteColor];
         [self addSubview:lb_omit];
         
-        self.backgroundColor = [UIColor whiteColor];
-        
-        self.layer.cornerRadius = 6;
-        self.layer.masksToBounds = YES;
     }
     return self;
 }
@@ -42,6 +55,7 @@
         _list = nil;
     }
     _list = [list retain];
+    lb_omit.text = @"材料";
     [_tableView reloadData];
 }
 

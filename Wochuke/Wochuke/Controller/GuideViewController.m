@@ -145,23 +145,30 @@
 //返回给某列使用的View
 - (UIView *)flowView:(PagedFlowView *)flowView cellForPageAtIndex:(NSInteger)index;{
     if (index == 0) {
-        GuideInfoView *view = [[[GuideInfoView alloc]init]autorelease];
+        GuideInfoView *view = (GuideInfoView *)[flowView dequeueReusableCellWithClass:[GuideInfoView class]];
+        if (!view) {
+            view = [[[GuideInfoView alloc]init]autorelease];
+        }
         view.guide = _guide;
         return view;
     }else if(_detail.supplies.count>0 && index == 1){
-        SuppliesView *view = [[[SuppliesView alloc]init]autorelease];
+        SuppliesView *view = (SuppliesView *)[flowView dequeueReusableCellWithClass:[SuppliesView class]];
+        if (!view) {
+            view = [[[SuppliesView alloc]init]autorelease];
+        }
         view.list = _detail.supplies;
         return view;
     }else{
         StepView *view = (StepView *)[flowView dequeueReusableCellWithClass:[StepView class]];
         if (!view) {
-            view = [[StepView alloc]init];
+            view = [[[StepView alloc]init]autorelease];
         }
         int indextemp = index - 1;
         if (_detail.supplies.count>0) {
             indextemp = index - 2;
         }
         view.step = [_detail.steps objectAtIndex:indextemp];
+        view.stepCount = _detail.steps.count;
         return view;
     }
     return nil;

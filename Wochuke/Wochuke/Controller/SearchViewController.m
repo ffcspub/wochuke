@@ -260,7 +260,6 @@
 
 -(void)viewWillDisappear:(BOOL)animated {
 	[super viewWillDisappear:animated];
-	[keyBoardController release];
 }
 
 - (void)viewDidLoad
@@ -311,6 +310,7 @@
     [_tableView release];
     [_word release];
     [_searchBar release];
+    [keyBoardController release];
     [super dealloc];
 }
 
