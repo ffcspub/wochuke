@@ -31,7 +31,7 @@
     self.window.backgroundColor = [UIColor whiteColor];
 //    HomeViewController *vlc = [[[HomeViewController alloc]initWithNibName:@"HomeViewController" bundle:nil]autorelease];
 //    CatoryViewController *vlc = [[[CatoryViewController alloc]initWithNibName:@"CatoryViewController" bundle:nil]autorelease];
-    MainViewController *vlc = [[MainViewController alloc]initWithNibName:@"MainViewController" bundle:nil];
+    MainViewController *vlc = [[[MainViewController alloc]initWithNibName:@"MainViewController" bundle:nil]autorelease];
 //    UINavigationController *navigationController =[[[UINavigationController alloc]initWithRootViewController:vlc]autorelease];
 //    [navigationController setNavigationBarHidden:YES];
     self.window.rootViewController = vlc;

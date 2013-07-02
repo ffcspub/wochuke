@@ -78,7 +78,11 @@
 }
 
 - (void)done {
-    [self resignFirstResponder];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(textFieldShouldReturn:)]) {
+        [self.delegate textFieldShouldReturn:self];
+    }else{
+        [self resignFirstResponder];
+    }
 }
 
 - (void)keyboardWillShow:(NSNotification *)notification {
@@ -110,7 +114,8 @@
 	CGRect fullFrame = fullView.frame;
 	
 	if (!toolBar) {
-	
+        _oldStyle = self.borderStyle;
+        
 		self.originalIndex = [self.superview.subviews indexOfObject:self];
 		self.originalContainer = self.superview;
 		self.originalConstraints = self.constraints;
@@ -158,9 +163,7 @@
 			promptLabel.alpha = 0.0;
 			[toolBar addSubview:promptLabel];
 		}
-		
 		[fullView addSubview:toolBar];
-		
 	}
 
 	// Reset values in case device has rotated
@@ -207,9 +210,12 @@
 		if (!autoLayoutAnimateOnKeyboardWillShow) [originalContainer removeConstraints:originalContainerConstraints];
 		self.frame = fieldFrame;
 		[toolBar addSubview:self];
-		[UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationCurveEaseOut animations:^{
+		[UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
             promptLabel.alpha = 1.0;
-		} completion:^(BOOL finished){	}];
+		} completion:^(BOOL finished){
+            self.borderStyle = UITextBorderStyleRoundedRect;
+            self.backgroundColor = [UIColor whiteColor];
+        }];
 	}];
 }
 
@@ -235,9 +241,12 @@
 		self.alpha = 1.0;
 		toolBar.frame = toolBarFrame;
 		toolBar.alpha = 0.0;
+        self.borderStyle = _oldStyle;
+        self.backgroundColor = [UIColor whiteColor];
 	} completion:^(BOOL finished){
 		//  The order in which views are added to a superview and the addition of their contraints, matters
 		self.frame = originalFrame;
+        
 		[originalContainer insertSubview:self atIndex:originalIndex];
 		if ([originalConstraints count]) {
 			[self removeConstraints:self.constraints];

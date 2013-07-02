@@ -10,7 +10,7 @@ module AirGuide {
     ["java:type:java.util.HashMap<String, String>:java.util.Map<String, String>"]
     dictionary<string, string> StringMap;    
     
-    //媒体文件
+    //媒体文件 
     struct FileInfo {
         string id; //文件Id
         string name; //文件名称
@@ -34,10 +34,9 @@ module AirGuide {
         
         int followerCount; //粉丝人数
         int followingCount; //关注人数
-        
-        //int draftCount;  //草稿数量
-        //int publishedCount; //发布数量
-        int createdCount; //创建数量：草稿+发布
+        int followState; //***当前操作用户（curUser）与该用户的关注状态：0彼此没有关注，1已关注，2被关注，3彼此关注
+                         
+        int guideCount; //用户的指南数量，表示当前登录用户时，该值=草稿数+发布数，表示其他用户时，该值=发布数
         int favoriteCount;  //收藏数量
 
         StringMap snsIds; //社交网络账号信息，key和value表示约定如下：
@@ -56,7 +55,7 @@ module AirGuide {
         string typeName;  //分类名称
 
         FileInfo cover; //封面照片文件信息
-        FileInfo smallCover; //小封面照片文件信息
+        FileInfo smallCover; //小封面照片文件信息 
 
         string userId; //作者用户Id
         string userName; //作者用户名称
@@ -123,7 +122,7 @@ module AirGuide {
     
     struct GuideDetail {
         string guideId; //指南Id
-        string userId; //打开该指南的用户 
+        string userId; //***指南作者的用户Id，原来表示获取该指南的用户id
         bool favorited; //是否为当前用户的收藏
         SupplyList supplies; //材料列表
         StepList steps; //步骤列表
@@ -180,11 +179,13 @@ module AirGuide {
         string userName;  //用户名
         FileInfo userAvatar; //用户头像信息        
 
-        string guideId; //指南Id
-        string guideTitle; //指南标题
+        //string guideId; //指南Id
+        //string guideTitle; //指南标题
+        
+        Guide guideInfo;//指南信息
         
         int actCode;  //行动代码：0发布，1查看，2收藏，3评论
-        string actMemo;  //行动摘要信息，如评论内容等
+        string actSummary;  //行动摘要信息，如评论内容等
         string timestamp; //时间戳
 
     };
@@ -198,6 +199,7 @@ module AirGuide {
         string model; //机型
         string msisdn; //手机号，可能没有值
         string resolution; //分辨率
+        string platform; //系统平台：Android，iOS，...
         string osVersion; //操作系统版本
         string appVersion; //应用版本
     };
@@ -242,18 +244,22 @@ module AirGuide {
             //注：一次调用可能同时包括注册和绑定两类操作，服务端要根据userInfo的字段值进行判断
             User saveUser(User userInfo) throws GuideException; 
             
-            //保存关注，flag为true表示关注，flag为false表示取消关注
-            void follow(string userId, string folowingUserId, bool flag) throws GuideException;
+            //***查看用户资料
+            //curUserId 当前操作用户（发起请求的用户）Id，下同；userId 目标用户Id；下同
+            idempotent User getUserById(string curUserId, string userId);
+
+            //***保存关注，flag为true表示关注，flag为false表示取消关注
+            void follow(string curUserId, string userId, bool flag) throws GuideException;
             
-            //取指定用户的关注或粉丝列表
-            //flag=true表示取关注列表，flag=false表示取粉丝列表
+            //***取指定用户的关注或粉丝列表
+            //filterCode:0关注列表，1粉丝列表
             //timestamp为最近一次获取该列表的时间戳，用于列表刷新，格式[yyyy-MM-dd HH:mm:ss]
             //如果没有更新返回空的列表，有更新返回完整列表
-            idempotent UserList getUserListByFollow(string userId, bool flag, string timestamp, int pageIdx, int pageSize);
+            idempotent UserList getUserListByUser(string curUserId, int filterCode, string timestamp, int pageIdx, int pageSize);
             
-            //取指南的相关用户列表
+            //***取指南的相关用户列表
             //actCode表示行为类型：1查看，2收藏
-            idempotent UserList getUserListByGuide(string guideId, int actCode, string timestamp, int pageIdx, int pageSize);
+            idempotent UserList getUserListByGuide(string curUserId, string guideId, int actCode, string timestamp, int pageIdx, int pageSize);
             
             //取分类列表
             //timestamp为最近一次获取该列表的时间戳，用于列表刷新，格式[yyyy-MM-dd HH:mm:ss]
@@ -279,13 +285,13 @@ module AirGuide {
             //timestamp为最近一次获取该列表的时间戳，用于列表刷新，格式[yyyy-MM-dd HH:mm:ss]
             idempotent GuideList getGuideListByTopic(string topicId, string timestamp, int pageIdx, int pageSize);
      
-            //获取指定用户的指南列表
-            //filterCode:0创建（草稿+发布），1收藏
+            //***获取指定用户的指南列表
+            //filterCode:0创建（草稿+发布），1发布，2收藏
             //timestamp为最近一次获取该列表的时间戳，用于列表刷新
             idempotent GuideList getGuideListByUser(string userId, int filterCode, string timestamp, int pageIdx, int pageSize);
 
-            //获取指南的详细信息：材料列表、步骤列表和最新评论列表
-            idempotent GuideDetail getGuideDetail(string guideId, string userId);
+            //***获取指南的详细信息：材料列表、步骤列表和最新评论列表
+            idempotent GuideDetail getGuideDetail(string curUserId, string guideId);
 
             //获取指南的评论列表，stepId为空字符串时代表取整个指南的评论，已经排好序
             idempotent CommentList getCommentList(string guideId, string stepId, string timestamp, int pageIdx, int pageSize);
@@ -299,8 +305,8 @@ module AirGuide {
             //添加或保存指南，id为空字符串表示添加，有值表示保存更改
             Guide saveGuide(Guide guideInfo) throws GuideException; 
                             
-            //删除指南
-            void deleteGuide(string userId, string guideId) throws GuideException;
+            //***删除指南
+            void deleteGuide(string curUserId, string guideId) throws GuideException;
                             
             //保存指南的材料列表
             SupplyList saveSupplyList(SupplyList supplies) throws GuideException;
@@ -308,40 +314,40 @@ module AirGuide {
             //保存指南的步骤列表
             StepList saveStepList(StepList steps) throws GuideException;
                             
-            //保存收藏，flag为true表示收藏，flag为false表示取消收藏
+            //***保存收藏，flag为true表示收藏，flag为false表示取消收藏
             //返回操作后的收藏状态，收藏为true，未收藏为false
-            bool favorite(string userId, string guideId, bool flag) throws GuideException;
+            bool favorite(string curUserId, string guideId, bool flag) throws GuideException;
             
-            //保存屏蔽，flag为true表示屏蔽，flag为false表示取消屏蔽
+            //***保存屏蔽，flag为true表示屏蔽，flag为false表示取消屏蔽
             //返回操作后的屏蔽状态，屏蔽为true，未屏蔽为false
-            bool mute(string userId, string guideId, bool flag) throws GuideException;
+            bool mute(string curUserId, string guideId, bool flag) throws GuideException;
             
-            //举报指南，当指南内容不合法时，用户可以进行举报，必须登录
+            //***举报指南，当指南内容不合法时，用户可以进行举报，必须登录
             //content举报内容文字
-            void report(string userId, string guideId, string content) throws GuideException;
+            void report(string curUserId, string guideId, string content) throws GuideException;
                             
             //添加或保存评论，id为空字符串表示添加，有值表示保存更改
             Comment saveComment(Comment commentInfo) throws GuideException;
 
-            //删除评论 
-            void deleteComment(string userId, string commentId) throws GuideException;
+            //***删除评论 
+            void deleteComment(string curUserId, string commentId) throws GuideException;
                             
             //保存文件数据块
             void saveFileBlock(FileBlock block) throws GuideException;
             
-            //获取动态信息
+            //***获取动态信息
             //timestamp为最近一次获取该列表的时间戳，用于列表刷新
             //filterCode:0全部，1关注
-            idempotent ActInfoList getActInfoList(string userId, int filterCode, string timestamp, int pageIdx, int pageSize);
+            idempotent ActInfoList getActInfoList(string curUserId, int filterCode, string timestamp, int pageIdx, int pageSize);
             
             //获取搜索热词
             idempotent StringList getHotWordList();
             
-            //保存意见反馈
-            //content 反馈的内容，contact 联系方式，termId 终端ID，userId 当前用户ID（未登录为空）
-            void saveFeedback(string content, string contact, string termId, string userId) throws GuideException;
+            //***保存意见反馈
+            //content 反馈的内容，contact 联系方式，termId 终端ID，curUserId 当前用户ID（未登录为空）
+            void saveFeedback(string content, string contact, string termId, string curUserId) throws GuideException;
             
-            //保存终端信息
+            //保存终端信息，服务端需记录保存的时间戳
             void saveTermInfo(TermInfo info) throws GuideException;
             
             //保存用户行为日志

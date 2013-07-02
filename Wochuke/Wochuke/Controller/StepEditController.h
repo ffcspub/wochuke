@@ -15,6 +15,5 @@
 }
 
 @property(nonatomic,retain) JCGuide *guide;
-@property(nonatomic,retain) JCGuideDetail *detail;
 
 @end

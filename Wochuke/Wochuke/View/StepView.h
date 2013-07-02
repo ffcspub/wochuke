@@ -10,6 +10,7 @@
 #import <Guide.h>
 #import "MyWebImgView.h"
 #import "NSObject+Notification.h"
+#import "HPGrowingTextView.h"
 
 @interface StepView : UIView{
     UIImageView *backImageView;
@@ -24,6 +25,31 @@
 @property(nonatomic,retain) JCStep *step;
 @property(nonatomic,assign) int stepCount;
 
+@end
+
+@protocol StepEditViewDelegate;
+
+@interface StepEditView : UIView<HPGrowingTextViewDelegate>{
+    UIImageView *backImageView;
+    UIImageView *tagImageView;
+    UILabel *lb_step;
+    MyWebImgView *imageView;
+    HPGrowingTextView *tv_text;
+    CGPoint oldCenter;
+    UIPanGestureRecognizer *panGestureRecognizer;
+}
+
+@property(nonatomic,assign) id<StepEditViewDelegate> delegate;
+@property(nonatomic,retain) JCStep *step;
+
+-(void)upImage;
+
+@end
+
+@protocol StepEditViewDelegate <NSObject>
+
+@optional
+-(void)imageTapFromStepEditView:(StepEditView *)editView;
 @end
 
 @interface StepMinView : StepView

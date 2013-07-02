@@ -39,7 +39,7 @@
     HPGrowingTextView *tv_content;
     UILabel *lb_empty;
     UIKeyboardViewController *keyBoardController;
-    
+    UIPanGestureRecognizer *panGestureRecognizer;
     CGPoint oldCenter;
 }
 

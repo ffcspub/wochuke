@@ -109,7 +109,8 @@
             if (list.count>0) {
                 [_types removeAllObjects];
                 [_types addObjectsFromArray:list];
-                [[NSUserDefaults standardUserDefaults]setObject:list forKey:KEY_TYPELIST];
+//                [list writeToFile:[NSString stringWithFormat:@"%@%@",NSTemporaryDirectory(),KEY_TYPELIST] atomically:YES];
+//                [[NSUserDefaults standardUserDefaults]setObject:list forKey:KEY_TYPELIST];
             }
         }
         @catch (ICEException *exception) {
@@ -208,12 +209,15 @@
     pageSize = 20;
     _datas = [[NSMutableArray alloc]init];
     _types = [[NSMutableArray alloc]init];
-    NSArray *array = [[NSUserDefaults standardUserDefaults]arrayForKey:KEY_TYPELIST];
-    if (array) {
-        [_types addObjectsFromArray:array];
-    }else{
-        [self loadTypes];
-    }
+//    NSArray *array = [NSArray arrayWithContentsOfFile:[NSString stringWithFormat:@"%@%@",NSTemporaryDirectory(),KEY_TYPELIST]];
+////    [[NSUserDefaults standardUserDefaults]arrayForKey:KEY_TYPELIST];
+//    if (array) {
+//        [_types addObjectsFromArray:array];
+//    }else{
+//        [self loadTypes];
+//    }
+    
+    [self loadTypes];
     
     [self.tableView addInfiniteScrollingWithActionHandler:^{
         [self loadDatas];

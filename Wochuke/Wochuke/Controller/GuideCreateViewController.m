@@ -14,64 +14,17 @@
 #import "SuppliesView.h"
 #import "StepView.h"
 #import "StepPreviewController.h"
+#import "SuppliesEditViewController.h"
+#import "PECropViewController.h"
 
-@interface GuideCreateViewController (){
-    JCGuideDetail *_detail;
+@interface GuideCreateViewController ()<UIImagePickerControllerDelegate,UINavigationControllerDelegate, UIActionSheetDelegate,StepEditViewDelegate>{
+    StepEditView *_editView;
+    UIImagePickerController *_picker;
 }
 
 @end
 
 @implementation GuideCreateViewController
-
-
--(void)setGuide:(JCGuide *)guide{
-    if (_guide) {
-        [_guide release];
-        _guide = nil;
-    }
-    _guide = [guide retain];
-    [ShareVaule shareInstance].editGuide = [guide copy];
-}
-
--(void)loadDetail{
-    [SVProgressHUD show];
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
-        id<JCAppIntfPrx> proxy = [[ICETool shareInstance] createProxy];
-        @try {
-            JCGuideDetail *detail = [proxy getGuideDetail:_guide.id_ userId:nil];
-            if (detail) {
-                _detail = [detail retain];
-            }
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [SVProgressHUD dismiss];
-                [_pagedFlowView reloadData];
-            });
-        }
-        @catch (ICEException *exception) {
-            if ([exception isKindOfClass:[JCGuideException class]]) {
-                JCGuideException *_exception = (JCGuideException *)exception;
-                if (_exception.reason_) {
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [SVProgressHUD showErrorWithStatus:_exception.reason_];
-                    });
-                }else{
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [SVProgressHUD showErrorWithStatus:ERROR_MESSAGE];
-                    });
-                }
-            }else{
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [SVProgressHUD showErrorWithStatus:ERROR_MESSAGE];
-                });
-            }
-        }
-        @finally {
-            
-        }
-
-    });
-    
-}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -89,13 +42,10 @@
     _pagedFlowView.dataSource = self;
     _pagedFlowView.minimumPageAlpha = 0.3;
     _pagedFlowView.minimumPageScale = 0.9;
-    [self observeNotification:StepPreviewController.TAP];
-    [self loadDetail];
     // Do any additional setup after loading the view from its nib.
 }
 
 -(void)viewWillUnload{
-    [self unobserveNotification:StepPreviewController.TAP];
     [super viewWillUnload];
 }
 
@@ -126,13 +76,9 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (IBAction)showPreviewAction:(id)sender {
-    StepPreviewController *vlc = [[[StepPreviewController alloc]initWithNibName:@"StepPreviewController" bundle:nil]autorelease];
-    
-//    StepEditController *vlc = [[StepEditController alloc]initWithNibName:@"StepEditController" bundle:nil];
-    vlc.guide = _guide;
-    vlc.detail = _detail;
-    [self.navigationController pushViewController:vlc animated:YES];
+
+-(void)scrollToIndex:(int)index;{
+    [_pagedFlowView scrollToPage:index];
 }
 
 
@@ -141,14 +87,23 @@
     return  CGSizeMake(flowView.frame.size.width - 30, flowView.frame.size.height - 10);
 }
 
+- (void)flowView:(PagedFlowView *)flowView didTapPageAtIndex:(NSInteger)index;{
+    if ([ShareVaule shareInstance].editGuideEx.supplies.count>0 && index == 1) {
+        SuppliesEditViewController *vlc = [[SuppliesEditViewController alloc]initWithNibName:@"SuppliesEditViewController" bundle:nil];
+        [self.navigationController pushViewController:vlc animated:YES];
+        [vlc release];
+    }else{
+       
+    }
+}
 
 #pragma mark -PagedFlowViewDataSource
 //返回显示View的个数
 - (NSInteger)numberOfPagesInFlowView:(PagedFlowView *)flowView{
-    if (_detail.supplies.count>0) {
-        return _detail.steps.count + 2;
+    if ([ShareVaule shareInstance].editGuideEx.supplies.count>0) {
+        return [ShareVaule shareInstance].editGuideEx.steps.count + 2;
     }
-    return _detail.steps.count + 1;
+    return [ShareVaule shareInstance].editGuideEx.steps.count + 1;
 }
 
 //返回给某列使用的View
@@ -159,27 +114,119 @@
             view = [[[GuideEditView alloc]init]autorelease];
         }
         return view;
-    }else if(_detail.supplies.count>0 && index == 1){
+    }else if([ShareVaule shareInstance].editGuideEx.supplies.count>0 && index == 1){
         SuppliesView *view = (SuppliesView *)[flowView dequeueReusableCellWithClass:[SuppliesView class]];
         if (!view) {
             view = [[[SuppliesView alloc]init]autorelease];
         }
-        view.list = _detail.supplies;
+        view.list = [ShareVaule shareInstance].editGuideEx.supplies;
         return view;
     }else{
-        StepView *view = (StepView *)[flowView dequeueReusableCellWithClass:[StepView class]];
+        StepEditView *view = (StepEditView *)[flowView dequeueReusableCellWithClass:[StepEditView class]];
         if (!view) {
-            view = [[[StepView alloc]init]autorelease];
+            view = [[[StepEditView alloc]init]autorelease];
+            view.delegate = self;
         }
         int indextemp = index - 1;
-        if (_detail.supplies.count>0) {
+        if ([ShareVaule shareInstance].editGuideEx.supplies.count>0) {
             indextemp = index - 2;
         }
-        view.step = [_detail.steps objectAtIndex:indextemp];
-        view.stepCount = _detail.steps.count;
+        view.step = [[ShareVaule shareInstance].editGuideEx.steps objectAtIndex:indextemp];
         return view;
     }
     return nil;
+}
+
+
+#pragma mark -StepEditViewDelegate
+-(void)imageTapFromStepEditView:(StepEditView *)editView;{
+    _editView = editView;
+    UIActionSheet *sheet = [[UIActionSheet alloc]initWithTitle:@"图片来源" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"相册",@"拍照", nil];
+    [sheet showInView:self.view];
+    [sheet release];
+}
+
+#pragma mark -UIActionSheetDelegate
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex;{
+    if (buttonIndex == 0) {
+        _picker = [[UIImagePickerController alloc]init];
+//        [_picker setAllowsEditing:YES];
+        _picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+        _picker.delegate = self;
+        [self presentModalViewController:_picker animated:YES];
+    }else if(buttonIndex == 1){
+        _picker = [[UIImagePickerController alloc]init];
+//        [_picker setAllowsEditing:YES];
+        _picker.sourceType = UIImagePickerControllerSourceTypeCamera;
+        _picker.delegate = self;
+        [self presentModalViewController:_picker animated:YES];
+    }
+}
+
+#pragma mark -UIImagePickerControllerDelegate
+- (UIImage *)scaleImage:(UIImage *)image toScale:(float)scaleSize
+{
+    UIGraphicsBeginImageContext(CGSizeMake(image.size.width*scaleSize,image.size.height*scaleSize));
+    [image drawInRect:CGRectMake(0, 0, image.size.width * scaleSize, image.size.height *scaleSize)];
+    UIImage *scaledImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return scaledImage;
+}
+
+#define kImageScaleRate 0.3
+#define kImageCompressRate 0.5
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
+    UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];//
+    [picker dismissViewControllerAnimated:YES completion:^{
+        [self openEditor:image];
+        [_picker release];
+        _picker = nil;
+    }];    
+}
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker{
+    [self dismissModalViewControllerAnimated:YES];
+    [_picker release];
+    _picker = nil;
+}
+
+#pragma mark -
+
+- (void)cropViewController:(PECropViewController *)controller didFinishCroppingImage:(UIImage *)croppedImage
+{
+    //    UIImage *cmpImg = [self scaleImage:image toScale:kImageScaleRate];//縮圖
+    //    UIImageWriteToSavedPhotosAlbum(cmpImg, nil, nil, nil);
+    NSData *blobImage = UIImageJPEGRepresentation(croppedImage, kImageCompressRate);//圖片壓縮為NSData
+    if (_editView) {
+        JCStep *step = _editView.step;
+        [[ShareVaule shareInstance].stepImageDic setObject:blobImage forKey:[NSNumber numberWithInt:step.ordinal]];
+        [_editView upImage];
+        _editView = nil;
+    }
+    __block PECropViewController *_controller = controller;
+    [controller dismissViewControllerAnimated:YES completion:^{
+        [_controller release];
+        _controller = nil;
+    }];
+    
+}
+
+- (void)cropViewControllerDidCancel:(PECropViewController *)controller
+{
+    [controller dismissViewControllerAnimated:YES completion:NULL];
+}
+
+#pragma mark -
+
+- (void)openEditor:(UIImage *)image
+{
+    PECropViewController *controller = [[PECropViewController alloc] init];
+    controller.delegate = self;
+    controller.image = image;
+    
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:controller];
+    
+    [self presentViewController:navigationController animated:YES completion:NULL];
 }
 
 @end

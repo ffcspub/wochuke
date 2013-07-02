@@ -11,6 +11,9 @@
 #define NOTIFICATION_HIDETOOLBAR @"NOTIFICATION_HIDETOOLBAR"
 #define NOTIFICATION_SHOWTOOLBAR @"NOTIFICATION_SHOWTOOLBAR"
 
+#define NOTIFICATION_SUPPLIECELLDELETE @"NOTIFICATION_SUPPLIECELLDELETE"
+#define NOTIFICATION_CREATERETURN @"NOTIFICATION_CREATERETURN"
+
 #define KEY_TYPELIST @"KEY_TYPELIST"
 
 #import <Foundation/Foundation.h>
@@ -22,6 +25,8 @@
 
 +(ShareVaule *)shareInstance;
 
-@property(nonatomic,retain) JCGuide *editGuide;
+@property(nonatomic,retain) JCGuideEx *editGuideEx;
+
+@property(nonatomic,retain) NSMutableDictionary *stepImageDic;
 
 @end

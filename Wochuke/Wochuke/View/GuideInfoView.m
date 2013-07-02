@@ -7,6 +7,7 @@
 //
 
 #import "GuideInfoView.h"
+#import "NSObject+Notification.h"
 
 
 @implementation GuideInfoView
@@ -14,16 +15,16 @@
 -(void)setFrame:(CGRect)frame{
     [super setFrame:frame];
     backImageView.frame = CGRectMake(0, 0, frame.size.width, frame.size.height);
-    backTopImageView.frame = CGRectMake(12, 12, frame.size.width - 24, frame.size.height - 24);
-    iv_photo.frame = CGRectMake((frame.size.width - 40)/2, 70, 40 , 40);
+    backTopImageView.frame = CGRectMake(5, 5, frame.size.width - 10, frame.size.height -10);
+    iv_photo.frame = CGRectMake((frame.size.width - 40)/2, 75, 40 , 40);
     tv_title.frame = CGRectMake(5, 20, frame.size.width-10, 30);
     tv_title.textMaxLength = 30;
     tv_title.delegate = self;
-    lb_publisher.frame = CGRectMake(0, 120, frame.size.width, 20);
+    lb_publisher.frame = CGRectMake(0, 130, frame.size.width, 20);
     CGFloat btnwidth = fabsf((frame.size.width - 100)/3);
-    btn_viewCount.frame = CGRectMake(50,140,btnwidth,30);
-    btn_favoriteCount.frame = CGRectMake(50 + btnwidth,140,btnwidth,30);
-    btn_commentCount.frame = CGRectMake(50 + btnwidth + btnwidth,140,btnwidth,30);
+    btn_viewCount.frame = CGRectMake(50,155,btnwidth,30);
+    btn_favoriteCount.frame = CGRectMake(50 + btnwidth,155,btnwidth,30);
+    btn_commentCount.frame = CGRectMake(50 + btnwidth + btnwidth,155,btnwidth,30);
     
     CGSize contentSize = [_guide.description_ sizeWithFont:[UIFont systemFontOfSize:12] constrainedToSize:CGSizeMake(frame.size.width - 30 -16.0, 1000)];
     
@@ -46,13 +47,18 @@
         backImageView = [[[UIImageView alloc]init]autorelease];
         UIImage *backImage = [[UIImage imageNamed:@"lightBoard"]resizableImageWithCapInsets:UIEdgeInsetsMake(12, 12, 12, 12)];
         [backImageView setImage:backImage];
+        
         backTopImageView = [[[UIImageView alloc]init]autorelease];
-        [backTopImageView setImage:[UIImage imageNamed:@""]];
-        [self addSubview:backTopImageView];
+        backTopImageView.contentMode = UIViewContentModeScaleToFill;
+        [backTopImageView setImage:[UIImage imageNamed:@"bg_cook_card_1"]];
+        backTopImageView.layer.cornerRadius = 12;
+        backTopImageView.layer.masksToBounds = YES;
         
         iv_photo = [[[MyWebImgView alloc]init]autorelease];
         iv_photo.layer.cornerRadius = 6;
         iv_photo.layer.masksToBounds = YES;
+        iv_photo.contentMode = UIViewContentModeScaleAspectFill;
+        iv_photo.backgroundColor = [UIColor grayColor];
         
         tv_title = [[[HPGrowingTextView alloc]init]autorelease];
         tv_title.font = [UIFont boldSystemFontOfSize:18];
@@ -94,6 +100,7 @@
         
         self.backgroundColor = [UIColor clearColor];
         [self addSubview:backImageView];
+        [self addSubview:backTopImageView];
         [self addSubview:tv_title];
         [self addSubview:iv_photo];
         [self addSubview:lb_publisher];
@@ -136,23 +143,23 @@
 -(void)setFrame:(CGRect)frame{
     [super setFrame:frame];
     backImageView.frame = CGRectMake(0, 0, frame.size.width, frame.size.height);
-    iv_photo.frame = CGRectMake((frame.size.width - 40)/2, 70, 40 , 40);
-    tv_title.frame = CGRectMake(5, 20, frame.size.width-10, 30);
+    backTopImageView.frame = CGRectMake(5, 5, frame.size.width - 10, frame.size.height -10);
+    iv_photo.frame = CGRectMake((frame.size.width - 40)/2, 95, 40 , 40);
+    tv_title.frame = CGRectMake(5, 30, frame.size.width-10, 30);
     tv_title.textMaxLength = 30;
     tv_title.delegate = self;
-    lb_publisher.frame = CGRectMake(0, 120, frame.size.width, 20);
+    lb_publisher.frame = CGRectMake(0, 140, frame.size.width, 20);
     
-    CGSize contentSize = [[ShareVaule shareInstance].editGuide.description_ sizeWithFont:[UIFont systemFontOfSize:12] constrainedToSize:CGSizeMake(frame.size.width - 30 -16.0, 1000)];
+    CGSize contentSize = [[ShareVaule shareInstance].editGuideEx.guideInfo.description_ sizeWithFont:[UIFont systemFontOfSize:13] constrainedToSize:CGSizeMake(frame.size.width - 30 -16.0, 1000)];
     
-    tv_content.frame = CGRectMake(15, 180, contentSize.width +16.0, MIN(contentSize.height + 16.0, frame.size.height - 180 - 30));
-    
+    tv_content.frame = CGRectMake(15, 180, contentSize.width + 16.0, MIN(contentSize.height + 16.0, frame.size.height - 180 - 30));
+    tv_content.maxHeight = frame.size.height - 180 - 30;
 }
 
 - (void)growingTextView:(HPGrowingTextView *)growingTextView willChangeHeight:(float)height
 {
-    float diff = (growingTextView.frame.size.height - height)/2;
-	CGPoint r = growingTextView.center;
-    growingTextView.center = CGPointMake(r.x, r.y + diff);
+//    float diff = growingTextView.frame.size.height - height;
+//    growingTextView.frame = CGRectMake(growingTextView.frame.origin.x, growingTextView.frame.origin.y, growingTextView.frame.size.width, growingTextView.frame.size.height + diff);
 }
 
 - (id)initWithFrame:(CGRect)frame
@@ -164,10 +171,18 @@
         UIImage *backImage = [[UIImage imageNamed:@"lightBoard"]resizableImageWithCapInsets:UIEdgeInsetsMake(12, 12, 12, 12)];
         [backImageView setImage:backImage];
         
+        backTopImageView = [[[UIImageView alloc]init]autorelease];
+        backTopImageView.contentMode = UIViewContentModeScaleToFill;
+        [backTopImageView setImage:[UIImage imageNamed:@"bg_cook_card_1"]];
+        backTopImageView.layer.cornerRadius = 12;
+        backTopImageView.layer.masksToBounds = YES;
+        
         // Initialization code
         iv_photo = [[[MyWebImgView alloc]init]autorelease];
         iv_photo.layer.cornerRadius = 6;
         iv_photo.layer.masksToBounds = YES;
+        iv_photo.contentMode = UIViewContentModeScaleAspectFill;
+        iv_photo.backgroundColor = [UIColor grayColor];
         
         tv_title = [[[HPGrowingTextView alloc]init]autorelease];
         tv_title.font = [UIFont boldSystemFontOfSize:18];
@@ -184,32 +199,24 @@
         lb_publisher.textAlignment = UITextAlignmentCenter;
                
         tv_content = [[[HPGrowingTextView alloc]init]autorelease];
-        tv_content.font = [UIFont systemFontOfSize:12];
+        tv_content.font = [UIFont systemFontOfSize:13];
         tv_content.backgroundColor = [UIColor clearColor];
         tv_content.textColor = [UIColor grayColor];
         tv_content.placeholder = @"指南简介";
         tv_content.placeholderColor = [UIColor grayColor];
         tv_content.delegate = self;
+        tv_content.minHeight = 100;
+        
         
         self.backgroundColor = [UIColor clearColor];
         [self addSubview:backImageView];
+        [self addSubview:backTopImageView];
         [self addSubview:tv_title];
         [self addSubview:iv_photo];
         [self addSubview:lb_publisher];
         [self addSubview:tv_content];
         
-//        NSNotificationCenter *notification = [NSNotificationCenter defaultCenter];
-//        [notification addObserver:self
-//                         selector:@selector(keyboardWillShow)
-//                             name:UIKeyboardWillShowNotification
-//                           object:nil];
-//        
-//        [notification addObserver:self
-//                         selector:@selector(keyboardWillHide)
-//                             name:UIKeyboardWillHideNotification
-//                           object:nil];
-        
-        JCGuide *_guide = [ShareVaule shareInstance].editGuide;
+        JCGuide *_guide = [ShareVaule shareInstance].editGuideEx.guideInfo;
         
         tv_title.text = _guide.title;
         [iv_photo setImageWithURL:[NSURL URLWithString:_guide.userAvatar.url]];
@@ -221,7 +228,11 @@
         singleRecognizer.numberOfTapsRequired = 1; // 单击
         [self addGestureRecognizer:singleRecognizer];
         self.userInteractionEnabled = YES;
-
+        NSNotificationCenter *notification = [NSNotificationCenter defaultCenter];
+        [notification addObserver:self
+                         selector:@selector(hideKeyBoard)
+                             name:UIKeyboardWillHideNotification
+                           object:nil];
     }
     return self;
 }
@@ -232,24 +243,34 @@
     if (growingTextView == tv_content) {
         oldCenter = self.center;
         [UIView animateWithDuration:0.5 animations:^{
-            self.center = CGPointMake(oldCenter.x, oldCenter.y - 80);
+            self.center = CGPointMake(oldCenter.x, oldCenter.y - 150);
+            panGestureRecognizer = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(hideKeyBoard)];
+            [self addGestureRecognizer:panGestureRecognizer];
         }];
     }
     return YES;
 }
 
-
 -(void)hideKeyBoard{
     [tv_title resignFirstResponder];
     [tv_content resignFirstResponder];
+    [self unobserveNotification:NOTIFICATION_CREATERETURN];
     if (oldCenter.y > 0) {
         [UIView animateWithDuration:0.5 animations:^{
             self.center = oldCenter;
+            [self removeGestureRecognizer:panGestureRecognizer];
+            [panGestureRecognizer release];
+            panGestureRecognizer = nil;
         }];
     }
 }
 
 -(void)dealloc{
+    NSNotificationCenter *notification = [NSNotificationCenter defaultCenter];
+    [notification removeObserver:self
+                            name:UIKeyboardWillHideNotification
+                          object:nil];
+
     [keyBoardController release];
     [super dealloc];
 }
@@ -275,6 +296,7 @@
     btn_viewCount.frame = CGRectZero;
     btn_favoriteCount.frame = CGRectZero;
     btn_commentCount.frame = CGRectZero;
+    tv_content.frame = CGRectZero;
 }
 
 @end
@@ -293,12 +315,9 @@
 - (void)layoutInBound:(CGSize)bound forCell:(BeeUIGridCell *)cell
 {
     backImageView.frame = CGRectMake(10, 10, bound.width -20, bound.height -20);
-    
     iv_photo.frame = CGRectMake(22, 22, bound.width - 44, bound.height - 44);
     lb_title.frame = CGRectMake(32, bound.height - 22 - 50, bound.width - 44 - 64, 20);
-    
     line.frame = CGRectMake(22, bound.height - 22 - 25, bound.width - 44, 0.5);
-    
     btn_viewCount.frame = CGRectMake(30,bound.height - 22 - 25,40,25);
     btn_favoriteCount.frame = CGRectMake(70 ,bound.height - 22 - 25,40,25);
     btn_commentCount.frame = CGRectMake(110 , bound.height - 22 - 25,40,25);
@@ -321,6 +340,7 @@
 - (void)load
 {
     iv_photo = [[[MyWebImgView alloc]init]autorelease];
+    iv_photo.contentMode = UIViewContentModeScaleAspectFill;
     iv_photo.layer.cornerRadius = 6;
     iv_photo.layer.masksToBounds = YES;
     
@@ -381,12 +401,10 @@
     
     iv_photo.frame = CGRectMake(10, 10, 50, 50);
     lb_title.frame = CGRectMake(70, 10, bound.width - 60 - 14, 30);
-    
-    line.frame = CGRectMake(0, bound.height - 1, bound.width, 0.5);
-    
-    btn_viewCount.frame = CGRectMake(60, 40, 40, 25);
-    btn_favoriteCount.frame = CGRectMake(100 ,40,40,25);
-    btn_commentCount.frame = CGRectMake(140 , 40,40,25);
+    line.frame = CGRectZero;
+    btn_viewCount.frame = CGRectZero;
+    btn_favoriteCount.frame = CGRectZero;
+    btn_commentCount.frame = CGRectZero;
     lb_publisher.frame = CGRectMake(170, 40, bound.width - 170 - 10,25);
 }
 

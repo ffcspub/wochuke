@@ -11,13 +11,71 @@
 #import "GuideInfoView.h"
 #import "SuppliesView.h"
 #import "StepView.h"
+#import "SVProgressHUD.h"
+#import "ICETool.h"
+#import "GuideCreateViewController.h"
 
 
-@interface StepEditController ()
+@interface StepEditController (){
+}
 
 @end
 
 @implementation StepEditController
+
+-(void)setGuide:(JCGuide *)guide{
+    if (_guide) {
+        [_guide release];
+        _guide = nil;
+    }
+    _guide = [guide retain];
+    NSMutableArray *steps = [[NSMutableArray alloc]init];
+    NSMutableArray *supplies = [[NSMutableArray alloc]init];
+    JCGuide * guideInfo = [guide copy];
+    [ShareVaule shareInstance].editGuideEx = [[JCGuideEx guideEx:guideInfo supplies:supplies steps:steps]retain];
+    [[ShareVaule shareInstance].stepImageDic removeAllObjects];
+    [self loadDetail];
+}
+
+-(void)loadDetail{
+    [SVProgressHUD show];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+        id<JCAppIntfPrx> proxy = [[ICETool shareInstance] createProxy];
+        @try {
+            JCGuideDetail *detail = [proxy getGuideDetail:nil guideId:_guide.id_];
+            if (detail) {
+                [(NSMutableArray *)[ShareVaule shareInstance].editGuideEx.steps addObjectsFromArray:detail.steps];
+                [(NSMutableArray *)[ShareVaule shareInstance].editGuideEx.supplies addObjectsFromArray:detail.supplies];
+            }
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [SVProgressHUD dismiss];
+                [_girdView reloadData];
+            });
+        }
+        @catch (ICEException *exception) {
+            if ([exception isKindOfClass:[JCGuideException class]]) {
+                JCGuideException *_exception = (JCGuideException *)exception;
+                if (_exception.reason_) {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [SVProgressHUD showErrorWithStatus:_exception.reason_];
+                    });
+                }else{
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [SVProgressHUD showErrorWithStatus:ERROR_MESSAGE];
+                    });
+                }
+            }else{
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [SVProgressHUD showErrorWithStatus:ERROR_MESSAGE];
+                });
+            }
+        }
+        @finally {
+            
+        }
+        
+    });
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -33,10 +91,11 @@
     [super viewDidLoad];
     self.title = @"步骤总览";
     [self.navigationController setNavigationBarHidden:NO];
-    NSInteger spacing = 20;
+    NSInteger spacing = 5;
 //    _girdView.actionDelegate = self;
     _girdView.dataSource = self;
     _girdView.style = GMGridViewStylePush;
+    _girdView.disableEditOnEmptySpaceTap = YES;
     _girdView.itemSpacing = spacing;
     _girdView.actionDelegate = self;
     _girdView.minEdgeInsets = UIEdgeInsetsMake(spacing, spacing, spacing, spacing);
@@ -44,6 +103,18 @@
     _girdView.sortingDelegate = self;
     [_girdView reloadData];
     // Do any additional setup after loading the view from its nib.
+}
+
+-(void)dealloc{
+    [[ShareVaule shareInstance].editGuideEx release];
+    [[ShareVaule shareInstance].stepImageDic removeAllObjects];
+    [super dealloc];
+}
+
+-(void)viewDidUnload{
+    _girdView = nil;
+    [ShareVaule shareInstance].editGuideEx = nil;
+    [super viewDidUnload];
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
@@ -68,13 +139,15 @@
 
 #pragma mark - GMGridViewActionDelegate
 - (void)GMGridView:(GMGridView *)gridView didTapOnItemAtIndex:(NSInteger)position;{
-    
+    GuideCreateViewController *guideCreateViewController = [[[GuideCreateViewController alloc]initWithNibName:@"GuideCreateViewController" bundle:nil]autorelease];
+    [self.navigationController pushViewController:guideCreateViewController animated:YES];
+    [guideCreateViewController scrollToIndex:position];
 }
 
 -(BOOL)GMGridView:(GMGridView *)gridView shouldAllowActionForItemAtIndex:(NSInteger)index{
     if (index == 0) {
         return NO;
-    }else if(index == 1 && _detail.supplies.count >0){
+    }else if(index == 1 && [ShareVaule shareInstance].editGuideEx.supplies.count >0){
         return NO;
     }
     return YES;
@@ -84,15 +157,15 @@
 
 - (NSInteger)numberOfItemsInGMGridView:(GMGridView *)gridView
 {
-    if (_detail.supplies.count>0) {
-        return _detail.steps.count + 2;
+    if ([ShareVaule shareInstance].editGuideEx.supplies.count>0) {
+        return [ShareVaule shareInstance].editGuideEx.supplies.count + 2;
     }
-    return _detail.steps.count + 1;
+    return [ShareVaule shareInstance].editGuideEx.supplies.count + 1;
 }
 
 - (CGSize)GMGridView:(GMGridView *)gridView sizeForItemsInInterfaceOrientation:(UIInterfaceOrientation)orientation
 {
-    return CGSizeMake(80, 110);
+    return CGSizeMake(100, 130);
 }
 
 - (GMGridViewCell *)GMGridView:(GMGridView *)gridView cellForItemAtIndex:(NSInteger)index
@@ -106,7 +179,7 @@
        cell = [gridView dequeueReusableCellWithIdentifier:@"GUIDEINFOCELL"];
         if (!cell)
         {
-            cell = [[GMGridViewCell alloc] init];
+            cell = [[[GMGridViewCell alloc] init]autorelease];
             cell.reuseIdentifier = @"GUIDEINFOCELL";
             cell.deleteButtonIcon = [UIImage imageNamed:@"close_x.png"];
             cell.deleteButtonOffset = CGPointMake(-15, -15);
@@ -114,23 +187,23 @@
             view.guide = _guide;
             cell.contentView = view;
         }
-    }else if(_detail.supplies.count>0 && index == 1){
+    }else if([ShareVaule shareInstance].editGuideEx.supplies.count >0 && index == 1){
         cell = [gridView dequeueReusableCellWithIdentifier:@"SUPPLIESCELL"];
         if (!cell)
         {
-            cell = [[GMGridViewCell alloc] init];
+            cell = [[[GMGridViewCell alloc] init]autorelease];
             cell.reuseIdentifier = @"SUPPLIESCELL";
             cell.deleteButtonIcon = [UIImage imageNamed:@"close_x.png"];
             cell.deleteButtonOffset = CGPointMake(-15, -15);
             SuppliesMinView *view = [[[SuppliesMinView alloc]init]autorelease];
-            view.list = _detail.supplies;
+            view.list = [ShareVaule shareInstance].editGuideEx.supplies;
             cell.contentView = view;
         }
     }else{
         cell = [gridView dequeueReusableCellWithIdentifier:@"STEPCELL"];
         if (!cell)
         {
-            cell = [[GMGridViewCell alloc] init];
+            cell = [[[GMGridViewCell alloc] init]autorelease];
             cell.reuseIdentifier = @"STEPCELL";
             cell.deleteButtonIcon = [UIImage imageNamed:@"close_x.png"];
             cell.deleteButtonOffset = CGPointMake(-15, -15);
@@ -139,10 +212,10 @@
         }
         StepView *view = (StepView *)cell.contentView;
         int indextemp = index - 1;
-        if (_detail.supplies.count>0) {
+        if ([ShareVaule shareInstance].editGuideEx.supplies.count>0) {
             indextemp = index - 2;
         }
-        view.step = [_detail.steps objectAtIndex:indextemp];
+        view.step = [[ShareVaule shareInstance].editGuideEx.steps objectAtIndex:indextemp];
     }
     return cell;
 }

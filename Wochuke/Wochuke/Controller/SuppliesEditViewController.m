@@ -35,4 +35,17 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)dealloc {
+    [_suppliesEditView release];
+    [super dealloc];
+}
+- (void)viewDidUnload {
+    [self setSuppliesEditView:nil];
+    [super viewDidUnload];
+}
+
+- (IBAction)backAction:(id)sender {
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 @end

@@ -14,11 +14,37 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        // Initialization code
+        lb_text = [[[UILabel alloc]initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)]autorelease];
+        [self addSubview:lb_text];
+        lb_text.font = [UIFont systemFontOfSize:15];
+        lb_text.textAlignment = UITextAlignmentCenter;
+        lb_text.textColor = [UIColor grayColor];
+        self.userInteractionEnabled = YES;
     }
     return self;
 }
 
+-(void)setTitle:(NSString *)title{
+    lb_text.text = title;
+}
+
+-(void)handleSingleTapFrom{
+    [self.target performSelector:_action];
+    [self removeFromSuperview];
+}
+
+
++(void)showInView:(UIView *)view message:(NSString *)message target:(id)target action:(SEL) action;{
+    ReloadView *reloadView = [[[ReloadView alloc]initWithFrame:CGRectMake(0, 0, view.frame.size.height, view.frame.size.width)]autorelease];
+    reloadView.target = target;
+    reloadView.action = action;
+    [reloadView setTitle:message];
+    UITapGestureRecognizer* singleRecognizer;  
+    singleRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTapFrom)];  
+    singleRecognizer.numberOfTapsRequired = 1; // 单击  
+    [reloadView addGestureRecognizer:singleRecognizer];  
+    [view addSubview:reloadView];
+}
 /*
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.

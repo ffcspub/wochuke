@@ -7,7 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SuppliesView.h"
 
 @interface SuppliesEditViewController : UIViewController
+
+@property (retain, nonatomic) IBOutlet SuppliesEditView *suppliesEditView;
+
+- (IBAction)backAction:(id)sender;
 
 @end

@@ -84,7 +84,7 @@ DEF_NOTIFICATION(TAP)
        cell = [gridView dequeueReusableCellWithIdentifier:@"GUIDEINFOCELL"];
         if (!cell)
         {
-            cell = [[GMGridViewCell alloc] init];
+            cell = [[[GMGridViewCell alloc] init]autorelease];
             cell.reuseIdentifier = @"GUIDEINFOCELL";
             cell.deleteButtonIcon = [UIImage imageNamed:@"close_x.png"];
             cell.deleteButtonOffset = CGPointMake(-15, -15);
@@ -96,7 +96,7 @@ DEF_NOTIFICATION(TAP)
         cell = [gridView dequeueReusableCellWithIdentifier:@"SUPPLIESCELL"];
         if (!cell)
         {
-            cell = [[GMGridViewCell alloc] init];
+            cell = [[[GMGridViewCell alloc] init]autorelease];
             cell.reuseIdentifier = @"SUPPLIESCELL";
             cell.deleteButtonIcon = [UIImage imageNamed:@"close_x.png"];
             cell.deleteButtonOffset = CGPointMake(-15, -15);
@@ -108,7 +108,7 @@ DEF_NOTIFICATION(TAP)
         cell = [gridView dequeueReusableCellWithIdentifier:@"STEPCELL"];
         if (!cell)
         {
-            cell = [[GMGridViewCell alloc] init];
+            cell = [[[GMGridViewCell alloc] init]autorelease];
             cell.reuseIdentifier = @"STEPCELL";
             cell.deleteButtonIcon = [UIImage imageNamed:@"close_x.png"];
             cell.deleteButtonOffset = CGPointMake(-15, -15);

@@ -15,9 +15,15 @@ static ShareVaule *_shareVaule;
 +(ShareVaule *)shareInstance;{
     if (!_shareVaule) {
         _shareVaule = [[ShareVaule alloc]init];
+        _shareVaule.stepImageDic = [[[NSMutableDictionary alloc]init]autorelease];
     }
     return _shareVaule;
 }
 
+-(void)dealloc{
+    [_stepImageDic release];
+    [_editGuideEx release];
+    [super dealloc];
+}
 
 @end

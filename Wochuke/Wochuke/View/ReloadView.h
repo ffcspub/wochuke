@@ -9,5 +9,16 @@
 #import <UIKit/UIKit.h>
 
 @interface ReloadView : UIView
+{
+    UILabel *lb_text;
+}
+
+-(void)setTitle:(NSString *)title;
+
+@property(nonatomic,assign) id target;
+
+@property(nonatomic,assign) SEL action;
+
++(void)showInView:(UIView *)view message:(NSString *)message target:(id)target action:(SEL) action;
 
 @end

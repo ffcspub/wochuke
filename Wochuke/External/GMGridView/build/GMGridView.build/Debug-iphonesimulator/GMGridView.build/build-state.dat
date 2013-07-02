@@ -10,8 +10,8 @@ cCompileC build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/Objects-
 cLibtool /Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/build/Debug-iphonesimulator/libGMGridView.a normal i386
 cCpHeader GMGridView.h build/Debug-iphonesimulator/usr/local/include/GMGridView.h
 cCpHeader GMGridView-Constants.h build/Debug-iphonesimulator/usr/local/include/GMGridView-Constants.h
-cCpHeader GMGridViewCell+Extended.h build/Debug-iphonesimulator/usr/local/include/GMGridViewCell+Extended.h
 cCpHeader GMGridViewCell.h build/Debug-iphonesimulator/usr/local/include/GMGridViewCell.h
+cCpHeader GMGridViewCell+Extended.h build/Debug-iphonesimulator/usr/local/include/GMGridViewCell+Extended.h
 cCpHeader GMGridViewLayoutStrategies.h build/Debug-iphonesimulator/usr/local/include/GMGridViewLayoutStrategies.h
 
 N/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator6.1.sdk
@@ -289,7 +289,7 @@ r0
 
 CCheck dependencies
 r0
-lSLF05#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection18"Check dependencies558936dd1d7db741^c5ae39dd1d7db741^---0#1#0#--18"Check dependencies36"837AA507-5F1E-4CB4-A301-83C805BC6FEF-
+lSLF05#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection18"Check dependencies75e5b3662e7db741^fb3cba662e7db741^---0#1#0#--18"Check dependencies36"81FD42B8-EC77-4D1F-A903-D83F3AB33B91-
 
 CCompileC build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/Objects-normal/i386/GMGridView.o /Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/GMGridView.m normal i386 objective-c com.apple.compilers.llvm.clang.1_0.compiler
 s393905131.946959

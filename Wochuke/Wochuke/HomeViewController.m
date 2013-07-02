@@ -16,6 +16,8 @@
 #import "GuideViewController.h"
 #import "ICETool.h"
 #import "GuideCreateViewController.h"
+#import "ReloadView.h"
+#import "StepEditController.h"
 
 @interface HomeViewController (){
     JCMutableGuideList *_datas;
@@ -29,6 +31,11 @@
 
 @implementation HomeViewController
 
+-(void)reloadDatas{
+    [self loadSlogon];
+    [self loadDatas];
+}
+
 -(void)viewDidLoad
 {
     _lb_sLogon.text = [[NSUserDefaults standardUserDefaults]stringForKey:@"SLOGON"];
@@ -36,8 +43,7 @@
     _pageFlowView.dataSource = self;
     _pageFlowView.minimumPageAlpha = 0.3;
     _pageFlowView.minimumPageScale = 0.9;
-    [self loadSlogon];
-    [self loadDatas];
+    [self reloadDatas];
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -80,22 +86,22 @@
                 JCGuideException *_exception = (JCGuideException *)exception;
                 if (_exception.reason_) {
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil message:_exception.reason_ delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
-                        [alert show];
-                        [alert release];
+//                        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil message:_exception.reason_ delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
+//                        [alert show];
+//                        [alert release];
                     });
                 }else{
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil message:ERROR_MESSAGE delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
-                        [alert show];
-                        [alert release];
+//                        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil message:ERROR_MESSAGE delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
+//                        [alert show];
+//                        [alert release];
                     });
                 }
             }else{
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil message:ERROR_MESSAGE delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
-                    [alert show];
-                    [alert release];
+//                    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil message:ERROR_MESSAGE delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
+//                    [alert show];
+//                    [alert release];
                 });
             }
         }
@@ -126,15 +132,18 @@
                 if (_exception.reason_) {
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [SVProgressHUD showErrorWithStatus:_exception.reason_];
+                        [ReloadView showInView:self.view message:@"重新加载" target:self action:@selector(reloadDatas)];
                     });
                 }else{
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [SVProgressHUD showErrorWithStatus:ERROR_MESSAGE];
+                        [ReloadView showInView:self.view message:@"重新加载" target:self action:@selector(reloadDatas)];
                     });
                 }
             }else{
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [SVProgressHUD showErrorWithStatus:ERROR_MESSAGE];
+                    [ReloadView showInView:self.view message:@"重新加载" target:self action:@selector(reloadDatas)];
                 });
             }
         }
@@ -151,7 +160,12 @@
 }
 
 - (void)flowView:(PagedFlowView *)flowView didTapPageAtIndex:(NSInteger)index;{
-    GuideCreateViewController *vlc =[[[GuideCreateViewController alloc]initWithNibName:@"GuideCreateViewController" bundle:nil]autorelease];
+//    GuideViewController *vlc =[[[GuideViewController alloc]initWithNibName:@"GuideViewController" bundle:nil]autorelease];
+//    JCGuide *guide = [_datas objectAtIndex:index];
+//    vlc.guide = guide;
+    
+    
+    StepEditController *vlc = [[StepEditController alloc]initWithNibName:@"StepEditController" bundle:nil];
     JCGuide *guide = [_datas objectAtIndex:index];
     vlc.guide = guide;
     [self.navigationController pushViewController:vlc animated:YES];

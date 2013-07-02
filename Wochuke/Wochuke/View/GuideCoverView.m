@@ -16,7 +16,7 @@
     backImageView.frame = CGRectMake(0, 0, frame.size.width, frame.size.height);
     imageView.frame = CGRectMake(11, 11, self.frame.size.width -22 , self.frame.size.height - 22);
     tagImageView.frame = CGRectMake(0, 20, 73, 25);
-    lb_type.frame = CGRectMake(14, 20, 100, 20);
+    lb_type.frame = CGRectMake(5, 17, 73 - 8, 25);
     lb_name.frame = CGRectMake(18, self.frame.size.height - 22 - 50, self.frame.size.width - 36, 35);
     lb_publisher.frame = CGRectMake(18, self.frame.size.height - 22 - 20, self.frame.size.width - 36, 20);
 }
@@ -40,6 +40,7 @@
         
         lb_type = [[[UILabel alloc]init]autorelease];
         lb_type.font = [UIFont systemFontOfSize:14];
+        lb_type.textAlignment = UITextAlignmentCenter;
         lb_type.backgroundColor = [UIColor clearColor];
         lb_type.textColor = [UIColor whiteColor];
         

@@ -51,7 +51,7 @@
 #import <UIKit/UIKit.h>
 
 @interface EMKeyboardBarTextField : UITextField {
-	
+	UITextBorderStyle _oldStyle;
 }
 
 @property (nonatomic, assign) BOOL	showPrompt;

@@ -207,9 +207,9 @@
                         if (_hotWords.count == 0) {
                             [SVProgressHUD showErrorWithStatus:_exception.reason_];
                         }else{
-                            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil message:_exception.reason_ delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
-                            [alert show];
-                            [alert release];
+//                            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil message:_exception.reason_ delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
+//                            [alert show];
+//                            [alert release];
                         }
                         
                     });
@@ -218,9 +218,9 @@
                         if (_hotWords.count == 0) {
                             [SVProgressHUD showErrorWithStatus:ERROR_MESSAGE];
                         }else{
-                            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil message:ERROR_MESSAGE delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
-                            [alert show];
-                            [alert release];
+//                            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil message:ERROR_MESSAGE delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
+//                            [alert show];
+//                            [alert release];
                         }
                     });
                 }
@@ -229,9 +229,9 @@
                     if (_hotWords.count == 0) {
                         [SVProgressHUD showErrorWithStatus:ERROR_MESSAGE];
                     }else{
-                        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil message:ERROR_MESSAGE delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
-                        [alert show];
-                        [alert release];
+//                        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil message:ERROR_MESSAGE delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
+//                        [alert show];
+//                        [alert release];
                     }
                 });
             }

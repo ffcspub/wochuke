@@ -14,6 +14,7 @@
 #import "SuppliesView.h"
 #import "StepView.h"
 #import "StepPreviewController.h"
+#import "StepEditController.h"
 
 @interface GuideViewController (){
     JCGuideDetail *_detail;
@@ -29,7 +30,7 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
         id<JCAppIntfPrx> proxy = [[ICETool shareInstance] createProxy];
         @try {
-            JCGuideDetail *detail = [proxy getGuideDetail:_guide.id_ userId:nil];
+            JCGuideDetail *detail = [proxy getGuideDetail:nil guideId:_guide.id_];
             if (detail) {
                 _detail = [detail retain];
             }
@@ -119,8 +120,6 @@
 
 - (IBAction)showPreviewAction:(id)sender {
     StepPreviewController *vlc = [[[StepPreviewController alloc]initWithNibName:@"StepPreviewController" bundle:nil]autorelease];
-    
-//    StepEditController *vlc = [[StepEditController alloc]initWithNibName:@"StepEditController" bundle:nil];
     vlc.guide = _guide;
     vlc.detail = _detail;
     [self.navigationController pushViewController:vlc animated:YES];

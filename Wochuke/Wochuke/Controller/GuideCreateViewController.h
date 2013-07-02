@@ -14,11 +14,9 @@
 
 @property (retain, nonatomic) IBOutlet PagedFlowView *pagedFlowView;
 
-@property(nonatomic,retain) JCGuide *guide;
+-(void)scrollToIndex:(int)index;
 
 - (IBAction)popAction:(id)sender;
-
-- (IBAction)showPreviewAction:(id)sender;
 
 @end
 
