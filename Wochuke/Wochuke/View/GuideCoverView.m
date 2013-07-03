@@ -26,7 +26,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         backImageView = [[[UIImageView alloc]init]autorelease];
-        UIImage *backImage = [[UIImage imageNamed:@"lightBoard"]resizableImageWithCapInsets:UIEdgeInsetsMake(12, 12, 12, 12)];
+        UIImage *backImage = [[UIImage imageNamed:@"lightBoard"]resizableImageWithCapInsets:UIEdgeInsetsMake(14, 14, 14, 14)];
         [backImageView setImage:backImage];
         
         tagImageView = [[[UIImageView alloc]init]autorelease];

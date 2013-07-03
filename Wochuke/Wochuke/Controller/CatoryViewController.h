@@ -8,10 +8,17 @@
 
 #import <UIKit/UIKit.h>
 #import "TopViewController.h"
+#import "CycleScrollView.h"
 
 @interface CatoryViewController : TopViewController<UIActionSheetDelegate>
 
 @property (retain, nonatomic) IBOutlet UITableView *tableView;
+
+@property (retain, nonatomic) IBOutlet CycleScrollView *imageScrollView;
+
+@property (retain, nonatomic) IBOutlet UIPageControl *pageControl;
+
+@property (retain, nonatomic) IBOutlet UILabel *lb_topic;
 
 @property (retain, nonatomic) IBOutlet UIButton *btn_type;
 

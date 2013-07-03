@@ -12,7 +12,8 @@
 #define NOTIFICATION_SHOWTOOLBAR @"NOTIFICATION_SHOWTOOLBAR"
 
 #define NOTIFICATION_SUPPLIECELLDELETE @"NOTIFICATION_SUPPLIECELLDELETE"
-#define NOTIFICATION_CREATERETURN @"NOTIFICATION_CREATERETURN"
+
+#define NOTIFICATION_ORDINALCHANGE @"NOTIFICATION_ORDINALCHANGE"
 
 #define KEY_TYPELIST @"KEY_TYPELIST"
 
@@ -28,5 +29,9 @@
 @property(nonatomic,retain) JCGuideEx *editGuideEx;
 
 @property(nonatomic,retain) NSMutableDictionary *stepImageDic;
+
+-(void)removeStep:(JCStep *)step;
+
+-(void)moveStepFromIndex:(NSInteger)fromIndex toIndex:(NSInteger)toIndex;
 
 @end

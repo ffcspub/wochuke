@@ -16,6 +16,11 @@
     [super setFrame:frame];
     backImageView.frame = CGRectMake(0, 0, frame.size.width, frame.size.height);
     backTopImageView.frame = CGRectMake(5, 5, frame.size.width - 10, frame.size.height -10);
+    
+    tagImageView.frame = CGRectMake(frame.size.width - tagImageView.frame.size.width, 100, tagImageView.frame.size.width, tagImageView.frame.size.height);
+    
+    lb_tag.frame = CGRectMake(frame.size.width - tagImageView.frame.size.width + 8, 97, tagImageView.frame.size.width -10, tagImageView.frame.size.height);
+    
     iv_photo.frame = CGRectMake((frame.size.width - 40)/2, 75, 40 , 40);
     tv_title.frame = CGRectMake(5, 20, frame.size.width-10, 30);
     tv_title.textMaxLength = 30;
@@ -29,6 +34,7 @@
     CGSize contentSize = [_guide.description_ sizeWithFont:[UIFont systemFontOfSize:12] constrainedToSize:CGSizeMake(frame.size.width - 30 -16.0, 1000)];
     
     tv_content.frame = CGRectMake(15, 180, contentSize.width +16.0, MIN(contentSize.height + 16.0, frame.size.height - 180 - 30));
+    iv_contentBackView.frame = tv_content.frame;
     
 }
 
@@ -38,6 +44,7 @@
     
 	CGPoint r = growingTextView.center;
     growingTextView.center = CGPointMake(r.x, r.y + diff);
+    iv_contentBackView.frame = CGRectMake(iv_contentBackView.frame.origin.x, iv_contentBackView.frame.origin.y, iv_contentBackView.frame.size.width,iv_contentBackView.frame.size.height + diff);
 }
 
 - (id)initWithFrame:(CGRect)frame
@@ -45,8 +52,17 @@
     self = [super initWithFrame:frame];
     if (self) {
         backImageView = [[[UIImageView alloc]init]autorelease];
-        UIImage *backImage = [[UIImage imageNamed:@"lightBoard"]resizableImageWithCapInsets:UIEdgeInsetsMake(12, 12, 12, 12)];
+        UIImage *backImage = [[UIImage imageNamed:@"lightBoard"]resizableImageWithCapInsets:UIEdgeInsetsMake(14, 14, 14, 14)];
         [backImageView setImage:backImage];
+        
+        tagImageView = [[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"tag_cook_firstcard_slip"]]autorelease];
+        
+        lb_tag = [[[UILabel alloc]init]autorelease];
+        lb_tag.text = @"滑动浏览";
+        lb_tag.font = [UIFont systemFontOfSize:13];
+        lb_tag.backgroundColor = [UIColor clearColor];
+        lb_tag.textColor = [UIColor whiteColor];
+        lb_tag.textAlignment = UITextAlignmentCenter;
         
         backTopImageView = [[[UIImageView alloc]init]autorelease];
         backTopImageView.contentMode = UIViewContentModeScaleToFill;
@@ -79,16 +95,23 @@
         btn_viewCount.titleLabel.font = [UIFont systemFontOfSize:12];
         btn_viewCount.backgroundColor = [UIColor clearColor];
         [btn_viewCount setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
-        
+        [btn_viewCount setImage:[UIImage imageNamed:@"ic_cookhome_read"] forState:UIControlStateNormal];
         btn_favoriteCount = [[[UIButton alloc]init]autorelease];
         btn_favoriteCount.titleLabel.font = [UIFont systemFontOfSize:12];
         btn_favoriteCount.backgroundColor = [UIColor clearColor];
         [btn_favoriteCount setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+        [btn_favoriteCount setImage:[UIImage imageNamed:@"ic_cookhome_like"] forState:UIControlStateNormal];
         
         btn_commentCount = [[[UIButton alloc]init]autorelease];
         btn_commentCount.titleLabel.font = [UIFont systemFontOfSize:12];
         btn_commentCount.backgroundColor = [UIColor clearColor];
         [btn_commentCount setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+        [btn_commentCount setImage:[UIImage imageNamed:@"ic_cookhome_comment"] forState:UIControlStateNormal];
+        
+        iv_contentBackView = [[[UIImageView alloc]init]autorelease];
+        UIImage *contentbackImage = [[UIImage imageNamed:@"textViewBoard"]resizableImageWithCapInsets:UIEdgeInsetsMake(6, 6, 6, 6)];
+        iv_contentBackView.contentMode = UIViewContentModeScaleToFill;
+        [iv_contentBackView setImage:contentbackImage];
         
         tv_content = [[[HPGrowingTextView alloc]init]autorelease];
         tv_content.font = [UIFont systemFontOfSize:12];
@@ -101,12 +124,15 @@
         self.backgroundColor = [UIColor clearColor];
         [self addSubview:backImageView];
         [self addSubview:backTopImageView];
+        [self addSubview:tagImageView];
+        [self addSubview:lb_tag];
         [self addSubview:tv_title];
         [self addSubview:iv_photo];
         [self addSubview:lb_publisher];
         [self addSubview:btn_viewCount];
         [self addSubview:btn_favoriteCount];
         [self addSubview:btn_commentCount];
+        [self addSubview:iv_contentBackView];
         [self addSubview:tv_content];
         
     }
@@ -121,6 +147,7 @@
     }
     _guide = [guide retain];
     tv_title.text = _guide.title;
+    [tv_title sizeToFit];
 //    CGSize tvsize = [_guide.title sizeWithFont:tv_title.font constrainedToSize:CGSizeMake(tv_title.frame.size.width - 16, CGFLOAT_MAX)];
 //    tv_title.frame = CGRectMake(tv_title.frame.origin.x, tv_title.frame.origin.y, tv_title.frame.size.width, tvsize.height);
     [iv_photo setImageWithURL:[NSURL URLWithString:_guide.userAvatar.url]];
@@ -154,12 +181,14 @@
     
     tv_content.frame = CGRectMake(15, 180, contentSize.width + 16.0, MIN(contentSize.height + 16.0, frame.size.height - 180 - 30));
     tv_content.maxHeight = frame.size.height - 180 - 30;
+    iv_contentBackView.frame = tv_content.frame;
 }
 
 - (void)growingTextView:(HPGrowingTextView *)growingTextView willChangeHeight:(float)height
 {
 //    float diff = growingTextView.frame.size.height - height;
 //    growingTextView.frame = CGRectMake(growingTextView.frame.origin.x, growingTextView.frame.origin.y, growingTextView.frame.size.width, growingTextView.frame.size.height + diff);
+    iv_contentBackView.frame = CGRectMake(iv_contentBackView.frame.origin.x, iv_contentBackView.frame.origin.y, iv_contentBackView.frame.size.width, height);
 }
 
 - (id)initWithFrame:(CGRect)frame
@@ -168,7 +197,7 @@
     if (self) {
         
         backImageView = [[[UIImageView alloc]init]autorelease];
-        UIImage *backImage = [[UIImage imageNamed:@"lightBoard"]resizableImageWithCapInsets:UIEdgeInsetsMake(12, 12, 12, 12)];
+        UIImage *backImage = [[UIImage imageNamed:@"lightBoard"]resizableImageWithCapInsets:UIEdgeInsetsMake(14, 14, 14, 14)];
         [backImageView setImage:backImage];
         
         backTopImageView = [[[UIImageView alloc]init]autorelease];
@@ -197,7 +226,13 @@
         lb_publisher.backgroundColor = [UIColor clearColor];
         lb_publisher.textColor = [UIColor darkTextColor];
         lb_publisher.textAlignment = UITextAlignmentCenter;
-               
+    
+        
+        iv_contentBackView = [[[UIImageView alloc]init]autorelease];
+        UIImage *contentbackImage = [[UIImage imageNamed:@"textViewBoard"]resizableImageWithCapInsets:UIEdgeInsetsMake(6, 6, 6, 6)];
+        iv_contentBackView.contentMode = UIViewContentModeScaleToFill;
+        [iv_contentBackView setImage:contentbackImage];
+        
         tv_content = [[[HPGrowingTextView alloc]init]autorelease];
         tv_content.font = [UIFont systemFontOfSize:13];
         tv_content.backgroundColor = [UIColor clearColor];
@@ -207,13 +242,13 @@
         tv_content.delegate = self;
         tv_content.minHeight = 100;
         
-        
         self.backgroundColor = [UIColor clearColor];
         [self addSubview:backImageView];
         [self addSubview:backTopImageView];
         [self addSubview:tv_title];
         [self addSubview:iv_photo];
         [self addSubview:lb_publisher];
+        [self addSubview:iv_contentBackView];
         [self addSubview:tv_content];
         
         JCGuide *_guide = [ShareVaule shareInstance].editGuideEx.guideInfo;
@@ -254,7 +289,6 @@
 -(void)hideKeyBoard{
     [tv_title resignFirstResponder];
     [tv_content resignFirstResponder];
-    [self unobserveNotification:NOTIFICATION_CREATERETURN];
     if (oldCenter.y > 0) {
         [UIView animateWithDuration:0.5 animations:^{
             self.center = oldCenter;
@@ -297,6 +331,9 @@
     btn_favoriteCount.frame = CGRectZero;
     btn_commentCount.frame = CGRectZero;
     tv_content.frame = CGRectZero;
+    iv_contentBackView.frame = CGRectZero;
+    lb_tag.frame = CGRectZero;
+    tagImageView.frame = CGRectZero;
 }
 
 @end
@@ -376,7 +413,7 @@
     line.backgroundColor = [UIColor whiteColor];
     
     backImageView = [[[UIImageView alloc]init]autorelease];
-    UIImage *backImage = [[UIImage imageNamed:@"lightBoard"]resizableImageWithCapInsets:UIEdgeInsetsMake(12, 12, 12, 12)];
+    UIImage *backImage = [[UIImage imageNamed:@"lightBoard"]resizableImageWithCapInsets:UIEdgeInsetsMake(14, 14, 14, 14)];
     [backImageView setImage:backImage];
     
     [self addSubview:backImageView];

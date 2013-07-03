@@ -40,7 +40,7 @@
     if (self) {
         
         backImageView = [[[UIImageView alloc]init]autorelease];
-        UIImage *backImage = [[UIImage imageNamed:@"lightBoard"]resizableImageWithCapInsets:UIEdgeInsetsMake(12, 12, 12, 12)];
+        UIImage *backImage = [[UIImage imageNamed:@"lightBoard"]resizableImageWithCapInsets:UIEdgeInsetsMake(14, 14, 14, 14)];
         [backImageView setImage:backImage];
         
         tagImageView = [[[UIImageView alloc]init]autorelease];
@@ -130,11 +130,14 @@
 -(void)setFrame:(CGRect)frame{
     [super setFrame:frame];
     backImageView.frame = CGRectMake(0, 0, frame.size.width, frame.size.height);
-    tagImageView.frame = CGRectMake(0, 20, 45, 25);
-    lb_step.frame = CGRectMake(10, 20, 35, 20);
+    tagImageView.frame = CGRectMake(0, 20, 40, 25);
+    lb_step.frame = CGRectMake(5, 20, 30, 20);
     CGSize size = [_step.text sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:CGSizeMake(frame.size.width -22 - 16, 1000)];
     imageView.frame = CGRectMake(11, 11, frame.size.width -22 , frame.size.height - 22 - 45 - MIN(size.height+16, 150));
     tv_text.frame = CGRectMake(11, frame.size.height - 22 - 30 - size.height - 8 , size.width + 16, MIN(size.height + 16, 150));
+    iv_contentBackView.frame = tv_text.frame;
+    lb_textcount.frame = CGRectMake(frame.size.width - 110, frame.size.height - 32, 100, 20);
+    btn_del.frame = CGRectMake(20, frame.size.height - 32, 100, 20);
 }
 
 -(void)imageTap{
@@ -143,8 +146,14 @@
     }
 }
 
+-(void)delAction{
+    if (_delegate && [_delegate respondsToSelector:@selector(delBtnClickedFromStepEditView:)]) {
+        [_delegate delBtnClickedFromStepEditView:self];
+    }
+}
+
 -(void)upImage;{
-    NSData *data = (NSData *)[[ShareVaule shareInstance].stepImageDic objectForKey:[NSNumber numberWithInt:_step.ordinal]];
+    NSData *data = (NSData *)[[ShareVaule shareInstance].stepImageDic objectForKey:self.step];
     if (data) {
         [imageView setImage:[UIImage imageWithData:data]];
     }else{
@@ -158,7 +167,7 @@
     if (self) {
         
         backImageView = [[[UIImageView alloc]init]autorelease];
-        UIImage *backImage = [[UIImage imageNamed:@"lightBoard"]resizableImageWithCapInsets:UIEdgeInsetsMake(12, 12, 12, 12)];
+        UIImage *backImage = [[UIImage imageNamed:@"lightBoard"]resizableImageWithCapInsets:UIEdgeInsetsMake(14, 14, 14, 14)];
         [backImageView setImage:backImage];
         
         tagImageView = [[[UIImageView alloc]init]autorelease];
@@ -183,6 +192,7 @@
         lb_step.font = [UIFont systemFontOfSize:14];
         lb_step.backgroundColor = [UIColor clearColor];
         lb_step.textColor = [UIColor whiteColor];
+        lb_step.textAlignment = UITextAlignmentCenter;
         [self addSubview:lb_step];
         
         imageView.userInteractionEnabled = YES;
@@ -191,15 +201,33 @@
         singleRecognizer.numberOfTapsRequired = 1; // 单击
         [imageView addGestureRecognizer:singleRecognizer];
         
+        iv_contentBackView = [[[UIImageView alloc]init]autorelease];
+        UIImage *contentbackImage = [[UIImage imageNamed:@"textViewBoard"]resizableImageWithCapInsets:UIEdgeInsetsMake(6, 6, 6, 6)];
+        iv_contentBackView.contentMode = UIViewContentModeScaleToFill;
+        [iv_contentBackView setImage:contentbackImage];
+        [self addSubview:iv_contentBackView];
+        
         tv_text = [[[HPGrowingTextView alloc]init]autorelease];
         tv_text.font = [UIFont systemFontOfSize:14];
         tv_text.backgroundColor = [UIColor clearColor];
         tv_text.textColor = [UIColor darkTextColor];
         tv_text.delegate = self;
+        tv_text.textMaxLength = 100;
         tv_text.placeholder = @"步骤内容描述";
         tv_text.maxNumberOfLines = 6;
-        tv_text.textMaxLength = 200;
         [self addSubview:tv_text];
+        
+        lb_textcount = [[[UILabel alloc]init]autorelease];
+        lb_textcount.font = [UIFont systemFontOfSize:11];
+        lb_textcount.textColor = [UIColor darkTextColor];
+        lb_textcount.textAlignment = UITextAlignmentRight;
+        [self addSubview:lb_textcount];
+        
+        btn_del = [[[UIButton alloc]init]autorelease];
+        [btn_del setTitle:@"删除" forState:UIControlStateNormal];
+        [btn_del setTitleColor:[UIColor darkTextColor] forState:UIControlStateNormal];
+        [btn_del addTarget:self action:@selector(delAction) forControlEvents:UIControlEventTouchUpInside];
+        [self addSubview:btn_del];
         
         UITapGestureRecognizer* viewsingleRecognizer = nil;
         viewsingleRecognizer = [[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyBoard)]autorelease];
@@ -207,17 +235,26 @@
         [self addGestureRecognizer:viewsingleRecognizer];
         self.userInteractionEnabled = YES;
         
+        NSNotificationCenter *notification = [NSNotificationCenter defaultCenter];
+        [notification addObserver:self
+                         selector:@selector(hideKeyBoard)
+                             name:UIKeyboardWillHideNotification
+                           object:nil];
+        
     }
     return self;
 }
+
+
 
 #pragma mark -HPGrowingTextViewDelegate
 
 - (void)growingTextView:(HPGrowingTextView *)growingTextView willChangeHeight:(float)height
 {
     float diff = growingTextView.frame.size.height - height;
-    growingTextView.frame = CGRectMake(growingTextView.frame.origin.x, growingTextView.frame.origin.y + diff, growingTextView.frame.size.width, growingTextView.frame.size.height - diff);
+    growingTextView.frame = CGRectMake(growingTextView.frame.origin.x, growingTextView.frame.origin.y + diff, growingTextView.frame.size.width, height);
     imageView.frame = CGRectMake(imageView.frame.origin.x, imageView.frame.origin.y, imageView.frame.size.width,imageView.frame.size.height + diff);
+    iv_contentBackView.frame = CGRectMake(growingTextView.frame.origin.x, growingTextView.frame.origin.y, growingTextView.frame.size.width, height);
 }
 
 - (BOOL)growingTextViewShouldBeginEditing:(HPGrowingTextView *)growingTextView;{
@@ -231,6 +268,10 @@
         }];
     }
     return YES;
+}
+
+- (void)growingTextViewDidChange:(HPGrowingTextView *)growingTextView;{
+        lb_textcount.text = [NSString stringWithFormat:@"还可以输入%d字",100-growingTextView.text.length];
 }
 
 
@@ -248,6 +289,10 @@
 }
 
 -(void)dealloc{
+    NSNotificationCenter *notification = [NSNotificationCenter defaultCenter];
+    [notification removeObserver:self
+                            name:UIKeyboardWillHideNotification
+                          object:nil];
     [panGestureRecognizer release];
     [_step release];
     [super dealloc];
@@ -265,11 +310,24 @@
     [self upImage];
 }
 
-
-
 @end
 
 @implementation StepMinView
+
+-(void)upImage;{
+    NSData *data = (NSData *)[[ShareVaule shareInstance].stepImageDic objectForKey:self.step];
+    if (data) {
+        [imageView setImage:[UIImage imageWithData:data]];
+    }else{
+        [imageView setImageWithURL:[NSURL URLWithString:self.step.photo.url]];
+    }
+}
+
+-(void)handleNotification:(NSNotification *)notification{
+    if ([notification.name isEqual:NOTIFICATION_ORDINALCHANGE]) {
+        lb_step.text = [NSString stringWithFormat:@"%d",self.step.ordinal];
+    }
+}
 
 -(id)initWithFrame:(CGRect)frame{
     self = [super initWithFrame:frame];
@@ -277,6 +335,7 @@
 //        self.backgroundColor = [UIColor clearColor];
 //        self.layer.cornerRadius = 6;
 //        self.layer.masksToBounds = YES;
+        [self observeNotification:NOTIFICATION_ORDINALCHANGE];
     }
     return self;
 }
@@ -285,7 +344,7 @@
     [super setFrame:frame];
     backImageView.frame = CGRectMake(0, 0, frame.size.width, frame.size.height);
     tagImageView.frame = CGRectMake(0, 15, 25, 25);
-    lb_step.frame = CGRectMake(10, 20, 15, 20);
+    lb_step.frame = CGRectMake(10, 15, 15, 20);
     btn_comment.frame = CGRectZero;
     lb_comment.frame = CGRectZero;
     if (self.step.photo.url){
@@ -302,6 +361,7 @@
     lb_step.text = [NSString stringWithFormat:@"%d",step.ordinal];
     if (step.photo.url) {
         lb_text.font = [UIFont systemFontOfSize:11];
+        [self upImage];
     }else{
         [imageView setImage:nil];
         lb_text.font = [UIFont systemFontOfSize:14];
@@ -310,6 +370,11 @@
 
 -(void)imageTap{
    
+}
+
+-(void)dealloc{
+    [self unobserveNotification:NOTIFICATION_ORDINALCHANGE];
+    [super dealloc];
 }
 
 @end

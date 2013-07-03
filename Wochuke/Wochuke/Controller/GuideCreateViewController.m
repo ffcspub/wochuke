@@ -52,7 +52,7 @@
 -(void)handleNotification:(NSNotification *)notification{
     if ([notification is:StepPreviewController.TAP]) {
         NSNumber *index = (NSNumber *)notification.object;
-        [_pagedFlowView scrollToPage:[index integerValue]];
+        [_pagedFlowView scrollToPage:[index integerValue] animation:NO];
     }
 }
 
@@ -78,7 +78,7 @@
 
 
 -(void)scrollToIndex:(int)index;{
-    [_pagedFlowView scrollToPage:index];
+    [_pagedFlowView scrollToPage:index animation:NO];
 }
 
 
@@ -146,6 +146,25 @@
     [sheet release];
 }
 
+-(void)delBtnClickedFromStepEditView:(StepEditView *)editView{
+    _editView = editView;
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"确定要删除该步骤?" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"删除", nil];
+    [alert show];
+    [alert release];
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 1)
+    {
+        JCStep *step = _editView.step;
+        [[ShareVaule shareInstance] removeStep:step];
+        _editView = nil;
+        [_pagedFlowView reloadData];
+    }
+}
+
+
 #pragma mark -UIActionSheetDelegate
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex;{
     if (buttonIndex == 0) {
@@ -199,7 +218,7 @@
     NSData *blobImage = UIImageJPEGRepresentation(croppedImage, kImageCompressRate);//圖片壓縮為NSData
     if (_editView) {
         JCStep *step = _editView.step;
-        [[ShareVaule shareInstance].stepImageDic setObject:blobImage forKey:[NSNumber numberWithInt:step.ordinal]];
+        [[ShareVaule shareInstance].stepImageDic setObject:blobImage forKey:step];
         [_editView upImage];
         _editView = nil;
     }

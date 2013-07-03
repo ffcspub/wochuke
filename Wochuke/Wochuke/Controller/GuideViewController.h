@@ -16,9 +16,18 @@
 
 @property(nonatomic,retain) JCGuide *guide;
 
+
 - (IBAction)popAction:(id)sender;
 
 - (IBAction)showPreviewAction:(id)sender;
+
+@property (retain, nonatomic) IBOutlet UIButton *btn_comment;
+
+@property (retain, nonatomic) IBOutlet UIButton *btn_share;
+
+@property (retain, nonatomic) IBOutlet UIButton *btn_like;
+
+@property (retain, nonatomic) IBOutlet UIButton *btn_driver;
 
 @end
 

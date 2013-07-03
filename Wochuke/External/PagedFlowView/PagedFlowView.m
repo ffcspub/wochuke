@@ -395,19 +395,25 @@
     return cell;
 }
 
-- (void)scrollToPage:(NSUInteger)pageNumber {
+- (void)scrollToPage:(NSUInteger)pageNumber animation:(BOOL)animation{
     if (pageNumber < _pageCount) {
         switch (orientation) {
             case PagedFlowViewOrientationHorizontal:
-                [_scrollView setContentOffset:CGPointMake(_pageSize.width * pageNumber, 0) animated:YES];
+                [_scrollView setContentOffset:CGPointMake(_pageSize.width * pageNumber, 0) animated:animation];
                 break;
             case PagedFlowViewOrientationVertical:
-                [_scrollView setContentOffset:CGPointMake(0, _pageSize.height * pageNumber) animated:YES];
+                [_scrollView setContentOffset:CGPointMake(0, _pageSize.height * pageNumber) animated:animation];
                 break;
         }
         [self setPagesAtContentOffset:_scrollView.contentOffset];
         [self refreshVisibleCellAppearance];
+        _currentPageIndex = pageNumber;
     }
+
+}
+
+- (void)scrollToPage:(NSUInteger)pageNumber {
+    [self scrollToPage:pageNumber animation:YES];
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

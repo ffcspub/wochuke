@@ -17,11 +17,23 @@
 
 
 @interface StepEditController (){
+    NSInteger _lastDeleteItemIndexAsked;
 }
 
 @end
 
 @implementation StepEditController
+
+//返回
+- (IBAction)backAction:(id)sender {
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+//发布
+- (IBAction)pulishAction:(id)sender {
+    
+    
+}
 
 -(void)setGuide:(JCGuide *)guide{
     if (_guide) {
@@ -89,10 +101,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.title = @"步骤总览";
-    [self.navigationController setNavigationBarHidden:NO];
     NSInteger spacing = 5;
-//    _girdView.actionDelegate = self;
+//    _girdView.enableEditOnLongPress = YES;
     _girdView.dataSource = self;
     _girdView.style = GMGridViewStylePush;
     _girdView.disableEditOnEmptySpaceTap = YES;
@@ -101,7 +111,7 @@
     _girdView.minEdgeInsets = UIEdgeInsetsMake(spacing, spacing, spacing, spacing);
     _girdView.centerGrid = NO;
     _girdView.sortingDelegate = self;
-    [_girdView reloadData];
+//    [_girdView reloadData];
     // Do any additional setup after loading the view from its nib.
 }
 
@@ -117,9 +127,11 @@
     [super viewDidUnload];
 }
 
--(void)viewWillDisappear:(BOOL)animated{
-    [self.navigationController setNavigationBarHidden:YES];
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [_girdView reloadData];
 }
+
 
 - (void)didReceiveMemoryWarning
 {
@@ -129,11 +141,17 @@
 
 #pragma mark -GMGridViewSortingDelegate
 - (void)GMGridView:(GMGridView *)gridView moveItemAtIndex:(NSInteger)oldIndex toIndex:(NSInteger)newIndex;{
-    
+    NSLog(@"%d<-->%d",oldIndex,newIndex);
+    [[ShareVaule shareInstance] moveStepFromIndex:oldIndex-2 toIndex:newIndex-2];
 }
 
 - (void)GMGridView:(GMGridView *)gridView exchangeItemAtIndex:(NSInteger)index1 withItemAtIndex:(NSInteger)index2;{
-    
+    [((NSMutableArray *)[ShareVaule shareInstance].editGuideEx.steps) exchangeObjectAtIndex:index1-2 withObjectAtIndex:index2 -2];
+}
+
+- (BOOL)GMGridView:(GMGridView *)gridView canDeleteItemAtIndex:(NSInteger)index
+{
+    return index>1; //index % 2 == 0;
 }
 
 
@@ -141,7 +159,11 @@
 - (void)GMGridView:(GMGridView *)gridView didTapOnItemAtIndex:(NSInteger)position;{
     GuideCreateViewController *guideCreateViewController = [[[GuideCreateViewController alloc]initWithNibName:@"GuideCreateViewController" bundle:nil]autorelease];
     [self.navigationController pushViewController:guideCreateViewController animated:YES];
-    [guideCreateViewController scrollToIndex:position];
+    double delayInSeconds = 0.2;
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        [guideCreateViewController scrollToIndex:position];
+    });
 }
 
 -(BOOL)GMGridView:(GMGridView *)gridView shouldAllowActionForItemAtIndex:(NSInteger)index{
@@ -153,14 +175,36 @@
     return YES;
 }
 
+
+- (void)GMGridView:(GMGridView *)gridView processDeleteActionForItemAtIndex:(NSInteger)index
+{
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"确定要删除该步骤?" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"删除", nil];
+    
+    [alert show];
+    
+    _lastDeleteItemIndexAsked = index;
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 1)
+    {
+        NSMutableArray *steps = (NSMutableArray *)[ShareVaule shareInstance].editGuideEx.steps;
+        
+        JCStep *oldStep = [steps objectAtIndex:_lastDeleteItemIndexAsked -2];
+        [[ShareVaule shareInstance]removeStep:oldStep];
+        [_girdView removeObjectAtIndex:_lastDeleteItemIndexAsked withAnimation:GMGridViewItemAnimationFade];
+    }
+}
+
 #pragma mark -GMGridViewDataSource
 
 - (NSInteger)numberOfItemsInGMGridView:(GMGridView *)gridView
 {
     if ([ShareVaule shareInstance].editGuideEx.supplies.count>0) {
-        return [ShareVaule shareInstance].editGuideEx.supplies.count + 2;
+        return [ShareVaule shareInstance].editGuideEx.steps.count + 2;
     }
-    return [ShareVaule shareInstance].editGuideEx.supplies.count + 1;
+    return [ShareVaule shareInstance].editGuideEx.steps.count + 1;
 }
 
 - (CGSize)GMGridView:(GMGridView *)gridView sizeForItemsInInterfaceOrientation:(UIInterfaceOrientation)orientation

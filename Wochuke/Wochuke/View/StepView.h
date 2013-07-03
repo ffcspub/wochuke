@@ -34,9 +34,12 @@
     UIImageView *tagImageView;
     UILabel *lb_step;
     MyWebImgView *imageView;
+    UIImageView *iv_contentBackView;
     HPGrowingTextView *tv_text;
     CGPoint oldCenter;
     UIPanGestureRecognizer *panGestureRecognizer;
+    UILabel *lb_textcount;
+    UIButton *btn_del;
 }
 
 @property(nonatomic,assign) id<StepEditViewDelegate> delegate;
@@ -50,6 +53,7 @@
 
 @optional
 -(void)imageTapFromStepEditView:(StepEditView *)editView;
+-(void)delBtnClickedFromStepEditView:(StepEditView *)editView;
 @end
 
 @interface StepMinView : StepView

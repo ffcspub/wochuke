@@ -17,13 +17,17 @@
 @interface GuideInfoView : UIView<HPGrowingTextViewDelegate>{
     UIImageView *backImageView;
     UIImageView *backTopImageView;
+    UIImageView *tagImageView;
+    UILabel *lb_tag;
     HPGrowingTextView *tv_title;
     MyWebImgView *iv_photo;
     UILabel *lb_publisher;
     UIButton *btn_viewCount;
     UIButton *btn_favoriteCount;
     UIButton *btn_commentCount;
+    UIImageView *iv_contentBackView;
     HPGrowingTextView *tv_content;
+    
 }
 
 @property(nonatomic,retain) JCGuide *guide;
@@ -36,6 +40,7 @@
     HPGrowingTextView *tv_title;
     MyWebImgView *iv_photo;
     UILabel *lb_publisher;
+    UIImageView *iv_contentBackView;
     HPGrowingTextView *tv_content;
     UILabel *lb_empty;
     UIKeyboardViewController *keyBoardController;

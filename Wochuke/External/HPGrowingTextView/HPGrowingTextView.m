@@ -304,6 +304,7 @@
 			
 		} else {
 			internalTextView.scrollEnabled = NO;
+            
 		}
 		
 	}

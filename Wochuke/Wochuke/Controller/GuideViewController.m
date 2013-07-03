@@ -14,7 +14,8 @@
 #import "SuppliesView.h"
 #import "StepView.h"
 #import "StepPreviewController.h"
-#import "StepEditController.h"
+#import "JSBadgeView.h"
+//#import "StepEditController.h"
 
 @interface GuideViewController (){
     JCGuideDetail *_detail;
@@ -81,6 +82,11 @@
     _pagedFlowView.dataSource = self;
     _pagedFlowView.minimumPageAlpha = 0.3;
     _pagedFlowView.minimumPageScale = 0.9;
+    if (_guide.commentCount>0) {
+        JSBadgeView *badgeView = [[[JSBadgeView alloc] initWithParentView:_btn_comment alignment:JSBadgeViewAlignmentTopRight]autorelease];
+        badgeView.badgePositionAdjustment = CGPointMake(-10, 10);
+        badgeView.badgeText = [NSString stringWithFormat:@"%d", _guide.commentCount];
+    }
     [self observeNotification:StepPreviewController.TAP];
     [self loadDetail];
     // Do any additional setup after loading the view from its nib.
@@ -94,7 +100,7 @@
 -(void)handleNotification:(NSNotification *)notification{
     if ([notification is:StepPreviewController.TAP]) {
         NSNumber *index = (NSNumber *)notification.object;
-        [_pagedFlowView scrollToPage:[index integerValue]];
+        [_pagedFlowView scrollToPage:[index integerValue] animation:NO];
     }
 }
 
@@ -106,11 +112,19 @@
 
 - (void)dealloc {
     [_pagedFlowView release];
+    [_btn_comment release];
+    [_btn_share release];
+    [_btn_like release];
+    [_btn_driver release];
     [super dealloc];
 }
 
 - (void)viewDidUnload {
     [self setPagedFlowView:nil];
+    [self setBtn_comment:nil];
+    [self setBtn_share:nil];
+    [self setBtn_like:nil];
+    [self setBtn_driver:nil];
     [super viewDidUnload];
 }
 
@@ -127,7 +141,7 @@
 
 
 #pragma mark -PagedFlowViewDelegate
-- (CGSize)sizeForPageInFlowView:(PagedFlowView *)flowView;{
+- (CGSize)sizeForPageInFlowView:(PagedFlowView *)flowView{
     return  CGSizeMake(flowView.frame.size.width - 50, flowView.frame.size.height - 10);
 }
 
@@ -142,7 +156,7 @@
 }
 
 //返回给某列使用的View
-- (UIView *)flowView:(PagedFlowView *)flowView cellForPageAtIndex:(NSInteger)index;{
+- (UIView *)flowView:(PagedFlowView *)flowView cellForPageAtIndex:(NSInteger)index{
     if (index == 0) {
         GuideInfoView *view = (GuideInfoView *)[flowView dequeueReusableCellWithClass:[GuideInfoView class]];
         if (!view) {

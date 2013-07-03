@@ -76,6 +76,7 @@ typedef enum{
 
 - (void)scrollToPage:(NSUInteger)pageNumber;
 
+- (void)scrollToPage:(NSUInteger)pageNumber animation:(BOOL)animation;
 @end
 
 
