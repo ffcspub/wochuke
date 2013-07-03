@@ -99,6 +99,7 @@
     }
     pageIndex = 0;
     [self loadDatas];
+    
 }
 
 -(void)loadTopics{
