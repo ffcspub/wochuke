@@ -180,7 +180,6 @@
         i++;
     }
     _scrollView.contentSize = CGSizeMake(_scrollView.frame.size.width, y_begin);
-
 }
 
 -(void)loadHotWords{
@@ -191,13 +190,14 @@
         id<JCAppIntfPrx> proxy = [[ICETool shareInstance] createProxy];
         @try {
             NSMutableArray *array = [proxy getHotWordList];
-            [SVProgressHUD dismiss];
-            if (_hotWords.count > 0) {
-                [[NSUserDefaults standardUserDefaults]setObject:array forKey:@"HotWordList"];
-                [_hotWords removeAllObjects];
-                [_hotWords addObjectsFromArray:array];
-                [self addHotWordBtns];
-            }
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [SVProgressHUD dismiss];
+                if (array.count > 0) {
+                    [_hotWords removeAllObjects];
+                    [_hotWords addObjectsFromArray:array];
+                    [self addHotWordBtns];
+                }
+            });
         }
         @catch (ICEException *exception) {
             if ([exception isKindOfClass:[JCGuideException class]]) {
@@ -284,13 +284,11 @@
 
     [self.view addSubview:_tableView];
     
-    
-    
-    NSArray *array = [[NSUserDefaults standardUserDefaults]arrayForKey:@"HotWordList"];
-    if (array) {
-        [_hotWords addObjectsFromArray:array];
-        [self addHotWordBtns];
-    }
+//    NSArray *array = [[NSUserDefaults standardUserDefaults]arrayForKey:@"HotWordList"];
+//    if (array) {
+//        [_hotWords addObjectsFromArray:array];
+//        [self addHotWordBtns];
+//    }
     [self.view bringSubviewToFront:_scrollView];
     [self loadHotWords];
     _datas = [[NSMutableArray alloc]init];

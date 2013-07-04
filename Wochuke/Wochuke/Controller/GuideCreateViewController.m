@@ -100,10 +100,7 @@
 #pragma mark -PagedFlowViewDataSource
 //返回显示View的个数
 - (NSInteger)numberOfPagesInFlowView:(PagedFlowView *)flowView{
-    if ([ShareVaule shareInstance].editGuideEx.supplies.count>0) {
-        return [ShareVaule shareInstance].editGuideEx.steps.count + 2;
-    }
-    return [ShareVaule shareInstance].editGuideEx.steps.count + 1;
+    return [ShareVaule shareInstance].editGuideEx.steps.count + 2;
 }
 
 //返回给某列使用的View
@@ -114,7 +111,7 @@
             view = [[[GuideEditView alloc]init]autorelease];
         }
         return view;
-    }else if([ShareVaule shareInstance].editGuideEx.supplies.count>0 && index == 1){
+    }else if(index == 1){
         SuppliesView *view = (SuppliesView *)[flowView dequeueReusableCellWithClass:[SuppliesView class]];
         if (!view) {
             view = [[[SuppliesView alloc]init]autorelease];
@@ -127,10 +124,7 @@
             view = [[[StepEditView alloc]init]autorelease];
             view.delegate = self;
         }
-        int indextemp = index - 1;
-        if ([ShareVaule shareInstance].editGuideEx.supplies.count>0) {
-            indextemp = index - 2;
-        }
+        int indextemp = index - 2;
         view.step = [[ShareVaule shareInstance].editGuideEx.steps objectAtIndex:indextemp];
         return view;
     }

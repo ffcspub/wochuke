@@ -247,7 +247,6 @@
         tv_content.placeholder = @"指南简介";
         tv_content.placeholderColor = [UIColor grayColor];
         tv_content.delegate = self;
-        tv_content.minHeight = 100;
         
         self.backgroundColor = [UIColor clearColor];
         [self addSubview:backImageView];
@@ -331,9 +330,9 @@
 
 -(void)setFrame:(CGRect)frame{
     [super setFrame:frame];
-    iv_photo.frame = CGRectMake((frame.size.width - 30)/2, 40, 30 , 30);
-    tv_title.frame = CGRectMake(0, 10, frame.size.width, 30);
-    lb_publisher.frame = CGRectMake(0, 80, frame.size.width, 20);
+    iv_photo.frame = CGRectMake((frame.size.width - 30)/2, 60, 30 , 30);
+    tv_title.frame = CGRectMake(0, 10, frame.size.width, 50);
+    lb_publisher.frame = CGRectMake(0, 95, frame.size.width, 20);
     btn_viewCount.frame = CGRectZero;
     btn_favoriteCount.frame = CGRectZero;
     btn_commentCount.frame = CGRectZero;
@@ -376,8 +375,11 @@
         [iv_photo setImageWithURL:[NSURL URLWithString:_guide.cover.url]];
         lb_publisher.text = [NSString stringWithFormat:@"by %@",_guide.userName];
         [btn_viewCount setTitle:[NSString stringWithFormat:@"%d",_guide.viewCount] forState:UIControlStateNormal];
+        [btn_viewCount setImage:[UIImage imageNamed:@"ic_classify_list_read"] forState:UIControlStateNormal];
         [btn_favoriteCount setTitle:[NSString stringWithFormat:@"%d",_guide.favoriteCount] forState:UIControlStateNormal];
+        [btn_favoriteCount setImage:[UIImage imageNamed:@"ic_classify_list_like"] forState:UIControlStateNormal];
         [btn_commentCount setTitle:[NSString stringWithFormat:@"%d",_guide.commentCount] forState:UIControlStateNormal];
+        [btn_commentCount setImage:[UIImage imageNamed:@"ic_classify_list_comment"] forState:UIControlStateNormal];
     }
 }
 
@@ -442,7 +444,6 @@
 - (void)layoutInBound:(CGSize)bound forCell:(BeeUIGridCell *)cell
 {
     backImageView.frame = CGRectZero;
-    
     iv_photo.frame = CGRectMake(10, 10, 50, 50);
     lb_title.frame = CGRectMake(70, 10, bound.width - 60 - 14, 30);
     line.frame = CGRectZero;
@@ -456,11 +457,11 @@
 {
     [super load];
     iv_photo.layer.cornerRadius = 4;
-    self.backgroundColor = [UIColor whiteColor];
+    self.backgroundColor = [UIColor clearColor];
     line.backgroundColor = [UIColor grayColor];
     lb_publisher.textColor = [UIColor grayColor];
     lb_publisher.font = [UIFont systemFontOfSize:10];
-    lb_title.font = [UIFont boldSystemFontOfSize:16];
+    lb_title.font = [UIFont boldSystemFontOfSize:14];
     lb_title.numberOfLines = 2;
     lb_title.textColor = [UIColor darkTextColor];
     [btn_commentCount setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];

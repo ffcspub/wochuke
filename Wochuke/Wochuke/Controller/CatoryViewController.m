@@ -19,6 +19,60 @@
 #import "SearchViewController.h"
 #import "GuideListViewController.h"
 
+@interface CatoryCell : BeeUIGridCell{
+    UIImageView *imageView;
+    UILabel *lb_title;
+    UIView *line;
+}
+
+@end
+
+@implementation CatoryCell
+
++ (CGSize)sizeInBound:(CGSize)bound forData:(NSObject *)data
+{
+	return bound;
+}
+
+- (void)layoutInBound:(CGSize)bound forCell:(BeeUIGridCell *)cell
+{
+    imageView.frame = CGRectMake(5, 5, bound.height - 10, bound.height -10);
+    lb_title.frame = CGRectMake(5 + bound.height - 10 + 10, 5, bound.width - (bound.height -10) - 10, bound.height -10);
+    line.frame = CGRectMake(0, bound.height - 0.5, bound.width, 0.5);
+}
+
+- (void)dataDidChanged
+{
+    if (self.cellData) {
+        JCType *type = self.cellData;
+        [imageView setImageWithURL:[NSURL URLWithString:type.cover.url]];
+        lb_title.text = type.name;
+    }
+}
+
+- (void)load
+{
+    imageView = [[[UIImageView alloc]init]autorelease];
+    
+    lb_title = [[[UILabel alloc]init]autorelease];
+    lb_title.font = [UIFont boldSystemFontOfSize:13];
+    lb_title.backgroundColor = [UIColor clearColor];
+    lb_title.textColor = [UIColor darkTextColor];
+    lb_title.textAlignment = UITextAlignmentLeft;
+    lb_title.numberOfLines = 2;
+    
+    line = [[[UIView alloc]init]autorelease];
+    line.backgroundColor = [UIColor grayColor];
+    
+    [self addSubview:imageView];
+    [self addSubview:lb_title];
+    [self addSubview:line];
+}
+
+
+@end
+
+
 @interface CatoryViewController (){
     int filter;
     NSMutableArray * _datas;
@@ -150,8 +204,10 @@
 -(void)loadDatas{
     if (filter == 0) {
         [self loadTypes];
+        _tableView.backgroundColor = [UIColor whiteColor];
     }else{
         [self loadGuides];
+        _tableView.backgroundColor = [UIColor clearColor];
     }
 }
 
@@ -307,22 +363,15 @@
     _datas = [[NSMutableArray alloc]init];
     _types = [[NSMutableArray alloc]init];
     _topics = [[NSMutableArray alloc]init];
-//    NSArray *array = [NSArray arrayWithContentsOfFile:[NSString stringWithFormat:@"%@%@",NSTemporaryDirectory(),KEY_TYPELIST]];
-////    [[NSUserDefaults standardUserDefaults]arrayForKey:KEY_TYPELIST];
-//    if (array) {
-//        [_types addObjectsFromArray:array];
-//    }else{
-//        [self loadTypes];
-//    }
+    [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"bg_classify"]]];
+//    [_navBar setBackgroundImage:[UIImage imageNamed:@"bg_classify_top"] forBarMetrics:UIBarMetricsDefault];
     
-        
     [self.tableView addInfiniteScrollingWithActionHandler:^{
         [self loadDatas];
     }];
     [self.tableView addPullToRefreshWithActionHandler:^{
         [self reloadDatas];
     }];
-    
     [self.tableView.pullToRefreshView setTitle:@"松开刷新" forState:SVPullToRefreshStateAll];
     [self.tableView.pullToRefreshView setTitle:@"下拉刷新" forState:SVPullToRefreshStateTriggered];
     [self.tableView.pullToRefreshView setTitle:@"正在加载" forState:SVPullToRefreshStateLoading];
@@ -348,6 +397,10 @@
     [_pageControl release];
     [_lb_topic release];
     [_topView release];
+    [_navBar release];
+    [_btn_catory release];
+    [_btn_hot release];
+    [_btn_news release];
     [super dealloc];
 }
 
@@ -360,12 +413,30 @@
     [self setPageControl:nil];
     [self setLb_topic:nil];
     [self setTopView:nil];
+    [self setNavBar:nil];
+    [self setBtn_catory:nil];
+    [self setBtn_hot:nil];
+    [self setBtn_news:nil];
     [super viewDidUnload];
 }
 
+-(void)btnImageSet{
+    [_btn_catory setBackgroundImage:[UIImage imageNamed:@"btn_classify_top_1"] forState:UIControlStateNormal];
+    [_btn_hot setBackgroundImage:[UIImage imageNamed:@"btn_classify_top_2"] forState:UIControlStateNormal];
+    [_btn_news setBackgroundImage:[UIImage imageNamed:@"btn_classify_top_3"] forState:UIControlStateNormal];
+    if (filter == 0) {
+        [_btn_catory setBackgroundImage:[UIImage imageNamed:@"btn_classify_top_1_pressed"] forState:UIControlStateNormal];
+    }else if(filter == 1){
+         [_btn_hot setBackgroundImage:[UIImage imageNamed:@"btn_classify_top_2_pressed"] forState:UIControlStateNormal];
+    }else if(filter == 2){
+        [_btn_news setBackgroundImage:[UIImage imageNamed:@"btn_classify_top_3_pressed"] forState:UIControlStateNormal];
+    }
+}
+
 - (IBAction)catoryChangAction:(id)sender {
-    UISegmentedControl *control = (UISegmentedControl *)sender;
-    filter = control.selectedSegmentIndex;
+    UIButton *btn = (UIButton *)sender;
+    filter = btn.tag;
+    [self btnImageSet];
     [self reloadDatas];
 }
 
@@ -401,16 +472,9 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *cell = nil;
     if (filter == 0) {
-        cell = [tableView dequeueReusableCellWithIdentifier:@"TYPECELL"];
-        if (!cell) {
-            cell = [[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"TYPECELL"]autorelease];
-            cell.textLabel.font = [UIFont systemFontOfSize:13];
-            cell.textLabel.textColor = [UIColor darkTextColor];
-            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        }
-        JCType *type = [_types objectAtIndex:indexPath.row];
-        [cell.imageView setImageWithURL:[NSURL URLWithString:type.cover.url]];
-        cell.textLabel.text = type.name;
+        cell = [tableView dequeueReusableCellWithBeeUIGirdCellClass:[CatoryCell class]];
+        cell.gridCell.cellData = [_types objectAtIndex:indexPath.row];
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }else{
         cell = [tableView dequeueReusableCellWithBeeUIGirdCellClass:[GuideInfoCell class]];
         cell.gridCell.cellData = [_datas objectAtIndex:indexPath.row];
@@ -422,7 +486,7 @@
 
 #pragma mark -UITableViewDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (filter == 0) return 46;
+    if (filter == 0) return 50;
     return [GuideInfoCell sizeInBound:CGSizeMake(320, 250) forData:[_datas objectAtIndex:indexPath.row]].height;
 }
 

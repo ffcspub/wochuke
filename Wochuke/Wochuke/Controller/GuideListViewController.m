@@ -40,6 +40,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"bg_classify"]]];
     NSMutableArray *array = [NSMutableArray array];
     if (_type) {
         UINavigationItem *item = [[[UINavigationItem alloc]initWithTitle:_type.name]autorelease];

@@ -45,7 +45,7 @@
         lb_type.textColor = [UIColor whiteColor];
         
         lb_name = [[[UILabel alloc]init]autorelease];
-        lb_name.font = [UIFont systemFontOfSize:16];
+        lb_name.font = [UIFont boldSystemFontOfSize:16];
         lb_name.backgroundColor = [UIColor clearColor];
         lb_name.textColor = [UIColor whiteColor];
         lb_name.numberOfLines = 2;

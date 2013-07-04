@@ -40,7 +40,7 @@
     reloadView.action = action;
     [reloadView setTitle:message];
     UITapGestureRecognizer* singleRecognizer;  
-    singleRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTapFrom:)];
+    singleRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:reloadView action:@selector(handleSingleTapFrom:)];
     singleRecognizer.numberOfTapsRequired = 1; // 单击  
     [reloadView addGestureRecognizer:singleRecognizer];  
     [view addSubview:reloadView];

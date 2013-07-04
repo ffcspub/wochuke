@@ -201,10 +201,7 @@
 
 - (NSInteger)numberOfItemsInGMGridView:(GMGridView *)gridView
 {
-    if ([ShareVaule shareInstance].editGuideEx.supplies.count>0) {
-        return [ShareVaule shareInstance].editGuideEx.steps.count + 2;
-    }
-    return [ShareVaule shareInstance].editGuideEx.steps.count + 1;
+    return [ShareVaule shareInstance].editGuideEx.steps.count + 2;
 }
 
 - (CGSize)GMGridView:(GMGridView *)gridView sizeForItemsInInterfaceOrientation:(UIInterfaceOrientation)orientation
@@ -231,7 +228,7 @@
             view.guide = _guide;
             cell.contentView = view;
         }
-    }else if([ShareVaule shareInstance].editGuideEx.supplies.count >0 && index == 1){
+    }else if(index == 1){
         cell = [gridView dequeueReusableCellWithIdentifier:@"SUPPLIESCELL"];
         if (!cell)
         {
@@ -255,10 +252,7 @@
             cell.contentView = view;
         }
         StepView *view = (StepView *)cell.contentView;
-        int indextemp = index - 1;
-        if ([ShareVaule shareInstance].editGuideEx.supplies.count>0) {
-            indextemp = index - 2;
-        }
+        int indextemp = index - 2;
         view.step = [[ShareVaule shareInstance].editGuideEx.steps objectAtIndex:indextemp];
     }
     return cell;

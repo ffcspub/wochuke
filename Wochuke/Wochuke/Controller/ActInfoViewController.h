@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TopViewController.h"
 
-@interface ActInfoViewController : UIViewController
+@interface ActInfoViewController : TopViewController
 
 @property (retain, nonatomic) IBOutlet UITableView *tableView;
 

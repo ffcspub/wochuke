@@ -156,7 +156,7 @@
 
 #pragma mark -PagedFlowViewDelegate
 - (CGSize)sizeForPageInFlowView:(PagedFlowView *)flowView;{
-    return  CGSizeMake(220, 304);
+    return  CGSizeMake(flowView.frame.size.width/5*4, flowView.frame.size.height/8*7);
 }
 
 - (void)flowView:(PagedFlowView *)flowView didTapPageAtIndex:(NSInteger)index;{
