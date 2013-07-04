@@ -44,6 +44,7 @@
 								<int key="NSvFlags">292</int>
 								<string key="NSFrameSize">{80, 40}</string>
 								<reference key="NSSuperview" ref="1014472037"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="857765698"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
@@ -82,6 +83,7 @@
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{80, 0}, {80, 40}}</string>
 								<reference key="NSSuperview" ref="1014472037"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="956236665"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
@@ -107,6 +109,7 @@
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{160, 0}, {80, 40}}</string>
 								<reference key="NSSuperview" ref="1014472037"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="693556826"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
@@ -122,7 +125,7 @@
 								<reference key="IBUINormalTitleShadowColor" ref="79305683"/>
 								<object class="NSCustomResource" key="IBUINormalBackgroundImage">
 									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">bg_home_search_bottom.png</string>
+									<string key="NSResourceName">bg_home_activity_bottom.png</string>
 								</object>
 								<reference key="IBUIFontDescription" ref="562486218"/>
 								<reference key="IBUIFont" ref="69146513"/>
@@ -132,6 +135,7 @@
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{240, 0}, {80, 40}}</string>
 								<reference key="NSSuperview" ref="1014472037"/>
+								<reference key="NSWindow"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<int key="IBUITag">4</int>
@@ -154,6 +158,7 @@
 						</array>
 						<string key="NSFrame">{{0, 420}, {320, 40}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="806741494"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<object class="NSColor" key="IBUIBackgroundColor">
@@ -168,6 +173,7 @@
 				</array>
 				<string key="NSFrame">{{0, 20}, {320, 460}}</string>
 				<reference key="NSSuperview"/>
+				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="1014472037"/>
 				<object class="NSColor" key="IBUIBackgroundColor">
 					<int key="NSColorSpace">3</int>
@@ -360,15 +366,84 @@
 			<nil key="sourceID"/>
 			<int key="maxID">76</int>
 		</object>
-		<object class="IBClassDescriber" key="IBDocument.Classes"/>
+		<object class="IBClassDescriber" key="IBDocument.Classes">
+			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
+				<object class="IBPartialClassDescription">
+					<string key="className">MainViewController</string>
+					<string key="superclassName">UIViewController</string>
+					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="catoryAction:">id</string>
+						<string key="mineAction:">id</string>
+						<string key="searchAction:">id</string>
+						<string key="showControllerView:">id</string>
+						<string key="typeAction:">id</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="catoryAction:">
+							<string key="name">catoryAction:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="mineAction:">
+							<string key="name">mineAction:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="searchAction:">
+							<string key="name">searchAction:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="showControllerView:">
+							<string key="name">showControllerView:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="typeAction:">
+							<string key="name">typeAction:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="btn_catory">UIButton</string>
+						<string key="btn_mine">UIButton</string>
+						<string key="btn_search">UIButton</string>
+						<string key="btn_type">UIButton</string>
+						<string key="toolBar">UIView</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="btn_catory">
+							<string key="name">btn_catory</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="btn_mine">
+							<string key="name">btn_mine</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="btn_search">
+							<string key="name">btn_search</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="btn_type">
+							<string key="name">btn_type</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="toolBar">
+							<string key="name">toolBar</string>
+							<string key="candidateClassName">UIView</string>
+						</object>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/MainViewController.h</string>
+					</object>
+				</object>
+			</array>
+		</object>
 		<int key="IBDocument.localizationMode">0</int>
 		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaTouchFramework</string>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
+			<string key="bg_home_activity_bottom.png">{80, 40}</string>
 			<string key="bg_home_classify_bottom.png">{80, 40}</string>
 			<string key="bg_home_good_bottom_pressed.png">{80, 40}</string>
-			<string key="bg_home_search_bottom.png">{80, 40}</string>
 			<string key="bg_home_user_bottom.png">{80, 40}</string>
 		</dictionary>
 		<string key="IBCocoaTouchPluginVersion">2083</string>

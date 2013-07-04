@@ -91,6 +91,10 @@
 		188C657E177C3130000AD55F /* GuideCreateViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 188C657C177C3130000AD55F /* GuideCreateViewController.xib */; };
 		188C6582177C3F92000AD55F /* KxMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 188C6581177C3F92000AD55F /* KxMenu.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		188EE41917841C0E005E577A /* CycleScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 188EE41817841C0E005E577A /* CycleScrollView.m */; };
+		188EE41D17845020005E577A /* ActInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 188EE41B17845020005E577A /* ActInfoViewController.m */; };
+		188EE41E17845020005E577A /* ActInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 188EE41C17845020005E577A /* ActInfoViewController.xib */; };
+		188EE422178463F2005E577A /* GuideListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 188EE420178463EE005E577A /* GuideListViewController.m */; };
+		188EE423178463F2005E577A /* GuideListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 188EE421178463EF005E577A /* GuideListViewController.xib */; };
 		188F4A24177B013200B828F6 /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 188F4A22177B013200B828F6 /* SearchViewController.m */; };
 		188F4A25177B013200B828F6 /* SearchViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 188F4A23177B013200B828F6 /* SearchViewController.xib */; };
 		188F4A2B177B1D4000B828F6 /* UIKeyboardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 188F4A28177B1D4000B828F6 /* UIKeyboardView.m */; };
@@ -312,6 +316,12 @@
 		188C6581177C3F92000AD55F /* KxMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KxMenu.m; sourceTree = "<group>"; };
 		188EE41717841C0E005E577A /* CycleScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CycleScrollView.h; sourceTree = "<group>"; };
 		188EE41817841C0E005E577A /* CycleScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CycleScrollView.m; sourceTree = "<group>"; };
+		188EE41A17845020005E577A /* ActInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActInfoViewController.h; sourceTree = "<group>"; };
+		188EE41B17845020005E577A /* ActInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActInfoViewController.m; sourceTree = "<group>"; };
+		188EE41C17845020005E577A /* ActInfoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ActInfoViewController.xib; sourceTree = "<group>"; };
+		188EE41F178463EB005E577A /* GuideListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GuideListViewController.h; sourceTree = "<group>"; };
+		188EE420178463EE005E577A /* GuideListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GuideListViewController.m; sourceTree = "<group>"; };
+		188EE421178463EF005E577A /* GuideListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GuideListViewController.xib; sourceTree = "<group>"; };
 		188F4A21177B013200B828F6 /* SearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchViewController.h; sourceTree = "<group>"; };
 		188F4A22177B013200B828F6 /* SearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchViewController.m; sourceTree = "<group>"; };
 		188F4A23177B013200B828F6 /* SearchViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SearchViewController.xib; sourceTree = "<group>"; };
@@ -841,6 +851,12 @@
 				18950F80177D6D5E00578B12 /* SuppliesEditViewController.h */,
 				18950F81177D6D5E00578B12 /* SuppliesEditViewController.m */,
 				18950F82177D6D5E00578B12 /* SuppliesEditViewController.xib */,
+				188EE41A17845020005E577A /* ActInfoViewController.h */,
+				188EE41B17845020005E577A /* ActInfoViewController.m */,
+				188EE41C17845020005E577A /* ActInfoViewController.xib */,
+				188EE41F178463EB005E577A /* GuideListViewController.h */,
+				188EE420178463EE005E577A /* GuideListViewController.m */,
+				188EE421178463EF005E577A /* GuideListViewController.xib */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1024,6 +1040,8 @@
 				18FFAABF1782E1E600E1D571 /* textViewBoard.png in Resources */,
 				18FFAAC01782E1E600E1D571 /* textViewBoard@2x.png in Resources */,
 				18EFA9E51783D1F50020D455 /* close_x.png in Resources */,
+				188EE41E17845020005E577A /* ActInfoViewController.xib in Resources */,
+				188EE423178463F2005E577A /* GuideListViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1090,6 +1108,8 @@
 				18E8D8101782FF6600BD28CF /* NSObject+BeeProperty.m in Sources */,
 				18E8D8191783084F00BD28CF /* JSBadgeView.m in Sources */,
 				188EE41917841C0E005E577A /* CycleScrollView.m in Sources */,
+				188EE41D17845020005E577A /* ActInfoViewController.m in Sources */,
+				188EE422178463F2005E577A /* GuideListViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -16,4 +16,6 @@
 
 @property (retain, nonatomic) IBOutlet UISearchBar *searchBar;
 
+- (IBAction)backAction:(id)sender;
+
 @end

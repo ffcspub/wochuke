@@ -16,6 +16,8 @@
 #import "GuideViewController.h"
 #import "KxMenu.h"
 #import "UIImageView+WebCache.h"
+#import "SearchViewController.h"
+#import "GuideListViewController.h"
 
 @interface CatoryViewController (){
     int filter;
@@ -112,9 +114,10 @@
                 dispatch_async(dispatch_get_main_queue(), ^{
                     _pageControl.numberOfPages = list.count;
                     _pageControl.currentPage = 0;
-                    [_pageControl sizeToFit];
+                    CGSize size = [_pageControl sizeForNumberOfPages:list.count];
                     CGRect rect = _pageControl.frame;
-                    rect.origin.x = _imageScrollView.frame.size.width - rect.size.width - 10;
+                    rect.origin.x = _imageScrollView.frame.size.width - size.width - 10;
+                    rect.size.width = size.width;
                     _pageControl.frame = rect;
                     _imageScrollView.autoScrollAble = YES;
                     [_imageScrollView reloadData];
@@ -174,8 +177,10 @@
             }
             dispatch_async(dispatch_get_main_queue(), ^{
                 [SVProgressHUD dismiss];
+                [self.tableView setTableHeaderView:_topView];
                 [_tableView reloadData];
                 [self.tableView.infiniteScrollingView stopAnimating];
+                [self.tableView setShowsPullToRefresh:NO];
                 [self.tableView.pullToRefreshView stopAnimating];
                 if (!hasNextPage) {
                     [self.tableView setShowsInfiniteScrolling:NO];
@@ -233,6 +238,8 @@
                 [SVProgressHUD dismiss];
                 [_tableView reloadData];
                 [self.tableView.infiniteScrollingView stopAnimating];
+                [self.tableView setTableHeaderView:nil];
+                [self.tableView setShowsPullToRefresh:YES];
                 [self.tableView.pullToRefreshView stopAnimating];
                 if (!hasNextPage) {
                     [self.tableView setShowsInfiniteScrolling:NO];
@@ -275,6 +282,23 @@
     return self;
 }
 
+-(void)hideTopView{
+    [UIView animateWithDuration:0.5 animations:^{
+        _topView.frame = CGRectMake(_topView.frame.origin.x, -_topView.frame.size.height, _topView.frame.size.width, _topView.frame.size.height);
+    } completion:^(BOOL finished) {
+        [_topView setHidden:YES];
+    }];
+}
+
+-(void)showTopView{
+    [_topView setHidden:NO];
+    [UIView animateWithDuration:0.5 animations:^{
+        _topView.frame = CGRectMake(_topView.frame.origin.x, 48, _topView.frame.size.width, _topView.frame.size.height);
+    } completion:^(BOOL finished) {
+//        [_topView setHidden:YES];
+    }];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -291,8 +315,7 @@
 //        [self loadTypes];
 //    }
     
-    
-    
+        
     [self.tableView addInfiniteScrollingWithActionHandler:^{
         [self loadDatas];
     }];
@@ -321,10 +344,10 @@
     [_types release];
     [_topics release];
     [typeId release];
-    [_btn_type release];
     [_imageScrollView release];
     [_pageControl release];
     [_lb_topic release];
+    [_topView release];
     [super dealloc];
 }
 
@@ -333,10 +356,10 @@
     _datas = nil;
     _types = nil;
     typeId = nil;
-    [self setBtn_type:nil];
     [self setImageScrollView:nil];
     [self setPageControl:nil];
     [self setLb_topic:nil];
+    [self setTopView:nil];
     [super viewDidUnload];
 }
 
@@ -345,6 +368,23 @@
     filter = control.selectedSegmentIndex;
     [self reloadDatas];
 }
+
+- (IBAction)searchAction:(id)sender {
+    SearchViewController *vlc = [[SearchViewController alloc]initWithNibName:@"SearchViewController" bundle:nil];
+    [self.navigationController pushViewController:vlc animated:YES];
+    [vlc release];
+    
+}
+
+-(void)handleSingleTapFrom:(UIGestureRecognizer *)gestureRecognizer{
+    int tag = gestureRecognizer.view.tag;
+    JCTopic *topic = [_topics objectAtIndex:tag];
+    GuideListViewController *vlc = [[GuideListViewController alloc]initWithNibName:@"GuideListViewController" bundle:nil];
+    vlc.topic = topic;
+    [self.navigationController pushViewController:vlc animated:YES];
+    [vlc release];
+}
+
 
 //- (IBAction)typeChooseAction:(id)sender {
 //    [self showTypes];
@@ -379,6 +419,7 @@
     return cell;
 }
 
+
 #pragma mark -UITableViewDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (filter == 0) return 46;
@@ -387,13 +428,19 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath;{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    if (filter == 0) return ;
-    GuideViewController *vlc =[[[GuideViewController alloc]initWithNibName:@"GuideViewController" bundle:nil]autorelease];
-    JCGuide *guide = [_datas objectAtIndex:indexPath.row];
-    vlc.guide = guide;
-    [self.navigationController pushViewController:vlc animated:YES];
-    
+    if (filter == 0){
+        GuideListViewController *vlc = [[GuideListViewController alloc]initWithNibName:@"GuideListViewController" bundle:nil];
+        vlc.type = [_types objectAtIndex:indexPath.row];
+        [self.navigationController pushViewController:vlc animated:YES];
+        [vlc release];
+    }else{
+        GuideViewController *vlc =[[[GuideViewController alloc]initWithNibName:@"GuideViewController" bundle:nil]autorelease];
+        JCGuide *guide = [_datas objectAtIndex:indexPath.row];
+        vlc.guide = guide;
+        [self.navigationController pushViewController:vlc animated:YES];
+    }
 }
+
 
 #pragma mark - CycleScrollViewDelegate
 - (void)cycleScrollView:(CycleScrollView *)cycleScrollView didScrollView:(int)index;{
@@ -406,9 +453,15 @@
 - (UIView *)cycleScrollView:(CycleScrollView *)cycleScrollView viewAtPage:(NSInteger)page{
     
     JCTopic *topic = [_topics objectAtIndex:page];
-    
-    UIImageView *imageView = [[[UIImageView alloc]initWithFrame:CGRectMake(0, 0, cycleScrollView.frame.size.width, cycleScrollView.frame.size.height)]autorelease];
+    UIImageView *imageView = [[[MyWebImgView alloc]initWithFrame:CGRectMake(0, 0, cycleScrollView.frame.size.width, cycleScrollView.frame.size.height)]autorelease];
+    imageView.tag = page;
+//    imageView.contentMode = UIViewContentModeScaleAspectFill;
     [imageView setImageWithURL:[NSURL URLWithString:topic.cover.url]];
+    imageView.userInteractionEnabled = YES;
+    UITapGestureRecognizer* singleRecognizer;  
+    singleRecognizer = [[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTapFrom:)]autorelease];
+    singleRecognizer.numberOfTapsRequired = 1; // 单击  
+    [imageView addGestureRecognizer:singleRecognizer]; 
      return imageView;
 }
 

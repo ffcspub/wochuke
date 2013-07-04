@@ -33,7 +33,7 @@
     
     CGSize contentSize = [_guide.description_ sizeWithFont:[UIFont systemFontOfSize:12] constrainedToSize:CGSizeMake(frame.size.width - 30 -16.0, 1000)];
     
-    tv_content.frame = CGRectMake(15, 180, contentSize.width +16.0, MIN(contentSize.height + 16.0, frame.size.height - 180 - 30));
+    tv_content.frame = CGRectMake(15, 190, frame.size.width - 30, MIN(contentSize.height + 16.0, frame.size.height - 190 - 30));
     iv_contentBackView.frame = tv_content.frame;
     
 }
@@ -155,6 +155,13 @@
     [btn_viewCount setTitle:[NSString stringWithFormat:@"%d",_guide.viewCount] forState:UIControlStateNormal];
     [btn_favoriteCount setTitle:[NSString stringWithFormat:@"%d",_guide.favoriteCount] forState:UIControlStateNormal];
     [btn_commentCount setTitle:[NSString stringWithFormat:@"%d",_guide.commentCount] forState:UIControlStateNormal];
+    if (_guide.description_.length == 0) {
+        tv_content.hidden = YES;
+        iv_contentBackView.hidden = YES;
+    }else{
+        tv_content.hidden = NO;
+        iv_contentBackView.hidden = NO;
+    }
     tv_content.text = _guide.description_;
 }
 
@@ -179,8 +186,8 @@
     
     CGSize contentSize = [[ShareVaule shareInstance].editGuideEx.guideInfo.description_ sizeWithFont:[UIFont systemFontOfSize:13] constrainedToSize:CGSizeMake(frame.size.width - 30 -16.0, 1000)];
     
-    tv_content.frame = CGRectMake(15, 180, contentSize.width + 16.0, MIN(contentSize.height + 16.0, frame.size.height - 180 - 30));
-    tv_content.maxHeight = frame.size.height - 180 - 30;
+    tv_content.frame = CGRectMake(15, 190, frame.size.width - 30, MIN(contentSize.height + 16.0, frame.size.height - 190 - 30));
+    tv_content.maxHeight = frame.size.height - 190 - 30;
     iv_contentBackView.frame = tv_content.frame;
 }
 

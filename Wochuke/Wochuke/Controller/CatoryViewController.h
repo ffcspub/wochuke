@@ -20,10 +20,11 @@
 
 @property (retain, nonatomic) IBOutlet UILabel *lb_topic;
 
-@property (retain, nonatomic) IBOutlet UIButton *btn_type;
+@property (retain, nonatomic) IBOutlet UIView *topView;
 
 - (IBAction)catoryChangAction:(id)sender;
 
-- (IBAction)typeChooseAction:(id)sender;
+- (IBAction)searchAction:(id)sender;
+
 
 @end

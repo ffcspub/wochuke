@@ -25,13 +25,12 @@
 
 @implementation GuideViewController
 
-
 -(void)loadDetail{
     [SVProgressHUD show];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
         id<JCAppIntfPrx> proxy = [[ICETool shareInstance] createProxy];
         @try {
-            JCGuideDetail *detail = [proxy getGuideDetail:nil guideId:_guide.id_];
+            JCGuideDetail *detail = [proxy getGuideDetail:[ShareVaule shareInstance].user.id_ guideId:_guide.id_];
             if (detail) {
                 _detail = [detail retain];
             }

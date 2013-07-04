@@ -38,8 +38,8 @@ DEF_NOTIFICATION(TAP)
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.title = @"步骤总览";
-    [self.navigationController setNavigationBarHidden:NO];
+//    self.title = @"步骤总览";
+//    [self.navigationController setNavigationBarHidden:NO];
     NSInteger spacing = 20;
 //    _girdView.actionDelegate = self;
     _girdView.dataSource = self;
@@ -54,7 +54,7 @@ DEF_NOTIFICATION(TAP)
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
-    [self.navigationController setNavigationBarHidden:YES];
+//    [self.navigationController setNavigationBarHidden:YES];
 }
 
 - (void)didReceiveMemoryWarning

@@ -9,14 +9,14 @@
 #import "MainViewController.h"
 #import "HomeViewController.h"
 #import "CatoryViewController.h"
-#import "SearchViewController.h"
+#import "ActInfoViewController.h"
 #import "MyViewController.h"
 #import "NSObject+Notification.h"
 
 @interface MainViewController (){
     UINavigationController *_homeViewNaviationController;
     UINavigationController *_catoryViewNaviationController;
-    UINavigationController *_searchViewNaviationController;
+    UINavigationController *_actionViewNaviationController;
     UINavigationController *_myViewNaviationController;
     UINavigationController *currentController;
 }
@@ -42,41 +42,42 @@
 }
 
 -(void)showNaviationController:(int)tag{
-    if (!_homeViewNaviationController) {
-        HomeViewController *vlc = [[[HomeViewController alloc]initWithNibName:@"HomeViewController" bundle:nil]autorelease];
-        _homeViewNaviationController = [[UINavigationController alloc]initWithRootViewController:vlc];
-        _homeViewNaviationController.navigationBarHidden = YES;
-        [_homeViewNaviationController.view setFrame: [self.view bounds]];
-        [self.view addSubview:_homeViewNaviationController.view];
-    }
-    if (!_catoryViewNaviationController) {
-        CatoryViewController *vlc = [[[CatoryViewController alloc]initWithNibName:@"CatoryViewController" bundle:nil]autorelease];
-        _catoryViewNaviationController = [[UINavigationController alloc]initWithRootViewController:vlc];
-        _catoryViewNaviationController.navigationBarHidden = YES;
-        [_catoryViewNaviationController.view setFrame: [self.view bounds]];
-        [self.view addSubview:_catoryViewNaviationController.view];
-    }
-    if (!_searchViewNaviationController) {
-        SearchViewController *vlc = [[[SearchViewController alloc]initWithNibName:@"SearchViewController" bundle:nil]autorelease];
-        _searchViewNaviationController = [[UINavigationController alloc]initWithRootViewController:vlc];
-        _searchViewNaviationController.navigationBarHidden = YES;
-        [_searchViewNaviationController.view setFrame: [self.view bounds]];
-        [self.view addSubview:_searchViewNaviationController.view];
-    }
-    if (!_myViewNaviationController) {
-        MyViewController *vlc = [[[MyViewController alloc]initWithNibName:@"MyViewController" bundle:nil]autorelease];
-        _myViewNaviationController = [[UINavigationController alloc]initWithRootViewController:vlc];
-        _myViewNaviationController.navigationBarHidden = YES;
-        [_myViewNaviationController.view setFrame: [self.view bounds]];
-        [self.view addSubview:_myViewNaviationController.view];
-    }
+    
     if (tag == 1) {
+        if (!_homeViewNaviationController) {
+            HomeViewController *vlc = [[[HomeViewController alloc]initWithNibName:@"HomeViewController" bundle:nil]autorelease];
+            _homeViewNaviationController = [[UINavigationController alloc]initWithRootViewController:vlc];
+            _homeViewNaviationController.navigationBarHidden = YES;
+            [_homeViewNaviationController.view setFrame: [self.view bounds]];
+            [self.view addSubview:_homeViewNaviationController.view];
+        }
         currentController = _homeViewNaviationController;
     }else if(tag ==2){
+        if (!_catoryViewNaviationController) {
+            CatoryViewController *vlc = [[[CatoryViewController alloc]initWithNibName:@"CatoryViewController" bundle:nil]autorelease];
+            _catoryViewNaviationController = [[UINavigationController alloc]initWithRootViewController:vlc];
+            _catoryViewNaviationController.navigationBarHidden = YES;
+            [_catoryViewNaviationController.view setFrame: [self.view bounds]];
+            [self.view addSubview:_catoryViewNaviationController.view];
+        }
         currentController = _catoryViewNaviationController;
     }else if(tag ==3){
-        currentController = _searchViewNaviationController;
+        if (!_actionViewNaviationController) {
+            ActInfoViewController *vlc = [[[ActInfoViewController alloc]initWithNibName:@"ActInfoViewController" bundle:nil]autorelease];
+            _actionViewNaviationController = [[UINavigationController alloc]initWithRootViewController:vlc];
+            _actionViewNaviationController.navigationBarHidden = YES;
+            [_actionViewNaviationController.view setFrame: [self.view bounds]];
+            [self.view addSubview:_actionViewNaviationController.view];
+        }
+        currentController = _actionViewNaviationController;
     }else if(tag ==4){
+        if (!_myViewNaviationController) {
+            MyViewController *vlc = [[[MyViewController alloc]initWithNibName:@"MyViewController" bundle:nil]autorelease];
+            _myViewNaviationController = [[UINavigationController alloc]initWithRootViewController:vlc];
+            _myViewNaviationController.navigationBarHidden = YES;
+            [_myViewNaviationController.view setFrame: [self.view bounds]];
+            [self.view addSubview:_myViewNaviationController.view];
+        }
         currentController = _myViewNaviationController;
     }
     [self.view bringSubviewToFront:currentController.view];
@@ -110,7 +111,7 @@
 -(void)dealloc{
     [_homeViewNaviationController release];
     [_catoryViewNaviationController release];
-    [_searchViewNaviationController release];
+    [_actionViewNaviationController release];
     [_myViewNaviationController release];
     [_toolBar release];
     [_btn_type release];
@@ -124,7 +125,7 @@
     [self unobserveAllNotifications];
     _homeViewNaviationController = nil;
     _catoryViewNaviationController = nil;
-    _searchViewNaviationController = nil;
+    _actionViewNaviationController = nil;
     _myViewNaviationController = nil;
     [self setToolBar:nil];
     [self setBtn_type:nil];
@@ -140,7 +141,7 @@
     int tag = view.tag;
     
     BOOL nothingChange = NO;
-    nothingChange = (currentController == _homeViewNaviationController && tag == 1) || (currentController == _catoryViewNaviationController && tag == 2) || (currentController == _searchViewNaviationController && tag ==3) || (currentController == _myViewNaviationController && tag == 4);
+    nothingChange = (currentController == _homeViewNaviationController && tag == 1) || (currentController == _catoryViewNaviationController && tag == 2) || (currentController == _actionViewNaviationController && tag ==3) || (currentController == _myViewNaviationController && tag == 4);
     if (nothingChange) {
         return;
     }
@@ -149,8 +150,8 @@
     [_btn_type setImage:[UIImage imageNamed:@"bg_home_good_bottom"] forState:UIControlStateNormal];
     [_btn_catory setImage:[UIImage imageNamed:@"bg_home_classify_bottom"] forState:UIControlStateNormal];
     [_btn_catory setImage:[UIImage imageNamed:@"bg_home_good_bottom_pressed"] forState:UIControlStateSelected];
-    [_btn_search setImage:[UIImage imageNamed:@"bg_home_search_bottom"] forState:UIControlStateNormal];
-    [_btn_search setImage:[UIImage imageNamed:@"bg_home_search_bottom_pressed"] forState:UIControlStateSelected];
+    [_btn_search setImage:[UIImage imageNamed:@"bg_home_activity_bottom"] forState:UIControlStateNormal];
+    [_btn_search setImage:[UIImage imageNamed:@"bg_home_activity_bottom_pressed"] forState:UIControlStateSelected];
     [_btn_mine setImage:[UIImage imageNamed:@"bg_home_user_bottom"] forState:UIControlStateNormal];
     [_btn_mine setImage:[UIImage imageNamed:@"bg_home_user_bottom_pressed"] forState:UIControlStateSelected];
     if (tag == 1) {
@@ -158,7 +159,7 @@
     }else if(tag == 2){
         [_btn_catory setImage:[UIImage imageNamed:@"bg_home_classify_bottom_pressed"] forState:UIControlStateNormal];
     }else if(tag == 3){
-        [_btn_search setImage:[UIImage imageNamed:@"bg_home_search_bottom_pressed"] forState:UIControlStateNormal];
+        [_btn_search setImage:[UIImage imageNamed:@"bg_home_activity_bottom_pressed"] forState:UIControlStateNormal];
     }else if(tag == 4){
         [_btn_mine setImage:[UIImage imageNamed:@"bg_home_user_bottom_pressed"] forState:UIControlStateNormal];
     }

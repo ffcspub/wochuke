@@ -28,6 +28,8 @@
 
 @property(nonatomic,retain) JCGuideEx *editGuideEx;
 
+@property(nonatomic,retain) JCUser *user;
+
 @property(nonatomic,retain) NSMutableDictionary *stepImageDic;
 
 -(void)removeStep:(JCStep *)step;

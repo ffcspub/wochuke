@@ -24,6 +24,7 @@ static ShareVaule *_shareVaule;
 -(void)dealloc{
     [_stepImageDic release];
     [_editGuideEx release];
+    [_user release];
     [super dealloc];
 }
 

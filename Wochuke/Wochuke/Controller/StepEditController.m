@@ -54,7 +54,7 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
         id<JCAppIntfPrx> proxy = [[ICETool shareInstance] createProxy];
         @try {
-            JCGuideDetail *detail = [proxy getGuideDetail:nil guideId:_guide.id_];
+            JCGuideDetail *detail = [proxy getGuideDetail:[ShareVaule shareInstance].user.id_ guideId:_guide.id_];
             if (detail) {
                 [(NSMutableArray *)[ShareVaule shareInstance].editGuideEx.steps addObjectsFromArray:detail.steps];
                 [(NSMutableArray *)[ShareVaule shareInstance].editGuideEx.supplies addObjectsFromArray:detail.supplies];
