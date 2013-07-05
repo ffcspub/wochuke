@@ -62,7 +62,6 @@
         [self addSubview:lb_type];
         [self addSubview:lb_name];
         [self addSubview:lb_publisher];
-        
     }
     return self;
 }
@@ -71,7 +70,6 @@
     [_guide release];
     [super dealloc];
 }
-
 
 -(void)upGuide:(JCGuide *)mguide;{
     self.guide = mguide;
