@@ -271,7 +271,8 @@
 }
 
 - (void)growingTextViewDidChange:(HPGrowingTextView *)growingTextView;{
-        lb_textcount.text = [NSString stringWithFormat:@"还可以输入%d字",100-growingTextView.text.length];
+    lb_textcount.text = [NSString stringWithFormat:@"还可以输入%d字",100-growingTextView.text.length];
+    
 }
 
 

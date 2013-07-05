@@ -34,7 +34,7 @@
     CGSize contentSize = [_guide.description_ sizeWithFont:[UIFont systemFontOfSize:12] constrainedToSize:CGSizeMake(frame.size.width - 30 -16.0, 1000)];
     
     tv_content.frame = CGRectMake(15, 190, frame.size.width - 30, MIN(contentSize.height + 16.0, frame.size.height - 190 - 30));
-    iv_contentBackView.frame = tv_content.frame;
+    iv_contentBackView.frame = CGRectMake(tv_content.frame.origin.x , tv_content.frame.origin.y, tv_content.frame.size.width, tv_content.frame.size.height + 8);
     
 }
 
@@ -163,6 +163,7 @@
         iv_contentBackView.hidden = NO;
     }
     tv_content.text = _guide.description_;
+    [tv_content refreshHeight];
 }
 
 -(void)dealloc{
@@ -184,18 +185,22 @@
     tv_title.delegate = self;
     lb_publisher.frame = CGRectMake(0, 140, frame.size.width, 20);
     
-    CGSize contentSize = [[ShareVaule shareInstance].editGuideEx.guideInfo.description_ sizeWithFont:[UIFont systemFontOfSize:13] constrainedToSize:CGSizeMake(frame.size.width - 30 -16.0, 1000)];
+    
+    CGSize contentSize = [[ShareVaule shareInstance].editGuideEx.guideInfo.description_ sizeWithFont:[UIFont systemFontOfSize:12] constrainedToSize:CGSizeMake(frame.size.width - 30 -16.0, 1000)];
     
     tv_content.frame = CGRectMake(15, 190, frame.size.width - 30, MIN(contentSize.height + 16.0, frame.size.height - 190 - 30));
-    tv_content.maxHeight = frame.size.height - 190 - 30;
-    iv_contentBackView.frame = tv_content.frame;
+//    tv_content.maxHeight = frame.size.height - 190 - 30;
+    iv_contentBackView.frame = CGRectMake(tv_content.frame.origin.x, tv_content.frame.origin.y, tv_content.frame.size.width, tv_content.frame.size.height + 8);
+    [tv_content refreshHeight];
+    
 }
 
 - (void)growingTextView:(HPGrowingTextView *)growingTextView willChangeHeight:(float)height
 {
 //    float diff = growingTextView.frame.size.height - height;
 //    growingTextView.frame = CGRectMake(growingTextView.frame.origin.x, growingTextView.frame.origin.y, growingTextView.frame.size.width, growingTextView.frame.size.height + diff);
-    iv_contentBackView.frame = CGRectMake(iv_contentBackView.frame.origin.x, iv_contentBackView.frame.origin.y, iv_contentBackView.frame.size.width, height);
+    iv_contentBackView.frame = CGRectMake(iv_contentBackView.frame.origin.x, iv_contentBackView.frame.origin.y, iv_contentBackView.frame.size.width, height + 8);
+    
 }
 
 - (id)initWithFrame:(CGRect)frame
@@ -241,7 +246,7 @@
         [iv_contentBackView setImage:contentbackImage];
         
         tv_content = [[[HPGrowingTextView alloc]init]autorelease];
-        tv_content.font = [UIFont systemFontOfSize:13];
+        tv_content.font = [UIFont systemFontOfSize:12];
         tv_content.backgroundColor = [UIColor clearColor];
         tv_content.textColor = [UIColor grayColor];
         tv_content.placeholder = @"指南简介";
@@ -263,6 +268,7 @@
         [iv_photo setImageWithURL:[NSURL URLWithString:_guide.userAvatar.url]];
         lb_publisher.text = _guide.userName;
         tv_content.text = _guide.description_;
+        
         
         UITapGestureRecognizer* singleRecognizer;  
         singleRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyBoard)];
