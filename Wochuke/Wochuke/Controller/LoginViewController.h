@@ -7,7 +7,19 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <TencentOpenAPI/TencentOAuth.h>
+#import "SinaWeibo.h"
 
-@interface LoginViewController : UIViewController
+@interface LoginViewController : UIViewController<TencentSessionDelegate,UITextFieldDelegate,SinaWeiboDelegate,SinaWeiboRequestDelegate>{
+    TencentOAuth *_tencentOAuth;
+    NSMutableArray *_permissions;
+}
 
+@property (retain, nonatomic) IBOutlet UITextField *tf_name;
+@property (retain, nonatomic) IBOutlet UITextField *tf_password;
+- (IBAction)backAction:(id)sender;
+- (IBAction)regiterAction:(id)sender;
+- (IBAction)qqLoginAction:(id)sender;
+- (IBAction)loginAction:(id)sender;
+- (IBAction)sinaLoginAction:(id)sender;
 @end

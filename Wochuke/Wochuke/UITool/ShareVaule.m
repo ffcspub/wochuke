@@ -28,6 +28,25 @@ static ShareVaule *_shareVaule;
     [super dealloc];
 }
 
+- (NSString *)userId
+{
+    return [[NSUserDefaults standardUserDefaults] stringForKey:@"userId"];
+}
+
+- (void)setUserId:(NSString *)userId
+{
+    [[NSUserDefaults standardUserDefaults] setValue:userId forKey:@"userId"];
+}
+
+- (void)setUser:(JCUser *)user
+{
+    if (_user) {
+        [_user release];
+        _user = nil;
+    }
+    _user = [user retain];
+}
+
 
 -(void)removeStep:(JCStep *)step;{
     NSMutableArray *steps = (NSMutableArray *)[ShareVaule shareInstance].editGuideEx.steps;

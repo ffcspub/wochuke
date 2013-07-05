@@ -17,6 +17,10 @@
 
 #define KEY_TYPELIST @"KEY_TYPELIST"
 
+#define kAppKey             @"732356489"
+#define kAppSecret          @"ef8ddba071d92652c0f65b4aff79a451"
+#define kAppRedirectURI     @"http://www.sina.com.cn"
+
 #import <Foundation/Foundation.h>
 #import <Guide.h>
 
@@ -29,6 +33,8 @@
 @property(nonatomic,retain) JCGuideEx *editGuideEx;
 
 @property(nonatomic,retain) JCUser *user;
+
+@property(nonatomic,retain) NSString *userId;
 
 @property(nonatomic,retain) NSMutableDictionary *stepImageDic;
 

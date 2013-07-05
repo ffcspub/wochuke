@@ -8,6 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
-@interface RegiterViewController : UIViewController
+@interface RegiterViewController : UIViewController<UITextFieldDelegate>
 
+@property (retain, nonatomic) IBOutlet UITextField *tf_mail;
+@property (retain, nonatomic) IBOutlet UITextField *tf_password;
+@property (retain, nonatomic) IBOutlet UITextField *tf_confirm;
+@property (retain, nonatomic) IBOutlet UITextField *tf_nickname;
+
+- (IBAction)backAction:(id)sender;
+- (IBAction)loginAction:(id)sender;
+- (IBAction)regiterAction:(id)sender;
 @end

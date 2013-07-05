@@ -13,11 +13,18 @@
 #import "CatoryViewController.h"
 #import "SearchViewController.h"
 #import "MainViewController.h"
+#import "SinaWeibo.h"
+#import "LoginViewController.h"
 
 @implementation AppDelegate
 
+@synthesize sinaweibo;
+@synthesize loginViewController = _loginViewController;
+
 - (void)dealloc
 {
+    [sinaweibo release];
+    [_loginViewController release];
     [_window release];
     [super dealloc];
 }
@@ -37,6 +44,18 @@
     self.window.rootViewController = vlc;
     
     [self.window makeKeyAndVisible];
+    
+    self.loginViewController = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
+    sinaweibo = [[SinaWeibo alloc] initWithAppKey:kAppKey appSecret:kAppSecret appRedirectURI:kAppRedirectURI andDelegate:_loginViewController];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSDictionary *sinaweiboInfo = [defaults objectForKey:@"SinaWeiboAuthData"];
+    if ([sinaweiboInfo objectForKey:@"AccessTokenKey"] && [sinaweiboInfo objectForKey:@"ExpirationDateKey"] && [sinaweiboInfo objectForKey:@"UserIDKey"])
+    {
+        sinaweibo.accessToken = [sinaweiboInfo objectForKey:@"AccessTokenKey"];
+        sinaweibo.expirationDate = [sinaweiboInfo objectForKey:@"ExpirationDateKey"];
+        sinaweibo.userID = [sinaweiboInfo objectForKey:@"UserIDKey"];
+    }
+    
     return YES;
 }
 
@@ -65,6 +84,26 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
+{
+    if ([[url scheme] isEqualToString:@"tencent100454485"]) {
+        return [TencentOAuth HandleOpenURL:url];
+    }else if ([[url scheme] isEqualToString:@"sinaweibosso.732356489"]){
+        [self.sinaweibo handleOpenURL:url];
+    }
+    return NO;
+}
+
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
+{
+    if ([[url scheme] isEqualToString:@"tencent100454485"]) {
+        return [TencentOAuth HandleOpenURL:url];
+    }else if ([[url scheme] isEqualToString:@"sinaweibosso.732356489"]){
+        [self.sinaweibo handleOpenURL:url];
+    }
+    return NO;
 }
 
 @end
