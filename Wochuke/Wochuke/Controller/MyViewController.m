@@ -37,8 +37,7 @@
     [super viewWillAppear:animated];
     JCUser *userInfo = [ShareVaule shareInstance].user;
     if (userInfo) {
-        
-        _nickNameBtn.titleLabel.text = userInfo.name;
+        [_nickNameBtn setTitle:userInfo.name forState:UIControlStateNormal];
     }
 }
 
