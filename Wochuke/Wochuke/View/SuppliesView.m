@@ -119,10 +119,13 @@
 
 @implementation SuppliesEditCell
 
-
--(void)dealloc{
-    [super dealloc];
+-(void)handleNotification:(NSNotification *)notification{
+    if ([notification.name isEqual:UIKeyboardWillHideNotification]) {
+        [_tf_name resignFirstResponder];
+        [_tf_quantity resignFirstResponder];
+    }
 }
+
 
 -(void)cellDelete{
     [self postNotification:NOTIFICATION_SUPPLIECELLDELETE withObject:self];
@@ -134,6 +137,7 @@
     _tf_name.textAlignment = UITextAlignmentCenter;
     _tf_name.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     _tf_name.delegate = self;
+    _tf_name.textColor = [UIColor darkTextColor];
     [self addSubview:_tf_name];
     
     _tf_quantity = [[EMKeyboardBarTextField alloc]init];
@@ -141,6 +145,7 @@
     _tf_quantity.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     _tf_quantity.textAlignment = UITextAlignmentCenter;
     _tf_quantity.delegate = self;
+    _tf_quantity.textColor = [UIColor darkTextColor];
     [self addSubview:_tf_quantity];
     
     _btn_del = [[UIButton alloc]init];
@@ -153,6 +158,13 @@
     _line.backgroundColor = [UIColor grayColor];
     [self addSubview:_line];
     
+    [self observeNotification:UIKeyboardWillHideNotification];
+    
+}
+
+-(void)unload{
+    [self unobserveNotification:UIKeyboardWillHideNotification];
+    [super unload];
 }
 
 + (CGSize)sizeInBound:(CGSize)bound forData:(NSObject *)data
@@ -183,6 +195,10 @@
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField; {
     [textField resignFirstResponder];
+    return YES;
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField;{
     if (textField == _tf_name) {
         JCSupply *supply = self.cellData;
         supply.name = _tf_name.text;
@@ -190,7 +206,6 @@
         JCSupply *supply = self.cellData;
         supply.quantity = textField.text;
     }
-    return YES;
 }
 
 @end
@@ -287,7 +302,6 @@
     UITableViewCell *cell = nil;
     if (indexPath.section == 0) {
         cell = [tableView dequeueReusableCellWithBeeUIGirdCellClass:[SuppliesEditCell class]];
-        
         JCSupply *supply = [[ShareVaule shareInstance].editGuideEx.supplies objectAtIndex:indexPath.row];
         cell.gridCell.cellData = supply;
     }

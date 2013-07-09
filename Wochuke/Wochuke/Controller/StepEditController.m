@@ -13,7 +13,10 @@
 #import "StepView.h"
 #import "SVProgressHUD.h"
 #import "ICETool.h"
-#import "GuideCreateViewController.h"
+#import "GuideEditViewController.h"
+#import "CreateGuideViewController.h"
+#import "CreateStepViewController.h"
+#import "PublishViewController.h"
 
 
 @interface StepEditController (){
@@ -26,12 +29,18 @@
 
 //返回
 - (IBAction)backAction:(id)sender {
-    [self.navigationController popViewControllerAnimated:YES];
+    UIViewController *vlc = [self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count - 2];
+    if ([vlc isKindOfClass:[CreateGuideViewController class]]) {
+        UIViewController *temp = [self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count - 3];
+        [self.navigationController popToViewController:temp animated:YES];
+    }else{
+       [self.navigationController popViewControllerAnimated:YES]; 
+    }
+    
 }
 
 //发布
 - (IBAction)pulishAction:(id)sender {
-    
     
 }
 
@@ -111,11 +120,15 @@
     _girdView.minEdgeInsets = UIEdgeInsetsMake(spacing, spacing, spacing, spacing);
     _girdView.centerGrid = NO;
     _girdView.sortingDelegate = self;
-//    [_girdView reloadData];
+    
+    if (!_guide) {
+        _guide = [[ShareVaule shareInstance].editGuideEx.guideInfo retain];
+    }
     // Do any additional setup after loading the view from its nib.
 }
 
 -(void)dealloc{
+    [_guide release];
     [[ShareVaule shareInstance].editGuideEx release];
     [[ShareVaule shareInstance].stepImageDic removeAllObjects];
     [super dealloc];
@@ -157,12 +170,12 @@
 
 #pragma mark - GMGridViewActionDelegate
 - (void)GMGridView:(GMGridView *)gridView didTapOnItemAtIndex:(NSInteger)position;{
-    GuideCreateViewController *guideCreateViewController = [[[GuideCreateViewController alloc]initWithNibName:@"GuideCreateViewController" bundle:nil]autorelease];
-    [self.navigationController pushViewController:guideCreateViewController animated:YES];
+    GuideEditViewController *guideEditViewController = [[[GuideEditViewController alloc]initWithNibName:@"GuideEditViewController" bundle:nil]autorelease];
+    [self.navigationController pushViewController:guideEditViewController animated:YES];
     double delayInSeconds = 0.2;
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
     dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-        [guideCreateViewController scrollToIndex:position];
+        [guideEditViewController scrollToIndex:position];
     });
 }
 
@@ -225,9 +238,11 @@
             cell.deleteButtonIcon = [UIImage imageNamed:@"close_x.png"];
             cell.deleteButtonOffset = CGPointMake(-15, -15);
             GuideInfoMinView *view = [[GuideInfoMinView alloc]init];
-            view.guide = _guide;
+            view.guide = [ShareVaule shareInstance].editGuideEx.guideInfo;
             cell.contentView = view;
         }
+        GuideInfoMinView *view = (GuideInfoMinView *)cell.contentView;
+        view.guide = [ShareVaule shareInstance].editGuideEx.guideInfo;
     }else if(index == 1){
         cell = [gridView dequeueReusableCellWithIdentifier:@"SUPPLIESCELL"];
         if (!cell)
@@ -237,9 +252,10 @@
             cell.deleteButtonIcon = [UIImage imageNamed:@"close_x.png"];
             cell.deleteButtonOffset = CGPointMake(-15, -15);
             SuppliesMinView *view = [[[SuppliesMinView alloc]init]autorelease];
-            view.list = [ShareVaule shareInstance].editGuideEx.supplies;
             cell.contentView = view;
         }
+        SuppliesMinView *view = (SuppliesMinView *)cell.contentView;
+        view.list = [ShareVaule shareInstance].editGuideEx.supplies;
     }else{
         cell = [gridView dequeueReusableCellWithIdentifier:@"STEPCELL"];
         if (!cell)
@@ -258,5 +274,22 @@
     return cell;
 }
 
+- (IBAction)createStepAction:(id)sender {
+    CreateStepViewController *vlc = [[CreateStepViewController alloc]initWithNibName:@"CreateStepViewController" bundle:nil];
+    [self.navigationController pushViewController:vlc animated:YES];
+    [vlc release];
+}
+
+- (IBAction)publishAction:(id)sender {
+    if ([ShareVaule shareInstance].editGuideEx.steps.count == 0) {
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil message:@"您还未创建步骤" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
+        [alert show];
+        [alert release];
+    }else{
+        PublishViewController *vlc = [[PublishViewController alloc]initWithNibName:@"PublishViewController" bundle:nil];
+        [self.navigationController pushViewController:vlc animated:YES];
+        [vlc release];
+    }
+}
 
 @end

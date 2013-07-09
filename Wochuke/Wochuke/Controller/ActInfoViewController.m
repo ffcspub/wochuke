@@ -13,6 +13,7 @@
 #import "UITableView+BeeUIGirdCell.h"
 #import "UIImageView+WebCache.h"
 #import "GuideViewController.h"
+#import "CreateGuideViewController.h"
 
 @interface ActInfoCell : BeeUIGridCell{
     UIImageView *iv_heard;
@@ -118,7 +119,7 @@
 
 -(void)reloadDatas{
     if (_datas.count>0) {
-        [_tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
+        [_tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
     }
     pageIndex = 0;
     [self loadDatas];
@@ -222,18 +223,35 @@
 }
 
 - (IBAction)typeChangAction:(id)sender {
-    UISegmentedControl *control = (UISegmentedControl *)sender;
-    filterCode = control.selectedSegmentIndex;
+    UIButton *btn = (UIButton *)sender;
+    filterCode = btn.tag;
+    [_btn_new setBackgroundImage:[UIImage imageNamed:@"btn_classify_top_1"] forState:UIControlStateNormal];
+    [_btn_flow setBackgroundImage:[UIImage imageNamed:@"btn_classify_top_2"] forState:UIControlStateNormal];
+    if (filterCode == 0) {
+        [_btn_new setBackgroundImage:[UIImage imageNamed:@"btn_classify_top_1_pressed"] forState:UIControlStateNormal];
+    }else{
+        [_btn_flow setBackgroundImage:[UIImage imageNamed:@"btn_classify_top_2_pressed"] forState:UIControlStateNormal];
+    }
     [self reloadDatas];
+}
+
+- (IBAction)ceateAction:(id)sender {
+    CreateGuideViewController *vlc =[[CreateGuideViewController alloc]initWithNibName:@"CreateGuideViewController" bundle:nil];
+    [self.navigationController pushViewController:vlc animated:YES];
+    [vlc release];
 }
 
 - (void)dealloc {
     [_tableView release];
+    [_btn_new release];
+    [_btn_flow release];
     [super dealloc];
 }
 
 - (void)viewDidUnload {
     [self setTableView:nil];
+    [self setBtn_new:nil];
+    [self setBtn_flow:nil];
     [super viewDidUnload];
 }
 
@@ -264,4 +282,6 @@
     [self.navigationController pushViewController:vlc animated:YES];
     [vlc release];
 }
+
+
 @end

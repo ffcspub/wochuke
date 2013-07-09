@@ -15,7 +15,7 @@
 #import "GuideCoverView.h"
 #import "GuideViewController.h"
 #import "ICETool.h"
-#import "GuideCreateViewController.h"
+#import "GuideEditViewController.h"
 #import "ReloadView.h"
 #import "StepEditController.h"
 

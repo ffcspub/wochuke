@@ -19,6 +19,6 @@
 
 @property(nonatomic,assign) SEL action;
 
-+(void)showInView:(UIView *)view message:(NSString *)message target:(id)target action:(SEL) action;
++(id)showInView:(UIView *)view message:(NSString *)message target:(id)target action:(SEL) action;
 
 @end

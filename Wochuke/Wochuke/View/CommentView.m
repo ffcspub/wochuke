@@ -44,9 +44,9 @@
 
 - (void)layoutInBound:(CGSize)bound forCell:(BeeUIGridCell *)cell
 {
-    iv_heard.frame = CGRectMake(10, 10, bound.width -20, bound.height -20);
+    iv_heard.frame = CGRectMake(10, 10, bound.height -20, bound.height -20);
     lb_name.frame = CGRectMake(bound.height, 10, bound.width - 80, (bound.height-20)/2);
-    lb_comment.frame = CGRectMake(bound.height, (bound.height-20)/2, bound.width - 80, (bound.height-20)/2);
+    lb_comment.frame = CGRectMake(bound.height, 10 + (bound.height-20)/2, bound.width - 80, (bound.height-20)/2);
     lb_time.frame = CGRectMake(bound.width - 90, 10, 60, (bound.height-20)/2);
 }
 
@@ -57,7 +57,7 @@
         [iv_heard setImageWithURL:[NSURL URLWithString:comment.userAvatar.url]];
         lb_name.text = comment.userName;
         lb_comment.text = [NSString stringWithFormat:@"%@",comment.content];
-        lb_time.text = [comment.timestamp substringWithRange:NSMakeRange(6, 11)];
+        lb_time.text = [comment.timestamp substringWithRange:NSMakeRange(5, 11)];
     }
 }
 
@@ -70,16 +70,18 @@
     
     lb_name = [[[UILabel alloc]init]autorelease];
     lb_name.font = [UIFont boldSystemFontOfSize:11];
-    lb_name.backgroundColor = [UIColor grayColor];
+    lb_name.backgroundColor = [UIColor clearColor];
     lb_name.textColor = [UIColor darkTextColor];
     lb_name.textAlignment = UITextAlignmentLeft;
     lb_name.numberOfLines = 2;
+    
     
     lb_comment = [[[UILabel alloc]init]autorelease];
     lb_comment.font = [UIFont boldSystemFontOfSize:11];
     lb_comment.backgroundColor = [UIColor clearColor];
     lb_comment.textColor = [UIColor darkTextColor];
     lb_comment.textAlignment = UITextAlignmentLeft;
+    lb_comment.numberOfLines = 2;
     
     lb_time = [[[UILabel alloc]init]autorelease];
     lb_time.font = [UIFont boldSystemFontOfSize:11];

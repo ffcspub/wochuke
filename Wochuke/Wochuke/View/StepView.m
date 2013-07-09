@@ -83,6 +83,7 @@
         btn_comment = [[[UIButton alloc]init]autorelease];
         btn_comment.titleLabel.font = [UIFont systemFontOfSize:13];
         [btn_comment setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+        [btn_comment addTarget:self action:@selector(commentAction) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:btn_comment];
         
         lb_comment = [[[UILabel alloc]init]autorelease];
@@ -91,11 +92,15 @@
         lb_comment.textColor = [UIColor grayColor];
         lb_comment.text = @"评论";
         [self addSubview:lb_comment];
+        
+        [self observeNotification:NOTIFICATION_COMMENTCOUNTCHANGE];
+
     }
     return self;
 }
 
 -(void)dealloc{
+    [self unobserveNotification:NOTIFICATION_COMMENTCOUNTCHANGE];
     [_step release];
     [super dealloc];
 }
@@ -123,6 +128,19 @@
     lb_step.text = [NSString stringWithFormat:@"%d/%d",_step.ordinal,_stepCount];
 }
 
+
+-(void)commentAction{
+    if (_delegate && [_delegate respondsToSelector:@selector(commentStep:)]) {
+        [_delegate commentStep:self.step];
+    }
+}
+
+-(void)handleNotification:(NSNotification *)notification{
+    if ([notification.name isEqual:NOTIFICATION_COMMENTCOUNTCHANGE]) {
+        [btn_comment setTitle: [NSString stringWithFormat:@"%d",_step.commentCount] forState:UIControlStateNormal];
+    }
+}
+
 @end
 
 @implementation StepEditView
@@ -132,12 +150,17 @@
     backImageView.frame = CGRectMake(0, 0, frame.size.width, frame.size.height);
     tagImageView.frame = CGRectMake(0, 20, 40, 25);
     lb_step.frame = CGRectMake(5, 20, 30, 20);
-    CGSize size = [_step.text sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:CGSizeMake(frame.size.width -22 - 16, 1000)];
+    CGSize size = [_step.text.length>0?_step.text:@" " sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:CGSizeMake(frame.size.width -22 - 16, 1000)];
     imageView.frame = CGRectMake(11, 11, frame.size.width -22 , frame.size.height - 22 - 45 - MIN(size.height+16, 150));
-    tv_text.frame = CGRectMake(11, frame.size.height - 22 - 30 - size.height - 8 , size.width + 16, MIN(size.height + 16, 150));
+    tv_text.frame = CGRectMake(11, frame.size.height - 22 - 30 - size.height - 8 , frame.size.width - 22, MIN(size.height + 16, 150));
     iv_contentBackView.frame = tv_text.frame;
     lb_textcount.frame = CGRectMake(frame.size.width - 110, frame.size.height - 32, 100, 20);
-    btn_del.frame = CGRectMake(20, frame.size.height - 32, 100, 20);
+    
+    if (!_noDeleteAble) {
+        btn_del.frame = CGRectMake(20, frame.size.height - 32, 100, 20);
+    }else{
+        btn_del.frame = CGRectZero;
+    }
 }
 
 -(void)imageTap{
@@ -241,6 +264,7 @@
                              name:UIKeyboardWillHideNotification
                            object:nil];
         
+               
     }
     return self;
 }
@@ -248,7 +272,6 @@
 
 
 #pragma mark -HPGrowingTextViewDelegate
-
 - (void)growingTextView:(HPGrowingTextView *)growingTextView willChangeHeight:(float)height
 {
     float diff = growingTextView.frame.size.height - height;
@@ -272,7 +295,7 @@
 
 - (void)growingTextViewDidChange:(HPGrowingTextView *)growingTextView;{
     lb_textcount.text = [NSString stringWithFormat:@"还可以输入%d字",100-growingTextView.text.length];
-    
+    _step.text = growingTextView.text;
 }
 
 
@@ -295,7 +318,6 @@
                             name:UIKeyboardWillHideNotification
                           object:nil];
     [panGestureRecognizer release];
-    [_step release];
     [super dealloc];
 }
 

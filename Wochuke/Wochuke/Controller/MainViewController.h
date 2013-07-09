@@ -10,15 +10,15 @@
 
 @interface MainViewController : UIViewController
 
-@property(nonatomic,retain) IBOutlet UIView *toolBar;
+@property(nonatomic,retain) IBOutlet UITabBar *toolBar;
 
-@property (retain, nonatomic) IBOutlet UIButton *btn_type;
+@property (retain, nonatomic) IBOutlet UITabBarItem *btn_type;
 
-@property (retain, nonatomic) IBOutlet UIButton *btn_catory;
+@property (retain, nonatomic) IBOutlet UITabBarItem *btn_catory;
 
-@property (retain, nonatomic) IBOutlet UIButton *btn_search;
+@property (retain, nonatomic) IBOutlet UITabBarItem *btn_search;
 
-@property (retain, nonatomic) IBOutlet UIButton *btn_mine;
+@property (retain, nonatomic) IBOutlet UITabBarItem *btn_mine;
 
 -(IBAction)showControllerView:(id)sender;
 

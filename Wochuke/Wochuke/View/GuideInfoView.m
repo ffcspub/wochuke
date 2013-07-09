@@ -12,6 +12,16 @@
 
 @implementation GuideInfoView
 
+-(void)handleNotification:(NSNotification *)notification{
+    if ([notification.name isEqual:NOTIFICATION_COMMENTCOUNTCHANGE]) {
+        [btn_commentCount setTitle:[NSString stringWithFormat:@"%d",_guide.commentCount] forState:UIControlStateNormal];
+    }else if([notification.name isEqual:NOTIFICATION_VIEWCOUNTCHANGE]){
+        [btn_viewCount setTitle:[NSString stringWithFormat:@"%d",_guide.viewCount] forState:UIControlStateNormal];
+    }else if([notification.name isEqual:NOTIFICATION_FAVORITECOUNT]){
+        [btn_favoriteCount setTitle:[NSString stringWithFormat:@"%d",_guide.favoriteCount] forState:UIControlStateNormal];
+    }
+}
+
 -(void)setFrame:(CGRect)frame{
     [super setFrame:frame];
     backImageView.frame = CGRectMake(0, 0, frame.size.width, frame.size.height);
@@ -31,9 +41,10 @@
     btn_favoriteCount.frame = CGRectMake(50 + btnwidth,155,btnwidth,30);
     btn_commentCount.frame = CGRectMake(50 + btnwidth + btnwidth,155,btnwidth,30);
     
-    CGSize contentSize = [_guide.description_ sizeWithFont:[UIFont systemFontOfSize:12] constrainedToSize:CGSizeMake(frame.size.width - 30 -16.0, 1000)];
-    
+    CGSize contentSize = [_guide.description_.length>0?_guide.description_:@"1" sizeWithFont:[UIFont systemFontOfSize:12] constrainedToSize:CGSizeMake(frame.size.width - 30 -16.0, 1000)];
+
     tv_content.frame = CGRectMake(15, 190, frame.size.width - 30, MIN(contentSize.height + 16.0, frame.size.height - 190 - 30));
+    
     iv_contentBackView.frame = CGRectMake(tv_content.frame.origin.x , tv_content.frame.origin.y, tv_content.frame.size.width, tv_content.frame.size.height + 8);
     
 }
@@ -45,6 +56,24 @@
 	CGPoint r = growingTextView.center;
     growingTextView.center = CGPointMake(r.x, r.y + diff);
     iv_contentBackView.frame = CGRectMake(iv_contentBackView.frame.origin.x, iv_contentBackView.frame.origin.y, iv_contentBackView.frame.size.width,iv_contentBackView.frame.size.height + diff);
+}
+
+-(void)viewCountBtnClicked{
+    if (_delegate && [_delegate respondsToSelector:@selector(guideInfoViewViewcount:)]) {
+        [_delegate guideInfoViewViewcount:self];
+    }
+}
+
+-(void)favoriteCountBtnClicked{
+    if (_delegate && [_delegate respondsToSelector:@selector(guideInfoViewFavorite:)]) {
+        [_delegate guideInfoViewFavorite:self];
+    }
+}
+
+-(void)commentCountBtnClicked{
+    if (_delegate && [_delegate respondsToSelector:@selector(guideInfoViewComment:)]) {
+        [_delegate guideInfoViewComment:self];
+    }
 }
 
 - (id)initWithFrame:(CGRect)frame
@@ -96,17 +125,21 @@
         btn_viewCount.backgroundColor = [UIColor clearColor];
         [btn_viewCount setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
         [btn_viewCount setImage:[UIImage imageNamed:@"ic_cookhome_read"] forState:UIControlStateNormal];
+        [btn_viewCount addTarget:self action:@selector(viewCountBtnClicked) forControlEvents:UIControlEventTouchUpInside];
+        
         btn_favoriteCount = [[[UIButton alloc]init]autorelease];
         btn_favoriteCount.titleLabel.font = [UIFont systemFontOfSize:12];
         btn_favoriteCount.backgroundColor = [UIColor clearColor];
         [btn_favoriteCount setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
         [btn_favoriteCount setImage:[UIImage imageNamed:@"ic_cookhome_like"] forState:UIControlStateNormal];
+        [btn_favoriteCount addTarget:self action:@selector(favoriteCountBtnClicked) forControlEvents:UIControlEventTouchUpInside];
         
         btn_commentCount = [[[UIButton alloc]init]autorelease];
         btn_commentCount.titleLabel.font = [UIFont systemFontOfSize:12];
         btn_commentCount.backgroundColor = [UIColor clearColor];
         [btn_commentCount setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
         [btn_commentCount setImage:[UIImage imageNamed:@"ic_cookhome_comment"] forState:UIControlStateNormal];
+         [btn_commentCount addTarget:self action:@selector(commentCountBtnClicked) forControlEvents:UIControlEventTouchUpInside];
         
         iv_contentBackView = [[[UIImageView alloc]init]autorelease];
         UIImage *contentbackImage = [[UIImage imageNamed:@"textViewBoard"]resizableImageWithCapInsets:UIEdgeInsetsMake(6, 6, 6, 6)];
@@ -115,6 +148,7 @@
         
         tv_content = [[[HPGrowingTextView alloc]init]autorelease];
         tv_content.font = [UIFont systemFontOfSize:12];
+        tv_content.minNumberOfLines = 1;
         tv_content.backgroundColor = [UIColor clearColor];
         tv_content.textColor = [UIColor grayColor];
         tv_content.placeholder = @"指南简介";
@@ -134,6 +168,10 @@
         [self addSubview:btn_commentCount];
         [self addSubview:iv_contentBackView];
         [self addSubview:tv_content];
+        
+        [self observeNotification:NOTIFICATION_COMMENTCOUNTCHANGE];
+        [self observeNotification:NOTIFICATION_FAVORITECOUNT];
+        [self observeNotification:NOTIFICATION_VIEWCOUNTCHANGE];
         
     }
     return self;
@@ -167,6 +205,9 @@
 }
 
 -(void)dealloc{
+    [self unobserveNotification:NOTIFICATION_COMMENTCOUNTCHANGE];
+    [self unobserveNotification:NOTIFICATION_FAVORITECOUNT];
+    [self unobserveNotification:NOTIFICATION_VIEWCOUNTCHANGE];
     [_guide release];
     [super dealloc];
 }
@@ -185,8 +226,7 @@
     tv_title.delegate = self;
     lb_publisher.frame = CGRectMake(0, 140, frame.size.width, 20);
     
-    
-    CGSize contentSize = [[ShareVaule shareInstance].editGuideEx.guideInfo.description_ sizeWithFont:[UIFont systemFontOfSize:12] constrainedToSize:CGSizeMake(frame.size.width - 30 -16.0, 1000)];
+    CGSize contentSize = [[ShareVaule shareInstance].editGuideEx.guideInfo.description_.length>0?[ShareVaule shareInstance].editGuideEx.guideInfo.description_:@" " sizeWithFont:[UIFont systemFontOfSize:12] constrainedToSize:CGSizeMake(frame.size.width - 30 -16.0, 1000)];
     
     tv_content.frame = CGRectMake(15, 190, frame.size.width - 30, MIN(contentSize.height + 16.0, frame.size.height - 190 - 30));
 //    tv_content.maxHeight = frame.size.height - 190 - 30;
@@ -298,6 +338,14 @@
     return YES;
 }
 
+- (void)growingTextViewDidChange:(HPGrowingTextView *)growingTextView;{
+    if (growingTextView == tv_title) {
+        [ShareVaule shareInstance].editGuideEx.guideInfo.title = growingTextView.text;
+    }else if (growingTextView == tv_content) {
+        [ShareVaule shareInstance].editGuideEx.guideInfo.description_ = growingTextView.text;
+    }
+}
+
 -(void)hideKeyBoard{
     [tv_title resignFirstResponder];
     [tv_content resignFirstResponder];
@@ -354,6 +402,19 @@
 #pragma mark -Cell
 
 @implementation GuideInfoCell
+
+-(void)handleNotification:(NSNotification *)notification{
+    if ([notification.name isEqual:NOTIFICATION_COMMENTCOUNTCHANGE]) {
+        JCGuide *_guide = self.cellData;
+        [btn_commentCount setTitle:[NSString stringWithFormat:@"%d",_guide.commentCount] forState:UIControlStateNormal];
+    }else if([notification.name isEqual:NOTIFICATION_VIEWCOUNTCHANGE]){
+        JCGuide *_guide = self.cellData;
+        [btn_viewCount setTitle:[NSString stringWithFormat:@"%d",_guide.viewCount] forState:UIControlStateNormal];
+    }else if([notification.name isEqual:NOTIFICATION_FAVORITECOUNT]){
+        JCGuide *_guide = self.cellData;
+        [btn_favoriteCount setTitle:[NSString stringWithFormat:@"%d",_guide.favoriteCount] forState:UIControlStateNormal];
+    }
+}
 
 
 + (CGSize)sizeInBound:(CGSize)bound forData:(NSObject *)data
@@ -440,6 +501,16 @@
     [self addSubview:btn_favoriteCount];
     [self addSubview:btn_commentCount];
     
+    [self observeNotification:NOTIFICATION_COMMENTCOUNTCHANGE];
+    [self observeNotification:NOTIFICATION_FAVORITECOUNT];
+    [self observeNotification:NOTIFICATION_VIEWCOUNTCHANGE];
+}
+
+-(void)dealloc{
+    [self unobserveNotification:NOTIFICATION_COMMENTCOUNTCHANGE];
+    [self unobserveNotification:NOTIFICATION_FAVORITECOUNT];
+    [self unobserveNotification:NOTIFICATION_VIEWCOUNTCHANGE];
+    [super dealloc];
 }
 
 @end

@@ -11,8 +11,13 @@
 
 @interface ActInfoViewController : TopViewController
 
+@property (retain, nonatomic) IBOutlet UIButton *btn_new;
+
+@property (retain, nonatomic) IBOutlet UIButton *btn_flow;
+
 @property (retain, nonatomic) IBOutlet UITableView *tableView;
 
 - (IBAction)typeChangAction:(id)sender;
 
+- (IBAction)ceateAction:(id)sender;
 @end

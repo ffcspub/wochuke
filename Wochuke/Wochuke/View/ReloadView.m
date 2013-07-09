@@ -34,7 +34,7 @@
 }
 
 
-+(void)showInView:(UIView *)view message:(NSString *)message target:(id)target action:(SEL) action;{
++(id)showInView:(UIView *)view message:(NSString *)message target:(id)target action:(SEL) action;{
     ReloadView *reloadView = [[[ReloadView alloc]initWithFrame:CGRectMake(0, 0, view.frame.size.width, view.frame.size.height)]autorelease];
     reloadView.target = target;
     reloadView.action = action;
@@ -44,6 +44,7 @@
     singleRecognizer.numberOfTapsRequired = 1; // 单击  
     [reloadView addGestureRecognizer:singleRecognizer];  
     [view addSubview:reloadView];
+    return reloadView;
 }
 /*
 // Only override drawRect: if you perform custom drawing.

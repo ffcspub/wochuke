@@ -12,6 +12,7 @@
 #import "NSObject+Notification.h"
 #import "HPGrowingTextView.h"
 
+@protocol StepViewDelegate;
 @interface StepView : UIView{
     UIImageView *backImageView;
     UIImageView *tagImageView;
@@ -24,6 +25,13 @@
 
 @property(nonatomic,retain) JCStep *step;
 @property(nonatomic,assign) int stepCount;
+@property(nonatomic,assign) id<StepViewDelegate> delegate;
+
+@end
+
+@protocol StepViewDelegate <NSObject>
+
+-(void)commentStep:(JCStep *)step;
 
 @end
 
@@ -44,6 +52,8 @@
 
 @property(nonatomic,assign) id<StepEditViewDelegate> delegate;
 @property(nonatomic,retain) JCStep *step;
+
+@property(nonatomic,assign) BOOL noDeleteAble;
 
 -(void)upImage;
 

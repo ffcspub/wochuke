@@ -144,7 +144,6 @@
         @finally {
             
         }
-        
     });
 }
 
@@ -172,7 +171,6 @@
     JCGuide *guide = [_datas objectAtIndex:indexPath.row];
     vlc.guide = guide;
     [self.navigationController pushViewController:vlc animated:YES];
-    
 }
 
 - (void)dealloc {
@@ -183,6 +181,7 @@
     [_topic release];
     [super dealloc];
 }
+
 - (void)viewDidUnload {
     [self setNavBar:nil];
     [self setTableView:nil];
@@ -194,4 +193,5 @@
 - (IBAction)backAction:(id)sender {
     [self.navigationController popViewControllerAnimated:YES];
 }
+
 @end

@@ -13,6 +13,8 @@
 #import "HPGrowingTextView.h"
 #import "UIKeyboardViewController.h"
 
+@protocol GuideInfoViewDelegate;
+
 //简介页面
 @interface GuideInfoView : UIView<HPGrowingTextViewDelegate>{
     UIImageView *backImageView;
@@ -30,7 +32,16 @@
     
 }
 
+@property(nonatomic,assign) id<GuideInfoViewDelegate> delegate;
 @property(nonatomic,retain) JCGuide *guide;
+
+@end
+
+@protocol GuideInfoViewDelegate <NSObject>
+
+-(void)guideInfoViewViewcount:(GuideInfoView *)infoView;
+-(void)guideInfoViewFavorite:(GuideInfoView *)infoView;
+-(void)guideInfoViewComment:(GuideInfoView *)infoView;
 
 @end
 

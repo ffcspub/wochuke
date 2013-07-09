@@ -15,10 +15,16 @@
 #import "StepView.h"
 #import "StepPreviewController.h"
 #import "JSBadgeView.h"
+#import "LoginViewController.h"
+#import "CommentViewController.h"
+#import "UserListViewController.h"
+#import "CommentViewController.h"
+
 //#import "StepEditController.h"
 
-@interface GuideViewController (){
+@interface GuideViewController ()<StepViewDelegate>{
     JCGuideDetail *_detail;
+    JSBadgeView *_badgeView;
 }
 
 @end
@@ -30,12 +36,17 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
         id<JCAppIntfPrx> proxy = [[ICETool shareInstance] createProxy];
         @try {
-            JCGuideDetail *detail = [proxy getGuideDetail:[ShareVaule shareInstance].user.id_ guideId:_guide.id_];
+            JCGuideDetail *detail = [proxy getGuideDetail:[ShareVaule shareInstance].userId guideId:_guide.id_];
             if (detail) {
                 _detail = [detail retain];
             }
             dispatch_async(dispatch_get_main_queue(), ^{
                 [SVProgressHUD dismiss];
+                if (_detail.favorited) {
+                    [_btn_like setImage:[UIImage imageNamed:@"ic_cook_like_bottom_pressed"] forState:UIControlStateNormal];
+                }else{
+                    [_btn_like setImage:[UIImage imageNamed:@"ic_cook_like_bottom"] forState:UIControlStateNormal];
+                }
                 [_pagedFlowView reloadData];
             });
         }
@@ -74,6 +85,11 @@
     return self;
 }
 
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    _badgeView.badgeText = [NSString stringWithFormat:@"%d", _guide.commentCount];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -82,14 +98,14 @@
     _pagedFlowView.minimumPageAlpha = 0.3;
     _pagedFlowView.minimumPageScale = 0.9;
     if (_guide.commentCount>0) {
-        JSBadgeView *badgeView = [[[JSBadgeView alloc] initWithParentView:_btn_comment alignment:JSBadgeViewAlignmentTopRight]autorelease];
-        badgeView.badgePositionAdjustment = CGPointMake(-10, 10);
-        badgeView.badgeText = [NSString stringWithFormat:@"%d", _guide.commentCount];
+        _badgeView = [[[JSBadgeView alloc] initWithParentView:_btn_comment alignment:JSBadgeViewAlignmentTopRight]autorelease];
+        _badgeView.badgePositionAdjustment = CGPointMake(-10, 10);
     }
     [self observeNotification:StepPreviewController.TAP];
     [self loadDetail];
     // Do any additional setup after loading the view from its nib.
 }
+
 
 -(void)viewWillUnload{
     [self unobserveNotification:StepPreviewController.TAP];
@@ -162,6 +178,7 @@
             view = [[[GuideInfoView alloc]init]autorelease];
         }
         view.guide = _guide;
+        view.delegate = self;
         return view;
     }else if(_detail.supplies.count>0 && index == 1){
         SuppliesView *view = (SuppliesView *)[flowView dequeueReusableCellWithClass:[SuppliesView class]];
@@ -181,9 +198,121 @@
         }
         view.step = [_detail.steps objectAtIndex:indextemp];
         view.stepCount = _detail.steps.count;
+        view.delegate = self;
         return view;
     }
     return nil;
+}
+
+#pragma mark - StepViewDelegate
+-(void)commentStep:(JCStep *)step;{
+    CommentViewController *vlc = [[[CommentViewController alloc]initWithNibName:@"CommentViewController" bundle:nil]autorelease];
+    vlc.guide = _guide;
+    vlc.step = step;
+    [self.navigationController pushViewController:vlc animated:YES];
+}
+
+
+#pragma mark - Actions
+
+-(void)followGudie{
+//    [SVProgressHUD show];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+        id<JCAppIntfPrx> proxy = [[ICETool shareInstance] createProxy];
+        @try {
+            [proxy favorite:[ShareVaule shareInstance].userId guideId:_guide.id_ flag:!_detail.favorited];
+            _detail.favorited = !_detail.favorited;
+            dispatch_async(dispatch_get_main_queue(), ^{
+//                [SVProgressHUD dismiss];
+                if (_detail.favorited) {
+                    [SVProgressHUD showSuccessWithStatus:@"已收藏"];
+                    [_btn_like setImage:[UIImage imageNamed:@"ic_cook_like_bottom_pressed"] forState:UIControlStateNormal];
+                    _guide.favoriteCount++ ;
+                }else{
+                    [SVProgressHUD showSuccessWithStatus:@"已取消收藏"];
+                    [_btn_like setImage:[UIImage imageNamed:@"ic_cook_like_bottom"] forState:UIControlStateNormal];
+                    _guide.favoriteCount -- ;
+                }
+                [self postNotification:NOTIFICATION_FAVORITECOUNT];
+                [_pagedFlowView reloadData];
+            });
+        }
+        @catch (ICEException *exception) {
+            if ([exception isKindOfClass:[JCGuideException class]]) {
+                JCGuideException *_exception = (JCGuideException *)exception;
+                if (_exception.reason_) {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [SVProgressHUD showErrorWithStatus:_exception.reason_];
+                    });
+                }else{
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [SVProgressHUD showErrorWithStatus:ERROR_MESSAGE];
+                    });
+                }
+            }else{
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [SVProgressHUD showErrorWithStatus:ERROR_MESSAGE];
+                });
+            }
+        }
+        @finally {
+            
+        }
+    });
+}
+
+
+- (IBAction)commentAction:(id)sender {
+    if ([ShareVaule shareInstance].user.id_) {
+        CommentViewController *vlc = [[[CommentViewController alloc]init]autorelease];
+        vlc.guide = _guide;
+        [self.navigationController pushViewController:vlc animated:YES];
+    }else{
+        LoginViewController *vlc = [[[LoginViewController alloc]initWithNibName:@"LoginViewController" bundle:nil]autorelease];
+        UINavigationController *navController = [[[UINavigationController alloc]initWithRootViewController:vlc ]autorelease];
+        [self presentModalViewController:navController animated:YES];
+    }
+    
+}
+
+- (IBAction)shareAction:(id)sender {
+    
+}
+
+- (IBAction)likeAction:(id)sender {
+    if ([ShareVaule shareInstance].user.id_) {
+         [self followGudie];
+    }else{
+        LoginViewController *vlc = [[[LoginViewController alloc]initWithNibName:@"LoginViewController" bundle:nil]autorelease];
+        UINavigationController *navController = [[[UINavigationController alloc]initWithRootViewController:vlc ]autorelease];
+        [self presentModalViewController:navController animated:YES];
+    }
+}
+
+- (IBAction)driverAction:(id)sender {
+    
+}
+
+#pragma mark -GuideInfoViewDelegate
+-(void)guideInfoViewViewcount:(GuideInfoView *)infoView{
+    UserListViewController *vlc = [[UserListViewController alloc]initWithNibName:@"UserListViewController" bundle:nil];
+    vlc.guide = _guide;
+    vlc.actCode = 1;
+    [self.navigationController pushViewController:vlc animated:YES];
+    [vlc release];
+}
+
+-(void)guideInfoViewFavorite:(GuideInfoView *)infoView{
+    UserListViewController *vlc = [[UserListViewController alloc]initWithNibName:@"UserListViewController" bundle:nil];
+    //    vlc.actCode = 2;
+    vlc.guide = _guide;
+    vlc.actCode = 2;
+    [self.navigationController pushViewController:vlc animated:YES];
+    [vlc release];
+}
+
+-(void)guideInfoViewComment:(GuideInfoView *)infoView{
+    [self commentAction:nil];
 }
 
 @end

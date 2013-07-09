@@ -10,6 +10,7 @@
 #import "UIImageView+WebCache.h"
 #import <QuartzCore/QuartzCore.h>
 #import "MyWebImgView.h"
+#import <Guide.h>
 
 @implementation UserView
 
@@ -24,7 +25,7 @@
 
 - (void)layoutInBound:(CGSize)bound forCell:(BeeUIGridCell *)cell
 {
-    iv_heard.frame = CGRectMake(5, 5, bound.width -10, bound.height -10);
+    iv_heard.frame = CGRectMake(5, 5, bound.height -10, bound.height -10);
     lb_name.frame = CGRectMake(bound.height, 5, bound.width - 60, (bound.height-10)/2);
     lb_guides.frame = CGRectMake(bound.height, (bound.height-10)/2, bound.width - 60, (bound.height-10)/2);
     btn_following.frame = CGRectMake(bound.width - 50, 5, 40, bound.height-10);
@@ -62,14 +63,23 @@
     lb_guides.textAlignment = UITextAlignmentLeft;
     
     btn_following = [[UIButton alloc]init];
-    [btn_following setBackgroundImage:[UIImage imageNamed:@""] forState:UIControlStateNormal];
+//    [btn_following setBackgroundImage:[UIImage imageNamed:@""] forState:UIControlStateNormal];
+    [btn_following setBackgroundColor:[UIColor grayColor]];
     [btn_following setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    btn_following.titleLabel.font = [UIFont systemFontOfSize:12];
+    [btn_following addTarget:self action:@selector(followBtnClicked) forControlEvents:UIControlEventTouchUpInside];
     
     [self addSubview:iv_heard];
     [self addSubview:lb_name];
     [self addSubview:lb_guides];
     [self addSubview:btn_following];
     
+}
+
+-(void)followBtnClicked{
+    if (_delegate && [_delegate respondsToSelector:@selector(followUser:)]) {
+        [_delegate followUser:self.cellData];
+    }
 }
 
 @end

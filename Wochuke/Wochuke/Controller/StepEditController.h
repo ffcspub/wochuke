@@ -16,4 +16,8 @@
 
 @property(nonatomic,retain) JCGuide *guide;
 
+- (IBAction)createStepAction:(id)sender;
+
+- (IBAction)publishAction:(id)sender;
+
 @end
