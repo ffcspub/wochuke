@@ -14,8 +14,6 @@
 
 @property (nonatomic, retain) UISwitch *qqSwitch;
 
-@property (nonatomic, retain) UIView *btnView;
-
 @property (nonatomic, retain) UIButton *cancelBtn;
 
 @end
@@ -75,22 +73,18 @@
     self.qqSwitch = [[UISwitch alloc] initWithFrame:CGRectZero];
     self.qqSwitch.on = NO;
     [self.qqSwitch addTarget:self action:@selector(switchChanged:) forControlEvents:UIControlEventValueChanged];
+        
+    _cancelBtn = [[UIButton alloc] initWithFrame:CGRectMake(50, 5, 90, 35)];
+    [_cancelBtn setTitle:@"退出登录" forState:UIControlStateNormal];
+        
+//    UIButton *cancelButton = [[UIButton alloc] initWithFrame:CGRectMake(10, 0, 70, 50)];
+//    cancelButton.titleLabel.text = @"退出登录";
+//    
+//    UIView *vlc = [[UIView alloc] initWithFrame:CGRectMake(10, 0, 70, 50)];
+//    [vlc addSubview:cancelButton];
     
-    self.btnView = [[UIView alloc] initWithFrame:CGRectMake(40, 0, 250, 90)];
-    
-    self.cancelBtn = [[UIButton alloc] initWithFrame:CGRectMake(50, 5, 90, 35)];
-    self.cancelBtn.titleLabel.text = @"退出登录";
-    
-    [self.btnView addSubview:self.cancelBtn];
-    
-    UIButton *cancelButton = [[UIButton alloc] initWithFrame:CGRectMake(10, 0, 70, 50)];
-    cancelButton.titleLabel.text = @"退出登录";
-    
-    UIView *vlc = [[UIView alloc] initWithFrame:CGRectMake(10, 0, 70, 50)];
-    [vlc addSubview:cancelButton];
-    
-    self.tableView.tableFooterView = vlc;
-    [vlc release];
+    self.tableView.tableFooterView = _cancelBtn;
+//    [vlc release];
 }
 
 - (void)viewDidUnload
@@ -98,7 +92,6 @@
     self.sinaSwitch = nil;
     self.qqSwitch = nil;
     self.cancelBtn = nil;
-    self.btnView = nil;
     
     [self setTableView:nil];
     [super viewDidUnload];
@@ -179,5 +172,8 @@
 - (void)dealloc {
     [_tableView release];
     [super dealloc];
+}
+- (IBAction)backAction:(id)sender {
+    [self.navigationController popViewControllerAnimated:YES];
 }
 @end
