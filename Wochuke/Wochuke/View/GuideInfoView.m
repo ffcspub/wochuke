@@ -197,7 +197,7 @@
     [tv_title sizeToFit];
 //    CGSize tvsize = [_guide.title sizeWithFont:tv_title.font constrainedToSize:CGSizeMake(tv_title.frame.size.width - 16, CGFLOAT_MAX)];
 //    tv_title.frame = CGRectMake(tv_title.frame.origin.x, tv_title.frame.origin.y, tv_title.frame.size.width, tvsize.height);
-    [iv_photo setImageWithURL:[NSURL URLWithString:_guide.userAvatar.url]];
+    [iv_photo setImageWithURL:[NSURL URLWithString:_guide.userAvatar.url] placeholderImage:[UIImage imageNamed:@"ic_user_top"]];
     lb_publisher.text = _guide.userName;
     [btn_viewCount setTitle:[NSString stringWithFormat:@"%d",_guide.viewCount] forState:UIControlStateNormal];
     [btn_favoriteCount setTitle:[NSString stringWithFormat:@"%d",_guide.favoriteCount] forState:UIControlStateNormal];
@@ -322,7 +322,7 @@
         JCGuide *_guide = [ShareVaule shareInstance].editGuideEx.guideInfo;
         
         tv_title.text = _guide.title;
-        [iv_photo setImageWithURL:[NSURL URLWithString:_guide.userAvatar.url]];
+        [iv_photo setImageWithURL:[NSURL URLWithString:_guide.userAvatar.url] placeholderImage:[UIImage imageNamed:@"ic_user_top"]];
         lb_publisher.text = _guide.userName;
         tv_content.text = _guide.description_;
         
@@ -457,7 +457,7 @@
     if (self.cellData) {
         JCGuide *_guide = self.cellData;
         lb_title.text = _guide.title;
-        [iv_photo setImageWithURL:[NSURL URLWithString:_guide.cover.url]];
+        [iv_photo setImageWithURL:[NSURL URLWithString:_guide.cover.url] placeholderImage:[UIImage imageNamed:@"ic_user_top"]];
         lb_publisher.text = [NSString stringWithFormat:@"by %@",_guide.userName];
         [btn_viewCount setTitle:[NSString stringWithFormat:@"%d",_guide.viewCount] forState:UIControlStateNormal];
         [btn_viewCount setImage:[UIImage imageNamed:@"ic_classify_list_read"] forState:UIControlStateNormal];
@@ -539,13 +539,13 @@
 - (void)layoutInBound:(CGSize)bound forCell:(BeeUIGridCell *)cell
 {
     backImageView.frame = CGRectZero;
-    iv_photo.frame = CGRectMake(10, 10, 50, 50);
-    lb_title.frame = CGRectMake(70, 10, bound.width - 60 - 14, 30);
-    line.frame = CGRectZero;
-    btn_viewCount.frame = CGRectZero;
-    btn_favoriteCount.frame = CGRectZero;
-    btn_commentCount.frame = CGRectZero;
-    lb_publisher.frame = CGRectMake(170, 40, bound.width - 170 - 10,25);
+    iv_photo.frame = CGRectMake(5, 5, bound.height-10, bound.height-10);
+    lb_title.frame = CGRectMake(bound.height + 5, 5, bound.width - 20 - bound.height, 30);
+    line.frame = CGRectMake(2, bound.height-0.5, bound.width - 4, 0.5);
+    btn_viewCount.frame = CGRectMake(bound.height + 5, (bound.height -10)/2, 60, 30);
+    btn_favoriteCount.frame = CGRectMake(bound.height + 5 + 60, (bound.height -10)/2, 60, 30);
+    btn_commentCount.frame = CGRectMake(bound.height + 5 + 60 + 60, (bound.height -10)/2, 60, 30);
+    lb_publisher.frame = CGRectMake(bound.width - 100, bound.height, bound.width - 170 - 10,25);
 }
 
 - (void)load
@@ -563,4 +563,32 @@
     [btn_favoriteCount setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
     [btn_viewCount setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
 }
+@end
+
+@implementation GuideInfoEditCell
+
+-(void)editBtnClicked{
+    if (_delegate && [_delegate respondsToSelector:@selector(guideInfoEditCellEdit:)]) {
+        [_delegate guideInfoEditCellEdit:self];
+    }
+}
+
+-(void)load{
+    [super load];
+    btn_edit = [[[UIButton alloc]init]autorelease];
+    btn_edit.titleLabel.font = [UIFont systemFontOfSize:12];
+    btn_edit.backgroundColor = [UIColor clearColor];
+    [btn_edit setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+    [btn_edit setTitle:@"编辑" forState:UIControlStateNormal];
+    [btn_edit addTarget:self action:@selector(editBtnClicked) forControlEvents:UIControlEventTouchUpInside];
+    [self addSubview:btn_edit];
+}
+
+- (void)layoutInBound:(CGSize)bound forCell:(BeeUIGridCell *)cell
+{
+    [super layoutInBound:bound forCell:cell];
+    backImageView.frame = CGRectZero;
+    btn_edit.frame = CGRectMake(bound.width - 50 , (bound.height - 30)/2, 45,30);
+}
+
 @end

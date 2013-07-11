@@ -40,8 +40,9 @@
     guide.userId = [ShareVaule shareInstance].user.id_;
     guide.userName = [ShareVaule shareInstance].user.name;
     guide.userAvatar = [ShareVaule shareInstance].user.avatar;
+    
     JCGuideEx *guideEx = [JCGuideEx guideEx:guide supplies:[NSMutableArray array] steps:[NSMutableArray array]];
-    [ShareVaule shareInstance].editGuideEx = [guideEx retain];
+    [ShareVaule shareInstance].editGuideEx = guideEx;
     // Do any additional setup after loading the view from its nib.
 }
 
@@ -56,8 +57,13 @@
 }
 
 - (void)dealloc {
-    [[ShareVaule shareInstance].editGuideEx release];
-    [[ShareVaule shareInstance].guideImage release];
+    NSLog(@"%d",[[ShareVaule shareInstance].editGuideEx retainCount]);
+    if ([ShareVaule shareInstance].editGuideEx) {
+        [ShareVaule shareInstance].editGuideEx = nil;
+    }
+    if ([ShareVaule shareInstance].guideImage) {
+        [ShareVaule shareInstance].guideImage = nil;
+    }
     [[ShareVaule shareInstance].stepImageDic removeAllObjects];
     [_pagedFlowView release];
     [super dealloc];

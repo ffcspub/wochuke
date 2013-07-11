@@ -50,10 +50,11 @@
         _guide = nil;
     }
     _guide = [guide retain];
-    NSMutableArray *steps = [[NSMutableArray alloc]init];
-    NSMutableArray *supplies = [[NSMutableArray alloc]init];
-    JCGuide * guideInfo = [guide copy];
-    [ShareVaule shareInstance].editGuideEx = [[JCGuideEx guideEx:guideInfo supplies:supplies steps:steps]retain];
+    NSMutableArray *steps = [[[NSMutableArray alloc]init]autorelease];
+    NSMutableArray *supplies = [[[NSMutableArray alloc]init]autorelease];
+    JCGuide * guideInfo = [[guide copy]autorelease];
+    [ShareVaule shareInstance].editGuideEx = [JCGuideEx guideEx:guideInfo supplies:supplies steps:steps];
+    NSLog(@"%d",[[ShareVaule shareInstance].editGuideEx retainCount]);
     [[ShareVaule shareInstance].stepImageDic removeAllObjects];
     [self loadDetail];
 }
@@ -131,7 +132,8 @@
 
 -(void)dealloc{
     [_guide release];
-    [[ShareVaule shareInstance].editGuideEx release];
+//    [[ShareVaule shareInstance].editGuideEx release];
+    [ShareVaule shareInstance].editGuideEx = nil;
     [[ShareVaule shareInstance].stepImageDic removeAllObjects];
     [btn_add release];
     [super dealloc];
@@ -139,7 +141,6 @@
 
 -(void)viewDidUnload{
     _girdView = nil;
-    [ShareVaule shareInstance].editGuideEx = nil;
     [btn_add release];
     btn_add = nil;
     [super viewDidUnload];

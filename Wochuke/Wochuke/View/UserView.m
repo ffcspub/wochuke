@@ -27,18 +27,20 @@
 {
     iv_heard.frame = CGRectMake(5, 5, bound.height -10, bound.height -10);
     lb_name.frame = CGRectMake(bound.height, 5, bound.width - 60, (bound.height-10)/2);
-    lb_guides.frame = CGRectMake(bound.height, (bound.height-10)/2, bound.width - 60, (bound.height-10)/2);
-    btn_following.frame = CGRectMake(bound.width - 50, 5, 40, bound.height-10);
+    lb_guides.frame = CGRectMake(bound.height, (bound.height-10)/2, 60, (bound.height-10)/2);
+    lb_fav.frame = CGRectMake(bound.height + 70, (bound.height-10)/2, 60, (bound.height-10)/2);
+    btn_following.frame = CGRectMake(bound.width - 80, 10, 70, bound.height-20);
 }
 
 - (void)dataDidChanged
 {
     if (self.cellData) {
         JCUser *user = self.cellData;
-        [iv_heard setImageWithURL:[NSURL URLWithString:user.avatar.url]];
+        [iv_heard setImageWithURL:[NSURL URLWithString:user.avatar.url] placeholderImage:[UIImage imageNamed:@"ic_user_top"]];
         lb_name.text = user.name;
-        lb_guides.text = [NSString stringWithFormat:@"%d条指南",user.guideCount];
-        [btn_following setTitle:user.followState>0?@"已关注":@"未关注" forState:UIControlStateNormal];
+        lb_guides.text = [NSString stringWithFormat:@"%d上传",user.guideCount];
+        lb_fav.text = [NSString stringWithFormat:@"%d收藏",user.favoriteCount];
+        [btn_following setTitle:user.followState>0?@"取消关注":@"添加关注" forState:UIControlStateNormal];
     }
 }
 

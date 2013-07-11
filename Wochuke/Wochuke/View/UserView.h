@@ -20,6 +20,7 @@
     UIImageView *iv_heard;//头像
     UILabel *lb_name;//姓名
     UILabel *lb_guides;//多少条指南
+    UILabel *lb_fav;//多少条收藏
     UIButton *btn_following;//关注
 }
 

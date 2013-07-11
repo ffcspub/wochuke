@@ -67,6 +67,7 @@
 
 @end
 
+
 @interface GuideInfoCell : BeeUIGridCell{
     UILabel *lb_title;
     UIImageView *backImageView;
@@ -81,5 +82,24 @@
 @end
 
 @interface GuideInfoMinCell : GuideInfoCell
+
+@end
+
+
+@protocol GuideInfoEditCellDelegate;
+
+@interface GuideInfoEditCell : GuideInfoMinCell{
+    UIButton *btn_edit;
+}
+
+@property(nonatomic,assign) id<GuideInfoEditCellDelegate> delegate;
+
+@end
+
+@protocol GuideInfoEditCellDelegate<NSObject>
+
+@optional
+
+-(void) guideInfoEditCellEdit:(GuideInfoEditCell *) cell;
 
 @end

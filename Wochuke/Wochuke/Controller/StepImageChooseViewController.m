@@ -99,7 +99,8 @@
 #pragma mark - GMGridViewActionDelegate
 - (void)GMGridView:(GMGridView *)gridView didTapOnItemAtIndex:(NSInteger)position;{
     NSString *num = [[ShareVaule shareInstance].stepImageDic.allKeys objectAtIndex:position];
-    [ShareVaule shareInstance].guideImage = [[ShareVaule shareInstance].stepImageDic objectForKey:num];
+    NSData *data = [[ShareVaule shareInstance].stepImageDic objectForKey:num];
+    [ShareVaule shareInstance].guideImage = [NSData dataWithData:data];
     [self.navigationController popViewControllerAnimated:NO];
 }
 

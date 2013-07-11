@@ -16,9 +16,15 @@ static ShareVaule *_shareVaule;
 +(ShareVaule *)shareInstance;{
     if (!_shareVaule) {
         _shareVaule = [[ShareVaule alloc]init];
-        _shareVaule.stepImageDic = [[NSMutableDictionary alloc]init];
     }
     return _shareVaule;
+}
+
+-(id)init{
+    if (self = [super init]) {
+        _stepImageDic = [[NSMutableDictionary alloc]init];
+    }
+    return  self;
 }
 
 -(void)dealloc{

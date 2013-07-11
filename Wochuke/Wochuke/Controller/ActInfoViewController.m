@@ -43,7 +43,7 @@
 {
     if (self.cellData) {
         JCActInfo *_info = self.cellData;
-        [iv_heard setImageWithURL:[NSURL URLWithString:_info.userAvatar.url]];
+        [iv_heard setImageWithURL:[NSURL URLWithString:_info.userAvatar.url] placeholderImage:[UIImage imageNamed:@"ic_user_top"]];
         NSString *actionname = nil;
         switch (_info.actCode) {
             case 0:
