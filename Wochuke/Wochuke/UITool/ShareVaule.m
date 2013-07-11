@@ -16,15 +16,9 @@ static ShareVaule *_shareVaule;
 +(ShareVaule *)shareInstance;{
     if (!_shareVaule) {
         _shareVaule = [[ShareVaule alloc]init];
+        _shareVaule.stepImageDic = [[NSMutableDictionary alloc]init];
     }
     return _shareVaule;
-}
-
--(id)init{
-    if (self = [super init]) {
-        _stepImageDic = [[NSMutableDictionary alloc]init];
-    }
-    return  self;
 }
 
 -(void)dealloc{
@@ -53,7 +47,6 @@ static ShareVaule *_shareVaule;
     _user = [user retain];
 }
 
-
 -(void)removeStep:(JCStep *)step;{
     NSMutableArray *steps = (NSMutableArray *)[ShareVaule shareInstance].editGuideEx.steps;
     int index = [steps indexOfObject:step];
@@ -72,6 +65,7 @@ static ShareVaule *_shareVaule;
             [data release];
         }
     }
+    _noChanged = YES;
     [self postNotification:NOTIFICATION_ORDINALCHANGE];
 }
 
@@ -92,10 +86,12 @@ static ShareVaule *_shareVaule;
             [data release];
         }
     }
+    _noChanged = YES;
     [self postNotification:NOTIFICATION_ORDINALCHANGE];
 }
 
 -(void)putImageData:(NSData *)data step:(JCStep *)step;{
+    _noChanged = YES;
     [self removeImageDataByStep:step];
     [_stepImageDic setObject:data forKey:[NSString stringWithFormat:@"%d",step.ordinal]];
 }

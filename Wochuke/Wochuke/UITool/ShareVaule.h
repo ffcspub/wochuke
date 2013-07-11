@@ -43,6 +43,8 @@
 
 @property(nonatomic,retain) NSData *guideImage;
 
+@property(nonatomic,assign) BOOL noChanged;
+
 -(void)removeStep:(JCStep *)step;
 
 -(void)moveStepFromIndex:(NSInteger)fromIndex toIndex:(NSInteger)toIndex;
