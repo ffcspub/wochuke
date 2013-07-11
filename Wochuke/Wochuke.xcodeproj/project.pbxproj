@@ -267,6 +267,10 @@
 		18FFAABC1782E1D900E1D571 /* tag_cook_firstcard_slip@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18FFAA9A1782E1D900E1D571 /* tag_cook_firstcard_slip@2x.png */; };
 		18FFAABF1782E1E600E1D571 /* textViewBoard.png in Resources */ = {isa = PBXBuildFile; fileRef = 18FFAABD1782E1E600E1D571 /* textViewBoard.png */; };
 		18FFAAC01782E1E600E1D571 /* textViewBoard@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18FFAABE1782E1E600E1D571 /* textViewBoard@2x.png */; };
+		B7538EF9178E492800BC4BA8 /* FeedbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7538EF4178E492800BC4BA8 /* FeedbackViewController.m */; };
+		B7538EFA178E492800BC4BA8 /* FeedbackViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7538EF5178E492800BC4BA8 /* FeedbackViewController.xib */; };
+		B7538EFB178E492800BC4BA8 /* PersonalSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7538EF7178E492800BC4BA8 /* PersonalSettingsViewController.m */; };
+		B7538EFC178E492800BC4BA8 /* PersonalSettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7538EF8178E492800BC4BA8 /* PersonalSettingsViewController.xib */; };
 		B7728901178667B200332460 /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = B77288F4178667B200332460 /* JSONKit.m */; };
 		B7728902178667B200332460 /* SinaWeibo.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B77288F6178667B200332460 /* SinaWeibo.bundle */; };
 		B7728903178667B200332460 /* SinaWeibo.m in Sources */ = {isa = PBXBuildFile; fileRef = B77288F8178667B200332460 /* SinaWeibo.m */; };
@@ -647,6 +651,12 @@
 		18FFAABD1782E1E600E1D571 /* textViewBoard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = textViewBoard.png; sourceTree = "<group>"; };
 		18FFAABE1782E1E600E1D571 /* textViewBoard@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "textViewBoard@2x.png"; sourceTree = "<group>"; };
 		B0E096F28CAD47D3A4472D71 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		B7538EF3178E492800BC4BA8 /* FeedbackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedbackViewController.h; sourceTree = "<group>"; };
+		B7538EF4178E492800BC4BA8 /* FeedbackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedbackViewController.m; sourceTree = "<group>"; };
+		B7538EF5178E492800BC4BA8 /* FeedbackViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FeedbackViewController.xib; sourceTree = "<group>"; };
+		B7538EF6178E492800BC4BA8 /* PersonalSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PersonalSettingsViewController.h; sourceTree = "<group>"; };
+		B7538EF7178E492800BC4BA8 /* PersonalSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersonalSettingsViewController.m; sourceTree = "<group>"; };
+		B7538EF8178E492800BC4BA8 /* PersonalSettingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PersonalSettingsViewController.xib; sourceTree = "<group>"; };
 		B77288F3178667B200332460 /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONKit.h; sourceTree = "<group>"; };
 		B77288F4178667B200332460 /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONKit.m; sourceTree = "<group>"; };
 		B77288F6178667B200332460 /* SinaWeibo.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SinaWeibo.bundle; sourceTree = "<group>"; };
@@ -1141,6 +1151,12 @@
 		18E457B917796D55003A0BBA /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				B7538EF3178E492800BC4BA8 /* FeedbackViewController.h */,
+				B7538EF4178E492800BC4BA8 /* FeedbackViewController.m */,
+				B7538EF5178E492800BC4BA8 /* FeedbackViewController.xib */,
+				B7538EF6178E492800BC4BA8 /* PersonalSettingsViewController.h */,
+				B7538EF7178E492800BC4BA8 /* PersonalSettingsViewController.m */,
+				B7538EF8178E492800BC4BA8 /* PersonalSettingsViewController.xib */,
 				18BFCEB6178ABB1D005AE5E4 /* CreateStepViewController.h */,
 				18BFCEB7178ABB1E005AE5E4 /* CreateStepViewController.m */,
 				18BFCEB8178ABB1E005AE5E4 /* CreateStepViewController.xib */,
@@ -1566,6 +1582,8 @@
 				1872A986178CF69E00BDA3C0 /* ic_go_into@2x.png in Resources */,
 				1872A987178CF69E00BDA3C0 /* spline_setting_card.png in Resources */,
 				1872A988178CF69E00BDA3C0 /* spline_setting_card@2x.png in Resources */,
+				B7538EFA178E492800BC4BA8 /* FeedbackViewController.xib in Resources */,
+				B7538EFC178E492800BC4BA8 /* PersonalSettingsViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1650,6 +1668,8 @@
 				18BFCEB9178ABB1F005AE5E4 /* CreateStepViewController.m in Sources */,
 				189CE1D3178B9B7900C98415 /* PublishViewController.m in Sources */,
 				189CE1DE178BB5F100C98415 /* StepImageChooseViewController.m in Sources */,
+				B7538EF9178E492800BC4BA8 /* FeedbackViewController.m in Sources */,
+				B7538EFB178E492800BC4BA8 /* PersonalSettingsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
