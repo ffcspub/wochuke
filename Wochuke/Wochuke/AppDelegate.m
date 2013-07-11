@@ -19,11 +19,13 @@
 @implementation AppDelegate
 
 @synthesize sinaweibo;
+@synthesize tencentOAuth;
 @synthesize loginViewController = _loginViewController;
 
 - (void)dealloc
 {
     [sinaweibo release];
+    [tencentOAuth release];
     [_loginViewController release];
     [_window release];
     [super dealloc];
@@ -54,6 +56,13 @@
         sinaweibo.accessToken = [sinaweiboInfo objectForKey:@"AccessTokenKey"];
         sinaweibo.expirationDate = [sinaweiboInfo objectForKey:@"ExpirationDateKey"];
         sinaweibo.userID = [sinaweiboInfo objectForKey:@"UserIDKey"];
+    }
+    
+    tencentOAuth = [[TencentOAuth alloc] initWithAppId:QQAPPID andDelegate:_loginViewController];
+    NSDictionary *qqInfo = [defaults objectForKey:@"TencentOAuthData"];
+    if ([qqInfo objectForKey:@""] && [qqInfo objectForKey:@""]) {
+        tencentOAuth.accessToken = [qqInfo objectForKey:@""];
+        tencentOAuth.openId = [qqInfo objectForKey:@""];
     }
     
     return YES;

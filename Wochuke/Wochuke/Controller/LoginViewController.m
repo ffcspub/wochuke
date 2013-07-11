@@ -15,7 +15,6 @@
 #import "AppDelegate.h"
 #import "SVProgressHUD.h"
 
-#define QQAPPID @"100454485"
 
 @interface LoginViewController ()
 
@@ -321,18 +320,24 @@
     }
 }
 
-#pragma mark - SinaWeibo Delegate
+-(void)logout{
+    [self dismissModalViewControllerAnimated:YES];
+}
 
+#pragma mark - SinaWeibo Delegate
 - (void)sinaweiboDidLogIn:(SinaWeibo *)sinaweibo
 {
     NSLog(@"走 sinaweiboDidLogIn ");
     [self storeAuthData];
-    [self getUserByKey:@"sinaId" idValue:sinaweibo.userID];
+    [self performSelectorOnMainThread:@selector(logout) withObject:self waitUntilDone:YES];
+    
+//    [self getUserByKey:@"sinaId" idValue:sinaweibo.userID];
 }
 
 - (void)sinaweiboDidLogOut:(SinaWeibo *)sinaweibo
 {
     NSLog(@"走 sinaweiboDidLogOut ");
+    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
     [self removeAuthData];
 }
 
