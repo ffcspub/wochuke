@@ -20,6 +20,8 @@
 
 #define KEY_TYPELIST @"KEY_TYPELIST"
 
+#define QQAPPID   @"100454485"
+
 #define kAppKey             @"732356489"
 #define kAppSecret          @"ef8ddba071d92652c0f65b4aff79a451"
 #define kAppRedirectURI     @"http://www.sina.com.cn"
