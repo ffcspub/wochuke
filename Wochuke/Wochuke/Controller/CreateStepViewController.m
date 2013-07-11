@@ -43,10 +43,9 @@
     _pagedFlowView.dataSource = self;
     _pagedFlowView.minimumPageAlpha = 0.3;
     _pagedFlowView.minimumPageScale = 0.9;
-    
     step = [JCStep step];
+    step.ordinal = [ShareVaule shareInstance].editGuideEx.steps.count+1;
     [((NSMutableArray *)[ShareVaule shareInstance].editGuideEx.steps) addObject:step];
-    step.ordinal = [ShareVaule shareInstance].editGuideEx.steps.count;
     // Do any additional setup after loading the view from its nib.
 }
 
@@ -79,14 +78,12 @@
 
 - (IBAction)popAction:(id)sender {
     [((NSMutableArray *)[ShareVaule shareInstance].editGuideEx.steps) removeObject:step];
-    [[ShareVaule shareInstance].stepImageDic removeObjectForKey:step];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (IBAction)saveAction:(id)sender {
     [self.navigationController popViewControllerAnimated:YES];
 }
-
 
 #pragma mark -PagedFlowViewDelegate
 - (CGSize)sizeForPageInFlowView:(PagedFlowView *)flowView;{
@@ -109,7 +106,7 @@
         view = [[[StepEditView alloc]init]autorelease];
         view.delegate = self;
     }
-    view.step = step;
+    view.step = [[ShareVaule shareInstance].editGuideEx.steps lastObject];
     view.noDeleteAble = YES;
     return view;
 }
@@ -141,6 +138,83 @@
 }
 
 #pragma mark -UIImagePickerControllerDelegate
+- (UIImage *)fixOrientation:(UIImage *)aImage {
+    
+    // No-op if the orientation is already correct
+    if (aImage.imageOrientation == UIImageOrientationUp)
+        return aImage;
+    
+    // We need to calculate the proper transformation to make the image upright.
+    // We do it in 2 steps: Rotate if Left/Right/Down, and then flip if Mirrored.
+    CGAffineTransform transform = CGAffineTransformIdentity;
+    
+    switch (aImage.imageOrientation) {
+        case UIImageOrientationDown:
+        case UIImageOrientationDownMirrored:
+            transform = CGAffineTransformTranslate(transform, aImage.size.width, aImage.size.height);
+            transform = CGAffineTransformRotate(transform, M_PI);
+            break;
+            
+        case UIImageOrientationLeft:
+        case UIImageOrientationLeftMirrored:
+            transform = CGAffineTransformTranslate(transform, aImage.size.width, 0);
+            transform = CGAffineTransformRotate(transform, M_PI_2);
+            break;
+            
+        case UIImageOrientationRight:
+        case UIImageOrientationRightMirrored:
+            transform = CGAffineTransformTranslate(transform, 0, aImage.size.height);
+            transform = CGAffineTransformRotate(transform, -M_PI_2);
+            break;
+        default:
+            break;
+    }
+    
+    switch (aImage.imageOrientation) {
+        case UIImageOrientationUpMirrored:
+        case UIImageOrientationDownMirrored:
+            transform = CGAffineTransformTranslate(transform, aImage.size.width, 0);
+            transform = CGAffineTransformScale(transform, -1, 1);
+            break;
+            
+        case UIImageOrientationLeftMirrored:
+        case UIImageOrientationRightMirrored:
+            transform = CGAffineTransformTranslate(transform, aImage.size.height, 0);
+            transform = CGAffineTransformScale(transform, -1, 1);
+            break;
+        default:
+            break;
+    }
+    
+    // Now we draw the underlying CGImage into a new context, applying the transform
+    // calculated above.
+    CGContextRef ctx = CGBitmapContextCreate(NULL, aImage.size.width, aImage.size.height,
+                                             CGImageGetBitsPerComponent(aImage.CGImage), 0,
+                                             CGImageGetColorSpace(aImage.CGImage),
+                                             CGImageGetBitmapInfo(aImage.CGImage));
+    CGContextConcatCTM(ctx, transform);
+    switch (aImage.imageOrientation) {
+        case UIImageOrientationLeft:
+        case UIImageOrientationLeftMirrored:
+        case UIImageOrientationRight:
+        case UIImageOrientationRightMirrored:
+            // Grr...
+            CGContextDrawImage(ctx, CGRectMake(0,0,aImage.size.height,aImage.size.width), aImage.CGImage);
+            break;
+            
+        default:
+            CGContextDrawImage(ctx, CGRectMake(0,0,aImage.size.width,aImage.size.height), aImage.CGImage);
+            break;
+    }
+    
+    // And now we just create a new UIImage from the drawing context
+    CGImageRef cgimg = CGBitmapContextCreateImage(ctx);
+    UIImage *img = [UIImage imageWithCGImage:cgimg];
+    CGContextRelease(ctx);
+    CGImageRelease(cgimg);
+    return img;
+}
+
 - (UIImage *)scaleImage:(UIImage *)image toScale:(float)scaleSize
 {
     UIGraphicsBeginImageContext(CGSizeMake(image.size.width*scaleSize,image.size.height*scaleSize));
@@ -154,6 +228,8 @@
 #define kImageCompressRate 0.5
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
     UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];//
+    image = [self fixOrientation:image];
+    image = [self scaleImage:image toScale:kImageScaleRate];//縮圖
     [picker dismissViewControllerAnimated:YES completion:^{
         [self openEditor:image];
         [_picker release];
@@ -175,7 +251,7 @@
     //    UIImageWriteToSavedPhotosAlbum(cmpImg, nil, nil, nil);
     NSData *blobImage = UIImageJPEGRepresentation(croppedImage, kImageCompressRate);//圖片壓縮為NSData
     if (_editView) {
-        [[ShareVaule shareInstance].stepImageDic setObject:blobImage forKey:step];
+        [[ShareVaule shareInstance]putImageData:blobImage step:step];
         [_editView upImage];
         _editView = nil;
     }
@@ -200,7 +276,7 @@
     controller.delegate = self;
     controller.image = image;
     
-    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:controller];
+    UINavigationController *navigationController = [[[UINavigationController alloc] initWithRootViewController:controller]autorelease];
     
     [self presentViewController:navigationController animated:YES completion:NULL];
 }

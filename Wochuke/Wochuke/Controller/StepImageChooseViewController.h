@@ -11,13 +11,8 @@
 #import <Guide.h>
 #import "NSObject+Notification.h"
 
-@interface StepPreviewController : UIViewController<GMGridViewDataSource,GMGridViewActionDelegate>{
+@interface StepImageChooseViewController : UIViewController<GMGridViewDataSource,GMGridViewActionDelegate>{
    IBOutlet GMGridView *_girdView;
 }
-
-@property(nonatomic,retain) JCGuide *guide;
-@property(nonatomic,retain) JCGuideDetail *detail;
-
-AS_NOTIFICATION(TAP)
 
 @end

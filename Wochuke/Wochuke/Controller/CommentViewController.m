@@ -60,9 +60,9 @@
 {
     [super viewDidLoad];
     
-    containerView = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - 40, 320, 40)];
+    containerView = [[[UIView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - 40, 320, 40)]autorelease];
     
-	textView = [[HPGrowingTextView alloc] initWithFrame:CGRectMake(6, 3, 240, 40)];
+	textView = [[[HPGrowingTextView alloc] initWithFrame:CGRectMake(6, 3, 240, 40)]autorelease];
     textView.contentInset = UIEdgeInsetsMake(0, 5, 0, 5);
 	textView.minNumberOfLines = 1;
 	textView.maxNumberOfLines = 6;
@@ -77,13 +77,13 @@
 	
     UIImage *rawEntryBackground = [UIImage imageNamed:@"MessageEntryInputField.png"];
     UIImage *entryBackground = [rawEntryBackground stretchableImageWithLeftCapWidth:13 topCapHeight:22];
-    UIImageView *entryImageView = [[UIImageView alloc] initWithImage:entryBackground];
+    UIImageView *entryImageView = [[[UIImageView alloc] initWithImage:entryBackground]autorelease];
     entryImageView.frame = CGRectMake(5, 0, 248, 40);
     entryImageView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
     
     UIImage *rawBackground = [UIImage imageNamed:@"MessageEntryBackground.png"];
     UIImage *background = [rawBackground stretchableImageWithLeftCapWidth:13 topCapHeight:22];
-    UIImageView *imageView = [[UIImageView alloc] initWithImage:background];
+    UIImageView *imageView = [[[UIImageView alloc] initWithImage:background]autorelease];
     imageView.frame = CGRectMake(0, 0, containerView.frame.size.width, containerView.frame.size.height);
     imageView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
     

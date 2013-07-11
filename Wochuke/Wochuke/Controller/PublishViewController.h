@@ -12,9 +12,15 @@
 
 @property (retain, nonatomic) IBOutlet UIImageView *iv_photo;
 
+@property (retain, nonatomic) IBOutlet UIView *photoBackview;
+
 @property (retain, nonatomic) IBOutlet UIButton *btn_type;
 
 - (IBAction)typeChooseAction:(id)sender;
+
+- (IBAction)backAction:(id)sender;
+
+- (IBAction)pubishAction:(id)sender;
 
 
 @end

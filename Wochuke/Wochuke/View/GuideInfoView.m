@@ -31,6 +31,8 @@
     
     lb_tag.frame = CGRectMake(frame.size.width - tagImageView.frame.size.width + 8, 97, tagImageView.frame.size.width -10, tagImageView.frame.size.height);
     
+    iv_photoback.frame = CGRectMake((frame.size.width - 46)/2, 72, 46, 46);
+    
     iv_photo.frame = CGRectMake((frame.size.width - 40)/2, 75, 40 , 40);
     tv_title.frame = CGRectMake(5, 20, frame.size.width-10, 30);
     tv_title.textMaxLength = 30;
@@ -99,6 +101,12 @@
         backTopImageView.layer.cornerRadius = 12;
         backTopImageView.layer.masksToBounds = YES;
         
+        
+        iv_photoback = [[[UIView alloc]init]autorelease];
+        iv_photoback.backgroundColor = [UIColor whiteColor];
+        iv_photoback.layer.cornerRadius = 6;
+        iv_photoback.layer.masksToBounds = YES;
+        
         iv_photo = [[[MyWebImgView alloc]init]autorelease];
         iv_photo.layer.cornerRadius = 6;
         iv_photo.layer.masksToBounds = YES;
@@ -161,6 +169,7 @@
         [self addSubview:tagImageView];
         [self addSubview:lb_tag];
         [self addSubview:tv_title];
+        [self addSubview:iv_photoback];
         [self addSubview:iv_photo];
         [self addSubview:lb_publisher];
         [self addSubview:btn_viewCount];
@@ -220,6 +229,8 @@
     [super setFrame:frame];
     backImageView.frame = CGRectMake(0, 0, frame.size.width, frame.size.height);
     backTopImageView.frame = CGRectMake(5, 5, frame.size.width - 10, frame.size.height -10);
+    
+    iv_photoback.frame = CGRectMake((frame.size.width - 46)/2, 92, 46, 46);
     iv_photo.frame = CGRectMake((frame.size.width - 40)/2, 95, 40 , 40);
     tv_title.frame = CGRectMake(5, 30, frame.size.width-10, 30);
     tv_title.textMaxLength = 30;
@@ -257,6 +268,11 @@
         [backTopImageView setImage:[UIImage imageNamed:@"bg_cook_card_1"]];
         backTopImageView.layer.cornerRadius = 12;
         backTopImageView.layer.masksToBounds = YES;
+        
+        iv_photoback = [[[UIView alloc]init]autorelease];
+        iv_photoback.backgroundColor = [UIColor whiteColor];
+        iv_photoback.layer.cornerRadius = 6;
+        iv_photoback.layer.masksToBounds = YES;
         
         // Initialization code
         iv_photo = [[[MyWebImgView alloc]init]autorelease];
@@ -297,6 +313,7 @@
         [self addSubview:backImageView];
         [self addSubview:backTopImageView];
         [self addSubview:tv_title];
+        [self addSubview:iv_photoback];
         [self addSubview:iv_photo];
         [self addSubview:lb_publisher];
         [self addSubview:iv_contentBackView];
@@ -384,6 +401,7 @@
 
 -(void)setFrame:(CGRect)frame{
     [super setFrame:frame];
+    iv_photoback.frame = CGRectMake((frame.size.width - 36)/2, 57, 36, 36);
     iv_photo.frame = CGRectMake((frame.size.width - 30)/2, 60, 30 , 30);
     tv_title.frame = CGRectMake(0, 10, frame.size.width, 50);
     lb_publisher.frame = CGRectMake(0, 95, frame.size.width, 20);

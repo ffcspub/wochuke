@@ -12,6 +12,7 @@
 
 @interface StepEditController : UIViewController<GMGridViewDataSource,GMGridViewSortingDelegate,GMGridViewActionDelegate>{
    IBOutlet GMGridView *_girdView;
+    IBOutlet UIButton *btn_add;
 }
 
 @property(nonatomic,retain) JCGuide *guide;

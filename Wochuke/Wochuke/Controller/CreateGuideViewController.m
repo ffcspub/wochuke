@@ -56,6 +56,9 @@
 }
 
 - (void)dealloc {
+    [[ShareVaule shareInstance].editGuideEx release];
+    [[ShareVaule shareInstance].guideImage release];
+    [[ShareVaule shareInstance].stepImageDic removeAllObjects];
     [_pagedFlowView release];
     [super dealloc];
 }

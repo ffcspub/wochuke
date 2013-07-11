@@ -92,7 +92,7 @@ DEF_NOTIFICATION(TAP)
             cell.reuseIdentifier = @"GUIDEINFOCELL";
             cell.deleteButtonIcon = [UIImage imageNamed:@"close_x.png"];
             cell.deleteButtonOffset = CGPointMake(-15, -15);
-            GuideInfoMinView *view = [[GuideInfoMinView alloc]init];
+            GuideInfoMinView *view = [[[GuideInfoMinView alloc]init]autorelease];
             view.guide = _guide;
             cell.contentView = view;
         }
@@ -116,7 +116,7 @@ DEF_NOTIFICATION(TAP)
             cell.reuseIdentifier = @"STEPCELL";
             cell.deleteButtonIcon = [UIImage imageNamed:@"close_x.png"];
             cell.deleteButtonOffset = CGPointMake(-15, -15);
-            StepMinView *view = [[StepMinView alloc]init];
+            StepMinView *view = [[[StepMinView alloc]init]autorelease];
             cell.contentView = view;
         }
         StepView *view = (StepView *)cell.contentView;

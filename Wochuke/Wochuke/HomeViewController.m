@@ -165,7 +165,7 @@
 //    vlc.guide = guide;
     
     
-    StepEditController *vlc = [[StepEditController alloc]initWithNibName:@"StepEditController" bundle:nil];
+    StepEditController *vlc = [[[StepEditController alloc]initWithNibName:@"StepEditController" bundle:nil]autorelease];
     JCGuide *guide = [_datas objectAtIndex:index];
     vlc.guide = guide;
     [self.navigationController pushViewController:vlc animated:YES];

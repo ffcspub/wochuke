@@ -21,12 +21,31 @@
     btn_comment.frame = CGRectMake(11, frame.size.height - 11 - 30, 40, 30);
     lb_comment.frame = CGRectMake(52, frame.size.height - 11 - 30, 40, 30);
     
-    if (_step.photo.url){
+    
+    if ([self hasImage]){
         imageView.frame = CGRectMake(11, 11, frame.size.width -22 , frame.size.height - 22 - 45 - MIN(size.height, 100));
         lb_text.frame = CGRectMake(11, frame.size.height - 22 - 30 - size.height, size.width, MIN(size.height, 100));
     }else{
         imageView.frame = CGRectZero;
         lb_text.frame = CGRectMake(11,  11 , frame.size.width - 22, frame.size.height - 22 - 40);
+    }
+}
+
+-(BOOL)hasImage{
+    return [[ShareVaule shareInstance].stepImageDic objectForKey:[NSNumber numberWithInt:self.step.ordinal]] || _step.photo.url;
+}
+
+-(void)upImage;{
+    NSData *data = [[ShareVaule shareInstance] getImageDataByStep:self.step];
+    if (data) {
+        [imageView setImage:[UIImage imageWithData:data]];
+    }else{
+        if (_step.photo.url) {
+            [imageView setImageWithURL:[NSURL URLWithString:_step.photo.url]];
+        }else{
+            [imageView setImage:nil];
+        }
+        
     }
 }
 
@@ -114,11 +133,10 @@
     lb_step.text = [NSString stringWithFormat:@"%d/%d",step.ordinal,_stepCount];
     [btn_comment setTitle: [NSString stringWithFormat:@"%d",_step.commentCount] forState:UIControlStateNormal];
     lb_text.text = step.text;
+    [self upImage];
     if (_step.photo.url) {
-        [imageView setImageWithURL:[NSURL URLWithString:_step.photo.url]];
         lb_text.font = [UIFont systemFontOfSize:14];
     }else{
-        [imageView setImage:nil];
         lb_text.font = [UIFont systemFontOfSize:18];
     }
 }
@@ -176,11 +194,15 @@
 }
 
 -(void)upImage;{
-    NSData *data = (NSData *)[[ShareVaule shareInstance].stepImageDic objectForKey:self.step];
+    NSData *data = [[ShareVaule shareInstance] getImageDataByStep:self.step];
     if (data) {
         [imageView setImage:[UIImage imageWithData:data]];
     }else{
-        [imageView setImageWithURL:[NSURL URLWithString:_step.photo.url]];
+        if (_step.photo.url) {
+            [imageView setImageWithURL:[NSURL URLWithString:_step.photo.url]];
+        }else{
+            [imageView setImage:nil];
+        }
     }
 }
 
@@ -337,12 +359,18 @@
 
 @implementation StepMinView
 
+-(BOOL)hasImage{
+    return [[ShareVaule shareInstance] getImageDataByStep:self.step] || self.step.photo.url;
+}
+
 -(void)upImage;{
-    NSData *data = (NSData *)[[ShareVaule shareInstance].stepImageDic objectForKey:self.step];
+    NSData *data = (NSData *)[[ShareVaule shareInstance] getImageDataByStep:self.step];
     if (data) {
         [imageView setImage:[UIImage imageWithData:data]];
-    }else{
+    }else if(self.step.photo.url){
         [imageView setImageWithURL:[NSURL URLWithString:self.step.photo.url]];
+    }else{
+        [imageView setImage:nil];
     }
 }
 
@@ -370,7 +398,7 @@
     lb_step.frame = CGRectMake(10, 15, 15, 20);
     btn_comment.frame = CGRectZero;
     lb_comment.frame = CGRectZero;
-    if (self.step.photo.url){
+    if ([self hasImage]){
         imageView.frame = CGRectMake(10, 10, frame.size.width -20 , frame.size.height - 50);
         lb_text.frame = CGRectMake(10, frame.size.height - 35  , frame.size.width -20, 25);
     }else{
@@ -382,11 +410,10 @@
 -(void)setStep:(JCStep *)step{
     [super setStep:step];
     lb_step.text = [NSString stringWithFormat:@"%d",step.ordinal];
+    [self upImage];
     if (step.photo.url) {
         lb_text.font = [UIFont systemFontOfSize:11];
-        [self upImage];
     }else{
-        [imageView setImage:nil];
         lb_text.font = [UIFont systemFontOfSize:14];
     }
 }

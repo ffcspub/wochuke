@@ -16,7 +16,7 @@ static ShareVaule *_shareVaule;
 +(ShareVaule *)shareInstance;{
     if (!_shareVaule) {
         _shareVaule = [[ShareVaule alloc]init];
-        _shareVaule.stepImageDic = [[[NSMutableDictionary alloc]init]autorelease];
+        _shareVaule.stepImageDic = [[NSMutableDictionary alloc]init];
     }
     return _shareVaule;
 }
@@ -51,22 +51,21 @@ static ShareVaule *_shareVaule;
 -(void)removeStep:(JCStep *)step;{
     NSMutableArray *steps = (NSMutableArray *)[ShareVaule shareInstance].editGuideEx.steps;
     int index = [steps indexOfObject:step];
-    [[ShareVaule shareInstance].stepImageDic  removeObjectForKey:step];
+    [[ShareVaule shareInstance] removeImageDataByStep:step];
     [steps removeObjectAtIndex:index];
     
     for (int i=0; i<steps.count; i++) {
         JCStep *step = (JCStep *)[steps objectAtIndex:i];
-        NSData *data = [[[ShareVaule shareInstance].stepImageDic objectForKey:step]retain];
+        NSData *data = [[[ShareVaule shareInstance] getImageDataByStep:step]retain];
         if (data) {
-            [[ShareVaule shareInstance].stepImageDic removeObjectForKey:step];
+            [[ShareVaule shareInstance] removeImageDataByStep:step];
         }
         step.ordinal = i+1;
         if (data) {
-            [[ShareVaule shareInstance].stepImageDic  setObject:data forKey:step];
+            [[ShareVaule shareInstance]putImageData:data step:step];
             [data release];
         }
     }
-    
     [self postNotification:NOTIFICATION_ORDINALCHANGE];
 }
 
@@ -77,17 +76,32 @@ static ShareVaule *_shareVaule;
     [steps insertObject:oldStep atIndex:toIndex];
     for (int i=0; i<steps.count; i++) {
         JCStep *step = (JCStep *)[steps objectAtIndex:i];
-        NSData *data = [[[ShareVaule shareInstance].stepImageDic objectForKey:step]retain];
+        NSData *data = [[[ShareVaule shareInstance]getImageDataByStep:step]retain];
         if (data) {
-            [[ShareVaule shareInstance].stepImageDic  removeObjectForKey:step];
+            [[ShareVaule shareInstance] removeImageDataByStep:step];
         }
         step.ordinal = i+1;
         if (data) {
-            [[ShareVaule shareInstance].stepImageDic  setObject:data forKey:step];
+            [[ShareVaule shareInstance] putImageData:data step:step];
             [data release];
         }
     }
     [self postNotification:NOTIFICATION_ORDINALCHANGE];
+}
+
+-(void)putImageData:(NSData *)data step:(JCStep *)step;{
+    [self removeImageDataByStep:step];
+    [_stepImageDic setObject:data forKey:[NSString stringWithFormat:@"%d",step.ordinal]];
+}
+
+-(NSData *)getImageDataByStep:(JCStep *)step;{
+    NSString *stepOrdinal = [NSString stringWithFormat:@"%d",step.ordinal];
+    return  [_stepImageDic objectForKey:stepOrdinal];
+}
+
+-(void)removeImageDataByStep:(JCStep *)step;{
+    NSString *stepOrdinal = [NSString stringWithFormat:@"%d",step.ordinal];
+    [_stepImageDic removeObjectForKey:stepOrdinal];
 }
 
 @end

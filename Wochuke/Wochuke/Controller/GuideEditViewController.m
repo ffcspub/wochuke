@@ -300,7 +300,7 @@
     NSData *blobImage = UIImageJPEGRepresentation(croppedImage, kImageCompressRate);//圖片壓縮為NSData
     if (_editView) {
         JCStep *step = _editView.step;
-        [[ShareVaule shareInstance].stepImageDic setObject:blobImage forKey:step];
+        [[ShareVaule shareInstance] putImageData:blobImage step:step];
         [_editView upImage];
         _editView = nil;
     }
@@ -321,11 +321,11 @@
 
 - (void)openEditor:(UIImage *)image
 {
-    PECropViewController *controller = [[PECropViewController alloc] init];
+    PECropViewController *controller = [[[PECropViewController alloc] init]autorelease];
     controller.delegate = self;
     controller.image = image;
     
-    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:controller];
+    UINavigationController *navigationController = [[[UINavigationController alloc] initWithRootViewController:controller]autorelease];
     
     [self presentViewController:navigationController animated:YES completion:NULL];
 }

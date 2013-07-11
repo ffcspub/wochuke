@@ -14,6 +14,7 @@
 #import "UIImageView+WebCache.h"
 #import "GuideViewController.h"
 #import "CreateGuideViewController.h"
+#import "LoginViewController.h"
 
 @interface ActInfoCell : BeeUIGridCell{
     UIImageView *iv_heard;
@@ -236,9 +237,18 @@
 }
 
 - (IBAction)ceateAction:(id)sender {
-    CreateGuideViewController *vlc =[[CreateGuideViewController alloc]initWithNibName:@"CreateGuideViewController" bundle:nil];
-    [self.navigationController pushViewController:vlc animated:YES];
-    [vlc release];
+    if ([ShareVaule shareInstance].user.id_) {
+        CreateGuideViewController *vlc =[[CreateGuideViewController alloc]initWithNibName:@"CreateGuideViewController" bundle:nil];
+        [self.navigationController pushViewController:vlc animated:YES];
+        [vlc release];
+    }else{
+        LoginViewController *vlc = [[[LoginViewController alloc]initWithNibName:@"LoginViewController" bundle:nil]autorelease];
+        
+        UINavigationController *navController = [[[ UINavigationController alloc]initWithRootViewController:vlc]autorelease];
+                                                 
+        [self presentModalViewController:navController animated:YES];
+    }
+    
 }
 
 - (void)dealloc {

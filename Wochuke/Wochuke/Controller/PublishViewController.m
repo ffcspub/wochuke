@@ -13,9 +13,12 @@
 #import "SVProgressHUD.h"
 #import <Guide.h>
 #import "ICETool.h"
+#import "StepImageChooseViewController.h"
 
 @interface PublishViewController ()<UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>{
     UIImagePickerController *_picker;
+    NSMutableArray *_types;
+    NSString *_typeId;
 }
 
 @end
@@ -34,21 +37,30 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    _photoBackview.layer.cornerRadius = 6;
+    _photoBackview.layer.masksToBounds = YES;
+    
     _iv_photo.layer.cornerRadius = 6;
     _iv_photo.layer.masksToBounds = YES;
     _iv_photo.contentMode = UIViewContentModeScaleAspectFill;
     
     UITapGestureRecognizer* singleRecognizer;  
-    singleRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTapFrom)];  
+    singleRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTapFrom)];
     singleRecognizer.numberOfTapsRequired = 1; // 单击  
     [_iv_photo addGestureRecognizer:singleRecognizer];  
-    
-    [self loadImage];
     // Do any additional setup after loading the view from its nib.
+    
+    _types = [[NSMutableArray alloc]init];
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    [self loadImage];
+    [self loadTypes];
 }
 
 -(void)handleSingleTapFrom{
-    
+    [self showInputAlert];
 }
 
 - (void)didReceiveMemoryWarning
@@ -58,18 +70,40 @@
 }
 
 - (void)dealloc {
+    [_typeId release];
+    [_types release];
     [_iv_photo release];
     [_btn_type release];
+    [_photoBackview release];
     [super dealloc];
 }
+
 - (void)viewDidUnload {
     [self setIv_photo:nil];
     [self setBtn_type:nil];
+    [self setPhotoBackview:nil];
     [super viewDidUnload];
 }
 
 - (IBAction)typeChooseAction:(id)sender {
-    [self showInputAlert];
+    UIActionSheet *sheet = [[[UIActionSheet alloc]init]autorelease];
+    sheet.tag = 10086;
+    sheet.delegate = self;
+    sheet.title = @"选择分类";
+    for (JCType *type in _types) {
+        [sheet addButtonWithTitle:type.name];
+    }
+    [sheet addButtonWithTitle:@"取消"];
+    sheet.cancelButtonIndex = _types.count;
+    [sheet showInView:self.view];
+}
+
+- (IBAction)backAction:(id)sender {
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (IBAction)pubishAction:(id)sender {
+    [self pubishAction];
 }
 
 
@@ -82,10 +116,59 @@
     }
 }
 
+#pragma mark - DataLoad
+-(void)loadTypes;{
+    [SVProgressHUD show];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+        id<JCAppIntfPrx> proxy = [[ICETool shareInstance] createProxy];
+        @try {
+            JCTypeList * list = [proxy getTypeList:nil];
+            if (list) {
+                [_types removeAllObjects];
+                if (list.count > 0) {
+                    [_types addObjectsFromArray:list];
+                }
+            }
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [SVProgressHUD dismiss];
+                JCType *type = [_types objectAtIndex:0];
+                if (_typeId) {
+                    [_typeId release];
+                    _typeId = nil;
+                }
+                _typeId = [type.id_ retain];
+                [_btn_type setTitle:type.name forState:UIControlStateNormal];
+            });
+        }
+        @catch (ICEException *exception) {
+            if ([exception isKindOfClass:[JCGuideException class]]) {
+                JCGuideException *_exception = (JCGuideException *)exception;
+                if (_exception.reason_) {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [SVProgressHUD showErrorWithStatus:_exception.reason_];
+                    });
+                }else{
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [SVProgressHUD showErrorWithStatus:ERROR_MESSAGE];
+                    });
+                }
+            }else{
+                
+            }
+        }
+        @finally {
+            
+        }
+        
+    });
+}
 
-#define FILEBLOCKLENGTH 1024*2
+
+
+#define FILEBLOCKLENGTH 2048
 #pragma mark - dataSend
 -(void)pubishAction{
+    [ShareVaule shareInstance].editGuideEx.guideInfo.typeId = _typeId;
     [SVProgressHUD showWithStatus:@"正在提交..."];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
         id<JCAppIntfPrx> proxy = [[ICETool shareInstance] createProxy];
@@ -96,27 +179,32 @@
             if ([ShareVaule shareInstance].guideImage) {
                 NSString *fileId = guideEx.guideInfo.cover.id_;
                 NSData *guideImagedata = [ShareVaule shareInstance].guideImage;
-               
-                int count =  (guideImagedata.length / FILEBLOCKLENGTH);
+                int length = guideImagedata.length;
+                int count =  ceil((float)length / FILEBLOCKLENGTH);
                 int loc = 0;
                 for (int i= 0; i<count; i++) {
-                    NSData *data = [guideImagedata subdataWithRange:NSMakeRange(loc, FILEBLOCKLENGTH)];
+                    NSData *data = [guideImagedata subdataWithRange:NSMakeRange(loc, MIN(FILEBLOCKLENGTH,guideImagedata.length - loc))];
+                    if (i==count-1) {
+                        NSLog(@"last");
+                    }
                     JCFileBlock *fileBlock = [JCFileBlock fileBlock:fileId blockIdx:i blockSize:data.length isLastBlock:i==count-1 data:data];
                     [proxy saveFileBlock:fileBlock];
+                    loc += FILEBLOCKLENGTH;
                 }
                 
                 // 上传步骤图片
-                if ([ShareVaule shareInstance].stepImageDic) {
-                    for (JCStep *step in [ShareVaule shareInstance].stepImageDic.allKeys) {
-                        NSData *stepFileData = [[ShareVaule shareInstance].stepImageDic objectForKey:step];
-                        JCStep *resultStep = [guideEx.steps objectAtIndex:step.ordinal];
+                if ([ShareVaule shareInstance].stepImageDic.count>0) {
+                    for (NSNumber *stepnumber in [ShareVaule shareInstance].stepImageDic.allKeys) {
+                        NSData *stepFileData = [[ShareVaule shareInstance].stepImageDic objectForKey:stepnumber];
+                        JCStep *resultStep = [guideEx.steps objectAtIndex:[stepnumber intValue]-1];
                         NSString *fileId = resultStep.photo.id_;
-                        int count =  (stepFileData.length / FILEBLOCKLENGTH);
+                        int count =  ceil((float)stepFileData.length / FILEBLOCKLENGTH);
                         int loc = 0;
                         for (int i= 0; i<count; i++) {
-                            NSData *data = [stepFileData subdataWithRange:NSMakeRange(loc, FILEBLOCKLENGTH)];
+                            NSData *data = [stepFileData subdataWithRange:NSMakeRange(loc, MIN(FILEBLOCKLENGTH,guideImagedata.length - loc))];
                             JCFileBlock *fileBlock = [JCFileBlock fileBlock:fileId blockIdx:i blockSize:data.length isLastBlock:i==(count-1) data:data];
                             [proxy saveFileBlock:fileBlock];
+                            loc += FILEBLOCKLENGTH;
                         }
                     }
                 }
@@ -152,22 +240,41 @@
     });
 }
 
+
+
 #pragma mark -
 -(void)showInputAlert{
-    UIActionSheet *sheet = [[UIActionSheet alloc]initWithTitle:@"图片来源" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"相册",@"拍照", nil];
+    UIActionSheet *sheet = [[UIActionSheet alloc]initWithTitle:@"图片来源" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"选自步骤",@"相册",@"拍照", nil];
     [sheet showInView:self.view];
     [sheet release];
 }
 
 #pragma mark -UIActionSheetDelegate
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex;{
+    if (actionSheet.tag == 10086) {
+        if (buttonIndex < _types.count) {
+            JCType *type = [_types objectAtIndex:buttonIndex];
+            if (_typeId) {
+                [_typeId release];
+                _typeId = nil;
+            }
+            _typeId = [type.id_ retain];
+            [_btn_type setTitle:type.name forState:UIControlStateNormal];
+        }
+        return;
+    }
+    
     if (buttonIndex == 0) {
+        StepImageChooseViewController *vlc = [[StepImageChooseViewController alloc]initWithNibName:@"StepImageChooseViewController" bundle:nil];
+        [self.navigationController pushViewController:vlc animated:YES];
+        [vlc release];
+    }else if (buttonIndex == 1) {
         _picker = [[UIImagePickerController alloc]init];
-        //        [_picker setAllowsEditing:YES];
+        //        [_picker setAllowsEditing:YES];1
         _picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
         _picker.delegate = self;
         [self presentModalViewController:_picker animated:YES];
-    }else if(buttonIndex == 1){
+    }else if(buttonIndex == 2){
         _picker = [[UIImagePickerController alloc]init];
         //        [_picker setAllowsEditing:YES];
         _picker.sourceType = UIImagePickerControllerSourceTypeCamera;
@@ -313,7 +420,7 @@
     controller.delegate = self;
     controller.image = image;
     
-    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:controller];
+    UINavigationController *navigationController = [[[UINavigationController alloc] initWithRootViewController:controller]autorelease];
     
     [self presentViewController:navigationController animated:YES completion:NULL];
 }

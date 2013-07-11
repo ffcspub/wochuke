@@ -47,4 +47,10 @@
 
 -(void)moveStepFromIndex:(NSInteger)fromIndex toIndex:(NSInteger)toIndex;
 
+-(void)putImageData:(NSData *)data step:(JCStep *)step;
+
+-(NSData *)getImageDataByStep:(JCStep *)step;
+
+-(void)removeImageDataByStep:(JCStep *)step;
+
 @end

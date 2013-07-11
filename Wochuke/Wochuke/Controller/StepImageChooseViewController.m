@@ -1,25 +1,25 @@
 //
-//  StepPreviewController.m
+//  StepImageChooseViewController.m
 //  Wochuke
 //
 //  Created by he songhang on 13-6-25.
 //  Copyright (c) 2013年 he songhang. All rights reserved.
 //
 
-#import "StepPreviewController.h"
+#import "StepImageChooseViewController.h"
 
 #import "GuideInfoView.h"
 #import "SuppliesView.h"
 #import "StepView.h"
+#import "ShareVaule.h"
 
 
-@interface StepPreviewController ()
+@interface StepImageChooseViewController ()
 
 @end
 
-@implementation StepPreviewController
+@implementation StepImageChooseViewController
 
-DEF_NOTIFICATION(TAP)
 
 - (IBAction)backAction:(id)sender {
     [self.navigationController popViewControllerAnimated:YES];
@@ -68,10 +68,7 @@ DEF_NOTIFICATION(TAP)
 
 - (NSInteger)numberOfItemsInGMGridView:(GMGridView *)gridView
 {
-    if (_detail.supplies.count>0) {
-        return _detail.steps.count + 2;
-    }
-    return _detail.steps.count + 1;
+    return [ShareVaule shareInstance].stepImageDic.count;
 }
 
 - (CGSize)GMGridView:(GMGridView *)gridView sizeForItemsInInterfaceOrientation:(UIInterfaceOrientation)orientation
@@ -82,56 +79,27 @@ DEF_NOTIFICATION(TAP)
 - (GMGridViewCell *)GMGridView:(GMGridView *)gridView cellForItemAtIndex:(NSInteger)index
 {
     //NSLog(@"Creating view indx %d", index);
-    
     GMGridViewCell *cell = nil;
-    if (index == 0) {
-       cell = [gridView dequeueReusableCellWithIdentifier:@"GUIDEINFOCELL"];
-        if (!cell)
-        {
-            cell = [[[GMGridViewCell alloc] init]autorelease];
-            cell.reuseIdentifier = @"GUIDEINFOCELL";
-            cell.deleteButtonIcon = [UIImage imageNamed:@"close_x.png"];
-            cell.deleteButtonOffset = CGPointMake(-15, -15);
-            GuideInfoMinView *view = [[GuideInfoMinView alloc]init];
-            view.guide = _guide;
-            cell.contentView = view;
-        }
-    }else if(_detail.supplies.count>0 && index == 1){
-        cell = [gridView dequeueReusableCellWithIdentifier:@"SUPPLIESCELL"];
-        if (!cell)
-        {
-            cell = [[[GMGridViewCell alloc] init]autorelease];
-            cell.reuseIdentifier = @"SUPPLIESCELL";
-            cell.deleteButtonIcon = [UIImage imageNamed:@"close_x.png"];
-            cell.deleteButtonOffset = CGPointMake(-15, -15);
-            SuppliesMinView *view = [[[SuppliesMinView alloc]init]autorelease];
-            view.list = _detail.supplies;
-            cell.contentView = view;
-        }
-    }else{
-        cell = [gridView dequeueReusableCellWithIdentifier:@"STEPCELL"];
-        if (!cell)
-        {
-            cell = [[[GMGridViewCell alloc] init]autorelease];
-            cell.reuseIdentifier = @"STEPCELL";
-            cell.deleteButtonIcon = [UIImage imageNamed:@"close_x.png"];
-            cell.deleteButtonOffset = CGPointMake(-15, -15);
-            StepMinView *view = [[StepMinView alloc]init];
-            cell.contentView = view;
-        }
-        StepView *view = (StepView *)cell.contentView;
-        int indextemp = index - 1;
-        if (_detail.supplies.count>0) {
-            indextemp = index - 2;
-        }
-        view.step = [_detail.steps objectAtIndex:indextemp];
+    cell = [gridView dequeueReusableCellWithIdentifier:@"STEPCELL"];
+    if (!cell)
+    {
+        cell = [[[GMGridViewCell alloc] init]autorelease];
+        cell.reuseIdentifier = @"STEPCELL";
+        cell.deleteButtonIcon = [UIImage imageNamed:@"close_x.png"];
+        cell.deleteButtonOffset = CGPointMake(-15, -15);
+        StepMinView *view = [[[StepMinView alloc]init]autorelease];
+        cell.contentView = view;
     }
+    StepView *view = (StepView *)cell.contentView;
+    NSString *num = [[ShareVaule shareInstance].stepImageDic.allKeys objectAtIndex:index];
+    view.step = [[ShareVaule shareInstance].editGuideEx.steps objectAtIndex:[num intValue]-1];
     return cell;
 }
 
 #pragma mark - GMGridViewActionDelegate
 - (void)GMGridView:(GMGridView *)gridView didTapOnItemAtIndex:(NSInteger)position;{
-    [self postNotification:StepPreviewController.TAP withObject:[NSNumber numberWithInteger:position]];
+    NSString *num = [[ShareVaule shareInstance].stepImageDic.allKeys objectAtIndex:position];
+    [ShareVaule shareInstance].guideImage = [[ShareVaule shareInstance].stepImageDic objectForKey:num];
     [self.navigationController popViewControllerAnimated:NO];
 }
 

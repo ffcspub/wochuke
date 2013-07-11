@@ -120,23 +120,28 @@
     _girdView.minEdgeInsets = UIEdgeInsetsMake(spacing, spacing, spacing, spacing);
     _girdView.centerGrid = NO;
     _girdView.sortingDelegate = self;
-    
     if (!_guide) {
         _guide = [[ShareVaule shareInstance].editGuideEx.guideInfo retain];
     }
     // Do any additional setup after loading the view from its nib.
+    
+    [btn_add setBackgroundImage:[[UIImage imageNamed:@"btn_orange_small"]resizableImageWithCapInsets:UIEdgeInsetsMake(12, 12, 12, 12)] forState:UIControlStateNormal];
+    [btn_add setBackgroundImage:[[UIImage imageNamed:@"btn_orange_small_press"]resizableImageWithCapInsets:UIEdgeInsetsMake(12, 12, 12, 12)] forState:UIControlStateHighlighted];
 }
 
 -(void)dealloc{
     [_guide release];
     [[ShareVaule shareInstance].editGuideEx release];
     [[ShareVaule shareInstance].stepImageDic removeAllObjects];
+    [btn_add release];
     [super dealloc];
 }
 
 -(void)viewDidUnload{
     _girdView = nil;
     [ShareVaule shareInstance].editGuideEx = nil;
+    [btn_add release];
+    btn_add = nil;
     [super viewDidUnload];
 }
 
@@ -237,7 +242,7 @@
             cell.reuseIdentifier = @"GUIDEINFOCELL";
             cell.deleteButtonIcon = [UIImage imageNamed:@"close_x.png"];
             cell.deleteButtonOffset = CGPointMake(-15, -15);
-            GuideInfoMinView *view = [[GuideInfoMinView alloc]init];
+            GuideInfoMinView *view = [[[GuideInfoMinView alloc]init]autorelease];
             view.guide = [ShareVaule shareInstance].editGuideEx.guideInfo;
             cell.contentView = view;
         }
@@ -264,7 +269,7 @@
             cell.reuseIdentifier = @"STEPCELL";
             cell.deleteButtonIcon = [UIImage imageNamed:@"close_x.png"];
             cell.deleteButtonOffset = CGPointMake(-15, -15);
-            StepMinView *view = [[StepMinView alloc]init];
+            StepMinView *view = [[[StepMinView alloc]init]autorelease];
             cell.contentView = view;
         }
         StepView *view = (StepView *)cell.contentView;
