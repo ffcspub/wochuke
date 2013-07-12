@@ -13,28 +13,31 @@
 #import "CatoryViewController.h"
 #import "SearchViewController.h"
 #import "MainViewController.h"
-#import "SinaWeibo.h"
-#import "LoginViewController.h"
+#import <ShareSDK/ShareSDK.h>
 
 @implementation AppDelegate
 
-@synthesize sinaweibo;
 @synthesize tencentOAuth;
-@synthesize loginViewController = _loginViewController;
 
 - (void)dealloc
 {
-    [sinaweibo release];
     [tencentOAuth release];
-    [_loginViewController release];
     [_window release];
     [super dealloc];
 }
 
-
+- (void)initializePlat
+{
+    //添加新浪微博应用
+    [ShareSDK connectSinaWeiboWithAppKey:kAppKey appSecret:kAppSecret redirectUri:kAppRedirectURI];
+    
+}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    [ShareSDK registerApp:KShareSDKAppKey];
+    [self initializePlat];
+    
     self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
@@ -47,23 +50,6 @@
     
     [self.window makeKeyAndVisible];
     
-    self.loginViewController = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
-    sinaweibo = [[SinaWeibo alloc] initWithAppKey:kAppKey appSecret:kAppSecret appRedirectURI:kAppRedirectURI andDelegate:_loginViewController];
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSDictionary *sinaweiboInfo = [defaults objectForKey:@"SinaWeiboAuthData"];
-    if ([sinaweiboInfo objectForKey:@"AccessTokenKey"] && [sinaweiboInfo objectForKey:@"ExpirationDateKey"] && [sinaweiboInfo objectForKey:@"UserIDKey"])
-    {
-        sinaweibo.accessToken = [sinaweiboInfo objectForKey:@"AccessTokenKey"];
-        sinaweibo.expirationDate = [sinaweiboInfo objectForKey:@"ExpirationDateKey"];
-        sinaweibo.userID = [sinaweiboInfo objectForKey:@"UserIDKey"];
-    }
-    
-    tencentOAuth = [[TencentOAuth alloc] initWithAppId:QQAPPID andDelegate:_loginViewController];
-    NSDictionary *qqInfo = [defaults objectForKey:@"TencentOAuthData"];
-    if ([qqInfo objectForKey:@""] && [qqInfo objectForKey:@""]) {
-        tencentOAuth.accessToken = [qqInfo objectForKey:@""];
-        tencentOAuth.openId = [qqInfo objectForKey:@""];
-    }
     
     return YES;
 }
@@ -99,20 +85,19 @@
 {
     if ([[url scheme] isEqualToString:@"tencent100454485"]) {
         return [TencentOAuth HandleOpenURL:url];
-    }else if ([[url scheme] isEqualToString:@"sinaweibosso.732356489"]){
-        [self.sinaweibo handleOpenURL:url];
     }
-    return NO;
+    return [ShareSDK handleOpenURL:url
+                 sourceApplication:sourceApplication
+                        annotation:annotation
+                        wxDelegate:self];
 }
 
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
 {
     if ([[url scheme] isEqualToString:@"tencent100454485"]) {
         return [TencentOAuth HandleOpenURL:url];
-    }else if ([[url scheme] isEqualToString:@"sinaweibosso.732356489"]){
-        [self.sinaweibo handleOpenURL:url];
     }
-    return NO;
+    return [ShareSDK handleOpenURL:url wxDelegate:self];
 }
 
 @end

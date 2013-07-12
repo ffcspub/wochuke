@@ -8,9 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import <TencentOpenAPI/TencentOAuth.h>
-#import "SinaWeibo.h"
 
-@interface LoginViewController : UIViewController<TencentSessionDelegate,UITextFieldDelegate,SinaWeiboDelegate,SinaWeiboRequestDelegate>{
+@interface LoginViewController : UIViewController<TencentSessionDelegate,UITextFieldDelegate>{
     TencentOAuth *_tencentOAuth;
     NSMutableArray *_permissions;
 }

@@ -14,7 +14,7 @@
 #import "ShareVaule.h"
 #import "AppDelegate.h"
 #import "SVProgressHUD.h"
-
+#import <ShareSDK/ShareSDK.h>
 
 @interface LoginViewController ()
 
@@ -46,30 +46,6 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-
-- (SinaWeibo *)sinaweibo
-{
-    AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-    return delegate.sinaweibo;
-}
-
-- (void)removeAuthData
-{
-    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"SinaWeiboAuthData"];
-}
-
-- (void)storeAuthData
-{
-    SinaWeibo *sinaweibo = [self sinaweibo];
-    
-    NSDictionary *authData = [NSDictionary dictionaryWithObjectsAndKeys:
-                              sinaweibo.accessToken, @"AccessTokenKey",
-                              sinaweibo.expirationDate, @"ExpirationDateKey",
-                              sinaweibo.userID, @"UserIDKey",
-                              sinaweibo.refreshToken, @"refresh_token", nil];
-    [[NSUserDefaults standardUserDefaults] setObject:authData forKey:@"SinaWeiboAuthData"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 - (void)loginWithName:(NSString *)account andPassword:(NSString *)password
@@ -159,11 +135,11 @@
                         [_tencentOAuth getUserInfo];
                     }else if ([idKey isEqualToString:@"sinaId"]){
                         NSLog(@"getUserByKey user不存在 走新浪微博");
-                        SinaWeibo *sinaweibo = [self sinaweibo];
-                        [sinaweibo requestWithURL:@"users/show.json"
-                                           params:[NSMutableDictionary dictionaryWithObject:sinaweibo.userID forKey:@"uid"]
-                                       httpMethod:@"GET"
-                                         delegate:self];
+//                        SinaWeibo *sinaweibo = [self sinaweibo];
+//                        [sinaweibo requestWithURL:@"users/show.json"
+//                                           params:[NSMutableDictionary dictionaryWithObject:sinaweibo.userID forKey:@"uid"]
+//                                       httpMethod:@"GET"
+//                                         delegate:self];
                     }
                 }else{
                     NSLog(@"getUserByKey user存在 user.id_ == %@",user.id_);
@@ -275,8 +251,18 @@
 }
 
 - (IBAction)sinaLoginAction:(id)sender {
-    SinaWeibo *sinaweibo = [self sinaweibo];
-    [sinaweibo logIn];
+    [ShareSDK getUserInfoWithType:ShareTypeSinaWeibo
+                      authOptions:nil
+                           result:^(BOOL result, id<ISSUserInfo> userInfo, id<ICMErrorInfo> error){
+                               if (result) {
+                                   NSLog(@"成功 用户名：%@",userInfo.nickname);
+                                   dispatch_async(dispatch_get_main_queue(), ^{
+                                       [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+                                   });
+                               }else{
+                                   NSLog(@"失败");
+                               }
+                           }];
 }
 
 #pragma mark - UITextField Delegate
@@ -343,53 +329,22 @@
     }
 }
 
--(void)logout{
-    [self dismissModalViewControllerAnimated:YES];
-}
-
-#pragma mark - SinaWeibo Delegate
-- (void)sinaweiboDidLogIn:(SinaWeibo *)sinaweibo
-{
-    NSLog(@"走 sinaweiboDidLogIn ");
-    [self storeAuthData];
-    [self performSelectorOnMainThread:@selector(logout) withObject:self waitUntilDone:YES];
-    
-//    [self getUserByKey:@"sinaId" idValue:sinaweibo.userID];
-}
-
-- (void)sinaweiboDidLogOut:(SinaWeibo *)sinaweibo
-{
-    NSLog(@"走 sinaweiboDidLogOut ");
-    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
-    [self removeAuthData];
-}
-
-- (void)sinaweibo:(SinaWeibo *)sinaweibo logInDidFailWithError:(NSError *)error
-{
-    NSLog(@"sinaweibo logInDidFailWithError %@", error);
-}
-
-- (void)sinaweibo:(SinaWeibo *)sinaweibo accessTokenInvalidOrExpired:(NSError *)error
-{
-    NSLog(@"证书过期!");
-}
-
 #pragma mark - SinaWeiboRequest Delegate
 
-- (void)request:(SinaWeiboRequest *)request didFinishLoadingWithResult:(id)result
-{
-    if ([request.url hasSuffix:@"users/show.json"]) {
-        SinaWeibo *sinaweibo = [self sinaweibo];
-        JCUser *user = [[JCUser alloc] init];
-        NSLog(@"result == %@",result);
-        NSLog(@"sinaweibo.userID == %@",sinaweibo.userID);
-        user.name = [result objectForKey:@"name"];
-        user.avatar.url = [result objectForKey:@"profile_image_url"];
-        NSDictionary *snsIds = [NSDictionary dictionaryWithObjectsAndKeys:sinaweibo.userID, @"sinaId", nil];
-        user.snsIds = snsIds;
-        [self regiterByThirdUserInfo:user];
-    }
-}
+//- (void)request:(SinaWeiboRequest *)request didFinishLoadingWithResult:(id)result
+//{
+//    if ([request.url hasSuffix:@"users/show.json"]) {
+//        SinaWeibo *sinaweibo = [self sinaweibo];
+//        JCUser *user = [[JCUser alloc] init];
+//        NSLog(@"result == %@",result);
+//        NSLog(@"sinaweibo.userID == %@",sinaweibo.userID);
+//        user.name = [result objectForKey:@"name"];
+//        user.avatar.url = [result objectForKey:@"profile_image_url"];
+//        NSDictionary *snsIds = [NSDictionary dictionaryWithObjectsAndKeys:sinaweibo.userID, @"sinaId", nil];
+//        user.snsIds = snsIds;
+//        [self regiterByThirdUserInfo:user];
+//    }
+//}
 
 - (void)dealloc {
     [_tf_name release];

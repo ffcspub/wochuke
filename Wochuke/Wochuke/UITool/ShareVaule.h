@@ -27,6 +27,8 @@
 #define kAppSecret          @"ef8ddba071d92652c0f65b4aff79a451"
 #define kAppRedirectURI     @"http://www.sina.com.cn"
 
+#define KShareSDKAppKey     @"5baad35997a"
+
 
 #define FILEBLOCKLENGTH 2048
 
