@@ -20,6 +20,9 @@
 #import "GuideViewController.h"
 #import "MyViewController.h"
 #import "StepEditController.h"
+#import "CreateGuideViewController.h"
+#import "UserViewController.h"
+#import "FollowUserListViewController.h"
 
 @interface MyViewController ()<GuideInfoEditCellDelegate>{
     int type;
@@ -58,25 +61,24 @@
     [self.tableView.pullToRefreshView setTitle:@"松开刷新" forState:SVPullToRefreshStateAll];
     [self.tableView.pullToRefreshView setTitle:@"下拉刷新" forState:SVPullToRefreshStateTriggered];
     [self.tableView.pullToRefreshView setTitle:@"正在加载" forState:SVPullToRefreshStateLoading];
-    
     // Do any additional setup after loading the view from its nib.
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
-    if (!_user) {
-        self.user = [ShareVaule shareInstance].user;
-    }
-    if (_user) {
+    JCUser *_user = [ShareVaule shareInstance].user;
+    if (!_user.id_) {
+        [_loginButton setTitle:@"登录"];
+    }else{
+        [_loginButton setTitle:@"上传"];
         _lb_uploadCount.text = [NSString stringWithFormat:@"%d",_user.guideCount];
         _lb_favCount.text = [NSString stringWithFormat:@"%d",_user.favoriteCount];
-        _lb_followCount.text = [NSString stringWithFormat:@"%d",_user.followerCount];
-        _lb_fanceCount.text = [NSString stringWithFormat:@"%d",_user.followingCount];
+        _lb_followCount.text = [NSString stringWithFormat:@"%d",_user.followingCount];
+        _lb_fanceCount.text = [NSString stringWithFormat:@"%d",_user.followerCount];
     }
-    
-    UIImage *backImage = [[UIImage imageNamed:@"bg_classify_card"]resizableImageWithCapInsets:UIEdgeInsetsMake(12, 12, 12, 12)];
+
+    UIImage *backImage = [[UIImage imageNamed:@"bg_classify_card"]resizableImageWithCapInsets:UIEdgeInsetsMake(15, 15, 15, 15)];
     [_iv_bottomBackView setImage:backImage];
     
     if (_user.id_) {
@@ -86,6 +88,7 @@
     }else{
         [_bottomBackView setHidden:YES];
     }
+    
     
     [self reloadDatas];
 }
@@ -102,12 +105,22 @@
 }
 
 - (IBAction)loginAction:(id)sender {
-    LoginViewController *lvc = [[[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil] autorelease];
-    UINavigationController *navController = [[[UINavigationController alloc]initWithRootViewController:lvc]autorelease];
-    navController.navigationBarHidden = YES;
-    [self presentViewController:navController animated:YES completion:^{
-        
-    }];
+    if (![ShareVaule shareInstance].user) {
+        LoginViewController *lvc = [[[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil] autorelease];
+        UINavigationController *navController = [[[UINavigationController alloc]initWithRootViewController:lvc]autorelease];
+        navController.navigationBarHidden = YES;
+        [self presentViewController:navController animated:YES completion:^{
+            
+        }];
+    }else{
+        CreateGuideViewController *vlc = [[[CreateGuideViewController alloc]initWithNibName:@"CreateGuideViewController" bundle:nil]autorelease];
+        UINavigationController *navController = [[[UINavigationController alloc]initWithRootViewController:vlc]autorelease];
+        navController.navigationBarHidden = YES;
+        [self presentViewController:navController animated:YES completion:^{
+            
+        }];
+    }
+    
 }
 
 -(void)upCountLableColor{
@@ -141,17 +154,35 @@
 }
 
 - (IBAction)followListAction:(id)sender {
-    [_iv_topBackView setImage:[UIImage imageNamed:@"bg_card_user_top_3"]];
-    type = 2;
-    [self upCountLableColor];
-    [self reloadDatas];
+    //    [_iv_topBackView setImage:[UIImage imageNamed:@"bg_card_user_top_3"]];
+    //    type = 2;
+    //    [self upCountLableColor];
+    //    [self reloadDatas];
+    FollowUserListViewController *vlc = [[FollowUserListViewController alloc]initWithNibName:@"FollowUserListViewController" bundle:nil];
+    vlc.user = [ShareVaule shareInstance].user;
+    vlc.filterCode = 0;
+    [self.navigationController pushViewController:vlc animated:YES];
+    [vlc release];
 }
 
 - (IBAction)fanceListAction:(id)sender {
-    [_iv_topBackView setImage:[UIImage imageNamed:@"bg_card_user_top_4"]];
-    type = 3;
-    [self upCountLableColor];
-    [self reloadDatas];
+    //    [_iv_topBackView setImage:[UIImage imageNamed:@"bg_card_user_top_4"]];
+    //    type = 3;
+    //    [self upCountLableColor];
+    //    [self reloadDatas];
+    FollowUserListViewController *vlc = [[FollowUserListViewController alloc]initWithNibName:@"FollowUserListViewController" bundle:nil];
+    vlc.user = [ShareVaule shareInstance].user;
+    vlc.filterCode = 1;
+    [self.navigationController pushViewController:vlc animated:YES];
+    [vlc release];
+}
+
+- (IBAction)loginOrSetAction:(id)sender {
+    if (![ShareVaule shareInstance].user) {
+        [self loginAction:sender];
+    }else {
+        
+    }
 }
 
 -(void)loadUploadGuides{
@@ -160,15 +191,10 @@
         id<JCAppIntfPrx> proxy = [[ICETool shareInstance] createProxy];
         @try {
             JCMutableGuideList * list = nil;
-             list = [proxy getGuideListByUser:_user.id_ filterCode:0 timestamp:nil pageIdx:pageIndex pageSize:pageSize];
+            list = [proxy getGuideListByUser:[ShareVaule shareInstance].user.id_ filterCode:[ShareVaule shareInstance].user == [ShareVaule shareInstance].user?0:1 timestamp:nil pageIdx:pageIndex pageSize:pageSize];
             if (list) {
                 if (pageIndex == 0) {
                     [_datas removeAllObjects];
-                }
-                if (pageIndex==0 && list.count == 0) {
-                    _iv_bottomBackView.hidden = YES;
-                }else{
-                    _iv_bottomBackView.hidden = NO;
                 }
                 if (list.count > 0) {
                     [_datas addObjectsFromArray:list];
@@ -182,6 +208,11 @@
             }
             dispatch_async(dispatch_get_main_queue(), ^{
                 [SVProgressHUD dismiss];
+                if (pageIndex==0 && list.count==0) {
+                    _bottomBackView.hidden = YES;
+                }else{
+                    _bottomBackView.hidden = NO;
+                }
                 [_tableView reloadData];
                 [self.tableView.infiniteScrollingView stopAnimating];
                 [self.tableView.pullToRefreshView stopAnimating];
@@ -228,15 +259,10 @@
         id<JCAppIntfPrx> proxy = [[ICETool shareInstance] createProxy];
         @try {
             JCMutableGuideList * list = nil;
-            list = [proxy getGuideListByUser:_user.id_ filterCode:2 timestamp:nil pageIdx:pageIndex pageSize:pageSize];
+            list = [proxy getGuideListByUser:[ShareVaule shareInstance].user.id_ filterCode:2 timestamp:nil pageIdx:pageIndex pageSize:pageSize];
             if (list) {
                 if (pageIndex == 0) {
                     [_datas removeAllObjects];
-                }
-                if (pageIndex==0 && list.count == 0) {
-                    _iv_bottomBackView.hidden = YES;
-                }else{
-                    _iv_bottomBackView.hidden = NO;
                 }
                 if (list.count > 0) {
                     [_datas addObjectsFromArray:list];
@@ -250,6 +276,11 @@
             }
             dispatch_async(dispatch_get_main_queue(), ^{
                 [SVProgressHUD dismiss];
+                if (pageIndex==0 && list.count==0) {
+                    _bottomBackView.hidden = YES;
+                }else{
+                    _bottomBackView.hidden = NO;
+                }
                 [_tableView reloadData];
                 [self.tableView.infiniteScrollingView stopAnimating];
                 [self.tableView.pullToRefreshView stopAnimating];
@@ -295,16 +326,11 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
         id<JCAppIntfPrx> proxy = [[ICETool shareInstance] createProxy];
         @try {
-            JCMutableGuideList * list = nil;
-            list = [proxy getUserListByUser:_user.id_ filterCode:0 timestamp:nil pageIdx:pageIndex pageSize:pageSize];
+            JCMutableUserList * list = nil;
+            list = [proxy getUserListByUser:[ShareVaule shareInstance].user.id_ userId:[ShareVaule shareInstance].user.id_ filterCode:0 timestamp:nil pageIdx:pageIndex pageSize:pageSize];
             if (list) {
                 if (pageIndex == 0) {
                     [_datas removeAllObjects];
-                }
-                if (pageIndex==0 && list.count == 0) {
-                    _iv_bottomBackView.hidden = YES;
-                }else{
-                    _iv_bottomBackView.hidden = NO;
                 }
                 if (list.count > 0) {
                     [_datas addObjectsFromArray:list];
@@ -318,6 +344,11 @@
             }
             dispatch_async(dispatch_get_main_queue(), ^{
                 [SVProgressHUD dismiss];
+                if (pageIndex==0 && list.count==0) {
+                    _bottomBackView.hidden = YES;
+                }else{
+                    _bottomBackView.hidden = NO;
+                }
                 [_tableView reloadData];
                 [self.tableView.infiniteScrollingView stopAnimating];
                 [self.tableView.pullToRefreshView stopAnimating];
@@ -364,15 +395,10 @@
         id<JCAppIntfPrx> proxy = [[ICETool shareInstance] createProxy];
         @try {
             JCMutableGuideList * list = nil;
-            list = [proxy getUserListByUser:_user.id_ filterCode:1 timestamp:nil pageIdx:pageIndex pageSize:pageSize];
+            list = [proxy getUserListByUser:[ShareVaule shareInstance].user.id_ userId:[ShareVaule shareInstance].user.id_ filterCode:1 timestamp:nil pageIdx:pageIndex pageSize:pageSize];
             if (list) {
                 if (pageIndex == 0) {
                     [_datas removeAllObjects];
-                }
-                if (pageIndex==0 && list.count == 0) {
-                    _iv_bottomBackView.hidden = YES;
-                }else{
-                    _iv_bottomBackView.hidden = NO;
                 }
                 if (list.count > 0) {
                     [_datas addObjectsFromArray:list];
@@ -386,6 +412,11 @@
             }
             dispatch_async(dispatch_get_main_queue(), ^{
                 [SVProgressHUD dismiss];
+                if (pageIndex==0 && list.count==0) {
+                    _bottomBackView.hidden = YES;
+                }else{
+                    _bottomBackView.hidden = NO;
+                }
                 [_tableView reloadData];
                 [self.tableView.infiniteScrollingView stopAnimating];
                 [self.tableView.pullToRefreshView stopAnimating];
@@ -428,7 +459,6 @@
 
 
 - (void)dealloc {
-    [_user release];
     [_nickNameBtn release];
     [_iv_face release];
     [_bottomBackView release];
@@ -440,6 +470,7 @@
     [_lb_favCount release];
     [_lb_followCount release];
     [_lb_fanceCount release];
+    [_navBar release];
     [super dealloc];
 }
 
@@ -455,12 +486,14 @@
     [self setLb_favCount:nil];
     [self setLb_followCount:nil];
     [self setLb_fanceCount:nil];
+    [self setNavBar:nil];
     [super viewDidUnload];
 }
 
 #pragma mark -DataLoad
+
 -(void)reloadDatas{
-    if (!_user) {
+    if (![ShareVaule shareInstance].user) {
         return;
     }
 //    if (_datas.count>0) {
@@ -493,8 +526,11 @@
     JCGuide *guide = (JCGuide *)cell.cellData;
     StepEditController *vlc = [[StepEditController alloc]initWithNibName:@"StepEditController" bundle:nil];
     vlc.guide = guide;
-    [self.navigationController pushViewController:vlc animated:YES];
-    [vlc release];
+    UINavigationController *navController = [[[UINavigationController alloc]initWithRootViewController:vlc]autorelease];
+    navController.navigationBarHidden = YES;
+    [self presentViewController:navController animated:YES completion:^{
+        
+    }];
 }
 
 #pragma mark -UITableViewDataSource
@@ -505,7 +541,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *cell = nil;
     if (type < 2) {
-        if (type == 0 && _user == [ShareVaule shareInstance].user) {
+        if (type == 0 && [ShareVaule shareInstance].user) {
             cell = [tableView dequeueReusableCellWithBeeUIGirdCellClass:[GuideInfoEditCell class]];
             GuideInfoEditCell *editCell = (GuideInfoEditCell *)cell.gridCell;
             editCell.delegate = self;
@@ -525,7 +561,7 @@
 #pragma mark -UITableViewDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (type == 0) {
-        if (_user == [ShareVaule shareInstance].user) {
+        if ([ShareVaule shareInstance].user) {
             return [GuideInfoEditCell sizeInBound:CGSizeMake(320, 60) forData:[_datas objectAtIndex:indexPath.row]].height;
         }else{
             return [GuideInfoMinCell sizeInBound:CGSizeMake(320, 60) forData:[_datas objectAtIndex:indexPath.row]].height;
@@ -545,11 +581,10 @@
         vlc.guide = guide;
         [self.navigationController pushViewController:vlc animated:YES];
     }else{
-        MyViewController *vlc = [[MyViewController alloc]initWithNibName:@"MyViewController" bundle:nil];
+        UserViewController *vlc = [[UserViewController alloc]initWithNibName:@"UserViewController" bundle:nil];
         vlc.user = [_datas objectAtIndex:indexPath.row];
         [self.navigationController pushViewController:vlc animated:YES];
     }
-    
 }
 
 @end

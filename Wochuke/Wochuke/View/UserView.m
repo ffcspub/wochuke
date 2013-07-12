@@ -11,6 +11,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "MyWebImgView.h"
 #import <Guide.h>
+#import "NSObject+Notification.h"
 
 @implementation UserView
 
@@ -40,7 +41,7 @@
         lb_name.text = user.name;
         lb_guides.text = [NSString stringWithFormat:@"%d上传",user.guideCount];
         lb_fav.text = [NSString stringWithFormat:@"%d收藏",user.favoriteCount];
-        [btn_following setTitle:user.followState>0?@"取消关注":@"添加关注" forState:UIControlStateNormal];
+        [btn_following setTitle:user.followState==1||user.followState==3?@"取消关注":@"添加关注" forState:UIControlStateNormal];
     }
 }
 
@@ -64,7 +65,7 @@
     lb_guides.textColor = [UIColor darkTextColor];
     lb_guides.textAlignment = UITextAlignmentLeft;
     
-    btn_following = [[UIButton alloc]init];
+    btn_following = [[[UIButton alloc]init]autorelease];
 //    [btn_following setBackgroundImage:[UIImage imageNamed:@""] forState:UIControlStateNormal];
     [btn_following setBackgroundColor:[UIColor grayColor]];
     [btn_following setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -76,6 +77,21 @@
     [self addSubview:lb_guides];
     [self addSubview:btn_following];
     
+    [self observeNotification:NOTIFICATION_FOLLOWSTATECHANGE];
+}
+
+-(void)unload{
+    [super unload];
+    [self unobserveNotification:NOTIFICATION_FOLLOWSTATECHANGE];
+}
+
+-(void)handleNotification:(NSNotification *)notification{
+    if ([notification.name isEqual:NOTIFICATION_FOLLOWSTATECHANGE]) {
+        JCUser *user = (JCUser *)self.cellData;
+        if (user) {
+            [btn_following setTitle:user.followState==1||user.followState==3?@"取消关注":@"添加关注" forState:UIControlStateNormal];
+        }
+    }
 }
 
 -(void)followBtnClicked{

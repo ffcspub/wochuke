@@ -38,7 +38,7 @@
 {
     imageView.frame = CGRectMake(5, 5, bound.height - 10, bound.height -10);
     lb_title.frame = CGRectMake(5 + bound.height - 10 + 10, 5, bound.width - (bound.height -10) - 10, bound.height -10);
-    line.frame = CGRectMake(0, bound.height - 0.5, bound.width, 0.5);
+    line.frame = CGRectMake(0, bound.height - 0.6, bound.width, 0.6);
 }
 
 - (void)dataDidChanged
@@ -486,7 +486,7 @@
 
 #pragma mark -UITableViewDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (filter == 0) return 50;
+    if (filter == 0) return 60;
     return [GuideInfoCell sizeInBound:CGSizeMake(320, 250) forData:[_datas objectAtIndex:indexPath.row]].height;
 }
 

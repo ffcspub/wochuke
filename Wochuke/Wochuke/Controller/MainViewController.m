@@ -68,6 +68,8 @@
             _actionViewNaviationController.navigationBarHidden = YES;
             [_actionViewNaviationController.view setFrame: [self.view bounds]];
             [self.view addSubview:_actionViewNaviationController.view];
+        }else{
+            [_myViewNaviationController viewWillAppear:YES];
         }
         currentController = _actionViewNaviationController;
     }else if(tag ==4){
@@ -77,6 +79,8 @@
             _myViewNaviationController.navigationBarHidden = YES;
             [_myViewNaviationController.view setFrame: [self.view bounds]];
             [self.view addSubview:_myViewNaviationController.view];
+        }else{
+            [_myViewNaviationController viewWillAppear:YES];
         }
         currentController = _myViewNaviationController;
     }

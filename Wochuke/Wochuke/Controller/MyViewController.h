@@ -8,8 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import "TopViewController.h"
+#import <Guide.h>
 
 @interface MyViewController : TopViewController
+
+@property (retain, nonatomic) IBOutlet UINavigationBar *navBar;
+
 
 @property (retain, nonatomic) IBOutlet UIButton *nickNameBtn;
 
@@ -45,7 +49,8 @@
 
 - (IBAction)fanceListAction:(id)sender;
 
-@property(nonatomic,retain) JCUser *user;
+- (IBAction)loginOrSetAction:(id)sender;
+
 
 
 @end

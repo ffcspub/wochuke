@@ -16,6 +16,8 @@
 
 -(void)scrollToIndex:(int)index;
 
+- (IBAction)pubishAction:(id)sender;
+
 - (IBAction)popAction:(id)sender;
 
 @end

@@ -43,11 +43,11 @@
     btn_favoriteCount.frame = CGRectMake(50 + btnwidth,155,btnwidth,30);
     btn_commentCount.frame = CGRectMake(50 + btnwidth + btnwidth,155,btnwidth,30);
     
-    CGSize contentSize = [_guide.description_.length>0?_guide.description_:@"1" sizeWithFont:[UIFont systemFontOfSize:12] constrainedToSize:CGSizeMake(frame.size.width - 30 -16.0, 1000)];
+    CGSize contentSize = [_guide.description_.length>0?_guide.description_:@"1" sizeWithFont:[UIFont systemFontOfSize:12] constrainedToSize:CGSizeMake(frame.size.width - 30 -UITEXTVIEW_MARGIN*2, 1000)];
 
-    tv_content.frame = CGRectMake(15, 190, frame.size.width - 30, MIN(contentSize.height + 16.0, frame.size.height - 190 - 30));
+    tv_content.frame = CGRectMake(15, 190, frame.size.width - 30, MIN(contentSize.height + UITEXTVIEW_MARGIN*2, frame.size.height - 190 - 30));
     
-    iv_contentBackView.frame = CGRectMake(tv_content.frame.origin.x , tv_content.frame.origin.y, tv_content.frame.size.width, tv_content.frame.size.height + 8);
+    iv_contentBackView.frame = CGRectMake(tv_content.frame.origin.x , tv_content.frame.origin.y, tv_content.frame.size.width, tv_content.frame.size.height + UITEXTVIEW_MARGIN);
     
 }
 
@@ -237,9 +237,9 @@
     tv_title.delegate = self;
     lb_publisher.frame = CGRectMake(0, 140, frame.size.width, 20);
     
-    CGSize contentSize = [[ShareVaule shareInstance].editGuideEx.guideInfo.description_.length>0?[ShareVaule shareInstance].editGuideEx.guideInfo.description_:@" " sizeWithFont:[UIFont systemFontOfSize:12] constrainedToSize:CGSizeMake(frame.size.width - 30 -16.0, 1000)];
+    CGSize contentSize = [[ShareVaule shareInstance].editGuideEx.guideInfo.description_.length>0?[ShareVaule shareInstance].editGuideEx.guideInfo.description_:@" " sizeWithFont:[UIFont systemFontOfSize:12] constrainedToSize:CGSizeMake(frame.size.width - 30 - UITEXTVIEW_MARGIN*2, 1000)];
     
-    tv_content.frame = CGRectMake(15, 190, frame.size.width - 30, MIN(contentSize.height + 16.0, frame.size.height - 190 - 30));
+    tv_content.frame = CGRectMake(15, 190, frame.size.width - 30, MIN(contentSize.height + UITEXTVIEW_MARGIN*2, frame.size.height - 190 - 30));
 //    tv_content.maxHeight = frame.size.height - 190 - 30;
     iv_contentBackView.frame = CGRectMake(tv_content.frame.origin.x, tv_content.frame.origin.y, tv_content.frame.size.width, tv_content.frame.size.height + 8);
     [tv_content refreshHeight];
@@ -457,7 +457,7 @@
     if (self.cellData) {
         JCGuide *_guide = self.cellData;
         lb_title.text = _guide.title;
-        [iv_photo setImageWithURL:[NSURL URLWithString:_guide.cover.url] placeholderImage:[UIImage imageNamed:@"ic_user_top"]];
+        [iv_photo setImageWithURL:[NSURL URLWithString:_guide.cover.url] ];
         lb_publisher.text = [NSString stringWithFormat:@"by %@",_guide.userName];
         [btn_viewCount setTitle:[NSString stringWithFormat:@"%d",_guide.viewCount] forState:UIControlStateNormal];
         [btn_viewCount setImage:[UIImage imageNamed:@"ic_classify_list_read"] forState:UIControlStateNormal];
@@ -536,15 +536,23 @@
 
 @implementation GuideInfoMinCell
 
+- (void)dataDidChanged
+{
+    [super dataDidChanged];
+    [btn_viewCount setImage:[UIImage imageNamed:@"ic_classify_list_read_grad"] forState:UIControlStateNormal];
+    [btn_commentCount setImage:[UIImage imageNamed:@"ic_classify_list_comment_grad"] forState:UIControlStateNormal];
+    [btn_favoriteCount setImage:[UIImage imageNamed:@"ic_classify_list_like_grad"] forState:UIControlStateNormal];
+}
+
 - (void)layoutInBound:(CGSize)bound forCell:(BeeUIGridCell *)cell
 {
     backImageView.frame = CGRectZero;
     iv_photo.frame = CGRectMake(5, 5, bound.height-10, bound.height-10);
     lb_title.frame = CGRectMake(bound.height + 5, 5, bound.width - 20 - bound.height, 30);
     line.frame = CGRectMake(2, bound.height-0.5, bound.width - 4, 0.5);
-    btn_viewCount.frame = CGRectMake(bound.height + 5, (bound.height -10)/2, 60, 30);
-    btn_favoriteCount.frame = CGRectMake(bound.height + 5 + 60, (bound.height -10)/2, 60, 30);
-    btn_commentCount.frame = CGRectMake(bound.height + 5 + 60 + 60, (bound.height -10)/2, 60, 30);
+    btn_viewCount.frame = CGRectMake(bound.height + 5, (bound.height -10)/2, 40, 30);
+    btn_favoriteCount.frame = CGRectMake(bound.height + 5 + 40, (bound.height -10)/2, 40, 30);
+    btn_commentCount.frame = CGRectMake(bound.height + 5 + 40 + 40, (bound.height -10)/2, 40, 30);
     lb_publisher.frame = CGRectMake(bound.width - 100, bound.height, bound.width - 170 - 10,25);
 }
 
@@ -589,6 +597,20 @@
     [super layoutInBound:bound forCell:cell];
     backImageView.frame = CGRectZero;
     btn_edit.frame = CGRectMake(bound.width - 50 , (bound.height - 30)/2, 45,30);
+}
+
+- (void)dataDidChanged
+{
+    [super dataDidChanged];
+    if (self.cellData) {
+        JCGuide *guide = self.cellData;
+        if (!guide.published) {
+            [lb_title setTextColor:[UIColor redColor]];
+        }else{
+            [lb_title setTextColor:[UIColor darkTextColor]];
+
+        }
+    }
 }
 
 @end

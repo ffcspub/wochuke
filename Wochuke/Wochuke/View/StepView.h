@@ -18,9 +18,10 @@
     UIImageView *tagImageView;
     UILabel *lb_step;
     MyWebImgView *imageView;
-    UILabel *lb_text;
+    UITextView *tv_text;
     UIButton *btn_comment;
     UILabel *lb_comment;
+    UIImageView *line;
 }
 
 @property(nonatomic,retain) JCStep *step;
@@ -48,6 +49,7 @@
     UIPanGestureRecognizer *panGestureRecognizer;
     UILabel *lb_textcount;
     UIButton *btn_del;
+    UIImageView *line;
 }
 
 @property(nonatomic,assign) id<StepEditViewDelegate> delegate;

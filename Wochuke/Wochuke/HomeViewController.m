@@ -15,9 +15,7 @@
 #import "GuideCoverView.h"
 #import "GuideViewController.h"
 #import "ICETool.h"
-#import "GuideEditViewController.h"
 #import "ReloadView.h"
-#import "StepEditController.h"
 
 @interface HomeViewController (){
     JCMutableGuideList *_datas;
@@ -43,6 +41,7 @@
     _pageFlowView.dataSource = self;
     _pageFlowView.minimumPageAlpha = 0.3;
     _pageFlowView.minimumPageScale = 0.9;
+    
     [self reloadDatas];
 }
 
@@ -117,7 +116,7 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
         id<JCAppIntfPrx> proxy = [[ICETool shareInstance] createProxy];
         @try {
-            JCMutableGuideList * list = [proxy getGuideListByType:nil filterCode:0 timestamp:nil pageIdx:1 pageSize:20];
+            JCMutableGuideList * list = [proxy getGuideListByType:nil filterCode:0 timestamp:nil pageIdx:0 pageSize:20];
             if (list) {
                 _datas = [list retain];
             }
@@ -132,18 +131,18 @@
                 if (_exception.reason_) {
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [SVProgressHUD showErrorWithStatus:_exception.reason_];
-                        [ReloadView showInView:self.view message:@"重新加载" target:self action:@selector(reloadDatas)];
+                        [ReloadView showInView:self.view message:@"加载失败，点击重新加载" target:self action:@selector(reloadDatas)];
                     });
                 }else{
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [SVProgressHUD showErrorWithStatus:ERROR_MESSAGE];
-                        [ReloadView showInView:self.view message:@"重新加载" target:self action:@selector(reloadDatas)];
+                        [ReloadView showInView:self.view message:@"加载失败，点击重新加载" target:self action:@selector(reloadDatas)];
                     });
                 }
             }else{
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [SVProgressHUD showErrorWithStatus:ERROR_MESSAGE];
-                    [ReloadView showInView:self.view message:@"重新加载" target:self action:@selector(reloadDatas)];
+                    [ReloadView showInView:self.view message:@"加载失败，点击重新加载" target:self action:@selector(reloadDatas)];
                 });
             }
         }
@@ -160,12 +159,7 @@
 }
 
 - (void)flowView:(PagedFlowView *)flowView didTapPageAtIndex:(NSInteger)index;{
-//    GuideViewController *vlc =[[[GuideViewController alloc]initWithNibName:@"GuideViewController" bundle:nil]autorelease];
-//    JCGuide *guide = [_datas objectAtIndex:index];
-//    vlc.guide = guide;
-    
-    
-    StepEditController *vlc = [[[StepEditController alloc]initWithNibName:@"StepEditController" bundle:nil]autorelease];
+    GuideViewController *vlc =[[[GuideViewController alloc]initWithNibName:@"GuideViewController" bundle:nil]autorelease];
     JCGuide *guide = [_datas objectAtIndex:index];
     vlc.guide = guide;
     [self.navigationController pushViewController:vlc animated:YES];

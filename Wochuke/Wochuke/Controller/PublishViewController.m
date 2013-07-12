@@ -165,7 +165,7 @@
 
 
 
-#define FILEBLOCKLENGTH 2048
+
 #pragma mark - dataSend
 -(void)pubishAction{
     [ShareVaule shareInstance].editGuideEx.guideInfo.typeId = _typeId;
@@ -173,6 +173,7 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
         id<JCAppIntfPrx> proxy = [[ICETool shareInstance] createProxy];
         @try {
+            [ShareVaule shareInstance].editGuideEx.guideInfo.published = YES;
             JCGuideEx *guideEx = [proxy saveGuideEx:[ShareVaule shareInstance].editGuideEx];
             
             //上传封面
@@ -191,29 +192,31 @@
                     [proxy saveFileBlock:fileBlock];
                     loc += FILEBLOCKLENGTH;
                 }
-                
-                // 上传步骤图片
-                if ([ShareVaule shareInstance].stepImageDic.count>0) {
-                    for (NSNumber *stepnumber in [ShareVaule shareInstance].stepImageDic.allKeys) {
-                        NSData *stepFileData = [[ShareVaule shareInstance].stepImageDic objectForKey:stepnumber];
-                        JCStep *resultStep = [guideEx.steps objectAtIndex:[stepnumber intValue]-1];
-                        NSString *fileId = resultStep.photo.id_;
-                        int count =  ceil((float)stepFileData.length / FILEBLOCKLENGTH);
-                        int loc = 0;
-                        for (int i= 0; i<count; i++) {
-                            NSData *data = [stepFileData subdataWithRange:NSMakeRange(loc, MIN(FILEBLOCKLENGTH,guideImagedata.length - loc))];
-                            JCFileBlock *fileBlock = [JCFileBlock fileBlock:fileId blockIdx:i blockSize:data.length isLastBlock:i==(count-1) data:data];
-                            [proxy saveFileBlock:fileBlock];
-                            loc += FILEBLOCKLENGTH;
-                        }
+            }
+            
+            // 上传步骤图片
+            if ([ShareVaule shareInstance].stepImageDic.count>0) {
+                for (NSNumber *stepnumber in [ShareVaule shareInstance].stepImageDic.allKeys) {
+                    NSData *stepFileData = [[ShareVaule shareInstance].stepImageDic objectForKey:stepnumber];
+                    JCStep *resultStep = [guideEx.steps objectAtIndex:[stepnumber intValue]-1];
+                    NSString *fileId = resultStep.photo.id_;
+                    int count =  ceil((float)stepFileData.length / FILEBLOCKLENGTH);
+                    int loc = 0;
+                    for (int i= 0; i<count; i++) {
+                        NSData *data = [stepFileData subdataWithRange:NSMakeRange(loc, MIN(FILEBLOCKLENGTH,stepFileData.length - loc))];
+                        JCFileBlock *fileBlock = [JCFileBlock fileBlock:fileId blockIdx:i blockSize:data.length isLastBlock:i==(count-1) data:data];
+                        [proxy saveFileBlock:fileBlock];
+                        loc += FILEBLOCKLENGTH;
                     }
                 }
             }
-            
+            if ([ShareVaule shareInstance].editGuideEx.guideInfo.id_.length == 0) {
+                [ShareVaule shareInstance].user.guideCount ++;
+            }
             dispatch_async(dispatch_get_main_queue(), ^{
                 [SVProgressHUD dismiss];
-                [SVProgressHUD showSuccessWithStatus:@"上传成功!"];
-                [self.navigationController popViewControllerAnimated:YES];
+                [SVProgressHUD showSuccessWithStatus:@"发布成功!"];
+                [self.navigationController dismissViewControllerAnimated:YES completion:nil];
             });
         }
         @catch (NSException *exception) {
@@ -397,11 +400,8 @@
     //    UIImageWriteToSavedPhotosAlbum(cmpImg, nil, nil, nil);
     NSData *blobImage = UIImageJPEGRepresentation(croppedImage, kImageCompressRate);//圖片壓縮為NSData
     [ShareVaule shareInstance].guideImage = blobImage;
-
-    
     __block PECropViewController *_controller = controller;
     [controller dismissViewControllerAnimated:YES completion:^{
-        [_controller release];
         _controller = nil;
     }];
     
@@ -416,7 +416,7 @@
 
 - (void)openEditor:(UIImage *)image
 {
-    PECropViewController *controller = [[PECropViewController alloc] init];
+    PECropViewController *controller = [[[PECropViewController alloc] init]autorelease];
     controller.delegate = self;
     controller.image = image;
     

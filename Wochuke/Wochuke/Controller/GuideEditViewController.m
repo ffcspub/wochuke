@@ -16,6 +16,7 @@
 #import "StepPreviewController.h"
 #import "SuppliesEditViewController.h"
 #import "PECropViewController.h"
+#import "PublishViewController.h"
 
 @interface GuideEditViewController ()<UIImagePickerControllerDelegate,UINavigationControllerDelegate, UIActionSheetDelegate,StepEditViewDelegate>{
     StepEditView *_editView;
@@ -65,6 +66,7 @@
 }
 
 - (void)dealloc {
+    [_editView release];
     [_pagedFlowView release];
     [super dealloc];
 }
@@ -86,6 +88,18 @@
 
 -(void)scrollToIndex:(int)index;{
     [_pagedFlowView scrollToPage:index animation:NO];
+}
+
+- (IBAction)pubishAction:(id)sender {
+    if ([ShareVaule shareInstance].editGuideEx.steps.count == 0) {
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil message:@"您还未创建步骤" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
+        [alert show];
+        [alert release];
+    }else{
+        PublishViewController *vlc = [[PublishViewController alloc]initWithNibName:@"PublishViewController" bundle:nil];
+        [self.navigationController pushViewController:vlc animated:YES];
+        [vlc release];
+    }
 }
 
 
@@ -141,14 +155,14 @@
 
 #pragma mark -StepEditViewDelegate
 -(void)imageTapFromStepEditView:(StepEditView *)editView;{
-    _editView = editView;
+    _editView = [editView retain];
     UIActionSheet *sheet = [[UIActionSheet alloc]initWithTitle:@"图片来源" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"相册",@"拍照", nil];
     [sheet showInView:self.view];
     [sheet release];
 }
 
 -(void)delBtnClickedFromStepEditView:(StepEditView *)editView{
-    _editView = editView;
+    _editView = [editView retain];
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"确定要删除该步骤?" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"删除", nil];
     [alert show];
     [alert release];
@@ -160,6 +174,7 @@
     {
         JCStep *step = _editView.step;
         [[ShareVaule shareInstance] removeStep:step];
+        [_editView release];
         _editView = nil;
         [_pagedFlowView reloadData];
     }
@@ -302,11 +317,11 @@
         JCStep *step = _editView.step;
         [[ShareVaule shareInstance] putImageData:blobImage step:step];
         [_editView upImage];
+        [_editView release];
         _editView = nil;
     }
     __block PECropViewController *_controller = controller;
     [controller dismissViewControllerAnimated:YES completion:^{
-        [_controller release];
         _controller = nil;
     }];
     
