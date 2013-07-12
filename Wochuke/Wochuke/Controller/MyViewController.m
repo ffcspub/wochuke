@@ -188,50 +188,58 @@
 -(void)loadUploadGuides{
     [SVProgressHUD show];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
-        id<JCAppIntfPrx> proxy = [[ICETool shareInstance] createProxy];
         @try {
-            JCMutableGuideList * list = nil;
-            list = [proxy getGuideListByUser:[ShareVaule shareInstance].user.id_ filterCode:[ShareVaule shareInstance].user == [ShareVaule shareInstance].user?0:1 timestamp:nil pageIdx:pageIndex pageSize:pageSize];
-            if (list) {
-                if (pageIndex == 0) {
-                    [_datas removeAllObjects];
+            id<JCAppIntfPrx> proxy = [[ICETool shareInstance] createProxy];
+            @try {
+                JCMutableGuideList * list = nil;
+                list = [proxy getGuideListByUser:[ShareVaule shareInstance].user.id_ filterCode:[ShareVaule shareInstance].user == [ShareVaule shareInstance].user?0:1 timestamp:nil pageIdx:pageIndex pageSize:pageSize];
+                if (list) {
+                    if (pageIndex == 0) {
+                        [_datas removeAllObjects];
+                    }
+                    if (list.count > 0) {
+                        [_datas addObjectsFromArray:list];
+                    }
+                    if (list.count == 20) {
+                        pageIndex ++;
+                        hasNextPage = YES;
+                    }else{
+                        hasNextPage = NO;
+                    }
                 }
-                if (list.count > 0) {
-                    [_datas addObjectsFromArray:list];
-                }
-                if (list.count == 20) {
-                    pageIndex ++;
-                    hasNextPage = YES;
-                }else{
-                    hasNextPage = NO;
-                }
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [SVProgressHUD dismiss];
+                    if (pageIndex==0 && list.count==0) {
+                        _bottomBackView.hidden = YES;
+                    }else{
+                        _bottomBackView.hidden = NO;
+                    }
+                    [_tableView reloadData];
+                    [self.tableView.infiniteScrollingView stopAnimating];
+                    [self.tableView.pullToRefreshView stopAnimating];
+                    if (!hasNextPage) {
+                        [self.tableView setShowsInfiniteScrolling:NO];
+                    }else{
+                        [self.tableView setShowsInfiniteScrolling:YES];
+                    }
+                });
             }
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [SVProgressHUD dismiss];
-                if (pageIndex==0 && list.count==0) {
-                    _bottomBackView.hidden = YES;
-                }else{
-                    _bottomBackView.hidden = NO;
-                }
-                [_tableView reloadData];
-                [self.tableView.infiniteScrollingView stopAnimating];
-                [self.tableView.pullToRefreshView stopAnimating];
-                if (!hasNextPage) {
-                    [self.tableView setShowsInfiniteScrolling:NO];
-                }else{
-                    [self.tableView setShowsInfiniteScrolling:YES];
-                }
-            });
-        }
-        @catch (ICEException *exception) {
-            if ([exception isKindOfClass:[JCGuideException class]]) {
-                JCGuideException *_exception = (JCGuideException *)exception;
-                if (_exception.reason_) {
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [SVProgressHUD showErrorWithStatus:_exception.reason_];
-                        [self.tableView.infiniteScrollingView stopAnimating];
-                        [self.tableView.pullToRefreshView stopAnimating];
-                    });
+            @catch (ICEException *exception) {
+                if ([exception isKindOfClass:[JCGuideException class]]) {
+                    JCGuideException *_exception = (JCGuideException *)exception;
+                    if (_exception.reason_) {
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [SVProgressHUD showErrorWithStatus:_exception.reason_];
+                            [self.tableView.infiniteScrollingView stopAnimating];
+                            [self.tableView.pullToRefreshView stopAnimating];
+                        });
+                    }else{
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [SVProgressHUD showErrorWithStatus:ERROR_MESSAGE];
+                            [self.tableView.infiniteScrollingView stopAnimating];
+                            [self.tableView.pullToRefreshView stopAnimating];
+                        });
+                    }
                 }else{
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [SVProgressHUD showErrorWithStatus:ERROR_MESSAGE];
@@ -239,67 +247,75 @@
                         [self.tableView.pullToRefreshView stopAnimating];
                     });
                 }
-            }else{
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [SVProgressHUD showErrorWithStatus:ERROR_MESSAGE];
-                    [self.tableView.infiniteScrollingView stopAnimating];
-                    [self.tableView.pullToRefreshView stopAnimating];
-                });
             }
+            @finally {
+                
+            }
+
+        }@catch (ICEException *exception) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [SVProgressHUD showErrorWithStatus:@"服务访问异常"];
+            });
         }
-        @finally {
-            
-        }
+        
     });
 }
 
 -(void)loadFavGuides{
     [SVProgressHUD show];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
-        id<JCAppIntfPrx> proxy = [[ICETool shareInstance] createProxy];
         @try {
-            JCMutableGuideList * list = nil;
-            list = [proxy getGuideListByUser:[ShareVaule shareInstance].user.id_ filterCode:2 timestamp:nil pageIdx:pageIndex pageSize:pageSize];
-            if (list) {
-                if (pageIndex == 0) {
-                    [_datas removeAllObjects];
+            id<JCAppIntfPrx> proxy = [[ICETool shareInstance] createProxy];
+            @try {
+                JCMutableGuideList * list = nil;
+                list = [proxy getGuideListByUser:[ShareVaule shareInstance].user.id_ filterCode:2 timestamp:nil pageIdx:pageIndex pageSize:pageSize];
+                if (list) {
+                    if (pageIndex == 0) {
+                        [_datas removeAllObjects];
+                    }
+                    if (list.count > 0) {
+                        [_datas addObjectsFromArray:list];
+                    }
+                    if (list.count == 20) {
+                        pageIndex ++;
+                        hasNextPage = YES;
+                    }else{
+                        hasNextPage = NO;
+                    }
                 }
-                if (list.count > 0) {
-                    [_datas addObjectsFromArray:list];
-                }
-                if (list.count == 20) {
-                    pageIndex ++;
-                    hasNextPage = YES;
-                }else{
-                    hasNextPage = NO;
-                }
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [SVProgressHUD dismiss];
+                    if (pageIndex==0 && list.count==0) {
+                        _bottomBackView.hidden = YES;
+                    }else{
+                        _bottomBackView.hidden = NO;
+                    }
+                    [_tableView reloadData];
+                    [self.tableView.infiniteScrollingView stopAnimating];
+                    [self.tableView.pullToRefreshView stopAnimating];
+                    if (!hasNextPage) {
+                        [self.tableView setShowsInfiniteScrolling:NO];
+                    }else{
+                        [self.tableView setShowsInfiniteScrolling:YES];
+                    }
+                });
             }
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [SVProgressHUD dismiss];
-                if (pageIndex==0 && list.count==0) {
-                    _bottomBackView.hidden = YES;
-                }else{
-                    _bottomBackView.hidden = NO;
-                }
-                [_tableView reloadData];
-                [self.tableView.infiniteScrollingView stopAnimating];
-                [self.tableView.pullToRefreshView stopAnimating];
-                if (!hasNextPage) {
-                    [self.tableView setShowsInfiniteScrolling:NO];
-                }else{
-                    [self.tableView setShowsInfiniteScrolling:YES];
-                }
-            });
-        }
-        @catch (ICEException *exception) {
-            if ([exception isKindOfClass:[JCGuideException class]]) {
-                JCGuideException *_exception = (JCGuideException *)exception;
-                if (_exception.reason_) {
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [SVProgressHUD showErrorWithStatus:_exception.reason_];
-                        [self.tableView.infiniteScrollingView stopAnimating];
-                        [self.tableView.pullToRefreshView stopAnimating];
-                    });
+            @catch (ICEException *exception) {
+                if ([exception isKindOfClass:[JCGuideException class]]) {
+                    JCGuideException *_exception = (JCGuideException *)exception;
+                    if (_exception.reason_) {
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [SVProgressHUD showErrorWithStatus:_exception.reason_];
+                            [self.tableView.infiniteScrollingView stopAnimating];
+                            [self.tableView.pullToRefreshView stopAnimating];
+                        });
+                    }else{
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [SVProgressHUD showErrorWithStatus:ERROR_MESSAGE];
+                            [self.tableView.infiniteScrollingView stopAnimating];
+                            [self.tableView.pullToRefreshView stopAnimating];
+                        });
+                    }
                 }else{
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [SVProgressHUD showErrorWithStatus:ERROR_MESSAGE];
@@ -307,67 +323,74 @@
                         [self.tableView.pullToRefreshView stopAnimating];
                     });
                 }
-            }else{
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [SVProgressHUD showErrorWithStatus:ERROR_MESSAGE];
-                    [self.tableView.infiniteScrollingView stopAnimating];
-                    [self.tableView.pullToRefreshView stopAnimating];
-                });
             }
+            @finally {
+                
+            }
+        }@catch (ICEException *exception) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [SVProgressHUD showErrorWithStatus:@"服务访问异常"];
+            });
         }
-        @finally {
-            
-        }
+        
     });
 }
 
 -(void)loadFollowUsers{
     [SVProgressHUD show];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
-        id<JCAppIntfPrx> proxy = [[ICETool shareInstance] createProxy];
         @try {
-            JCMutableUserList * list = nil;
-            list = [proxy getUserListByUser:[ShareVaule shareInstance].user.id_ userId:[ShareVaule shareInstance].user.id_ filterCode:0 timestamp:nil pageIdx:pageIndex pageSize:pageSize];
-            if (list) {
-                if (pageIndex == 0) {
-                    [_datas removeAllObjects];
+            id<JCAppIntfPrx> proxy = [[ICETool shareInstance] createProxy];
+            @try {
+                JCMutableUserList * list = nil;
+                list = [proxy getUserListByUser:[ShareVaule shareInstance].user.id_ userId:[ShareVaule shareInstance].user.id_ filterCode:0 timestamp:nil pageIdx:pageIndex pageSize:pageSize];
+                if (list) {
+                    if (pageIndex == 0) {
+                        [_datas removeAllObjects];
+                    }
+                    if (list.count > 0) {
+                        [_datas addObjectsFromArray:list];
+                    }
+                    if (list.count == 20) {
+                        pageIndex ++;
+                        hasNextPage = YES;
+                    }else{
+                        hasNextPage = NO;
+                    }
                 }
-                if (list.count > 0) {
-                    [_datas addObjectsFromArray:list];
-                }
-                if (list.count == 20) {
-                    pageIndex ++;
-                    hasNextPage = YES;
-                }else{
-                    hasNextPage = NO;
-                }
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [SVProgressHUD dismiss];
+                    if (pageIndex==0 && list.count==0) {
+                        _bottomBackView.hidden = YES;
+                    }else{
+                        _bottomBackView.hidden = NO;
+                    }
+                    [_tableView reloadData];
+                    [self.tableView.infiniteScrollingView stopAnimating];
+                    [self.tableView.pullToRefreshView stopAnimating];
+                    if (!hasNextPage) {
+                        [self.tableView setShowsInfiniteScrolling:NO];
+                    }else{
+                        [self.tableView setShowsInfiniteScrolling:YES];
+                    }
+                });
             }
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [SVProgressHUD dismiss];
-                if (pageIndex==0 && list.count==0) {
-                    _bottomBackView.hidden = YES;
-                }else{
-                    _bottomBackView.hidden = NO;
-                }
-                [_tableView reloadData];
-                [self.tableView.infiniteScrollingView stopAnimating];
-                [self.tableView.pullToRefreshView stopAnimating];
-                if (!hasNextPage) {
-                    [self.tableView setShowsInfiniteScrolling:NO];
-                }else{
-                    [self.tableView setShowsInfiniteScrolling:YES];
-                }
-            });
-        }
-        @catch (ICEException *exception) {
-            if ([exception isKindOfClass:[JCGuideException class]]) {
-                JCGuideException *_exception = (JCGuideException *)exception;
-                if (_exception.reason_) {
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [SVProgressHUD showErrorWithStatus:_exception.reason_];
-                        [self.tableView.infiniteScrollingView stopAnimating];
-                        [self.tableView.pullToRefreshView stopAnimating];
-                    });
+            @catch (ICEException *exception) {
+                if ([exception isKindOfClass:[JCGuideException class]]) {
+                    JCGuideException *_exception = (JCGuideException *)exception;
+                    if (_exception.reason_) {
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [SVProgressHUD showErrorWithStatus:_exception.reason_];
+                            [self.tableView.infiniteScrollingView stopAnimating];
+                            [self.tableView.pullToRefreshView stopAnimating];
+                        });
+                    }else{
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [SVProgressHUD showErrorWithStatus:ERROR_MESSAGE];
+                            [self.tableView.infiniteScrollingView stopAnimating];
+                            [self.tableView.pullToRefreshView stopAnimating];
+                        });
+                    }
                 }else{
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [SVProgressHUD showErrorWithStatus:ERROR_MESSAGE];
@@ -375,67 +398,74 @@
                         [self.tableView.pullToRefreshView stopAnimating];
                     });
                 }
-            }else{
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [SVProgressHUD showErrorWithStatus:ERROR_MESSAGE];
-                    [self.tableView.infiniteScrollingView stopAnimating];
-                    [self.tableView.pullToRefreshView stopAnimating];
-                });
             }
+            @finally {
+                
+            }
+        }@catch (ICEException *exception) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [SVProgressHUD showErrorWithStatus:@"服务访问异常"];
+            });
         }
-        @finally {
-            
-        }
+        
     });
 }
 
 -(void)loadFances{
     [SVProgressHUD show];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
-        id<JCAppIntfPrx> proxy = [[ICETool shareInstance] createProxy];
         @try {
-            JCMutableGuideList * list = nil;
-            list = [proxy getUserListByUser:[ShareVaule shareInstance].user.id_ userId:[ShareVaule shareInstance].user.id_ filterCode:1 timestamp:nil pageIdx:pageIndex pageSize:pageSize];
-            if (list) {
-                if (pageIndex == 0) {
-                    [_datas removeAllObjects];
+            id<JCAppIntfPrx> proxy = [[ICETool shareInstance] createProxy];
+            @try {
+                JCMutableGuideList * list = nil;
+                list = [proxy getUserListByUser:[ShareVaule shareInstance].user.id_ userId:[ShareVaule shareInstance].user.id_ filterCode:1 timestamp:nil pageIdx:pageIndex pageSize:pageSize];
+                if (list) {
+                    if (pageIndex == 0) {
+                        [_datas removeAllObjects];
+                    }
+                    if (list.count > 0) {
+                        [_datas addObjectsFromArray:list];
+                    }
+                    if (list.count == 20) {
+                        pageIndex ++;
+                        hasNextPage = YES;
+                    }else{
+                        hasNextPage = NO;
+                    }
                 }
-                if (list.count > 0) {
-                    [_datas addObjectsFromArray:list];
-                }
-                if (list.count == 20) {
-                    pageIndex ++;
-                    hasNextPage = YES;
-                }else{
-                    hasNextPage = NO;
-                }
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [SVProgressHUD dismiss];
+                    if (pageIndex==0 && list.count==0) {
+                        _bottomBackView.hidden = YES;
+                    }else{
+                        _bottomBackView.hidden = NO;
+                    }
+                    [_tableView reloadData];
+                    [self.tableView.infiniteScrollingView stopAnimating];
+                    [self.tableView.pullToRefreshView stopAnimating];
+                    if (!hasNextPage) {
+                        [self.tableView setShowsInfiniteScrolling:NO];
+                    }else{
+                        [self.tableView setShowsInfiniteScrolling:YES];
+                    }
+                });
             }
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [SVProgressHUD dismiss];
-                if (pageIndex==0 && list.count==0) {
-                    _bottomBackView.hidden = YES;
-                }else{
-                    _bottomBackView.hidden = NO;
-                }
-                [_tableView reloadData];
-                [self.tableView.infiniteScrollingView stopAnimating];
-                [self.tableView.pullToRefreshView stopAnimating];
-                if (!hasNextPage) {
-                    [self.tableView setShowsInfiniteScrolling:NO];
-                }else{
-                    [self.tableView setShowsInfiniteScrolling:YES];
-                }
-            });
-        }
-        @catch (ICEException *exception) {
-            if ([exception isKindOfClass:[JCGuideException class]]) {
-                JCGuideException *_exception = (JCGuideException *)exception;
-                if (_exception.reason_) {
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [SVProgressHUD showErrorWithStatus:_exception.reason_];
-                        [self.tableView.infiniteScrollingView stopAnimating];
-                        [self.tableView.pullToRefreshView stopAnimating];
-                    });
+            @catch (ICEException *exception) {
+                if ([exception isKindOfClass:[JCGuideException class]]) {
+                    JCGuideException *_exception = (JCGuideException *)exception;
+                    if (_exception.reason_) {
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [SVProgressHUD showErrorWithStatus:_exception.reason_];
+                            [self.tableView.infiniteScrollingView stopAnimating];
+                            [self.tableView.pullToRefreshView stopAnimating];
+                        });
+                    }else{
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [SVProgressHUD showErrorWithStatus:ERROR_MESSAGE];
+                            [self.tableView.infiniteScrollingView stopAnimating];
+                            [self.tableView.pullToRefreshView stopAnimating];
+                        });
+                    }
                 }else{
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [SVProgressHUD showErrorWithStatus:ERROR_MESSAGE];
@@ -443,17 +473,17 @@
                         [self.tableView.pullToRefreshView stopAnimating];
                     });
                 }
-            }else{
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [SVProgressHUD showErrorWithStatus:ERROR_MESSAGE];
-                    [self.tableView.infiniteScrollingView stopAnimating];
-                    [self.tableView.pullToRefreshView stopAnimating];
-                });
             }
+            @finally {
+                
+            }
+
+        }@catch (ICEException *exception) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [SVProgressHUD showErrorWithStatus:@"服务访问异常"];
+            });
         }
-        @finally {
-            
-        }
+        
     });
 }
 

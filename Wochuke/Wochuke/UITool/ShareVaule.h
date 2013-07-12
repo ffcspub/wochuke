@@ -63,4 +63,14 @@
 
 -(void)removeImageDataByStep:(JCStep *)step;
 
++(void)addDriverByName:(NSString *)name devId:(NSString *)devId;
+
++(NSString *)devIdByName:(NSString *)name;
+
++(BOOL)devNameExits:(NSString *)name;
+
++(void)deleteDirverByName:(NSString *)name;
+
++(NSArray *)allDriverNames;
+
 @end

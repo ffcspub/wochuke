@@ -48,6 +48,7 @@
 						<string key="NSFrame">{{0, 44}, {320, 453}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<object class="NSColor" key="IBUIBackgroundColor" id="912599775">
 							<int key="NSColorSpace">3</int>
@@ -239,7 +240,7 @@
 					<object class="IBUIView" id="819167537">
 						<reference key="NSNextResponder" ref="966487042"/>
 						<int key="NSvFlags">274</int>
-						<string key="NSFrame">{{0, 130}, {320, 15}}</string>
+						<string key="NSFrame">{{0, 108}, {320, 37}}</string>
 						<reference key="NSSuperview" ref="966487042"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="163872385"/>
@@ -248,16 +249,17 @@
 							<int key="NSColorSpace">1</int>
 							<bytes key="NSRGB">MCAwIDAAA</bytes>
 						</object>
-						<float key="IBUIAlpha">0.20000000298023224</float>
+						<float key="IBUIAlpha">0.10000000149011612</float>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 					</object>
 					<object class="IBUIPageControl" id="608871774">
 						<reference key="NSNextResponder" ref="966487042"/>
 						<int key="NSvFlags">1313</int>
 						<object class="NSPSMatrix" key="NSFrameMatrix"/>
-						<string key="NSFrame">{{156, 119}, {144, 36}}</string>
+						<string key="NSFrame">{{156, 110}, {144, 36}}</string>
 						<reference key="NSSuperview" ref="966487042"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
@@ -284,8 +286,7 @@
 						<string key="IBUIText"/>
 						<object class="NSColor" key="IBUITextColor">
 							<int key="NSColorSpace">1</int>
-							<bytes key="NSRGB">MCAwIDAAA</bytes>
-							<string key="IBUIColorCocoaTouchKeyPath">darkTextColor</string>
+							<bytes key="NSRGB">MSAxIDEAA</bytes>
 						</object>
 						<nil key="IBUIHighlightedColor"/>
 						<int key="IBUIBaselineAdjustment">0</int>

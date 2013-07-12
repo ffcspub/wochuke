@@ -75,7 +75,7 @@
 }
 
 - (IBAction)popAction:(id)sender {
-    [self.navigationController popViewControllerAnimated:YES];
+    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (IBAction)nextAction:(id)sender {

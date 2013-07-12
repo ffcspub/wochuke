@@ -74,4 +74,33 @@ static ICETool *_shareInstance;
 }
 
 
+-(id<JCAgentLocatorPrx>)createLocalProxy;{
+    NSString* prxStr = @"agentLocator";
+    
+    ICEObjectPrx* prx = [communicator stringToProxy:prxStr];
+    
+    int timeout = (int)(10 * 1000.0f); // Convert to ms.
+    if(timeout != 0)
+    {
+        prx = [prx ice_timeout:timeout];
+    }
+    
+    return [JCAgentLocatorPrx uncheckedCast:prx];
+}
+
+
+//-(id)<JCCookAgentPrx>createCookAgentPrx:(NSString *)token localProxy:(id<JCAgentLocatorPrx>)localProxy{
+//    ICEObjectPrx* prx = [communicator stringToProxy:prxStr];
+//    
+//    int timeout = (int)(10 * 1000.0f); // Convert to ms.
+//    if(timeout != 0)
+//    {
+//        prx = [prx ice_timeout:timeout];
+//    }
+//    
+//    return [JCAgentLocatorPrx uncheckedCast:prx];
+//
+//}
+
+
 @end

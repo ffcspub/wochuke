@@ -74,39 +74,46 @@
 -(void)loadSlogon{
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
-        id<JCAppIntfPrx> proxy = [[ICETool shareInstance] createProxy];
         @try {
-            NSString *slogon = [proxy getSlogon];
-            [[NSUserDefaults standardUserDefaults]setObject:slogon forKey:@"SLOGON"];
-            _lb_sLogon.text = [[NSUserDefaults standardUserDefaults]stringForKey:@"SLOGON"];
-        }
-        @catch (ICEException *exception) {
-            if ([exception isKindOfClass:[JCGuideException class]]) {
-                JCGuideException *_exception = (JCGuideException *)exception;
-                if (_exception.reason_) {
-                    dispatch_async(dispatch_get_main_queue(), ^{
-//                        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil message:_exception.reason_ delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
-//                        [alert show];
-//                        [alert release];
-                    });
+            id<JCAppIntfPrx> proxy = [[ICETool shareInstance] createProxy];
+            @try {
+                NSString *slogon = [proxy getSlogon];
+                [[NSUserDefaults standardUserDefaults]setObject:slogon forKey:@"SLOGON"];
+                _lb_sLogon.text = [[NSUserDefaults standardUserDefaults]stringForKey:@"SLOGON"];
+            }
+            @catch (ICEException *exception) {
+                if ([exception isKindOfClass:[JCGuideException class]]) {
+                    JCGuideException *_exception = (JCGuideException *)exception;
+                    if (_exception.reason_) {
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            //                        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil message:_exception.reason_ delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
+                            //                        [alert show];
+                            //                        [alert release];
+                        });
+                    }else{
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            //                        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil message:ERROR_MESSAGE delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
+                            //                        [alert show];
+                            //                        [alert release];
+                        });
+                    }
                 }else{
                     dispatch_async(dispatch_get_main_queue(), ^{
-//                        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil message:ERROR_MESSAGE delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
-//                        [alert show];
-//                        [alert release];
+                        //                    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil message:ERROR_MESSAGE delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
+                        //                    [alert show];
+                        //                    [alert release];
                     });
                 }
-            }else{
-                dispatch_async(dispatch_get_main_queue(), ^{
-//                    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil message:ERROR_MESSAGE delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
-//                    [alert show];
-//                    [alert release];
-                });
             }
+            @finally {
+                
+            }
+        }@catch (ICEException *exception) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [SVProgressHUD showErrorWithStatus:@"服务访问异常"];
+            });
         }
-        @finally {
-            
-        }
+        
         
     });
 }
@@ -114,41 +121,48 @@
 -(void)loadDatas{
     [SVProgressHUD show];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
-        id<JCAppIntfPrx> proxy = [[ICETool shareInstance] createProxy];
         @try {
-            JCMutableGuideList * list = [proxy getGuideListByType:nil filterCode:0 timestamp:nil pageIdx:0 pageSize:20];
-            if (list) {
-                _datas = [list retain];
+            id<JCAppIntfPrx> proxy = [[ICETool shareInstance] createProxy];
+            @try {
+                JCMutableGuideList * list = [proxy getGuideListByType:nil filterCode:0 timestamp:nil pageIdx:0 pageSize:20];
+                if (list) {
+                    _datas = [list retain];
+                }
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [SVProgressHUD dismiss];
+                    [_pageFlowView reloadData];
+                });
             }
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [SVProgressHUD dismiss];
-                [_pageFlowView reloadData];
-            });
-        }
-        @catch (ICEException *exception) {
-            if ([exception isKindOfClass:[JCGuideException class]]) {
-                JCGuideException *_exception = (JCGuideException *)exception;
-                if (_exception.reason_) {
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [SVProgressHUD showErrorWithStatus:_exception.reason_];
-                        [ReloadView showInView:self.view message:@"加载失败，点击重新加载" target:self action:@selector(reloadDatas)];
-                    });
+            @catch (ICEException *exception) {
+                if ([exception isKindOfClass:[JCGuideException class]]) {
+                    JCGuideException *_exception = (JCGuideException *)exception;
+                    if (_exception.reason_) {
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [SVProgressHUD showErrorWithStatus:_exception.reason_];
+                            [ReloadView showInView:self.view message:@"加载失败，点击重新加载" target:self action:@selector(reloadDatas)];
+                        });
+                    }else{
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [SVProgressHUD showErrorWithStatus:ERROR_MESSAGE];
+                            [ReloadView showInView:self.view message:@"加载失败，点击重新加载" target:self action:@selector(reloadDatas)];
+                        });
+                    }
                 }else{
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [SVProgressHUD showErrorWithStatus:ERROR_MESSAGE];
                         [ReloadView showInView:self.view message:@"加载失败，点击重新加载" target:self action:@selector(reloadDatas)];
                     });
                 }
-            }else{
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [SVProgressHUD showErrorWithStatus:ERROR_MESSAGE];
-                    [ReloadView showInView:self.view message:@"加载失败，点击重新加载" target:self action:@selector(reloadDatas)];
-                });
             }
+            @finally {
+                
+            }
+        }@catch (ICEException *exception) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [SVProgressHUD showErrorWithStatus:@"服务访问异常"];
+            });
         }
-        @finally {
-            
-        }
+        
         
     });
 }

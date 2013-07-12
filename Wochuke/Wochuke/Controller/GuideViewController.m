@@ -19,10 +19,12 @@
 #import "CommentViewController.h"
 #import "GuideUserListViewController.h"
 #import "CommentViewController.h"
+#import "DriverManagerViewController.h"
+
 
 //#import "StepEditController.h"
 
-@interface GuideViewController ()<StepViewDelegate>{
+@interface GuideViewController ()<StepViewDelegate,UIActionSheetDelegate>{
     JCGuideDetail *_detail;
     JSBadgeView *_badgeView;
 }
@@ -34,44 +36,49 @@
 -(void)loadDetail{
     [SVProgressHUD show];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
-        id<JCAppIntfPrx> proxy = [[ICETool shareInstance] createProxy];
         @try {
-            JCGuideDetail *detail = [proxy getGuideDetail:[ShareVaule shareInstance].userId guideId:_guide.id_];
-            if (detail) {
-                _detail = [detail retain];
-            }
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [SVProgressHUD dismiss];
-                if (_detail.favorited) {
-                    [_btn_like setImage:[UIImage imageNamed:@"ic_cook_like_bottom_pressed"] forState:UIControlStateNormal];
-                }else{
-                    [_btn_like setImage:[UIImage imageNamed:@"ic_cook_like_bottom"] forState:UIControlStateNormal];
+            id<JCAppIntfPrx> proxy = [[ICETool shareInstance] createProxy];
+            @try {
+                JCGuideDetail *detail = [proxy getGuideDetail:[ShareVaule shareInstance].userId guideId:_guide.id_];
+                if (detail) {
+                    _detail = [detail retain];
                 }
-                [_pagedFlowView reloadData];
-            });
-        }
-        @catch (ICEException *exception) {
-            if ([exception isKindOfClass:[JCGuideException class]]) {
-                JCGuideException *_exception = (JCGuideException *)exception;
-                if (_exception.reason_) {
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [SVProgressHUD showErrorWithStatus:_exception.reason_];
-                    });
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [SVProgressHUD dismiss];
+                    if (_detail.favorited) {
+                        [_btn_like setImage:[UIImage imageNamed:@"ic_cook_like_bottom_pressed"] forState:UIControlStateNormal];
+                    }else{
+                        [_btn_like setImage:[UIImage imageNamed:@"ic_cook_like_bottom"] forState:UIControlStateNormal];
+                    }
+                    [_pagedFlowView reloadData];
+                });
+            }
+            @catch (ICEException *exception) {
+                if ([exception isKindOfClass:[JCGuideException class]]) {
+                    JCGuideException *_exception = (JCGuideException *)exception;
+                    if (_exception.reason_) {
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [SVProgressHUD showErrorWithStatus:_exception.reason_];
+                        });
+                    }else{
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [SVProgressHUD showErrorWithStatus:ERROR_MESSAGE];
+                        });
+                    }
                 }else{
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [SVProgressHUD showErrorWithStatus:ERROR_MESSAGE];
                     });
                 }
-            }else{
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [SVProgressHUD showErrorWithStatus:ERROR_MESSAGE];
-                });
             }
+            @finally {
+                
+            }
+        }@catch (ICEException *exception) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [SVProgressHUD showErrorWithStatus:@"服务访问异常"];
+            });
         }
-        @finally {
-            
-        }
-
     });
     
 }
@@ -218,25 +225,82 @@
 -(void)followGudie{
 //    [SVProgressHUD show];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
-        id<JCAppIntfPrx> proxy = [[ICETool shareInstance] createProxy];
         @try {
-            [proxy favorite:[ShareVaule shareInstance].userId guideId:_guide.id_ flag:!_detail.favorited];
-            _detail.favorited = !_detail.favorited;
-            dispatch_async(dispatch_get_main_queue(), ^{
-//                [SVProgressHUD dismiss];
-                if (_detail.favorited) {
-                    [SVProgressHUD showSuccessWithStatus:@"已收藏"];
-                    [_btn_like setImage:[UIImage imageNamed:@"ic_cook_like_bottom_pressed"] forState:UIControlStateNormal];
-                    _guide.favoriteCount++ ;
-                    [ShareVaule shareInstance].user.favoriteCount ++;
+            id<JCAppIntfPrx> proxy = [[ICETool shareInstance] createProxy];
+            @try {
+                [proxy favorite:[ShareVaule shareInstance].userId guideId:_guide.id_ flag:!_detail.favorited];
+                _detail.favorited = !_detail.favorited;
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    //                [SVProgressHUD dismiss];
+                    if (_detail.favorited) {
+                        [SVProgressHUD showSuccessWithStatus:@"已收藏"];
+                        [_btn_like setImage:[UIImage imageNamed:@"ic_cook_like_bottom_pressed"] forState:UIControlStateNormal];
+                        _guide.favoriteCount++ ;
+                        [ShareVaule shareInstance].user.favoriteCount ++;
+                    }else{
+                        [SVProgressHUD showSuccessWithStatus:@"已取消收藏"];
+                        [_btn_like setImage:[UIImage imageNamed:@"ic_cook_like_bottom"] forState:UIControlStateNormal];
+                        _guide.favoriteCount -- ;
+                        [ShareVaule shareInstance].user.favoriteCount --;
+                    }
+                    [self postNotification:NOTIFICATION_FAVORITECOUNT];
+                    [_pagedFlowView reloadData];
+                });
+            }
+            @catch (ICEException *exception) {
+                if ([exception isKindOfClass:[JCGuideException class]]) {
+                    JCGuideException *_exception = (JCGuideException *)exception;
+                    if (_exception.reason_) {
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [SVProgressHUD showErrorWithStatus:_exception.reason_];
+                        });
+                    }else{
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [SVProgressHUD showErrorWithStatus:ERROR_MESSAGE];
+                        });
+                    }
                 }else{
-                    [SVProgressHUD showSuccessWithStatus:@"已取消收藏"];
-                    [_btn_like setImage:[UIImage imageNamed:@"ic_cook_like_bottom"] forState:UIControlStateNormal];
-                    _guide.favoriteCount -- ;
-                    [ShareVaule shareInstance].user.favoriteCount --;
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [SVProgressHUD showErrorWithStatus:ERROR_MESSAGE];
+                    });
                 }
-                [self postNotification:NOTIFICATION_FAVORITECOUNT];
-                [_pagedFlowView reloadData];
+            }
+            @finally {
+                
+            }
+        }@catch (ICEException *exception) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [SVProgressHUD showErrorWithStatus:@"服务访问异常"];
+            });
+        }
+        
+    });
+}
+
+
+- (IBAction)commentAction:(id)sender {
+    if ([ShareVaule shareInstance].user.id_) {
+        CommentViewController *vlc = [[[CommentViewController alloc]init]autorelease];
+        vlc.guide = _guide;
+        [self.navigationController pushViewController:vlc animated:YES];
+    }else{
+        LoginViewController *vlc = [[[LoginViewController alloc]initWithNibName:@"LoginViewController" bundle:nil]autorelease];
+        UINavigationController *navController = [[[UINavigationController alloc]initWithRootViewController:vlc ]autorelease];
+        [self presentModalViewController:navController animated:YES];
+    }
+    
+}
+
+#pragma mark - ControlDriver
+-(void)controlDriverByName:(NSString *)name{
+    [SVProgressHUD show];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+        id<JCCookAgentPrx> proxy = [[ICETool shareInstance] createLocalProxy];
+        @try {
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [SVProgressHUD dismiss];
+                
             });
         }
         @catch (ICEException *exception) {
@@ -260,25 +324,34 @@
         @finally {
             
         }
+        
     });
 }
 
-
-- (IBAction)commentAction:(id)sender {
-    if ([ShareVaule shareInstance].user.id_) {
-        CommentViewController *vlc = [[[CommentViewController alloc]init]autorelease];
-        vlc.guide = _guide;
-        [self.navigationController pushViewController:vlc animated:YES];
-    }else{
-        LoginViewController *vlc = [[[LoginViewController alloc]initWithNibName:@"LoginViewController" bundle:nil]autorelease];
-        UINavigationController *navController = [[[UINavigationController alloc]initWithRootViewController:vlc ]autorelease];
-        [self presentModalViewController:navController animated:YES];
+#pragma mark - UIActionSheetDelegate
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex;{
+    if (actionSheet.tag == 10086) {
+        return;
     }
-    
+    NSArray *driveNames = [ShareVaule allDriverNames];
+    int count = driveNames.count;
+    if (buttonIndex < count-1 ) {
+        NSString *name = [driveNames objectAtIndex:buttonIndex];
+        [self controlDriverByName:name];
+    }else{
+        if((buttonIndex - count) == 0){
+            DriverManagerViewController *vlc = [[ DriverManagerViewController alloc]initWithNibName:@"DriverManagerViewController" bundle:nil];
+            [self.navigationController pushViewController:vlc animated:YES];
+            [vlc release];
+        }
+    }
 }
 
 - (IBAction)shareAction:(id)sender {
-    
+    UIActionSheet *sheet = [[UIActionSheet alloc]initWithTitle:@"分享" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"新浪微博" otherButtonTitles:@"QQ", nil];
+    sheet.tag = 10086;
+    [sheet showInView:self.view];
+    [sheet release];
 }
 
 - (IBAction)likeAction:(id)sender {
@@ -292,7 +365,22 @@
 }
 
 - (IBAction)driverAction:(id)sender {
-    
+    UIActionSheet *sheet = [[UIActionSheet alloc]init];
+    sheet.delegate = self;
+    NSArray *driveNames = [ShareVaule allDriverNames];
+    int i = 0;
+    if (driveNames) {
+        for (NSString *name in driveNames) {
+            [sheet addButtonWithTitle:name];
+            i++;
+        }
+    }
+    [sheet addButtonWithTitle:@"厨具管理"];
+    i++;
+    [sheet addButtonWithTitle:@"取消"];
+    sheet.cancelButtonIndex = i;
+    [sheet showInView:self.view];
+    [sheet release];
 }
 
 #pragma mark -GuideInfoViewDelegate

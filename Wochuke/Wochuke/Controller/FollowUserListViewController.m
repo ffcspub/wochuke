@@ -94,63 +94,68 @@
 -(void)loadDatas{
     [SVProgressHUD show];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
-        id<JCAppIntfPrx> proxy = [[ICETool shareInstance] createProxy];
         @try {
-            JCMutableUserList * list = nil;
-            list = [proxy getUserListByUser:[ShareVaule shareInstance].user.id_ userId:_user.id_ filterCode:_filterCode timestamp:nil pageIdx:pageIndex pageSize:pageSize];
-            if (list) {
-                if (pageIndex == 0) {
-                    [_datas removeAllObjects];
-                    if (list.count == 0) {
-                        [ReloadView showInView:self.tableView message:@"没有相关的内容" target:self action:@selector(reloadDatas)];
+            id<JCAppIntfPrx> proxy = [[ICETool shareInstance] createProxy];
+            @try {
+                JCMutableUserList * list = nil;
+                list = [proxy getUserListByUser:[ShareVaule shareInstance].user.id_ userId:_user.id_ filterCode:_filterCode timestamp:nil pageIdx:pageIndex pageSize:pageSize];
+                if (list) {
+                    if (pageIndex == 0) {
+                        [_datas removeAllObjects];
+                        if (list.count == 0) {
+                            [ReloadView showInView:self.tableView message:@"没有相关的内容" target:self action:@selector(reloadDatas)];
+                        }
+                    }
+                    if (list.count > 0) {
+                        [_datas addObjectsFromArray:list];
+                    }
+                    if (list.count == pageSize) {
+                        pageIndex ++;
+                        hasNextPage = YES;
+                    }else{
+                        hasNextPage = NO;
                     }
                 }
-                if (list.count > 0) {
-                    [_datas addObjectsFromArray:list];
-                }
-                if (list.count == pageSize) {
-                    pageIndex ++;
-                    hasNextPage = YES;
-                }else{
-                    hasNextPage = NO;
-                }
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [SVProgressHUD dismiss];
+                    [_tableView reloadData];
+                    [_tableView.infiniteScrollingView stopAnimating];
+                    [_tableView setTableHeaderView:nil];
+                    [_tableView setShowsPullToRefresh:YES];
+                    [_tableView.pullToRefreshView stopAnimating];
+                    if (!hasNextPage) {
+                        [_tableView setShowsInfiniteScrolling:NO];
+                    }else{
+                        [_tableView setShowsInfiniteScrolling:YES];
+                    }
+                });
             }
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [SVProgressHUD dismiss];
-                [_tableView reloadData];
-                [_tableView.infiniteScrollingView stopAnimating];
-                [_tableView setTableHeaderView:nil];
-                [_tableView setShowsPullToRefresh:YES];
-                [_tableView.pullToRefreshView stopAnimating];
-                if (!hasNextPage) {
-                    [_tableView setShowsInfiniteScrolling:NO];
-                }else{
-                    [_tableView setShowsInfiniteScrolling:YES];
-                }
-            });
-        }
-        @catch (ICEException *exception) {
-            if ([exception isKindOfClass:[JCGuideException class]]) {
-                JCGuideException *_exception = (JCGuideException *)exception;
-                if (_exception.reason_) {
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [SVProgressHUD showErrorWithStatus:_exception.reason_];
-                    });
+            @catch (ICEException *exception) {
+                if ([exception isKindOfClass:[JCGuideException class]]) {
+                    JCGuideException *_exception = (JCGuideException *)exception;
+                    if (_exception.reason_) {
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [SVProgressHUD showErrorWithStatus:_exception.reason_];
+                        });
+                    }else{
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [SVProgressHUD showErrorWithStatus:ERROR_MESSAGE];
+                        });
+                    }
                 }else{
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [SVProgressHUD showErrorWithStatus:ERROR_MESSAGE];
                     });
                 }
-            }else{
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [SVProgressHUD showErrorWithStatus:ERROR_MESSAGE];
-                });
             }
+            @finally {
+                
+            }
+        }@catch (ICEException *exception) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [SVProgressHUD showErrorWithStatus:@"服务访问异常"];
+            });
         }
-        @finally {
-            
-        }
-        
     });
     
 }
@@ -193,54 +198,61 @@
 -(void) followUser:(JCUser *)user;{
     if ([ShareVaule shareInstance].userId) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
-            id<JCAppIntfPrx> proxy = [[ICETool shareInstance] createProxy];
             @try {
-                NSString *userid = [ShareVaule shareInstance].userId;
-                BOOL flag = (user.followState == 1 || user.followState == 3 );
-                [proxy follow:userid userId:user.id_ flag:!flag];
-                if (flag) {
-                    user.followState = user.followState - 1;
-                }else{
-                    user.followState = user.followState + 1;
-                }
-                if (flag) {
-                    user.followerCount --;
-                    [ShareVaule shareInstance].user.followingCount --;
-                }else{
-                    user.followerCount ++;
-                    [ShareVaule shareInstance].user.followingCount ++;
-                }
-                
-                dispatch_async(dispatch_get_main_queue(), ^{
+                id<JCAppIntfPrx> proxy = [[ICETool shareInstance] createProxy];
+                @try {
+                    NSString *userid = [ShareVaule shareInstance].userId;
+                    BOOL flag = (user.followState == 1 || user.followState == 3 );
+                    [proxy follow:userid userId:user.id_ flag:!flag];
                     if (flag) {
-                        [SVProgressHUD showSuccessWithStatus:@"已取消关注"];
+                        user.followState = user.followState - 1;
                     }else{
-                        [SVProgressHUD showSuccessWithStatus:@"已关注"];
+                        user.followState = user.followState + 1;
                     }
-                    [self postNotification:NOTIFICATION_FOLLOWSTATECHANGE];
-                    [self reloadDatas];
-                });
-            }
-            @catch (ICEException *exception) {
-                if ([exception isKindOfClass:[JCGuideException class]]) {
-                    JCGuideException *_exception = (JCGuideException *)exception;
-                    if (_exception.reason_) {
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            //                                [SVProgressHUD showErrorWithStatus:_exception.reason_];
-                        });
+                    if (flag) {
+                        user.followerCount --;
+                        [ShareVaule shareInstance].user.followingCount --;
                     }else{
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            //                                [SVProgressHUD showErrorWithStatus:ERROR_MESSAGE];
-                        });
+                        user.followerCount ++;
+                        [ShareVaule shareInstance].user.followingCount ++;
                     }
-                }else{
+                    
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        //                            [SVProgressHUD showErrorWithStatus:ERROR_MESSAGE];
+                        if (flag) {
+                            [SVProgressHUD showSuccessWithStatus:@"已取消关注"];
+                        }else{
+                            [SVProgressHUD showSuccessWithStatus:@"已关注"];
+                        }
+                        [self postNotification:NOTIFICATION_FOLLOWSTATECHANGE];
+                        [self reloadDatas];
                     });
                 }
-            }
-            @finally {
+                @catch (ICEException *exception) {
+                    if ([exception isKindOfClass:[JCGuideException class]]) {
+                        JCGuideException *_exception = (JCGuideException *)exception;
+                        if (_exception.reason_) {
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                //                                [SVProgressHUD showErrorWithStatus:_exception.reason_];
+                            });
+                        }else{
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                //                                [SVProgressHUD showErrorWithStatus:ERROR_MESSAGE];
+                            });
+                        }
+                    }else{
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            //                            [SVProgressHUD showErrorWithStatus:ERROR_MESSAGE];
+                        });
+                    }
+                }
+                @finally {
+                    
+                }
                 
+            }@catch (ICEException *exception) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [SVProgressHUD showErrorWithStatus:@"服务访问异常"];
+                });
             }
             
         });

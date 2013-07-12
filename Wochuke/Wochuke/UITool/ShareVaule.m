@@ -9,6 +9,8 @@
 #import "ShareVaule.h"
 #import "NSObject+Notification.h"
 
+#define DRIVERKEY @"DRIVERKEY"
+
 static ShareVaule *_shareVaule;
 
 @implementation ShareVaule
@@ -105,6 +107,55 @@ static ShareVaule *_shareVaule;
 -(void)removeImageDataByStep:(JCStep *)step;{
     NSString *stepOrdinal = [NSString stringWithFormat:@"%d",step.ordinal];
     [_stepImageDic removeObjectForKey:stepOrdinal];
+}
+
++(void)addDriverByName:(NSString *)name devId:(NSString *)devId{
+    NSMutableDictionary *temp =  nil;
+    NSDictionary *dict = [[NSUserDefaults standardUserDefaults]dictionaryForKey:DRIVERKEY];
+    if (dict) {
+        temp = [NSMutableDictionary dictionaryWithDictionary:dict];
+    }else{
+        temp = [NSMutableDictionary dictionary];
+    }
+    [temp setValue:name forKey:devId];
+    [[NSUserDefaults standardUserDefaults]setValue:temp forKey:DRIVERKEY];
+}
+
++(NSString *)devIdByName:(NSString *)name{
+    NSDictionary *dict = [[NSUserDefaults standardUserDefaults]dictionaryForKey:DRIVERKEY];
+    if (dict) {
+        return [dict objectForKey:name];
+    }
+    return nil;
+}
+
++(NSArray *)allDriverNames{
+    NSDictionary *dict = [[NSUserDefaults standardUserDefaults]dictionaryForKey:DRIVERKEY];
+    if (dict) {
+        return dict.allKeys;
+    }
+    return nil;
+}
+
++(BOOL)devNameExits:(NSString *)name;{
+     NSDictionary *dict = [[NSUserDefaults standardUserDefaults]dictionaryForKey:DRIVERKEY];
+    if (dict) {
+        return [dict objectForKey:name] != nil;
+    }
+    return NO;
+}
+
++(void)deleteDirverByName:(NSString *)name;{
+    NSMutableDictionary *temp =  nil;
+    NSDictionary *dict = [[NSUserDefaults standardUserDefaults]dictionaryForKey:DRIVERKEY];
+    if (dict) {
+        temp = [NSMutableDictionary dictionaryWithDictionary:dict];
+    }else{
+        temp = [NSMutableDictionary dictionary];
+    }
+    [temp removeObjectForKey:name];
+    [[NSUserDefaults standardUserDefaults]setValue:temp forKey:DRIVERKEY];
+
 }
 
 @end

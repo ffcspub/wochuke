@@ -9,13 +9,18 @@
 #import <Foundation/Foundation.h>
 #import <Ice/Ice.h>
 #import <Guide.h>
+#import <Cook.h>
 
 @interface ICETool : NSObject{
     id<ICECommunicator> communicator;
 }
 
 -(id<JCAppIntfPrx>)createProxy;
+-(id<JCAgentLocatorPrx>)createLocalProxy;
+//-(id)<JCCookAgentPrx>createCookAgentPrx:(NSString *)token localProxy:(id<JCAgentLocatorPrx>)localProxy;
 
 +(ICETool *)shareInstance;
+
+
 
 @end

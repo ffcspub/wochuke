@@ -61,28 +61,36 @@
     user.name = nickname;
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
-        id<JCAppIntfPrx> proxy = [[ICETool shareInstance] createProxy];
         @try {
-            JCUser *userInfo = [proxy saveUser:user];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                if (userInfo.id_) {
-                    [ShareVaule shareInstance].userId = userInfo.id_;
-                    [ShareVaule shareInstance].user = userInfo;
-                    [self backToMyViewController];
-                } else {
-                    
-                }
-            });
-        }
-        @catch (NSException *exception) {
-            if ([exception isKindOfClass:[JCGuideException class]]) {
-                JCGuideException *_exception = (JCGuideException *)exception;
-                if (_exception.reason_) {
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil message:_exception.reason_ delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
-                        [alert show];
-                        [alert release];
-                    });
+            id<JCAppIntfPrx> proxy = [[ICETool shareInstance] createProxy];
+            @try {
+                JCUser *userInfo = [proxy saveUser:user];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    if (userInfo.id_) {
+                        [ShareVaule shareInstance].userId = userInfo.id_;
+                        [ShareVaule shareInstance].user = userInfo;
+                        [self backToMyViewController];
+                    } else {
+                        
+                    }
+                });
+            }
+            @catch (NSException *exception) {
+                if ([exception isKindOfClass:[JCGuideException class]]) {
+                    JCGuideException *_exception = (JCGuideException *)exception;
+                    if (_exception.reason_) {
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil message:_exception.reason_ delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
+                            [alert show];
+                            [alert release];
+                        });
+                    }else{
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil message:ERROR_MESSAGE delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
+                            [alert show];
+                            [alert release];
+                        });
+                    }
                 }else{
                     dispatch_async(dispatch_get_main_queue(), ^{
                         UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil message:ERROR_MESSAGE delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
@@ -90,17 +98,18 @@
                         [alert release];
                     });
                 }
-            }else{
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil message:ERROR_MESSAGE delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
-                    [alert show];
-                    [alert release];
-                });
             }
+            @finally {
+                
+            }
+        }@catch (ICEException *exception) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil message:ERROR_MESSAGE delegate:nil cancelButtonTitle:@"服务访问异常" otherButtonTitles: nil];
+                [alert show];
+                [alert release];
+            });
         }
-        @finally {
-            
-        }
+        
     });
 }
 

@@ -27,4 +27,7 @@
 - (IBAction)backAction:(id)sender;
 
 - (IBAction)faceAction:(id)sender;
+
+- (IBAction)saveAction:(id)sender;
+
 @end

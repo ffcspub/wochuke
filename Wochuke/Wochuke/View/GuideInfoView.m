@@ -524,11 +524,11 @@
     [self observeNotification:NOTIFICATION_VIEWCOUNTCHANGE];
 }
 
--(void)dealloc{
+-(void)unload{
     [self unobserveNotification:NOTIFICATION_COMMENTCOUNTCHANGE];
     [self unobserveNotification:NOTIFICATION_FAVORITECOUNT];
     [self unobserveNotification:NOTIFICATION_VIEWCOUNTCHANGE];
-    [super dealloc];
+    [super unload];
 }
 
 @end
@@ -586,6 +586,8 @@
     btn_edit = [[[UIButton alloc]init]autorelease];
     btn_edit.titleLabel.font = [UIFont systemFontOfSize:12];
     btn_edit.backgroundColor = [UIColor clearColor];
+    UIImage *btn_editImage = [[UIImage imageNamed:@"btn_grad"]resizableImageWithCapInsets:UIEdgeInsetsMake(12, 12, 12, 12)];
+    [btn_edit setBackgroundImage:btn_editImage forState:UIControlStateNormal];
     [btn_edit setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
     [btn_edit setTitle:@"编辑" forState:UIControlStateNormal];
     [btn_edit addTarget:self action:@selector(editBtnClicked) forControlEvents:UIControlEventTouchUpInside];

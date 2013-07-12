@@ -120,46 +120,52 @@
 -(void)loadTypes;{
     [SVProgressHUD show];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
-        id<JCAppIntfPrx> proxy = [[ICETool shareInstance] createProxy];
         @try {
-            JCTypeList * list = [proxy getTypeList:nil];
-            if (list) {
-                [_types removeAllObjects];
-                if (list.count > 0) {
-                    [_types addObjectsFromArray:list];
+            id<JCAppIntfPrx> proxy = [[ICETool shareInstance] createProxy];
+            @try {
+                JCTypeList * list = [proxy getTypeList:nil];
+                if (list) {
+                    [_types removeAllObjects];
+                    if (list.count > 0) {
+                        [_types addObjectsFromArray:list];
+                    }
+                }
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [SVProgressHUD dismiss];
+                    JCType *type = [_types objectAtIndex:0];
+                    if (_typeId) {
+                        [_typeId release];
+                        _typeId = nil;
+                    }
+                    _typeId = [type.id_ retain];
+                    [_btn_type setTitle:type.name forState:UIControlStateNormal];
+                });
+            }
+            @catch (ICEException *exception) {
+                if ([exception isKindOfClass:[JCGuideException class]]) {
+                    JCGuideException *_exception = (JCGuideException *)exception;
+                    if (_exception.reason_) {
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [SVProgressHUD showErrorWithStatus:_exception.reason_];
+                        });
+                    }else{
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [SVProgressHUD showErrorWithStatus:ERROR_MESSAGE];
+                        });
+                    }
+                }else{
+                    
                 }
             }
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [SVProgressHUD dismiss];
-                JCType *type = [_types objectAtIndex:0];
-                if (_typeId) {
-                    [_typeId release];
-                    _typeId = nil;
-                }
-                _typeId = [type.id_ retain];
-                [_btn_type setTitle:type.name forState:UIControlStateNormal];
-            });
-        }
-        @catch (ICEException *exception) {
-            if ([exception isKindOfClass:[JCGuideException class]]) {
-                JCGuideException *_exception = (JCGuideException *)exception;
-                if (_exception.reason_) {
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [SVProgressHUD showErrorWithStatus:_exception.reason_];
-                    });
-                }else{
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [SVProgressHUD showErrorWithStatus:ERROR_MESSAGE];
-                    });
-                }
-            }else{
+            @finally {
                 
             }
+
+        }@catch (ICEException *exception) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [SVProgressHUD showErrorWithStatus:@"服务访问异常"];
+            });
         }
-        @finally {
-            
-        }
-        
     });
 }
 
@@ -171,75 +177,82 @@
     [ShareVaule shareInstance].editGuideEx.guideInfo.typeId = _typeId;
     [SVProgressHUD showWithStatus:@"正在提交..."];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
-        id<JCAppIntfPrx> proxy = [[ICETool shareInstance] createProxy];
         @try {
-            [ShareVaule shareInstance].editGuideEx.guideInfo.published = YES;
-            JCGuideEx *guideEx = [proxy saveGuideEx:[ShareVaule shareInstance].editGuideEx];
-            
-            //上传封面
-            if ([ShareVaule shareInstance].guideImage) {
-                NSString *fileId = guideEx.guideInfo.cover.id_;
-                NSData *guideImagedata = [ShareVaule shareInstance].guideImage;
-                int length = guideImagedata.length;
-                int count =  ceil((float)length / FILEBLOCKLENGTH);
-                int loc = 0;
-                for (int i= 0; i<count; i++) {
-                    NSData *data = [guideImagedata subdataWithRange:NSMakeRange(loc, MIN(FILEBLOCKLENGTH,guideImagedata.length - loc))];
-                    if (i==count-1) {
-                        NSLog(@"last");
-                    }
-                    JCFileBlock *fileBlock = [JCFileBlock fileBlock:fileId blockIdx:i blockSize:data.length isLastBlock:i==count-1 data:data];
-                    [proxy saveFileBlock:fileBlock];
-                    loc += FILEBLOCKLENGTH;
-                }
-            }
-            
-            // 上传步骤图片
-            if ([ShareVaule shareInstance].stepImageDic.count>0) {
-                for (NSNumber *stepnumber in [ShareVaule shareInstance].stepImageDic.allKeys) {
-                    NSData *stepFileData = [[ShareVaule shareInstance].stepImageDic objectForKey:stepnumber];
-                    JCStep *resultStep = [guideEx.steps objectAtIndex:[stepnumber intValue]-1];
-                    NSString *fileId = resultStep.photo.id_;
-                    int count =  ceil((float)stepFileData.length / FILEBLOCKLENGTH);
+            id<JCAppIntfPrx> proxy = [[ICETool shareInstance] createProxy];
+            @try {
+                [ShareVaule shareInstance].editGuideEx.guideInfo.published = YES;
+                JCGuideEx *guideEx = [proxy saveGuideEx:[ShareVaule shareInstance].editGuideEx];
+                
+                //上传封面
+                if ([ShareVaule shareInstance].guideImage) {
+                    NSString *fileId = guideEx.guideInfo.cover.id_;
+                    NSData *guideImagedata = [ShareVaule shareInstance].guideImage;
+                    int length = guideImagedata.length;
+                    int count =  ceil((float)length / FILEBLOCKLENGTH);
                     int loc = 0;
                     for (int i= 0; i<count; i++) {
-                        NSData *data = [stepFileData subdataWithRange:NSMakeRange(loc, MIN(FILEBLOCKLENGTH,stepFileData.length - loc))];
-                        JCFileBlock *fileBlock = [JCFileBlock fileBlock:fileId blockIdx:i blockSize:data.length isLastBlock:i==(count-1) data:data];
+                        NSData *data = [guideImagedata subdataWithRange:NSMakeRange(loc, MIN(FILEBLOCKLENGTH,guideImagedata.length - loc))];
+                        if (i==count-1) {
+                            NSLog(@"last");
+                        }
+                        JCFileBlock *fileBlock = [JCFileBlock fileBlock:fileId blockIdx:i blockSize:data.length isLastBlock:i==count-1 data:data];
                         [proxy saveFileBlock:fileBlock];
                         loc += FILEBLOCKLENGTH;
                     }
                 }
+                
+                // 上传步骤图片
+                if ([ShareVaule shareInstance].stepImageDic.count>0) {
+                    for (NSNumber *stepnumber in [ShareVaule shareInstance].stepImageDic.allKeys) {
+                        NSData *stepFileData = [[ShareVaule shareInstance].stepImageDic objectForKey:stepnumber];
+                        JCStep *resultStep = [guideEx.steps objectAtIndex:[stepnumber intValue]-1];
+                        NSString *fileId = resultStep.photo.id_;
+                        int count =  ceil((float)stepFileData.length / FILEBLOCKLENGTH);
+                        int loc = 0;
+                        for (int i= 0; i<count; i++) {
+                            NSData *data = [stepFileData subdataWithRange:NSMakeRange(loc, MIN(FILEBLOCKLENGTH,stepFileData.length - loc))];
+                            JCFileBlock *fileBlock = [JCFileBlock fileBlock:fileId blockIdx:i blockSize:data.length isLastBlock:i==(count-1) data:data];
+                            [proxy saveFileBlock:fileBlock];
+                            loc += FILEBLOCKLENGTH;
+                        }
+                    }
+                }
+                if ([ShareVaule shareInstance].editGuideEx.guideInfo.id_.length == 0) {
+                    [ShareVaule shareInstance].user.guideCount ++;
+                }
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [SVProgressHUD dismiss];
+                    [SVProgressHUD showSuccessWithStatus:@"发布成功!"];
+                    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+                });
             }
-            if ([ShareVaule shareInstance].editGuideEx.guideInfo.id_.length == 0) {
-                [ShareVaule shareInstance].user.guideCount ++;
-            }
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [SVProgressHUD dismiss];
-                [SVProgressHUD showSuccessWithStatus:@"发布成功!"];
-                [self.navigationController dismissViewControllerAnimated:YES completion:nil];
-            });
-        }
-        @catch (NSException *exception) {
-            if ([exception isKindOfClass:[JCGuideException class]]) {
-                JCGuideException *_exception = (JCGuideException *)exception;
-                if (_exception.reason_) {
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [SVProgressHUD showErrorWithStatus:_exception.reason_];
-                    });
+            @catch (NSException *exception) {
+                if ([exception isKindOfClass:[JCGuideException class]]) {
+                    JCGuideException *_exception = (JCGuideException *)exception;
+                    if (_exception.reason_) {
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [SVProgressHUD showErrorWithStatus:_exception.reason_];
+                        });
+                    }else{
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [SVProgressHUD showErrorWithStatus:ERROR_MESSAGE];
+                        });
+                    }
                 }else{
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [SVProgressHUD showErrorWithStatus:ERROR_MESSAGE];
                     });
                 }
-            }else{
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [SVProgressHUD showErrorWithStatus:ERROR_MESSAGE];
-                });
             }
+            @finally {
+                
+            }
+        }@catch (ICEException *exception) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [SVProgressHUD showErrorWithStatus:@"服务访问异常"];
+            });
         }
-        @finally {
-            
-        }
+        
     });
 }
 

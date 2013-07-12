@@ -66,9 +66,10 @@
     lb_guides.textAlignment = UITextAlignmentLeft;
     
     btn_following = [[[UIButton alloc]init]autorelease];
+    UIImage *backImage = [[UIImage imageNamed:@"btn_grad"]resizableImageWithCapInsets:UIEdgeInsetsMake(12, 12, 12, 12) ];
 //    [btn_following setBackgroundImage:[UIImage imageNamed:@""] forState:UIControlStateNormal];
-    [btn_following setBackgroundColor:[UIColor grayColor]];
-    [btn_following setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [btn_following setBackgroundImage:backImage forState:UIControlStateNormal];
+    [btn_following setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
     btn_following.titleLabel.font = [UIFont systemFontOfSize:12];
     [btn_following addTarget:self action:@selector(followBtnClicked) forControlEvents:UIControlEventTouchUpInside];
     
