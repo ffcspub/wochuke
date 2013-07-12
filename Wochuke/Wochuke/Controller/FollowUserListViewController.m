@@ -16,6 +16,7 @@
 #import "ReloadView.h"
 #import "LoginViewController.h"
 #import "UserViewController.h"
+#import "NSObject+Notification.h"
 
 
 @interface FollowUserListViewController ()<UITableViewDataSource,UITableViewDelegate,UserCellDeleagte>{

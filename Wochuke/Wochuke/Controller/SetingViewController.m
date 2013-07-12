@@ -64,20 +64,21 @@
 {
     [super viewDidLoad];
     
-    self.sinaSwitch = [[UISwitch alloc] initWithFrame:CGRectZero];
+    self.sinaSwitch = [[[UISwitch alloc] initWithFrame:CGRectZero]autorelease];
     self.sinaSwitch.on = NO;
     [self.sinaSwitch addTarget:self action:@selector(switchChanged:) forControlEvents:UIControlEventValueChanged];
     
-    self.qqSwitch = [[UISwitch alloc] initWithFrame:CGRectZero];
+    self.qqSwitch = [[[UISwitch alloc] initWithFrame:CGRectZero]autorelease];
     self.qqSwitch.on = NO;
     [self.qqSwitch addTarget:self action:@selector(switchChanged:) forControlEvents:UIControlEventValueChanged];
-        
-    _cancelBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 5, 150, 43)];
+    
+    UIView *view = [[[UIView alloc]initWithFrame:CGRectMake(0, 0, 320, 50)]autorelease];
+    _cancelBtn = [[[UIButton alloc] initWithFrame:CGRectMake(10, 5, 300, 43)]autorelease];
     [_cancelBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [_cancelBtn setTitle:@"退出登录" forState:UIControlStateNormal];
     [_cancelBtn setBackgroundImage:[UIImage imageNamed:@"btn_setting_quit.png"] forState:UIControlStateNormal];
-    
-//    self.tableView.tableFooterView = _cancelBtn;
+    [view addSubview:_cancelBtn];
+    self.tableView.tableFooterView = view;
 }
 
 - (void)viewDidUnload
@@ -96,7 +97,7 @@
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - Table view data source
+#pragma mark - UITableViewDelegate UITableViewDataSource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -139,7 +140,7 @@
         }else if (indexPath.row ==2){
             cell.textLabel.text = @"关于";
         }
-        tableView.tableFooterView = self.cancelBtn;
+//        tableView.tableFooterView = self.cancelBtn;
     }
     
     if (indexPath.section ==0) {
@@ -152,7 +153,6 @@
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
     
-    tableView.tableFooterView = _cancelBtn;
     tableView.backgroundColor = [UIColor whiteColor];
     
     return cell;
