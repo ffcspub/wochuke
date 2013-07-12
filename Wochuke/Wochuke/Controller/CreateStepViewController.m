@@ -82,6 +82,7 @@
 }
 
 - (IBAction)saveAction:(id)sender {
+    [ShareVaule shareInstance].noChanged = NO;
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -257,7 +258,6 @@
     }
     __block PECropViewController *_controller = controller;
     [controller dismissViewControllerAnimated:YES completion:^{
-        [_controller release];
         _controller = nil;
     }];
     
@@ -272,7 +272,7 @@
 
 - (void)openEditor:(UIImage *)image
 {
-    PECropViewController *controller = [[PECropViewController alloc] init];
+    PECropViewController *controller = [[[PECropViewController alloc] init]autorelease];
     controller.delegate = self;
     controller.image = image;
     

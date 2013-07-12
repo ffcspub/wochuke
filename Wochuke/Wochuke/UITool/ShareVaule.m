@@ -17,6 +17,7 @@ static ShareVaule *_shareVaule;
     if (!_shareVaule) {
         _shareVaule = [[ShareVaule alloc]init];
         _shareVaule.stepImageDic = [[NSMutableDictionary alloc]init];
+        _shareVaule.noChanged = YES;
     }
     return _shareVaule;
 }
@@ -65,7 +66,7 @@ static ShareVaule *_shareVaule;
             [data release];
         }
     }
-    _noChanged = YES;
+    _noChanged = NO;
     [self postNotification:NOTIFICATION_ORDINALCHANGE];
 }
 
@@ -86,12 +87,12 @@ static ShareVaule *_shareVaule;
             [data release];
         }
     }
-    _noChanged = YES;
+    _noChanged = NO;
     [self postNotification:NOTIFICATION_ORDINALCHANGE];
 }
 
 -(void)putImageData:(NSData *)data step:(JCStep *)step;{
-    _noChanged = YES;
+    _noChanged = NO;
     [self removeImageDataByStep:step];
     [_stepImageDic setObject:data forKey:[NSString stringWithFormat:@"%d",step.ordinal]];
 }

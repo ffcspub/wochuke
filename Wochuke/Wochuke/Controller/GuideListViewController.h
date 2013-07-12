@@ -11,6 +11,8 @@
 
 @interface GuideListViewController : UIViewController
 
+@property (retain, nonatomic) IBOutlet UILabel *lb_empty;
+
 @property(nonatomic,strong) JCType *type;
 
 @property(nonatomic,strong) JCTopic *topic;

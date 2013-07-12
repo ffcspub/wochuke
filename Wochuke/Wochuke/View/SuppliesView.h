@@ -15,6 +15,7 @@
     UITableView *_tableView;
     UILabel *lb_omit;
     UIImageView *iv_omit;
+    UILabel *lb_empty;
 }
 
 @property(nonatomic,retain) JCSupplyList *list;

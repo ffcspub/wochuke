@@ -19,7 +19,7 @@
 #import "PublishViewController.h"
 
 
-@interface StepEditController (){
+@interface StepEditController ()<UIActionSheetDelegate>{
     NSInteger _lastDeleteItemIndexAsked;
 }
 
@@ -29,20 +29,20 @@
 
 //返回
 - (IBAction)backAction:(id)sender {
-    UIViewController *vlc = [self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count - 2];
-    if ([vlc isKindOfClass:[CreateGuideViewController class]]) {
-        UIViewController *temp = [self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count - 3];
-        [self.navigationController popToViewController:temp animated:YES];
+    if ([ShareVaule shareInstance].noChanged) {
+        [self backAction];
     }else{
-       [self.navigationController popViewControllerAnimated:YES]; 
+        UIActionSheet *sheet = [[UIActionSheet alloc]initWithTitle:@"是否保存到草稿" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"保存" otherButtonTitles:@"不保存", nil];
+        [sheet showInView:self.view];
+        [sheet release];
     }
-    
 }
 
-//发布
-- (IBAction)pulishAction:(id)sender {
-    
+
+-(void)backAction{
+    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
 }
+
 
 -(void)setGuide:(JCGuide *)guide{
     if (_guide) {
@@ -126,8 +126,8 @@
     }
     // Do any additional setup after loading the view from its nib.
     
-    [btn_add setBackgroundImage:[[UIImage imageNamed:@"btn_orange_small"]resizableImageWithCapInsets:UIEdgeInsetsMake(12, 12, 12, 12)] forState:UIControlStateNormal];
-    [btn_add setBackgroundImage:[[UIImage imageNamed:@"btn_orange_small_press"]resizableImageWithCapInsets:UIEdgeInsetsMake(12, 12, 12, 12)] forState:UIControlStateHighlighted];
+//    [btn_add setBackgroundImage:[[UIImage imageNamed:@"btn_orange_small"]resizableImageWithCapInsets:UIEdgeInsetsMake(12, 12, 12, 12)] forState:UIControlStateNormal];
+//    [btn_add setBackgroundImage:[[UIImage imageNamed:@"btn_orange_small_press"]resizableImageWithCapInsets:UIEdgeInsetsMake(12, 12, 12, 12)] forState:UIControlStateHighlighted];
 }
 
 -(void)dealloc{
@@ -188,7 +188,7 @@
 -(BOOL)GMGridView:(GMGridView *)gridView shouldAllowActionForItemAtIndex:(NSInteger)index{
     if (index == 0) {
         return NO;
-    }else if(index == 1 && [ShareVaule shareInstance].editGuideEx.supplies.count >0){
+    }else if(index == 1){
         return NO;
     }
     return YES;
@@ -295,6 +295,95 @@
         PublishViewController *vlc = [[PublishViewController alloc]initWithNibName:@"PublishViewController" bundle:nil];
         [self.navigationController pushViewController:vlc animated:YES];
         [vlc release];
+    }
+}
+
+#pragma mark - saveGuide
+
+-(void)saveGuide{
+    [SVProgressHUD showWithStatus:@"正在提交..."];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+        id<JCAppIntfPrx> proxy = [[ICETool shareInstance] createProxy];
+        @try {
+            [ShareVaule shareInstance].editGuideEx.guideInfo.published = NO;
+            [ShareVaule shareInstance].editGuideEx.guideInfo.userId = [ShareVaule shareInstance].user.id_;
+            JCGuideEx *guideEx = [proxy saveGuideEx:[ShareVaule shareInstance].editGuideEx];
+            //上传封面
+            if ([ShareVaule shareInstance].guideImage) {
+                NSString *fileId = guideEx.guideInfo.cover.id_;
+                NSData *guideImagedata = [ShareVaule shareInstance].guideImage;
+                int length = guideImagedata.length;
+                int count =  ceil((float)length / FILEBLOCKLENGTH);
+                int loc = 0;
+                for (int i= 0; i<count; i++) {
+                    NSData *data = [guideImagedata subdataWithRange:NSMakeRange(loc, MIN(FILEBLOCKLENGTH,guideImagedata.length - loc))];
+                    if (i==count-1) {
+                        NSLog(@"last");
+                    }
+                    JCFileBlock *fileBlock = [JCFileBlock fileBlock:fileId blockIdx:i blockSize:data.length isLastBlock:i==count-1 data:data];
+                    [proxy saveFileBlock:fileBlock];
+                    loc += FILEBLOCKLENGTH;
+                }
+            }
+            
+            // 上传步骤图片
+            if ([ShareVaule shareInstance].stepImageDic.count>0) {
+                for (NSNumber *stepnumber in [ShareVaule shareInstance].stepImageDic.allKeys) {
+                    NSData *stepFileData = [[ShareVaule shareInstance].stepImageDic objectForKey:stepnumber];
+                    JCStep *resultStep = [guideEx.steps objectAtIndex:[stepnumber intValue]-1];
+                    NSString *fileId = resultStep.photo.id_;
+                    int count =  ceil((float)stepFileData.length / FILEBLOCKLENGTH);
+                    int loc = 0;
+                    for (int i= 0; i<count; i++) {
+                        NSData *data = [stepFileData subdataWithRange:NSMakeRange(loc, MIN(FILEBLOCKLENGTH,stepFileData.length - loc))];
+                        JCFileBlock *fileBlock = [JCFileBlock fileBlock:fileId blockIdx:i blockSize:data.length isLastBlock:i==(count-1) data:data];
+                        [proxy saveFileBlock:fileBlock];
+                        loc += FILEBLOCKLENGTH;
+                    }
+                }
+            }
+            
+            if ([ShareVaule shareInstance].editGuideEx.guideInfo.id_.length == 0) {
+                [ShareVaule shareInstance].user.guideCount ++;
+            }
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [SVProgressHUD dismiss];
+                [SVProgressHUD showSuccessWithStatus:@"保存成功!"];
+                [self backAction];
+            });
+        }
+        @catch (NSException *exception) {
+            if ([exception isKindOfClass:[JCGuideException class]]) {
+                JCGuideException *_exception = (JCGuideException *)exception;
+                if (_exception.reason_) {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [SVProgressHUD showErrorWithStatus:_exception.reason_];
+                    });
+                }else{
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [SVProgressHUD showErrorWithStatus:ERROR_MESSAGE];
+                    });
+                }
+            }else{
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [SVProgressHUD showErrorWithStatus:ERROR_MESSAGE];
+                });
+            }
+        }
+        @finally {
+            
+        }
+    });
+}
+
+
+#pragma mark - UIActionSheetDelegate
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex;{
+    if (buttonIndex == 0) {
+        [self saveGuide];
+    }else if(buttonIndex == 1){
+        [self backAction];
     }
 }
 

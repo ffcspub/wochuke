@@ -17,17 +17,16 @@
     backImageView.frame = CGRectMake(0, 0, frame.size.width, frame.size.height);
     tagImageView.frame = CGRectMake(0, 20, 45, 25);
     lb_step.frame = CGRectMake(10, 20, 35, 20);
-    CGSize size = [_step.text sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:CGSizeMake(frame.size.width -14, 1000)];
     btn_comment.frame = CGRectMake(11, frame.size.height - 11 - 30, 40, 30);
+    line.frame = CGRectMake(11, frame.size.height - 11 - 35, frame.size.width - 22, 1);
     lb_comment.frame = CGRectMake(52, frame.size.height - 11 - 30, 40, 30);
-    
-    
     if ([self hasImage]){
-        imageView.frame = CGRectMake(11, 11, frame.size.width -22 , frame.size.height - 22 - 45 - MIN(size.height, 100));
-        lb_text.frame = CGRectMake(11, frame.size.height - 22 - 30 - size.height, size.width, MIN(size.height, 100));
+        CGSize size = [_step.text.length>0?_step.text:@" " sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:CGSizeMake(frame.size.width -22 - UITEXTVIEW_MARGIN*2, 1000)];
+        imageView.frame = CGRectMake(11, 11, frame.size.width -22 , frame.size.height - 22 - 45 - MIN(size.height + UITEXTVIEW_MARGIN*2, 100));
+        tv_text.frame = CGRectMake(11, frame.size.height - 22 - 30 - MIN(size.height + UITEXTVIEW_MARGIN*2, 100), frame.size.width -22, MIN(size.height + UITEXTVIEW_MARGIN*2, 100));
     }else{
         imageView.frame = CGRectZero;
-        lb_text.frame = CGRectMake(11,  11 , frame.size.width - 22, frame.size.height - 22 - 40);
+        tv_text.frame = CGRectMake(11,  11 , frame.size.width - 22, frame.size.height - 22 - 40);
     }
 }
 
@@ -83,6 +82,7 @@
         lb_step.font = [UIFont systemFontOfSize:14];
         lb_step.backgroundColor = [UIColor clearColor];
         lb_step.textColor = [UIColor whiteColor];
+        lb_step.adjustsFontSizeToFitWidth = YES;
         [self addSubview:lb_step];
         
         imageView.userInteractionEnabled = YES;
@@ -91,17 +91,23 @@
         singleRecognizer.numberOfTapsRequired = 1; // 单击
         [imageView addGestureRecognizer:singleRecognizer];
         
-        lb_text = [[[UILabel alloc]init]autorelease];
-        lb_text.font = [UIFont systemFontOfSize:14];
-        lb_text.backgroundColor = [UIColor clearColor];
-        lb_text.textColor = [UIColor darkTextColor];
-        lb_text.numberOfLines = 100;
+        tv_text = [[[UITextView alloc]init]autorelease];
+        tv_text.font = [UIFont systemFontOfSize:14];
+        tv_text.backgroundColor = [UIColor clearColor];
+        tv_text.textColor = [UIColor darkTextColor];
+        tv_text.editable = NO;
         
-        [self addSubview:lb_text];
+        [self addSubview:tv_text];
+        
+        line = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"spline"]];
+        line.contentMode = UIViewContentModeCenter;
+        [self addSubview:line];
         
         btn_comment = [[[UIButton alloc]init]autorelease];
         btn_comment.titleLabel.font = [UIFont systemFontOfSize:13];
         [btn_comment setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+        [btn_comment setBackgroundImage:[UIImage imageNamed:@"tag_cook_comment number"] forState:UIControlStateNormal];
+        [btn_comment setBackgroundImage:[UIImage imageNamed:@"tag_cook_comment number"] forState:UIControlStateHighlighted];
         [btn_comment addTarget:self action:@selector(commentAction) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:btn_comment];
         
@@ -132,12 +138,12 @@
     _step = [step retain];
     lb_step.text = [NSString stringWithFormat:@"%d/%d",step.ordinal,_stepCount];
     [btn_comment setTitle: [NSString stringWithFormat:@"%d",_step.commentCount] forState:UIControlStateNormal];
-    lb_text.text = step.text;
+    tv_text.text = step.text;
     [self upImage];
     if (_step.photo.url) {
-        lb_text.font = [UIFont systemFontOfSize:14];
+        tv_text.font = [UIFont systemFontOfSize:14];
     }else{
-        lb_text.font = [UIFont systemFontOfSize:18];
+        tv_text.font = [UIFont systemFontOfSize:18];
     }
 }
 
@@ -168,16 +174,20 @@
     backImageView.frame = CGRectMake(0, 0, frame.size.width, frame.size.height);
     tagImageView.frame = CGRectMake(0, 20, 40, 25);
     lb_step.frame = CGRectMake(5, 20, 30, 20);
-    CGSize size = [_step.text.length>0?_step.text:@" " sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:CGSizeMake(frame.size.width -22 - 16, 1000)];
-    imageView.frame = CGRectMake(11, 11, frame.size.width -22 , frame.size.height - 22 - 45 - MIN(size.height+16, 150));
-    tv_text.frame = CGRectMake(11, frame.size.height - 22 - 30 - size.height - 8 , frame.size.width - 22, MIN(size.height + 16, 150));
+    
+    
+    CGSize size = [_step.text.length>0?_step.text:@" " sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:CGSizeMake(frame.size.width -22 - UITEXTVIEW_MARGIN*2, 1000)];
+    imageView.frame = CGRectMake(11, 11, frame.size.width -22 , frame.size.height - 22 - 45 - MIN(size.height+UITEXTVIEW_MARGIN*2, 150));
+    tv_text.frame = CGRectMake(11, frame.size.height - 22 - 30 - MIN(size.height + UITEXTVIEW_MARGIN*2, 150) , frame.size.width - 22, MIN(size.height + UITEXTVIEW_MARGIN*2, 150));
     iv_contentBackView.frame = tv_text.frame;
     lb_textcount.frame = CGRectMake(frame.size.width - 110, frame.size.height - 32, 100, 20);
     
     if (!_noDeleteAble) {
-        btn_del.frame = CGRectMake(20, frame.size.height - 32, 100, 20);
+        btn_del.frame = CGRectMake(20, frame.size.height - 32, 30, 20);
+        line.frame = CGRectMake(11, frame.size.height - 40, frame.size.width - 22, 1);
     }else{
         btn_del.frame = CGRectZero;
+        line.frame = CGRectZero;
     }
 }
 
@@ -238,6 +248,7 @@
         lb_step.backgroundColor = [UIColor clearColor];
         lb_step.textColor = [UIColor whiteColor];
         lb_step.textAlignment = UITextAlignmentCenter;
+        lb_step.adjustsFontSizeToFitWidth = YES;
         [self addSubview:lb_step];
         
         imageView.userInteractionEnabled = YES;
@@ -268,8 +279,12 @@
         lb_textcount.textAlignment = UITextAlignmentRight;
         [self addSubview:lb_textcount];
         
+        line = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"spline"]];
+        [self addSubview:line];
+
+        
         btn_del = [[[UIButton alloc]init]autorelease];
-        [btn_del setTitle:@"删除" forState:UIControlStateNormal];
+        [btn_del setImage:[UIImage imageNamed:@"ic_edit_delete"] forState:UIControlStateNormal];
         [btn_del setTitleColor:[UIColor darkTextColor] forState:UIControlStateNormal];
         [btn_del addTarget:self action:@selector(delAction) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:btn_del];
@@ -386,6 +401,7 @@
 //        self.backgroundColor = [UIColor clearColor];
 //        self.layer.cornerRadius = 6;
 //        self.layer.masksToBounds = YES;
+        line.hidden = YES;
         [self observeNotification:NOTIFICATION_ORDINALCHANGE];
     }
     return self;
@@ -397,13 +413,14 @@
     tagImageView.frame = CGRectMake(0, 15, 25, 25);
     lb_step.frame = CGRectMake(10, 15, 15, 20);
     btn_comment.frame = CGRectZero;
+    line.frame = CGRectZero;
     lb_comment.frame = CGRectZero;
     if ([self hasImage]){
         imageView.frame = CGRectMake(10, 10, frame.size.width -20 , frame.size.height - 50);
-        lb_text.frame = CGRectMake(10, frame.size.height - 35  , frame.size.width -20, 25);
+        tv_text.frame = CGRectMake(10, frame.size.height - 35  , frame.size.width -20, 25);
     }else{
         imageView.frame = CGRectZero;
-        lb_text.frame = CGRectMake(10,  10 , frame.size.width - 20, frame.size.height - 20);
+        tv_text.frame = CGRectMake(10,  10 , frame.size.width - 20, frame.size.height - 20);
     }
 }
 
@@ -412,9 +429,9 @@
     lb_step.text = [NSString stringWithFormat:@"%d",step.ordinal];
     [self upImage];
     if (step.photo.url) {
-        lb_text.font = [UIFont systemFontOfSize:11];
+        tv_text.font = [UIFont systemFontOfSize:11];
     }else{
-        lb_text.font = [UIFont systemFontOfSize:14];
+        tv_text.font = [UIFont systemFontOfSize:14];
     }
 }
 

@@ -17,7 +17,7 @@
 #import "JSBadgeView.h"
 #import "LoginViewController.h"
 #import "CommentViewController.h"
-#import "UserListViewController.h"
+#import "GuideUserListViewController.h"
 #import "CommentViewController.h"
 
 //#import "StepEditController.h"
@@ -228,10 +228,12 @@
                     [SVProgressHUD showSuccessWithStatus:@"已收藏"];
                     [_btn_like setImage:[UIImage imageNamed:@"ic_cook_like_bottom_pressed"] forState:UIControlStateNormal];
                     _guide.favoriteCount++ ;
+                    [ShareVaule shareInstance].user.favoriteCount ++;
                 }else{
                     [SVProgressHUD showSuccessWithStatus:@"已取消收藏"];
                     [_btn_like setImage:[UIImage imageNamed:@"ic_cook_like_bottom"] forState:UIControlStateNormal];
                     _guide.favoriteCount -- ;
+                    [ShareVaule shareInstance].user.favoriteCount --;
                 }
                 [self postNotification:NOTIFICATION_FAVORITECOUNT];
                 [_pagedFlowView reloadData];
@@ -295,7 +297,7 @@
 
 #pragma mark -GuideInfoViewDelegate
 -(void)guideInfoViewViewcount:(GuideInfoView *)infoView{
-    UserListViewController *vlc = [[UserListViewController alloc]initWithNibName:@"UserListViewController" bundle:nil];
+    GuideUserListViewController *vlc = [[GuideUserListViewController alloc]initWithNibName:@"GuideUserListViewController" bundle:nil];
     vlc.guide = _guide;
     vlc.actCode = 1;
     [self.navigationController pushViewController:vlc animated:YES];
@@ -303,7 +305,7 @@
 }
 
 -(void)guideInfoViewFavorite:(GuideInfoView *)infoView{
-    UserListViewController *vlc = [[UserListViewController alloc]initWithNibName:@"UserListViewController" bundle:nil];
+    GuideUserListViewController *vlc = [[GuideUserListViewController alloc]initWithNibName:@"GuideUserListViewController" bundle:nil];
     //    vlc.actCode = 2;
     vlc.guide = _guide;
     vlc.actCode = 2;

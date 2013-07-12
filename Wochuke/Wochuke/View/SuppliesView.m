@@ -21,6 +21,7 @@
     _tableView.frame = CGRectMake(10, 10, frame.size.width-20, frame.size.height-20);
     iv_omit.frame = CGRectMake(0, 20, 45, 25);
     lb_omit.frame = CGRectMake(10, 20, 35, 20);
+    lb_empty.frame = CGRectMake(10, 10,frame.size.width-20, frame.size.height-20);
 }
 
 - (id)initWithFrame:(CGRect)frame
@@ -33,6 +34,14 @@
         
         UIImage *backImage = [[UIImage imageNamed:@"lightBoard"]resizableImageWithCapInsets:UIEdgeInsetsMake(14, 14, 14, 14)];
         [backImageView setImage:backImage];
+        
+        lb_empty = [[[UILabel alloc]init]autorelease];
+        lb_empty.font = [UIFont systemFontOfSize:17];
+        lb_empty.textColor = [UIColor lightGrayColor];
+        lb_empty.backgroundColor = [UIColor clearColor];
+        lb_empty.text = @"点击进入编辑页";
+        lb_empty.textAlignment = UITextAlignmentCenter;
+        [self addSubview:lb_empty];
         
         _tableView = [[[UITableView alloc]initWithFrame:CGRectZero style:UITableViewStylePlain]autorelease];
         _tableView.delegate = self;
@@ -59,6 +68,13 @@
     }
     _list = [list retain];
     lb_omit.text = @"材料";
+    if (_list.count == 0) {
+        [_tableView setHidden:YES];
+        [lb_empty setHidden:NO];
+    }else{
+        [_tableView setHidden:NO];
+        [lb_empty setHidden:YES];
+    }
     [_tableView reloadData];
 }
 
@@ -99,7 +115,6 @@
     UILabel *lb_name = (UILabel *)[cell.contentView viewWithTag:1];
     UILabel *lb_quantity = (UILabel *)[cell.contentView viewWithTag:2];
     JCSupply *supply = [_list objectAtIndex:indexPath.row];
-    
     lb_name.text = supply.name;
     lb_quantity.text = supply.quantity;
 
@@ -241,7 +256,8 @@
     _tableView.delegate = self;
     _tableView.dataSource = self;
     
-    _btn_delete = [UIButton buttonWithType:UIButtonTypeContactAdd];
+    _btn_delete = [[[UIButton alloc]initWithFrame:CGRectMake(0, 0, 40, 40)]autorelease];
+    [_btn_delete setImage:[UIImage imageNamed:@"ic_edit_list_add"] forState:UIControlStateNormal];
     [_btn_delete addTarget:self action:@selector(addCell) forControlEvents:UIControlEventTouchUpInside];
     _tableView.tableFooterView = _btn_delete;
     [self addSubview:_tableView];
@@ -318,16 +334,19 @@
     _tableView.frame = CGRectMake(10, 30, frame.size.width - 20, frame.size.height - 50);
     lb_other.frame = CGRectMake(10,frame.size.height - 25, frame.size.width-20, 20);
     lb_omit.frame = CGRectMake(0,10, frame.size.width, 20);
-    addImageView.frame = CGRectMake(10, 40, frame.size.width - 20, frame.size.height - 40);
+    addImageView.frame = CGRectMake(20, 40, frame.size.width - 40, frame.size.height - 70);
     iv_omit.frame = CGRectZero;
+    lb_empty.frame = CGRectZero;
 }
 
 -(void)setList:(NSArray *)list{
     [super setList:list];
     if (list.count == 0) {
         [addImageView setHidden:NO];
+        [lb_other setHidden:YES];
     }else{
         [addImageView setHidden:YES];
+        [lb_other setHidden:NO];
     }
 }
 
@@ -354,7 +373,7 @@
         lb_other.backgroundColor = [UIColor clearColor];
         [self addSubview:lb_other];
         
-        addImageView = [[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"success"]]autorelease];
+        addImageView = [[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"ic_step_plus"]]autorelease];
         [self addSubview:addImageView];
     }
     return self;

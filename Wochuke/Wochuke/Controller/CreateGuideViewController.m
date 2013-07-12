@@ -84,6 +84,7 @@
         [alert show];
         [alert release];
     }else{
+        [ShareVaule shareInstance].noChanged = NO;
         StepEditController *vlc = [[StepEditController alloc]initWithNibName:@"StepEditController" bundle:nil];
         [self.navigationController pushViewController:vlc animated:YES];
         [vlc release];

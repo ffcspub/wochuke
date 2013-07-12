@@ -225,6 +225,14 @@
 
 - (IBAction)typeChangAction:(id)sender {
     UIButton *btn = (UIButton *)sender;
+    if (btn.tag == 1 && [ShareVaule shareInstance].user.id_.length == 0) {
+        LoginViewController *vlc = [[[LoginViewController alloc]initWithNibName:@"LoginViewController" bundle:nil]autorelease];
+        UINavigationController *navController = [[[UINavigationController alloc]initWithRootViewController:vlc]autorelease];
+        navController.navigationBarHidden = YES;
+        [self presentViewController:navController animated:YES completion:nil];
+        
+        return;
+    }
     filterCode = btn.tag;
     [_btn_new setBackgroundImage:[UIImage imageNamed:@"btn_classify_top_1"] forState:UIControlStateNormal];
     [_btn_flow setBackgroundImage:[UIImage imageNamed:@"btn_classify_top_2"] forState:UIControlStateNormal];
@@ -238,14 +246,17 @@
 
 - (IBAction)ceateAction:(id)sender {
     if ([ShareVaule shareInstance].user.id_) {
-        CreateGuideViewController *vlc =[[CreateGuideViewController alloc]initWithNibName:@"CreateGuideViewController" bundle:nil];
-        [self.navigationController pushViewController:vlc animated:YES];
-        [vlc release];
+        CreateGuideViewController *vlc = [[[CreateGuideViewController alloc]initWithNibName:@"CreateGuideViewController" bundle:nil]autorelease];
+        UINavigationController *navController = [[[UINavigationController alloc]initWithRootViewController:vlc]autorelease];
+        navController.navigationBarHidden = YES;
+        [self presentViewController:navController animated:YES completion:^{
+            
+        }];
     }else{
         LoginViewController *vlc = [[[LoginViewController alloc]initWithNibName:@"LoginViewController" bundle:nil]autorelease];
         
         UINavigationController *navController = [[[ UINavigationController alloc]initWithRootViewController:vlc]autorelease];
-                                                 
+        navController.navigationBarHidden = YES;
         [self presentModalViewController:navController animated:YES];
     }
     

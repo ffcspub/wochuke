@@ -68,7 +68,7 @@
 
 - (NSInteger)numberOfItemsInGMGridView:(GMGridView *)gridView
 {
-    return [ShareVaule shareInstance].stepImageDic.count;
+    return [ShareVaule shareInstance].editGuideEx.steps.count;
 }
 
 - (CGSize)GMGridView:(GMGridView *)gridView sizeForItemsInInterfaceOrientation:(UIInterfaceOrientation)orientation
@@ -91,16 +91,20 @@
         cell.contentView = view;
     }
     StepView *view = (StepView *)cell.contentView;
-    NSString *num = [[ShareVaule shareInstance].stepImageDic.allKeys objectAtIndex:index];
-    view.step = [[ShareVaule shareInstance].editGuideEx.steps objectAtIndex:[num intValue]-1];
+    view.step = [[ShareVaule shareInstance].editGuideEx.steps objectAtIndex:index];
     return cell;
 }
 
 #pragma mark - GMGridViewActionDelegate
 - (void)GMGridView:(GMGridView *)gridView didTapOnItemAtIndex:(NSInteger)position;{
-    NSString *num = [[ShareVaule shareInstance].stepImageDic.allKeys objectAtIndex:position];
-    NSData *data = [[ShareVaule shareInstance].stepImageDic objectForKey:num];
-    [ShareVaule shareInstance].guideImage = [NSData dataWithData:data];
+    NSData *data = [[ShareVaule shareInstance].stepImageDic objectForKey:[NSString stringWithFormat:@"%d",position+1]];
+    if (data) {
+        [ShareVaule shareInstance].guideImage = [NSData dataWithData:data];
+    }else{
+        [ShareVaule shareInstance].guideImage = nil;
+        JCStep *step = [[ShareVaule shareInstance].editGuideEx.steps objectAtIndex:position];
+        [ShareVaule shareInstance].editGuideEx.guideInfo.cover.url = step.photo.url;
+    }
     [self.navigationController popViewControllerAnimated:NO];
 }
 

@@ -113,6 +113,13 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                 [SVProgressHUD dismiss];
                 [_tableView reloadData];
+                if (pageIndex == 0 && list.count == 0) {
+                    _lb_empty.hidden = NO;
+                    _tableView.hidden = YES;
+                }else{
+                    _lb_empty.hidden = YES;
+                    _tableView.hidden = NO;
+                }
                 [self.tableView.infiniteScrollingView stopAnimating];
                 [self.tableView.pullToRefreshView stopAnimating];
                 if (!hasNextPage) {
@@ -178,6 +185,7 @@
     [_datas release];
     [_type release];
     [_topic release];
+    [_lb_empty release];
     [super dealloc];
 }
 
@@ -186,6 +194,7 @@
     [self setTableView:nil];
     [self setType:nil];
     [self setTopic:nil];
+    [self setLb_empty:nil];
     [super viewDidUnload];
 }
 
