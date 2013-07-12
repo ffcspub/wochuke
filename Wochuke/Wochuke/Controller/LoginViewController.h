@@ -15,6 +15,8 @@
     NSMutableArray *_permissions;
 }
 
+@property (retain, nonatomic) IBOutlet UIImageView *iv_back;
+
 @property (retain, nonatomic) IBOutlet UITextField *tf_name;
 @property (retain, nonatomic) IBOutlet UITextField *tf_password;
 - (IBAction)backAction:(id)sender;

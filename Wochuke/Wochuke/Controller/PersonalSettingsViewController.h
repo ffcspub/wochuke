@@ -9,10 +9,22 @@
 #import <UIKit/UIKit.h>
 
 @interface PersonalSettingsViewController : UIViewController<UITextFieldDelegate>
+
 @property (retain, nonatomic) IBOutlet UITextField *tf_nickname;
+
 @property (retain, nonatomic) IBOutlet UITextField *tf_email;
+
 @property (retain, nonatomic) IBOutlet UITextField *tf_password;
+
 @property (retain, nonatomic) IBOutlet UITextField *tf_confirm;
 
+@property (retain, nonatomic) IBOutlet UIImageView *iv_back;
+
+@property (retain, nonatomic) IBOutlet UIImageView *iv_face;
+
+@property (retain, nonatomic) JCUser *user;
+
 - (IBAction)backAction:(id)sender;
+
+- (IBAction)faceAction:(id)sender;
 @end

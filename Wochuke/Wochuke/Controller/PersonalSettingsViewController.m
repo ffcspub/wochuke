@@ -7,6 +7,8 @@
 //
 
 #import "PersonalSettingsViewController.h"
+#import "UIImageView+WebCache.h"
+#import <Guide.h>
 
 @interface PersonalSettingsViewController ()
 
@@ -27,6 +29,22 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    UIImage *backImage = [[UIImage imageNamed:@"bg_register&login_card"] resizableImageWithCapInsets:UIEdgeInsetsMake(12, 12, 12, 12)];
+    [_iv_back setImage:backImage];
+    
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    if (!_user) {
+        self.user = [ShareVaule shareInstance].user;
+    }
+    
+    if (_user.id_) {
+        [_iv_face setImageWithURL:[NSURL URLWithString:_user.avatar.url] placeholderImage:[UIImage imageNamed:@"ic_user_top"]];
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -36,7 +54,11 @@
 }
 
 - (IBAction)backAction:(id)sender {
-    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (IBAction)faceAction:(id)sender {
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - UITextField Delegate
@@ -84,6 +106,8 @@
     [_tf_email release];
     [_tf_password release];
     [_tf_confirm release];
+    [_iv_back release];
+    [_iv_face release];
     [super dealloc];
 }
 - (void)viewDidUnload {
@@ -91,6 +115,8 @@
     [self setTf_email:nil];
     [self setTf_password:nil];
     [self setTf_confirm:nil];
+    [self setIv_back:nil];
+    [self setIv_face:nil];
     [super viewDidUnload];
 }
 @end

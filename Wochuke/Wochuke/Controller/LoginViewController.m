@@ -37,6 +37,9 @@
     // Do any additional setup after loading the view from its nib.
     _tencentOAuth = [[TencentOAuth alloc] initWithAppId:QQAPPID andDelegate:self];
     _permissions = [[NSArray arrayWithObjects:kOPEN_PERMISSION_GET_USER_INFO, kOPEN_PERMISSION_GET_SIMPLE_USER_INFO, kOPEN_PERMISSION_ADD_ONE_BLOG, nil] retain];
+    
+    UIImage *backImage = [[UIImage imageNamed:@"bg_register&login_card"]resizableImageWithCapInsets:UIEdgeInsetsMake(12, 12, 12, 12)];
+    [_iv_back setImage:backImage];
 }
 
 - (void)didReceiveMemoryWarning
@@ -371,11 +374,13 @@
 - (void)dealloc {
     [_tf_name release];
     [_tf_password release];
+    [_iv_back release];
     [super dealloc];
 }
 - (void)viewDidUnload {
     [self setTf_name:nil];
     [self setTf_password:nil];
+    [self setIv_back:nil];
     [super viewDidUnload];
 }
 @end

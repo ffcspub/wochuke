@@ -64,8 +64,6 @@
 {
     [super viewDidLoad];
     
-    self.title = @"设置";
-    
     self.sinaSwitch = [[UISwitch alloc] initWithFrame:CGRectZero];
     self.sinaSwitch.on = NO;
     [self.sinaSwitch addTarget:self action:@selector(switchChanged:) forControlEvents:UIControlEventValueChanged];
@@ -74,17 +72,12 @@
     self.qqSwitch.on = NO;
     [self.qqSwitch addTarget:self action:@selector(switchChanged:) forControlEvents:UIControlEventValueChanged];
         
-    _cancelBtn = [[UIButton alloc] initWithFrame:CGRectMake(50, 5, 90, 35)];
+    _cancelBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 5, 150, 43)];
+    [_cancelBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [_cancelBtn setTitle:@"退出登录" forState:UIControlStateNormal];
-        
-//    UIButton *cancelButton = [[UIButton alloc] initWithFrame:CGRectMake(10, 0, 70, 50)];
-//    cancelButton.titleLabel.text = @"退出登录";
-//    
-//    UIView *vlc = [[UIView alloc] initWithFrame:CGRectMake(10, 0, 70, 50)];
-//    [vlc addSubview:cancelButton];
+    [_cancelBtn setBackgroundImage:[UIImage imageNamed:@"btn_setting_quit.png"] forState:UIControlStateNormal];
     
-    self.tableView.tableFooterView = _cancelBtn;
-//    [vlc release];
+//    self.tableView.tableFooterView = _cancelBtn;
 }
 
 - (void)viewDidUnload
@@ -148,10 +141,6 @@
         }
         tableView.tableFooterView = self.cancelBtn;
     }
-//    else if (indexPath.section == 3){
-//        cell.textLabel.text = @"退出登录";
-//        cell.textLabel.textAlignment = NSTextAlignmentCenter;
-//    }
     
     if (indexPath.section ==0) {
         if (indexPath.row == 0) {
@@ -163,7 +152,7 @@
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
     
-//    tableView.tableFooterView = self.cancelBtn;
+    tableView.tableFooterView = _cancelBtn;
     tableView.backgroundColor = [UIColor whiteColor];
     
     return cell;

@@ -14,6 +14,7 @@
 @property (retain, nonatomic) IBOutlet UITextField *tf_password;
 @property (retain, nonatomic) IBOutlet UITextField *tf_confirm;
 @property (retain, nonatomic) IBOutlet UITextField *tf_nickname;
+@property (retain, nonatomic) IBOutlet UIImageView *iv_back;
 
 - (IBAction)backAction:(id)sender;
 - (IBAction)loginAction:(id)sender;

@@ -31,6 +31,8 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    UIImage *backImage = [[UIImage imageNamed:@"bg_register&login_card"] resizableImageWithCapInsets:UIEdgeInsetsMake(12, 12, 12, 12)];
+    [_iv_back setImage:backImage];
 }
 
 - (void)didReceiveMemoryWarning
@@ -221,6 +223,7 @@
     [_tf_password release];
     [_tf_confirm release];
     [_tf_nickname release];
+    [_iv_back release];
     [super dealloc];
 }
 - (void)viewDidUnload {
@@ -228,6 +231,7 @@
     [self setTf_password:nil];
     [self setTf_confirm:nil];
     [self setTf_nickname:nil];
+    [self setIv_back:nil];
     [super viewDidUnload];
 }
 @end
