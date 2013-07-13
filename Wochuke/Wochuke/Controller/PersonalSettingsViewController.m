@@ -15,6 +15,7 @@
 #import <Guide.h>
 #import "ICETool.h"
 #import "SVProgressHUD.h"
+#import "NSObject+Notification.h"
 
 
 @interface PersonalSettingsViewController ()<UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>{
@@ -41,6 +42,7 @@
     // Do any additional setup after loading the view from its nib.
     UIImage *backImage = [[UIImage imageNamed:@"bg_register&login_card"] resizableImageWithCapInsets:UIEdgeInsetsMake(12, 12, 12, 12)];
     [_iv_back setImage:backImage];
+    [self observeNotification:UIKeyboardDidHideNotification];
     
 }
 
@@ -167,41 +169,37 @@
 
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
 {
-    if (textField == _tf_nickname) {
-        [UIView animateWithDuration:0.3 animations:^{
-            self.view.frame = CGRectMake(0, -10, self.view.frame.size.width, self.view.frame.size.height);
-        }];
-    }else if (textField == _tf_email){
-        [UIView animateWithDuration:0.3 animations:^{
-            self.view.frame = CGRectMake(0, -126, self.view.frame.size.width, self.view.frame.size.height);
-        }];
-    }else if (textField == _tf_password){
-        [UIView animateWithDuration:0.3 animations:^{
-            self.view.frame = CGRectMake(0, -142, self.view.frame.size.width, self.view.frame.size.height);
-        }];
-    }else if (textField == _tf_confirm){
-        [UIView animateWithDuration:0.3 animations:^{
-            self.view.frame = CGRectMake(0, -158, self.view.frame.size.width, self.view.frame.size.height);
-        }];
+    if (IS_SCREEN_35_INCH) {
+        if (textField == _tf_password){
+            [UIView animateWithDuration:0.3 animations:^{
+                self.view.frame = CGRectMake(0, -138, self.view.frame.size.width, self.view.frame.size.height);
+            }];
+        }else if (textField == _tf_confirm){
+            [UIView animateWithDuration:0.3 animations:^{
+                self.view.frame = CGRectMake(0, -138, self.view.frame.size.width, self.view.frame.size.height);
+            }];
+        }
     }
     return YES;
 }
 
-- (BOOL)textFieldShouldEndEditing:(UITextField *)textField
-{
-    [UIView animateWithDuration:0.3 animations:^{
-        self.view.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
-    }];
-    return YES;
-}
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
-    [textField resignFirstResponder];
+    if (_tf_nickname == textField) {
+        [_tf_email becomeFirstResponder];
+    }else if(_tf_email == textField){
+        [_tf_password becomeFirstResponder];
+    }else if(_tf_password == textField){
+        [_tf_confirm becomeFirstResponder];
+    }else{
+        [textField resignFirstResponder];
+    }
     return YES;
 }
 
 - (void)dealloc {
+    [_blobImage release];
     [_tf_nickname release];
     [_tf_email release];
     [_tf_password release];
@@ -211,6 +209,7 @@
     [super dealloc];
 }
 - (void)viewDidUnload {
+    [self unobserveNotification:UIKeyboardDidHideNotification];
     [self setTf_nickname:nil];
     [self setTf_email:nil];
     [self setTf_password:nil];
@@ -218,6 +217,14 @@
     [self setIv_back:nil];
     [self setIv_face:nil];
     [super viewDidUnload];
+}
+
+-(void)handleNotification:(NSNotification *)notification{
+    if ([notification.name isEqual:UIKeyboardDidHideNotification]) {
+        [UIView animateWithDuration:0.3 animations:^{
+            self.view.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
+        }];
+    }
 }
 
 #pragma mark -
@@ -359,11 +366,15 @@
 {
     //    UIImage *cmpImg = [self scaleImage:image toScale:kImageScaleRate];//縮圖
     //    UIImageWriteToSavedPhotosAlbum(cmpImg, nil, nil, nil);
-   _blobImage =  UIImageJPEGRepresentation(croppedImage, kImageCompressRate);//圖片壓縮為NSData
-    [_iv_face setImage:croppedImage];
+    if (_blobImage) {
+        [_blobImage release];
+        _blobImage = nil;
+    }
+   _blobImage =  [UIImageJPEGRepresentation(croppedImage, kImageCompressRate) retain] ;//圖片壓縮為NSData
     __block PECropViewController *_controller = controller;
     [controller dismissViewControllerAnimated:YES completion:^{
         _controller = nil;
+        [_iv_face setImage:croppedImage];
     }];
 }
 
@@ -383,5 +394,12 @@
     UINavigationController *navigationController = [[[UINavigationController alloc] initWithRootViewController:controller]autorelease];
     
     [self presentViewController:navigationController animated:YES completion:NULL];
+}
+
+-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
+    [_tf_confirm resignFirstResponder];
+    [_tf_email resignFirstResponder];
+    [_tf_nickname resignFirstResponder];
+    [_tf_password resignFirstResponder];
 }
 @end

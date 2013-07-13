@@ -101,8 +101,6 @@
 		1882090917792DC500696A03 /* Guide.ice in Sources */ = {isa = PBXBuildFile; fileRef = 1882090817792DC500696A03 /* Guide.ice */; };
 		18820ADF177930A400696A03 /* PagedFlowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18820ADE177930A400696A03 /* PagedFlowView.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		18820AE11779335600696A03 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18820A791779302D00696A03 /* QuartzCore.framework */; };
-		18820AE51779339A00696A03 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18820AE31779339A00696A03 /* HomeViewController.m */; };
-		18820AE61779339A00696A03 /* HomeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18820AE41779339A00696A03 /* HomeViewController.xib */; };
 		18820B0417793A3700696A03 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 18820AE817793A3700696A03 /* LICENSE */; };
 		18820B0517793A3700696A03 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 18820AE917793A3700696A03 /* README.md */; };
 		18820B0617793A3700696A03 /* SDImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 18820AEB17793A3700696A03 /* SDImageCache.m */; };
@@ -265,6 +263,14 @@
 		18FFAABC1782E1D900E1D571 /* tag_cook_firstcard_slip@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18FFAA9A1782E1D900E1D571 /* tag_cook_firstcard_slip@2x.png */; };
 		18FFAABF1782E1E600E1D571 /* textViewBoard.png in Resources */ = {isa = PBXBuildFile; fileRef = 18FFAABD1782E1E600E1D571 /* textViewBoard.png */; };
 		18FFAAC01782E1E600E1D571 /* textViewBoard@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18FFAABE1782E1E600E1D571 /* textViewBoard@2x.png */; };
+		4C0A0A411790DE9D007CB0DC /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C0A0A3D1790DE9D007CB0DC /* Icon-72.png */; };
+		4C0A0A421790DE9D007CB0DC /* Icon-72@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C0A0A3E1790DE9D007CB0DC /* Icon-72@2x.png */; };
+		4C0A0A431790DE9D007CB0DC /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C0A0A3F1790DE9D007CB0DC /* Icon.png */; };
+		4C0A0A441790DE9D007CB0DC /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C0A0A401790DE9D007CB0DC /* Icon@2x.png */; };
+		4C0A0A481790E680007CB0DC /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C0A0A461790E680007CB0DC /* HomeViewController.m */; };
+		4C0A0A491790E680007CB0DC /* HomeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C0A0A471790E680007CB0DC /* HomeViewController.xib */; };
+		4C0A0A4C1790E90C007CB0DC /* ic_setting.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C0A0A4A1790E90C007CB0DC /* ic_setting.png */; };
+		4C0A0A4D1790E90C007CB0DC /* ic_setting@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C0A0A4B1790E90C007CB0DC /* ic_setting@2x.png */; };
 		4C28A463178E9A8A00AA06D4 /* UserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C28A461178E9A8800AA06D4 /* UserViewController.m */; };
 		4C28A464178E9A8A00AA06D4 /* UserViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C28A462178E9A8900AA06D4 /* UserViewController.xib */; };
 		4C28A468178EA64800AA06D4 /* GuideUserListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C28A466178EA64700AA06D4 /* GuideUserListViewController.m */; };
@@ -500,9 +506,6 @@
 		18820A791779302D00696A03 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		18820ADD177930A400696A03 /* PagedFlowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PagedFlowView.h; sourceTree = "<group>"; };
 		18820ADE177930A400696A03 /* PagedFlowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PagedFlowView.m; sourceTree = "<group>"; };
-		18820AE21779339A00696A03 /* HomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HomeViewController.h; path = ../HomeViewController.h; sourceTree = "<group>"; };
-		18820AE31779339A00696A03 /* HomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HomeViewController.m; path = ../HomeViewController.m; sourceTree = "<group>"; };
-		18820AE41779339A00696A03 /* HomeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = HomeViewController.xib; path = ../HomeViewController.xib; sourceTree = "<group>"; };
 		18820AE817793A3700696A03 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		18820AE917793A3700696A03 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		18820AEA17793A3700696A03 /* SDImageCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDImageCache.h; sourceTree = "<group>"; };
@@ -719,6 +722,15 @@
 		18FFAA9A1782E1D900E1D571 /* tag_cook_firstcard_slip@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tag_cook_firstcard_slip@2x.png"; sourceTree = "<group>"; };
 		18FFAABD1782E1E600E1D571 /* textViewBoard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = textViewBoard.png; sourceTree = "<group>"; };
 		18FFAABE1782E1E600E1D571 /* textViewBoard@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "textViewBoard@2x.png"; sourceTree = "<group>"; };
+		4C0A0A3D1790DE9D007CB0DC /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72.png"; sourceTree = "<group>"; };
+		4C0A0A3E1790DE9D007CB0DC /* Icon-72@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72@2x.png"; sourceTree = "<group>"; };
+		4C0A0A3F1790DE9D007CB0DC /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
+		4C0A0A401790DE9D007CB0DC /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
+		4C0A0A451790E680007CB0DC /* HomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeViewController.h; sourceTree = "<group>"; };
+		4C0A0A461790E680007CB0DC /* HomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeViewController.m; sourceTree = "<group>"; };
+		4C0A0A471790E680007CB0DC /* HomeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HomeViewController.xib; sourceTree = "<group>"; };
+		4C0A0A4A1790E90C007CB0DC /* ic_setting.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_setting.png; sourceTree = "<group>"; };
+		4C0A0A4B1790E90C007CB0DC /* ic_setting@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_setting@2x.png"; sourceTree = "<group>"; };
 		4C28A460178E9A8700AA06D4 /* UserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserViewController.h; sourceTree = "<group>"; };
 		4C28A461178E9A8800AA06D4 /* UserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserViewController.m; sourceTree = "<group>"; };
 		4C28A462178E9A8900AA06D4 /* UserViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserViewController.xib; sourceTree = "<group>"; };
@@ -1041,6 +1053,8 @@
 		1872A960178CF2A200BDA3C0 /* my */ = {
 			isa = PBXGroup;
 			children = (
+				4C0A0A4A1790E90C007CB0DC /* ic_setting.png */,
+				4C0A0A4B1790E90C007CB0DC /* ic_setting@2x.png */,
 				4CFAA1BD178F9600009F615B /* login */,
 				1872A961178CF2A200BDA3C0 /* bg_card_user_top_1.png */,
 				1872A962178CF2A200BDA3C0 /* bg_card_user_top_1@2x.png */,
@@ -1127,6 +1141,10 @@
 		188208EC17792CBE00696A03 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				4C0A0A3D1790DE9D007CB0DC /* Icon-72.png */,
+				4C0A0A3E1790DE9D007CB0DC /* Icon-72@2x.png */,
+				4C0A0A3F1790DE9D007CB0DC /* Icon.png */,
+				4C0A0A401790DE9D007CB0DC /* Icon@2x.png */,
 				188208ED17792CBE00696A03 /* Wochuke-Info.plist */,
 				188208EE17792CBE00696A03 /* InfoPlist.strings */,
 				188208F117792CBE00696A03 /* main.m */,
@@ -1324,6 +1342,9 @@
 		18E457B917796D55003A0BBA /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				4C0A0A451790E680007CB0DC /* HomeViewController.h */,
+				4C0A0A461790E680007CB0DC /* HomeViewController.m */,
+				4C0A0A471790E680007CB0DC /* HomeViewController.xib */,
 				4C28A46A178EA68E00AA06D4 /* FollowUserListViewController.h */,
 				4C28A46B178EA68F00AA06D4 /* FollowUserListViewController.m */,
 				4C28A46C178EA69100AA06D4 /* FollowUserListViewController.xib */,
@@ -1351,9 +1372,6 @@
 				186C31A6177ABC720060CF96 /* StepEditController.h */,
 				186C31A7177ABC720060CF96 /* StepEditController.m */,
 				186C31A8177ABC720060CF96 /* StepEditController.xib */,
-				18820AE21779339A00696A03 /* HomeViewController.h */,
-				18820AE31779339A00696A03 /* HomeViewController.m */,
-				18820AE41779339A00696A03 /* HomeViewController.xib */,
 				18E457BE177983BE003A0BBA /* GuideViewController.h */,
 				18E457BF177983BE003A0BBA /* GuideViewController.m */,
 				18E457C0177983BE003A0BBA /* GuideViewController.xib */,
@@ -1682,7 +1700,6 @@
 				188208F817792CBF00696A03 /* Default.png in Resources */,
 				188208FA17792CBF00696A03 /* Default@2x.png in Resources */,
 				188208FC17792CBF00696A03 /* Default-568h@2x.png in Resources */,
-				18820AE61779339A00696A03 /* HomeViewController.xib in Resources */,
 				18820B0417793A3700696A03 /* LICENSE in Resources */,
 				18820B0517793A3700696A03 /* README.md in Resources */,
 				18820B1C177944F400696A03 /* SVProgressHUD.bundle in Resources */,
@@ -1917,6 +1934,13 @@
 				B7BC7706178FE69E00A6584A /* ShareSDKiPadSimpleShareViewUI.bundle in Resources */,
 				B7BC7709178FE69E00A6584A /* ShareSDKiPhoneDefaultShareViewUI.bundle in Resources */,
 				B7BC770B178FE69E00A6584A /* ShareSDKiPhoneSimpleShareViewUI.bundle in Resources */,
+				4C0A0A411790DE9D007CB0DC /* Icon-72.png in Resources */,
+				4C0A0A421790DE9D007CB0DC /* Icon-72@2x.png in Resources */,
+				4C0A0A431790DE9D007CB0DC /* Icon.png in Resources */,
+				4C0A0A441790DE9D007CB0DC /* Icon@2x.png in Resources */,
+				4C0A0A491790E680007CB0DC /* HomeViewController.xib in Resources */,
+				4C0A0A4C1790E90C007CB0DC /* ic_setting.png in Resources */,
+				4C0A0A4D1790E90C007CB0DC /* ic_setting@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1931,7 +1955,6 @@
 				188208F617792CBF00696A03 /* AppDelegate.m in Sources */,
 				1882090917792DC500696A03 /* Guide.ice in Sources */,
 				18820ADF177930A400696A03 /* PagedFlowView.m in Sources */,
-				18820AE51779339A00696A03 /* HomeViewController.m in Sources */,
 				18820B0617793A3700696A03 /* SDImageCache.m in Sources */,
 				18820B0717793A3700696A03 /* SDWebImageDecoder.m in Sources */,
 				18820B0817793A3700696A03 /* SDWebImageDownloader.m in Sources */,
@@ -2004,6 +2027,7 @@
 				4CFAA1DB178FA052009F615B /* Cook.ice in Sources */,
 				4CFAA1DF178FA610009F615B /* DriverManagerViewController.m in Sources */,
 				4CFAA1E4178FA71B009F615B /* DriverEditViewController.m in Sources */,
+				4C0A0A481790E680007CB0DC /* HomeViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
