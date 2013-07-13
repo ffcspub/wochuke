@@ -23,6 +23,7 @@
 #import "CreateGuideViewController.h"
 #import "UserViewController.h"
 #import "FollowUserListViewController.h"
+#import "PersonalSettingsViewController.h"
 
 @interface MyViewController ()<GuideInfoEditCellDelegate>{
     int type;
@@ -181,7 +182,9 @@
     if (![ShareVaule shareInstance].user) {
         [self loginAction:sender];
     }else {
-        
+        PersonalSettingsViewController *vlc = [[PersonalSettingsViewController alloc]initWithNibName:@"PersonalSettingsViewController" bundle:nil];
+        [self.navigationController pushViewController:vlc animated:YES];
+        [vlc release];
     }
 }
 

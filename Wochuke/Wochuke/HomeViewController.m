@@ -41,7 +41,39 @@
     _pageFlowView.dataSource = self;
     _pageFlowView.minimumPageAlpha = 0.3;
     _pageFlowView.minimumPageScale = 0.9;
-    
+}
+
+
+-(void)loadUser{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+        @try {
+            id<JCAppIntfPrx> proxy = [[ICETool shareInstance] createProxy];
+            @try {
+                JCUser * user = [proxy getUserById:[ShareVaule shareInstance].userId userId:[ShareVaule shareInstance].userId];
+                if (user) {
+                    [ShareVaule shareInstance].user = user;
+                }
+            }
+            @catch (ICEException *exception) {
+                
+            }
+            @finally {
+                
+            }
+        }@catch (ICEException *exception) {
+//            dispatch_async(dispatch_get_main_queue(), ^{
+//                [SVProgressHUD showErrorWithStatus:@"服务访问异常"];
+//            });
+        }
+    });
+        
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    if (![ShareVaule shareInstance].user && [ShareVaule shareInstance].userId) {
+        [self loadUser];
+    }
     [self reloadDatas];
 }
 

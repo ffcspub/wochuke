@@ -22,12 +22,19 @@
 #define KEY_TYPELIST @"KEY_TYPELIST"
 
 #define QQAPPID   @"100454485"
+#define QQAPPKEY @"d1f94c893a822c4668e0154812e39eb6"
 
 #define kAppKey             @"732356489"
 #define kAppSecret          @"ef8ddba071d92652c0f65b4aff79a451"
 #define kAppRedirectURI     @"http://www.sina.com.cn"
 
+#define tencentAppkey       @"100371282"
+#define tencentAppSecret    @"aed9b0303e3ed1e27bae87c33761161d"
+
+#define weixinAppId         @"wxec7b41f2ae9f5cb3"
+
 #define KShareSDKAppKey     @"5baad35997a"
+
 
 
 #define FILEBLOCKLENGTH 2048

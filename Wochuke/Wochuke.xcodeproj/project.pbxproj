@@ -295,6 +295,7 @@
 		4C3F5D2E178F054400EE9C61 /* spline@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C3F5D2C178F054400EE9C61 /* spline@2x.png */; };
 		4C3F5D31178F117E00EE9C61 /* btn_grad.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C3F5D2F178F117E00EE9C61 /* btn_grad.png */; };
 		4C3F5D32178F117E00EE9C61 /* btn_grad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C3F5D30178F117E00EE9C61 /* btn_grad@2x.png */; };
+		4C8152991790093000AB6FB6 /* libWeiboSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C8152961790093000AB6FB6 /* libWeiboSDK.a */; };
 		4CE1462B178EE27900056955 /* ic_classify_list_comment_grad.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CE14625178EE27900056955 /* ic_classify_list_comment_grad.png */; };
 		4CE1462C178EE27900056955 /* ic_classify_list_comment_grad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CE14626178EE27900056955 /* ic_classify_list_comment_grad@2x.png */; };
 		4CE1462D178EE27900056955 /* ic_classify_list_like_grad.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CE14627178EE27900056955 /* ic_classify_list_like_grad.png */; };
@@ -751,6 +752,9 @@
 		4C3F5D2C178F054400EE9C61 /* spline@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "spline@2x.png"; sourceTree = "<group>"; };
 		4C3F5D2F178F117E00EE9C61 /* btn_grad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_grad.png; sourceTree = "<group>"; };
 		4C3F5D30178F117E00EE9C61 /* btn_grad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn_grad@2x.png"; sourceTree = "<group>"; };
+		4C8152961790093000AB6FB6 /* libWeiboSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libWeiboSDK.a; sourceTree = "<group>"; };
+		4C8152971790093000AB6FB6 /* WBApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBApi.h; sourceTree = "<group>"; };
+		4C8152981790093000AB6FB6 /* WBApiObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBApiObject.h; sourceTree = "<group>"; };
 		4CE14625178EE27900056955 /* ic_classify_list_comment_grad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_classify_list_comment_grad.png; sourceTree = "<group>"; };
 		4CE14626178EE27900056955 /* ic_classify_list_comment_grad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_classify_list_comment_grad@2x.png"; sourceTree = "<group>"; };
 		4CE14627178EE27900056955 /* ic_classify_list_like_grad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_classify_list_like_grad.png; sourceTree = "<group>"; };
@@ -860,6 +864,7 @@
 				B7BC7708178FE69E00A6584A /* ShareSDKiPhoneAppRecommendShareViewUI.framework in Frameworks */,
 				B7BC770A178FE69E00A6584A /* ShareSDKiPhoneDefaultShareViewUI.framework in Frameworks */,
 				B7BC770C178FE69E00A6584A /* ShareSDKiPhoneSimpleShareViewUI.framework in Frameworks */,
+				4C8152991790093000AB6FB6 /* libWeiboSDK.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1502,6 +1507,16 @@
 			path = step;
 			sourceTree = "<group>";
 		};
+		4C8152951790093000AB6FB6 /* TencentWeiboSSO */ = {
+			isa = PBXGroup;
+			children = (
+				4C8152961790093000AB6FB6 /* libWeiboSDK.a */,
+				4C8152971790093000AB6FB6 /* WBApi.h */,
+				4C8152981790093000AB6FB6 /* WBApiObject.h */,
+			);
+			path = TencentWeiboSSO;
+			sourceTree = "<group>";
+		};
 		4CFAA1BD178F9600009F615B /* login */ = {
 			isa = PBXGroup;
 			children = (
@@ -1560,6 +1575,7 @@
 		B7BC76E3178FE69D00A6584A /* Extend */ = {
 			isa = PBXGroup;
 			children = (
+				4C8152951790093000AB6FB6 /* TencentWeiboSSO */,
 				B7BC76E4178FE69D00A6584A /* SDKExport */,
 				B7BC76E8178FE69D00A6584A /* TencentOpenAPI.framework */,
 				B7BC76E9178FE69D00A6584A /* TencentOpenApi_IOS_Bundle.bundle */,
@@ -2104,6 +2120,7 @@
 					"\"$(SRCROOT)/External/GMGridView/build/GMGridView.build/Debug-iphoneos/GMGridView.build/Objects-normal/armv7\"",
 					"\"$(SRCROOT)/External/GMGridView/build/GMGridView.build/Debug-iphoneos/GMGridView.build/Objects-normal/armv7s\"",
 					"\"$(SRCROOT)/ShareSDK_v2.2.4/Extend/SDKExport\"",
+					"\"$(SRCROOT)/ShareSDK_v2.2.4/Extend/TencentWeiboSSO\"",
 				);
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
@@ -2145,6 +2162,7 @@
 					"\"$(SRCROOT)/External/GMGridView/build/GMGridView.build/Debug-iphoneos/GMGridView.build/Objects-normal/armv7\"",
 					"\"$(SRCROOT)/External/GMGridView/build/GMGridView.build/Debug-iphoneos/GMGridView.build/Objects-normal/armv7s\"",
 					"\"$(SRCROOT)/ShareSDK_v2.2.4/Extend/SDKExport\"",
+					"\"$(SRCROOT)/ShareSDK_v2.2.4/Extend/TencentWeiboSSO\"",
 				);
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (

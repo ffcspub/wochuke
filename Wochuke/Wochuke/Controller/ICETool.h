@@ -17,7 +17,7 @@
 
 -(id<JCAppIntfPrx>)createProxy;
 -(id<JCAgentLocatorPrx>)createLocalProxy;
-//-(id)<JCCookAgentPrx>createCookAgentPrx:(NSString *)token localProxy:(id<JCAgentLocatorPrx>)localProxy;
+-(id<JCCookAgentPrx>)createCookAgentPrx:(NSString *)token localProxy:(id<JCAgentLocatorPrx>)localProxy;
 
 +(ICETool *)shareInstance;
 

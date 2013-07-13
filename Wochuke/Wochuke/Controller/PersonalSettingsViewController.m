@@ -47,15 +47,10 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
-    if (!_user) {
-        self.user = [ShareVaule shareInstance].user;
-    }
-    
-    if (_user.id_) {
-        [_iv_face setImageWithURL:[NSURL URLWithString:_user.avatar.url] placeholderImage:[UIImage imageNamed:@"ic_user_top"]];
-        _tf_nickname.text = _user.name;
-        _tf_email.text = _user.email;
+    if ([ShareVaule shareInstance].user.id_) {
+        [_iv_face setImageWithURL:[NSURL URLWithString:[ShareVaule shareInstance].user.avatar.url] placeholderImage:[UIImage imageNamed:@"ic_user_top"]];
+        _tf_nickname.text = [ShareVaule shareInstance].user.name;
+        _tf_email.text = [ShareVaule shareInstance].user.email;
     }
 }
 
@@ -86,7 +81,7 @@
         [alert show];
         [alert release];
         return;
-    }else if([self isValidateEmail:_tf_email.text]){
+    }else if(![self isValidateEmail:_tf_email.text]){
         UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil message:@"输入电子邮箱格式不正确" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
         [alert show];
         [alert release];
@@ -116,7 +111,7 @@
         @try {
             id<JCAppIntfPrx> proxy = [[ICETool shareInstance] createProxy];
             @try {
-                JCUser *user = [JCUser user:_user.id_ name:_tf_nickname.text email:_tf_email.text password:_tf_password.text  avatar:_user.avatar mobile:_user.mobile realname:_user.realname intro:_user.intro roleCode:_user.roleCode followerCount:_user.followerCount followingCount:_user.followingCount followState:_user.followState guideCount:_user.guideCount favoriteCount:_user.favoriteCount snsIds:_user.snsIds];
+                JCUser *user = [JCUser user:[ShareVaule shareInstance].user.id_ name:_tf_nickname.text email:_tf_email.text password:_tf_password.text  avatar:[ShareVaule shareInstance].user.avatar mobile:[ShareVaule shareInstance].user.mobile realname:[ShareVaule shareInstance].user.realname intro:[ShareVaule shareInstance].user.intro roleCode:[ShareVaule shareInstance].user.roleCode followerCount:[ShareVaule shareInstance].user.followerCount followingCount:[ShareVaule shareInstance].user.followingCount followState:[ShareVaule shareInstance].user.followState guideCount:[ShareVaule shareInstance].user.guideCount favoriteCount:[ShareVaule shareInstance].user.favoriteCount snsIds:[ShareVaule shareInstance].user.snsIds];
                 JCUser *usertemp = [proxy saveUser:user];
                 if (_blobImage) {
                     NSString *fileId = usertemp.avatar.id_;
@@ -133,7 +128,7 @@
                         loc += FILEBLOCKLENGTH;
                     }
                 }
-                [ShareVaule shareInstance].user = [proxy getUserById:_user.id_ userId:_user.id_];
+                [ShareVaule shareInstance].user = [proxy getUserById:[ShareVaule shareInstance].userId userId:[ShareVaule shareInstance].userId];
             
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [SVProgressHUD showSuccessWithStatus:@"保存成功"];
@@ -194,11 +189,9 @@
 
 - (BOOL)textFieldShouldEndEditing:(UITextField *)textField
 {
-    if (textField == _tf_confirm) {
-        [UIView animateWithDuration:0.3 animations:^{
-            self.view.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
-        }];
-    }
+    [UIView animateWithDuration:0.3 animations:^{
+        self.view.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
+    }];
     return YES;
 }
 
@@ -209,7 +202,6 @@
 }
 
 - (void)dealloc {
-    [_user release];
     [_tf_nickname release];
     [_tf_email release];
     [_tf_password release];
@@ -369,7 +361,10 @@
     //    UIImageWriteToSavedPhotosAlbum(cmpImg, nil, nil, nil);
    _blobImage =  UIImageJPEGRepresentation(croppedImage, kImageCompressRate);//圖片壓縮為NSData
     [_iv_face setImage:croppedImage];
-    
+    __block PECropViewController *_controller = controller;
+    [controller dismissViewControllerAnimated:YES completion:^{
+        _controller = nil;
+    }];
 }
 
 - (void)cropViewControllerDidCancel:(PECropViewController *)controller

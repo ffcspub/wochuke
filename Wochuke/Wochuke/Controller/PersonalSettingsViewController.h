@@ -22,8 +22,6 @@
 
 @property (retain, nonatomic) IBOutlet UIImageView *iv_face;
 
-@property (retain, nonatomic) JCUser *user;
-
 - (IBAction)backAction:(id)sender;
 
 - (IBAction)faceAction:(id)sender;

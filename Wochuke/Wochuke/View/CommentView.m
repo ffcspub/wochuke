@@ -69,9 +69,9 @@
     iv_heard.layer.masksToBounds = YES;
     
     lb_name = [[[UILabel alloc]init]autorelease];
-    lb_name.font = [UIFont boldSystemFontOfSize:11];
+    lb_name.font = [UIFont boldSystemFontOfSize:13];
     lb_name.backgroundColor = [UIColor clearColor];
-    lb_name.textColor = [UIColor darkTextColor];
+    lb_name.textColor = [UIColor grayColor];
     lb_name.textAlignment = UITextAlignmentLeft;
     lb_name.numberOfLines = 2;
     
@@ -84,9 +84,9 @@
     lb_comment.numberOfLines = 2;
     
     lb_time = [[[UILabel alloc]init]autorelease];
-    lb_time.font = [UIFont boldSystemFontOfSize:11];
+    lb_time.font = [UIFont boldSystemFontOfSize:10];
     lb_time.backgroundColor = [UIColor clearColor];
-    lb_time.textColor = [UIColor darkTextColor];
+    lb_time.textColor = [UIColor grayColor];
     lb_time.textAlignment = UITextAlignmentLeft;
     
     [self addSubview:iv_heard];

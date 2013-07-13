@@ -20,6 +20,7 @@
 #import "GuideUserListViewController.h"
 #import "CommentViewController.h"
 #import "DriverManagerViewController.h"
+#import <ShareSDK/ShareSDK.h>
 
 
 //#import "StepEditController.h"
@@ -286,45 +287,90 @@
     }else{
         LoginViewController *vlc = [[[LoginViewController alloc]initWithNibName:@"LoginViewController" bundle:nil]autorelease];
         UINavigationController *navController = [[[UINavigationController alloc]initWithRootViewController:vlc ]autorelease];
+        navController.navigationBarHidden = YES;
         [self presentModalViewController:navController animated:YES];
     }
     
 }
 
+-(NSString *)paramFormGuide{
+    for (JCStep *step in _detail.steps) {
+        if (step.param.length>0) {
+            return step.param;
+        }
+    }
+    return nil;
+}
+
 #pragma mark - ControlDriver
 -(void)controlDriverByName:(NSString *)name{
-    [SVProgressHUD show];
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
-        id<JCCookAgentPrx> proxy = [[ICETool shareInstance] createLocalProxy];
-        @try {
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [SVProgressHUD dismiss];
-                
-            });
+    NSString *param = [self paramFormGuide];
+    if (![self paramFormGuide]) {
+        [SVProgressHUD showErrorWithStatus:@"不是智能食谱，无法启动智能烹饪！"];
+        return;
+    }
+    int fire = 0;
+    int second = 0;
+    NSArray *params = [param componentsSeparatedByString:@"::"];
+    if (params.count == 2) {
+        if ([[params objectAtIndex:0] isEqual:@"00"]) {
+            NSString *valuetemp = [params objectAtIndex:1] ;
+            NSArray *temparray = [valuetemp componentsSeparatedByString:@"|"];
+            NSString *value = [temparray objectAtIndex:0];
+            NSArray *temps = [value componentsSeparatedByString:@"="];
+            NSString *fireString = [temps objectAtIndex:0];
+            NSString *secondString = [temps objectAtIndex:1];
+            fire = [fireString integerValue];
+            second = [secondString integerValue];
         }
-        @catch (ICEException *exception) {
-            if ([exception isKindOfClass:[JCGuideException class]]) {
-                JCGuideException *_exception = (JCGuideException *)exception;
-                if (_exception.reason_) {
+    }
+    NSString *devId = [ShareVaule devIdByName:name];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+        @try {
+            id<JCAgentLocatorPrx> proxy = [[ICETool shareInstance] createLocalProxy];
+            @try {
+                id<JCCookAgentPrx> agentPrx = [[ICETool shareInstance]createCookAgentPrx:devId localProxy:proxy];
+                if (!agentPrx) {
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        [SVProgressHUD showErrorWithStatus:_exception.reason_];
+                        [SVProgressHUD showErrorWithStatus:@"请求的设备没有联机"];
                     });
                 }else{
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [SVProgressHUD showErrorWithStatus:ERROR_MESSAGE];
-                    });
+                    NSMutableString *_token = nil;
+                    BOOL *online = nil;
+                   int res =  [agentPrx bind:nil token:&_token online:online];
+                    if (!online) {
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [SVProgressHUD showErrorWithStatus:@"请求的设备没有联机"];
+                        });
+                    }else{
+                        res = [agentPrx start:_token fire:fire seconds:second];
+                        switch (res) {
+                            case -2:
+                                [SVProgressHUD showErrorWithStatus:@"请求的设备没有联机"];
+                                break;
+                            case -1:
+                            case 1:
+                                [SVProgressHUD showErrorWithStatus:@"请求操作失败"];
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                    
                 }
-            }else{
+            }
+            @catch (ICEException *exception) {
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [SVProgressHUD showErrorWithStatus:ERROR_MESSAGE];
+                    [SVProgressHUD showErrorWithStatus:@"服务无法访问"];
                 });
             }
         }
-        @finally {
-            
+        @catch (ICEException *exception) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [SVProgressHUD showErrorWithStatus:@"服务无法访问"];
+            });
+
         }
-        
     });
 }
 
@@ -335,7 +381,7 @@
     }
     NSArray *driveNames = [ShareVaule allDriverNames];
     int count = driveNames.count;
-    if (buttonIndex < count-1 ) {
+    if (buttonIndex < count ) {
         NSString *name = [driveNames objectAtIndex:buttonIndex];
         [self controlDriverByName:name];
     }else{
@@ -347,11 +393,89 @@
     }
 }
 
+/**
+ *	@brief	简单分享全部
+ *
+ *	@param 	sender 	事件对象
+ */
+- (void)simpleShare
+{
+    //定义菜单分享列表
+//    NSArray *shareList = [ShareSDK getShareListWithType:ShareTypeTwitter, ShareTypeFacebook, ShareTypeSinaWeibo, ShareTypeTencentWeibo, ShareTypeRenren, ShareTypeKaixin, ShareTypeSohuWeibo, ShareType163Weibo, nil];
+    NSArray *shareList = [ShareSDK getShareListWithType:ShareTypeSinaWeibo,ShareTypeTencentWeibo,ShareTypeWeixiSession,ShareTypeWeixiTimeline,
+                          nil];
+    
+    //创建分享内容
+    NSString *imagePath = [[NSBundle mainBundle] pathForResource:IMAGE_NAME ofType:IMAGE_EXT];
+    id<ISSContent> publishContent = [ShareSDK content:[NSString stringWithFormat:CONTENT,_guide.title]
+                                       defaultContent:@""
+                                                image:[ShareSDK imageWithPath:imagePath]
+                                                title:@"分享"
+                                                  url:@"http://www.wochuke.com"
+                                          description:@""
+                                            mediaType:SSPublishContentMediaTypeNews];
+    
+    //创建容器
+    id<ISSContainer> container = [ShareSDK container];
+//    [container setIPadContainerWithView:sender arrowDirect:UIPopoverArrowDirectionUp];
+    
+    id<ISSAuthOptions> authOptions = [ShareSDK authOptionsWithAutoAuth:YES
+                                                         allowCallback:YES
+                                                         authViewStyle:SSAuthViewStyleFullScreenPopup
+                                                          viewDelegate:nil
+                                               authManagerViewDelegate:nil];
+    
+    //在授权页面中添加关注官方微博
+    [authOptions setFollowAccounts:[NSDictionary dictionaryWithObjectsAndKeys:
+                                    [ShareSDK userFieldWithType:SSUserFieldTypeName value:@"ShareSDK"],
+                                    SHARE_TYPE_NUMBER(ShareTypeSinaWeibo),
+                                    [ShareSDK userFieldWithType:SSUserFieldTypeName value:@"ShareSDK"],
+                                    SHARE_TYPE_NUMBER(ShareTypeTencentWeibo),
+                                    nil]];
+    
+    //显示分享菜单
+    [ShareSDK showShareActionSheet:container
+                         shareList:shareList
+                           content:publishContent
+                     statusBarTips:YES
+                       authOptions:authOptions
+                      shareOptions:[ShareSDK defaultShareOptionsWithTitle:nil
+                                                          oneKeyShareList:shareList
+                                                           qqButtonHidden:NO
+                                                    wxSessionButtonHidden:NO
+                                                   wxTimelineButtonHidden:NO
+                                                     showKeyboardOnAppear:NO
+                                                        shareViewDelegate:nil
+                                                      friendsViewDelegate:nil
+                                                    picViewerViewDelegate:nil]
+                            result:^(ShareType type, SSPublishContentState state, id<ISSStatusInfo> statusInfo, id<ICMErrorInfo> error, BOOL end) {
+                                if (state == SSPublishContentStateSuccess)
+                                {
+//                                    [SVProgressHUD showSuccessWithStatus:@"分享成功"];
+                                    NSLog(@"分享成功");
+                                }
+                                else if (state == SSPublishContentStateFail)
+                                {
+//                                    [SVProgressHUD showErrorWithStatus:@"分享失败"];
+                                    NSLog(@"分享失败,错误码:%d,错误描述:%@", [error errorCode], [error errorDescription]);
+                                }
+                            }];
+}
+
+
+#pragma mark -Action
 - (IBAction)shareAction:(id)sender {
-    UIActionSheet *sheet = [[UIActionSheet alloc]initWithTitle:@"分享" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"新浪微博" otherButtonTitles:@"QQ", nil];
-    sheet.tag = 10086;
-    [sheet showInView:self.view];
-    [sheet release];
+    [self simpleShare];
+//    [ShareSDK oneKeyShareContent:(id<ISSContent>)content
+//                       shareList:(NSArray *)shareList
+//                     authOptions:(id<ISSAuthOptions>)authOptions
+//                   statusBarTips:(BOOL)statusBarTips
+//                          result:(SSPublishContentEventHandler)result;
+//    
+//    UIActionSheet *sheet = [[UIActionSheet alloc]initWithTitle:@"分享" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"新浪微博" otherButtonTitles:@"QQ", nil];
+//    sheet.tag = 10086;
+//    [sheet showInView:self.view];
+//    [sheet release];
 }
 
 - (IBAction)likeAction:(id)sender {
@@ -360,6 +484,7 @@
     }else{
         LoginViewController *vlc = [[[LoginViewController alloc]initWithNibName:@"LoginViewController" bundle:nil]autorelease];
         UINavigationController *navController = [[[UINavigationController alloc]initWithRootViewController:vlc ]autorelease];
+        navController.navigationBarHidden = YES;
         [self presentModalViewController:navController animated:YES];
     }
 }

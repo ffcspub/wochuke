@@ -14,6 +14,8 @@
 #import "SearchViewController.h"
 #import "MainViewController.h"
 #import <ShareSDK/ShareSDK.h>
+#import"WXApi.h"
+#import "WBApi.h"
 
 @implementation AppDelegate
 
@@ -30,6 +32,11 @@
 {
     //添加新浪微博应用
     [ShareSDK connectSinaWeiboWithAppKey:kAppKey appSecret:kAppSecret redirectUri:kAppRedirectURI];
+    [ShareSDK connectTencentWeiboWithAppKey:tencentAppkey appSecret:tencentAppSecret
+                                redirectUri:@"http://www.sharesdk.cn" wbApiCls:[WBApi class]];
+
+    [ShareSDK connectWeChatWithAppId:weixinAppId
+                           wechatCls:[WXApi class]];
     
 }
 

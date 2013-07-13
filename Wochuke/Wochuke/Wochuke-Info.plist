@@ -26,20 +26,13 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>tencentopenapi</string>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>tencent100454485</string>
-			</array>
-		</dict>
-		<dict>
-			<key>CFBundleTypeRole</key>
-			<string>Viewer</string>
-			<key>CFBundleURLName</key>
-			<string>weibo</string>
+			<string></string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>sinaweibosso.732356489</string>
+				<string>wb801307650</string>
+				<string>tencent100454485</string>
+				<string>wxec7b41f2ae9f5cb3</string>
 			</array>
 		</dict>
 	</array>

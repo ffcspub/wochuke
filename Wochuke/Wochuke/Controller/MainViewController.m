@@ -50,6 +50,8 @@
             _homeViewNaviationController.navigationBarHidden = YES;
             [_homeViewNaviationController.view setFrame: [self.view bounds]];
             [self.view addSubview:_homeViewNaviationController.view];
+        }else{
+            [_homeViewNaviationController viewWillAppear:YES];
         }
         currentController = _homeViewNaviationController;
     }else if(tag ==2){
@@ -59,6 +61,8 @@
             _catoryViewNaviationController.navigationBarHidden = YES;
             [_catoryViewNaviationController.view setFrame: [self.view bounds]];
             [self.view addSubview:_catoryViewNaviationController.view];
+        }else{
+            [_catoryViewNaviationController viewWillAppear:YES];
         }
         currentController = _catoryViewNaviationController;
     }else if(tag ==3){
