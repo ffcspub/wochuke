@@ -129,8 +129,11 @@
             DDProgressView * progressView = (DDProgressView *)[self viewWithTag:209872];
             if (!progressView) {
                 progressView = [[DDProgressView alloc] initWithFrame: CGRectZero] ;
-                [progressView setOuterColor: [UIColor colorWithRed:44.0/255 green:168.0/255 blue:253.0/255 alpha:0.5]] ;
-                [progressView setInnerColor: [UIColor colorWithRed:44.0/255 green:168.0/255 blue:253.0/255 alpha:1.0]] ;
+//                [progressView setOuterColor: [UIColor colorWithRed:44.0/255 green:168.0/255 blue:253.0/255 alpha:0.5]] ;
+//                [progressView setInnerColor: [UIColor colorWithRed:44.0/255 green:168.0/255 blue:253.0/255 alpha:1.0]] ;
+                
+                [progressView setOuterColor: [UIColor grayColor]] ;
+                [progressView setInnerColor: [UIColor grayColor]] ;
                 progressView.tag = 209872;
                 [self addSubview:progressView];
                 [progressView setCenter:self.center];

@@ -69,24 +69,25 @@
 {
     [super viewWillAppear:animated];
     JCUser *_user = [ShareVaule shareInstance].user;
-    if (!_user.id_) {
-        [_loginButton setTitle:@"登录"];
-    }else{
-        [_loginButton setTitle:@"上传"];
-        _lb_uploadCount.text = [NSString stringWithFormat:@"%d",_user.guideCount];
-        _lb_favCount.text = [NSString stringWithFormat:@"%d",_user.favoriteCount];
-        _lb_followCount.text = [NSString stringWithFormat:@"%d",_user.followingCount];
-        _lb_fanceCount.text = [NSString stringWithFormat:@"%d",_user.followerCount];
-    }
 
+    _lb_uploadCount.text = [NSString stringWithFormat:@"%d",_user.guideCount];
+    _lb_favCount.text = [NSString stringWithFormat:@"%d",_user.favoriteCount];
+    _lb_followCount.text = [NSString stringWithFormat:@"%d",_user.followingCount];
+    _lb_fanceCount.text = [NSString stringWithFormat:@"%d",_user.followerCount];
+    
     UIImage *backImage = [[UIImage imageNamed:@"bg_classify_card"]resizableImageWithCapInsets:UIEdgeInsetsMake(15, 15, 15, 15)];
     [_iv_bottomBackView setImage:backImage];
     
     if (_user.id_) {
+        
         [_bottomBackView setHidden:NO];
         [_nickNameBtn setTitle:_user.name forState:UIControlStateNormal];
         [_iv_face setImageWithURL:[NSURL URLWithString:_user.avatar.url] placeholderImage:[UIImage imageNamed:@"ic_user_top"]];
     }else{
+        [_loginButton setTitle:@"上传"];
+        [_loginButton setTitle:@"登录"];
+        [_nickNameBtn setTitle:@"未登录" forState:UIControlStateNormal];
+        [_iv_face setImage:nil];
         [_bottomBackView setHidden:YES];
     }
     
