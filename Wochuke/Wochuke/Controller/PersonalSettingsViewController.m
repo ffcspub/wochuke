@@ -16,6 +16,7 @@
 #import "ICETool.h"
 #import "SVProgressHUD.h"
 #import "NSObject+Notification.h"
+#import "NSString+BeeExtension.h"
 
 
 @interface PersonalSettingsViewController ()<UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>{
@@ -113,7 +114,7 @@
         @try {
             id<JCAppIntfPrx> proxy = [[ICETool shareInstance] createProxy];
             @try {
-                JCUser *user = [JCUser user:[ShareVaule shareInstance].user.id_ name:_tf_nickname.text email:_tf_email.text password:_tf_password.text  avatar:[ShareVaule shareInstance].user.avatar mobile:[ShareVaule shareInstance].user.mobile realname:[ShareVaule shareInstance].user.realname intro:[ShareVaule shareInstance].user.intro roleCode:[ShareVaule shareInstance].user.roleCode followerCount:[ShareVaule shareInstance].user.followerCount followingCount:[ShareVaule shareInstance].user.followingCount followState:[ShareVaule shareInstance].user.followState guideCount:[ShareVaule shareInstance].user.guideCount favoriteCount:[ShareVaule shareInstance].user.favoriteCount snsIds:[ShareVaule shareInstance].user.snsIds];
+                JCUser *user = [JCUser user:[ShareVaule shareInstance].user.id_ name:_tf_nickname.text email:_tf_email.text password:[_tf_password.text MD5]  avatar:[ShareVaule shareInstance].user.avatar mobile:[ShareVaule shareInstance].user.mobile realname:[ShareVaule shareInstance].user.realname intro:[ShareVaule shareInstance].user.intro roleCode:[ShareVaule shareInstance].user.roleCode followerCount:[ShareVaule shareInstance].user.followerCount followingCount:[ShareVaule shareInstance].user.followingCount followState:[ShareVaule shareInstance].user.followState guideCount:[ShareVaule shareInstance].user.guideCount favoriteCount:[ShareVaule shareInstance].user.favoriteCount snsIds:[ShareVaule shareInstance].user.snsIds];
                 JCUser *usertemp = [proxy saveUser:user];
                 if (_blobImage) {
                     NSString *fileId = usertemp.avatar.id_;
