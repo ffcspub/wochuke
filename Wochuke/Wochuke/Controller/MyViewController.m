@@ -79,12 +79,11 @@
     [_iv_bottomBackView setImage:backImage];
     
     if (_user.id_) {
-        
+        [_loginButton setTitle:@"上传"];
         [_bottomBackView setHidden:NO];
         [_nickNameBtn setTitle:_user.name forState:UIControlStateNormal];
         [_iv_face setImageWithURL:[NSURL URLWithString:_user.avatar.url] placeholderImage:[UIImage imageNamed:@"ic_user_top"]];
     }else{
-        [_loginButton setTitle:@"上传"];
         [_loginButton setTitle:@"登录"];
         [_nickNameBtn setTitle:@"未登录" forState:UIControlStateNormal];
         [_iv_face setImage:nil];
@@ -156,10 +155,6 @@
 }
 
 - (IBAction)followListAction:(id)sender {
-    //    [_iv_topBackView setImage:[UIImage imageNamed:@"bg_card_user_top_3"]];
-    //    type = 2;
-    //    [self upCountLableColor];
-    //    [self reloadDatas];
     FollowUserListViewController *vlc = [[FollowUserListViewController alloc]initWithNibName:@"FollowUserListViewController" bundle:nil];
     vlc.user = [ShareVaule shareInstance].user;
     vlc.filterCode = 0;
@@ -558,7 +553,7 @@
 #pragma mark -GuideInfoEditCellDelegate
 -(void) guideInfoEditCellEdit:(GuideInfoEditCell *) cell;{
     JCGuide *guide = (JCGuide *)cell.cellData;
-    StepEditController *vlc = [[StepEditController alloc]initWithNibName:@"StepEditController" bundle:nil];
+    StepEditController *vlc = [[[StepEditController alloc]initWithNibName:@"StepEditController" bundle:nil]autorelease];
     vlc.guide = guide;
     UINavigationController *navController = [[[UINavigationController alloc]initWithRootViewController:vlc]autorelease];
     navController.navigationBarHidden = YES;
@@ -615,7 +610,7 @@
         vlc.guide = guide;
         [self.navigationController pushViewController:vlc animated:YES];
     }else{
-        UserViewController *vlc = [[UserViewController alloc]initWithNibName:@"UserViewController" bundle:nil];
+        UserViewController *vlc = [[[UserViewController alloc]initWithNibName:@"UserViewController" bundle:nil]autorelease];
         vlc.user = [_datas objectAtIndex:indexPath.row];
         [self.navigationController pushViewController:vlc animated:YES];
     }

@@ -272,6 +272,8 @@
 		4C0A0A4C1790E90C007CB0DC /* ic_setting.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C0A0A4A1790E90C007CB0DC /* ic_setting.png */; };
 		4C0A0A4D1790E90C007CB0DC /* ic_setting@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C0A0A4B1790E90C007CB0DC /* ic_setting@2x.png */; };
 		4C0A0A5517915EE4007CB0DC /* libMobClickLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C0A0A5317915EE4007CB0DC /* libMobClickLibrary.a */; };
+		4C0A0A591791A74A007CB0DC /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C0A0A571791A74A007CB0DC /* AboutViewController.m */; };
+		4C0A0A5A1791A74A007CB0DC /* AboutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C0A0A581791A74A007CB0DC /* AboutViewController.xib */; };
 		4C28A463178E9A8A00AA06D4 /* UserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C28A461178E9A8800AA06D4 /* UserViewController.m */; };
 		4C28A464178E9A8A00AA06D4 /* UserViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C28A462178E9A8900AA06D4 /* UserViewController.xib */; };
 		4C28A468178EA64800AA06D4 /* GuideUserListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C28A466178EA64700AA06D4 /* GuideUserListViewController.m */; };
@@ -734,6 +736,9 @@
 		4C0A0A4B1790E90C007CB0DC /* ic_setting@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_setting@2x.png"; sourceTree = "<group>"; };
 		4C0A0A5317915EE4007CB0DC /* libMobClickLibrary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libMobClickLibrary.a; sourceTree = "<group>"; };
 		4C0A0A5417915EE4007CB0DC /* MobClick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MobClick.h; sourceTree = "<group>"; };
+		4C0A0A561791A74A007CB0DC /* AboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutViewController.h; sourceTree = "<group>"; };
+		4C0A0A571791A74A007CB0DC /* AboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutViewController.m; sourceTree = "<group>"; };
+		4C0A0A581791A74A007CB0DC /* AboutViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AboutViewController.xib; sourceTree = "<group>"; };
 		4C28A460178E9A8700AA06D4 /* UserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserViewController.h; sourceTree = "<group>"; };
 		4C28A461178E9A8800AA06D4 /* UserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserViewController.m; sourceTree = "<group>"; };
 		4C28A462178E9A8900AA06D4 /* UserViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserViewController.xib; sourceTree = "<group>"; };
@@ -1432,6 +1437,9 @@
 				4CFAA1E1178FA71A009F615B /* DriverEditViewController.h */,
 				4CFAA1E2178FA71A009F615B /* DriverEditViewController.m */,
 				4CFAA1E3178FA71B009F615B /* DriverEditViewController.xib */,
+				4C0A0A561791A74A007CB0DC /* AboutViewController.h */,
+				4C0A0A571791A74A007CB0DC /* AboutViewController.m */,
+				4C0A0A581791A74A007CB0DC /* AboutViewController.xib */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1955,6 +1963,7 @@
 				4C0A0A491790E680007CB0DC /* HomeViewController.xib in Resources */,
 				4C0A0A4C1790E90C007CB0DC /* ic_setting.png in Resources */,
 				4C0A0A4D1790E90C007CB0DC /* ic_setting@2x.png in Resources */,
+				4C0A0A5A1791A74A007CB0DC /* AboutViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2042,6 +2051,7 @@
 				4CFAA1DF178FA610009F615B /* DriverManagerViewController.m in Sources */,
 				4CFAA1E4178FA71B009F615B /* DriverEditViewController.m in Sources */,
 				4C0A0A481790E680007CB0DC /* HomeViewController.m in Sources */,
+				4C0A0A591791A74A007CB0DC /* AboutViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

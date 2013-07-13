@@ -13,8 +13,16 @@
 #import <Guide.h>
 #import "ICETool.h"
 #import "LoginViewController.h"
+#import "DriverManagerViewController.h"
+#import "AboutViewController.h"
+#import "FeedbackViewController.h"
 
-@interface SetingViewController ()<UIAlertViewDelegate>
+
+@interface SetingViewController ()<UIAlertViewDelegate>{
+    NSString *_qqName;
+    NSString *_sinaName;
+    BOOL updateModel;
+}
 
 @property (nonatomic, retain) UISwitch *sinaSwitch;
 
@@ -47,33 +55,11 @@
             @try {
                 JCUser *userInfo = [proxy saveUser:user];
                 if (userInfo.id_) {
-                    NSLog(@"saveUser:idKey:bind: userInfo存在 userInfo.snsIds == %@",userInfo.snsIds);
-                    [ShareVaule shareInstance].userId = userInfo.id_;
-                    [ShareVaule shareInstance].user = userInfo;
-                    if ([idKey isEqualToString:@"qqId"]) {
-                        if (bind) {
-                            [ShareVaule shareInstance].bindForQQ = YES;
-                        } else {
-                            [ShareVaule shareInstance].bindForQQ = NO;
-                            [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"nameForBindQQ"];
-                        }
-                    }else if ([idKey isEqualToString:@"sinaId"]){
-                        if (bind) {
-                            [ShareVaule shareInstance].bindForSina = YES;
-                        } else {
-                            [ShareVaule shareInstance].bindForSina = NO;
-                            [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"nameForBindSina"];
-                        }
-                    }
+                    [ShareVaule shareInstance].user.snsIds = userInfo.snsIds;
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [self.tableView reloadData];
                     });
                 } else {
-                    if ([idKey isEqualToString:@"qqId"]) {
-                        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"nameForBindQQ"];
-                    }else if ([idKey isEqualToString:@"sinaId"]){
-                        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"nameForBindSina"];
-                    }
                     [SVProgressHUD showErrorWithStatus:@"该用户不存在"];
                 }
             }
@@ -116,15 +102,11 @@
                                    result:^(BOOL result, id<ISSUserInfo> userInfo, id<ICMErrorInfo> error){
                                        if (result) {
                                            if ([ShareVaule shareInstance].user) {
-                                               JCUser *user = [ShareVaule shareInstance].user;
-                                               NSMutableDictionary *snsId = user.snsIds;
+                                               NSMutableDictionary *snsId = [NSMutableDictionary dictionaryWithDictionary:[ShareVaule shareInstance].user.snsIds];
                                                [snsId setObject:userInfo.uid forKey:@"sinaId"];
-                                               user.snsIds = snsId;
-                                               [ShareVaule shareInstance].nameForBindSina = userInfo.nickname;
+                                               JCUser *user = [JCUser user:[ShareVaule shareInstance].user.id_ name:[ShareVaule shareInstance].user.name email:[ShareVaule shareInstance].user.email password:[ShareVaule shareInstance].user.password  avatar:[ShareVaule shareInstance].user.avatar mobile:[ShareVaule shareInstance].user.mobile realname:[ShareVaule shareInstance].user.realname intro:[ShareVaule shareInstance].user.intro roleCode:[ShareVaule shareInstance].user.roleCode followerCount:[ShareVaule shareInstance].user.followerCount followingCount:[ShareVaule shareInstance].user.followingCount followState:[ShareVaule shareInstance].user.followState guideCount:[ShareVaule shareInstance].user.guideCount favoriteCount:[ShareVaule shareInstance].user.favoriteCount snsIds:snsId];
                                                [self saveUser:user idKey:@"sinaId" bind:YES];
                                            }else{
-                                               [ShareVaule shareInstance].bindForSina = YES;
-                                               [ShareVaule shareInstance].nameForBindSina = userInfo.nickname;
                                                [self.tableView reloadData];
                                            }
                                        }else{
@@ -133,42 +115,37 @@
                                    }];
         } else {//点击后变为OFF时
             [ShareSDK cancelAuthWithType:ShareTypeSinaWeibo];
+            [_sinaName release];
+            _sinaName = nil;
             if ([ShareVaule shareInstance].user) {
-                JCUser *user = [ShareVaule shareInstance].user;
-                NSMutableDictionary *snsId = user.snsIds;
+                NSMutableDictionary *snsId = [NSMutableDictionary dictionaryWithDictionary:[ShareVaule shareInstance].user.snsIds];
                 [snsId setObject:@"" forKey:@"sinaId"];
-                user.snsIds = snsId;
-                [ShareVaule shareInstance].bindForSina = NO;
+                 JCUser *user = [JCUser user:[ShareVaule shareInstance].user.id_ name:[ShareVaule shareInstance].user.name email:[ShareVaule shareInstance].user.email password:[ShareVaule shareInstance].user.password  avatar:[ShareVaule shareInstance].user.avatar mobile:[ShareVaule shareInstance].user.mobile realname:[ShareVaule shareInstance].user.realname intro:[ShareVaule shareInstance].user.intro roleCode:[ShareVaule shareInstance].user.roleCode followerCount:[ShareVaule shareInstance].user.followerCount followingCount:[ShareVaule shareInstance].user.followingCount followState:[ShareVaule shareInstance].user.followState guideCount:[ShareVaule shareInstance].user.guideCount favoriteCount:[ShareVaule shareInstance].user.favoriteCount snsIds:snsId];
                 [self.tableView reloadData];
                 [self saveUser:user idKey:@"sinaId" bind:NO];
             } else {
-                [ShareVaule shareInstance].bindForSina = NO;
-                [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"nameForBindSina"];
                 [self.tableView reloadData];
             }
             
         }
     }else if ([senderSwitch isEqual:self.qqSwitch]){
         if (self.qqSwitch.on) {
-            [ShareVaule shareInstance].tencentOAuth = [[TencentOAuth alloc] initWithAppId:QQAPPID andDelegate:self];
-            [ShareVaule shareInstance].permissions = [[NSArray arrayWithObjects:kOPEN_PERMISSION_GET_USER_INFO, kOPEN_PERMISSION_GET_SIMPLE_USER_INFO, kOPEN_PERMISSION_ADD_ONE_BLOG, nil] retain];
-            [[ShareVaule shareInstance].tencentOAuth authorize:[ShareVaule shareInstance].permissions inSafari:NO];
+            [ShareVaule shareInstance].tencentOAuth.sessionDelegate = self;
+            NSArray *authorize  = [NSArray arrayWithObjects:kOPEN_PERMISSION_GET_USER_INFO, kOPEN_PERMISSION_GET_SIMPLE_USER_INFO, kOPEN_PERMISSION_ADD_ONE_BLOG, nil];
+            [[ShareVaule shareInstance].tencentOAuth authorize:authorize inSafari:NO];
         } else {
-            [[ShareVaule shareInstance].tencentOAuth logout:self];
+            [[ShareVaule shareInstance].tencentOAuth logout:nil];
+            [_qqName release];
+            _qqName = nil;
             if ([ShareVaule shareInstance].user) {
-                JCUser *user = [ShareVaule shareInstance].user;
-                NSMutableDictionary *snsId = user.snsIds;
+                NSMutableDictionary *snsId = [NSMutableDictionary dictionaryWithDictionary:[ShareVaule shareInstance].user.snsIds];
                 [snsId setObject:@"" forKey:@"qqId"];
-                user.snsIds = snsId;
-                [ShareVaule shareInstance].bindForQQ = NO;
+                JCUser *user = [JCUser user:[ShareVaule shareInstance].user.id_ name:[ShareVaule shareInstance].user.name email:[ShareVaule shareInstance].user.email password:[ShareVaule shareInstance].user.password  avatar:[ShareVaule shareInstance].user.avatar mobile:[ShareVaule shareInstance].user.mobile realname:[ShareVaule shareInstance].user.realname intro:[ShareVaule shareInstance].user.intro roleCode:[ShareVaule shareInstance].user.roleCode followerCount:[ShareVaule shareInstance].user.followerCount followingCount:[ShareVaule shareInstance].user.followingCount followState:[ShareVaule shareInstance].user.followState guideCount:[ShareVaule shareInstance].user.guideCount favoriteCount:[ShareVaule shareInstance].user.favoriteCount snsIds:snsId];
                 [self.tableView reloadData];
                 [self saveUser:user idKey:@"qqId" bind:NO];
             } else {
-                [ShareVaule shareInstance].bindForQQ = NO;
-                [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"nameForBindQQ"];
                 [self.tableView reloadData];
             }
-            
         }
     }
 }
@@ -205,42 +182,31 @@
         [view addSubview:_cancelBtn];
         self.tableView.tableFooterView = view;
     }
-    
+    [ShareVaule shareInstance].tencentOAuth.sessionDelegate = self;
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     
-    JCUser *_user = [ShareVaule shareInstance].user;
-    
-    if (_user.id_) {
-        NSString *sinaId = [_user.snsIds objectForKey:@"sinaId"];
-        NSString *qqId = [_user.snsIds objectForKey:@"qqId"];
-        if (![sinaId isEqualToString:@""]) {
-            [self.sinaSwitch setOn:YES];
-            [ShareVaule shareInstance].bindForSina = YES;
-        }else{
-            [self.sinaSwitch setOn:NO];
-            [ShareVaule shareInstance].bindForSina = NO;
-        }
-        if (![qqId isEqualToString:@""]) {
-            [self.qqSwitch setOn:YES];
-            [ShareVaule shareInstance].bindForQQ = YES;
-        }else{
-            [self.qqSwitch setOn:NO];
-            [ShareVaule shareInstance].bindForQQ = NO;
-        }
+    if ([[ShareVaule shareInstance].tencentOAuth isSessionValid]) {
+        [self.qqSwitch setOn:YES];
+        [[ShareVaule shareInstance].tencentOAuth getUserInfo];
     }else{
-        if ([ShareVaule shareInstance].bindForSina) {
-            [self.sinaSwitch setOn:YES];
-        }else{
-            [self.sinaSwitch setOn:NO];
-        }
-        if ([ShareVaule shareInstance].bindForQQ) {
-            [self.qqSwitch setOn:YES];
-        }
+        [self.qqSwitch setOn:NO];
     }
+    if ([ShareSDK hasAuthorizedWithType:ShareTypeSinaWeibo]) {
+        [self.sinaSwitch setOn:YES];
+        [ShareSDK getUserInfoWithType:ShareTypeSinaWeibo authOptions:nil result:^(BOOL result, id<ISSUserInfo> userInfo, id<ICMErrorInfo> error) {
+            if (result) {
+                _sinaName = [userInfo.nickname retain];
+                [_tableView reloadData];
+            }
+        }];
+    }else{
+        [self.sinaSwitch setOn:NO];
+    }
+    
 }
 
 - (void)logoutClick:(id)sender
@@ -270,16 +236,11 @@
 {
     if (alertView.tag == 10000) {
         if (buttonIndex == 0) {
-            LoginViewController *lvc = [[[LoginViewController alloc] init] autorelease];
-            [[ShareVaule shareInstance].tencentOAuth logout:lvc];
-            [[ShareVaule shareInstance].tencentOAuth logout:self];
+            [ShareVaule shareInstance].tencentOAuth.sessionDelegate = nil;
             [ShareSDK cancelAuthWithType:ShareTypeSinaWeibo];
             [ShareVaule shareInstance].user = nil;
-            [ShareVaule shareInstance].bindForQQ = NO;
-            [ShareVaule shareInstance].bindForSina = NO;
-            [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"userId"];
-            [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"nameForBindSina"];
-            [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"nameForBindQQ"];
+            [ShareVaule shareInstance].userId = nil;
+            [[ShareVaule shareInstance].tencentOAuth logout:nil];
             [self.navigationController popViewControllerAnimated:YES];
         }
     }
@@ -316,14 +277,10 @@
     if (indexPath.section == 0) {
         if (indexPath.row == 0) {
             cell.textLabel.text = @"绑定新浪微博";
-            if ([ShareVaule shareInstance].bindForSina) {
-                cell.detailTextLabel.text = [ShareVaule shareInstance].nameForBindSina;
-            }
+            cell.detailTextLabel.text = _sinaName;
         }else if (indexPath.row ==1){
             cell.textLabel.text = @"绑定腾讯QQ";
-            if ([ShareVaule shareInstance].bindForQQ) {
-                cell.detailTextLabel.text = [ShareVaule shareInstance].nameForBindQQ;
-            }
+            cell.detailTextLabel.text = _qqName;
         }
     }else if (indexPath.section == 1){
         cell.textLabel.text = @"厨具管理";
@@ -350,10 +307,32 @@
     return cell;
 }
 
+#pragma mark - UITableViewDelegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if (indexPath.section == 1) {
+        DriverManagerViewController *vlc = [[DriverManagerViewController alloc]initWithNibName:@"DriverManagerViewController" bundle:nil];
+        [self.navigationController pushViewController:vlc animated:YES];
+        [vlc release];
+    }else if(indexPath.section == 2){
+        if (indexPath.row == 0) {
+            //意见反馈
+            FeedbackViewController *vlc = [[[FeedbackViewController alloc]initWithNibName:@"FeedbackViewController" bundle:nil]autorelease];
+            [self.navigationController pushViewController:vlc animated:YES];
+        }else if(indexPath.row == 1){
+            //关于
+            AboutViewController *vlc = [[[AboutViewController alloc]initWithNibName:@"AboutViewController" bundle:nil]autorelease];
+            [self.navigationController pushViewController:vlc animated:YES];
+        }
+    }
+}
+
 #pragma mark - TencentSession Delegate
 
 - (void)tencentDidLogin
 {
+    updateModel = YES;
     [[ShareVaule shareInstance].tencentOAuth getUserInfo];
 }
 
@@ -369,34 +348,39 @@
 
 - (void)tencentDidLogout
 {
-    [ShareVaule shareInstance].nameForBindQQ = nil;
-    [ShareVaule shareInstance].bindForQQ = NO;
+//    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
     
 }
+
+
 
 //获取用户个人信息回调
 - (void)getUserInfoResponse:(APIResponse *)response
 {
     if (response.retCode == URLREQUEST_SUCCEED) {
-        if ([ShareVaule shareInstance].user) {
-            JCUser *user = [ShareVaule shareInstance].user;
-            NSMutableDictionary *snsId = user.snsIds;
-            [snsId setObject:[[ShareVaule shareInstance].tencentOAuth openId] forKey:@"qqId"];
-            user.snsIds = snsId;
-            [ShareVaule shareInstance].nameForBindQQ = [response.jsonResponse objectForKey:@"nickname"];
-            [self saveUser:user idKey:@"qqId" bind:YES];
-        } else {
-            [ShareVaule shareInstance].bindForQQ = YES;
-            [ShareVaule shareInstance].nameForBindQQ = [response.jsonResponse objectForKey:@"nickname"];
-            [self.tableView reloadData];
+        if (_qqName) {
+            [_qqName release];
+            _qqName = nil;
         }
-        
+        _qqName = [[response.jsonResponse objectForKey:@"nickname"]retain];
+        if (updateModel) {
+            if ([ShareVaule shareInstance].user) {
+                NSMutableDictionary *snsId = [NSMutableDictionary dictionaryWithDictionary:[ShareVaule shareInstance].user.snsIds];
+                [snsId setObject:[[ShareVaule shareInstance].tencentOAuth openId] forKey:@"qqId"];
+                JCUser *user = [JCUser user:[ShareVaule shareInstance].user.id_ name:[ShareVaule shareInstance].user.name email:[ShareVaule shareInstance].user.email password:[ShareVaule shareInstance].user.password  avatar:[ShareVaule shareInstance].user.avatar mobile:[ShareVaule shareInstance].user.mobile realname:[ShareVaule shareInstance].user.realname intro:[ShareVaule shareInstance].user.intro roleCode:[ShareVaule shareInstance].user.roleCode followerCount:[ShareVaule shareInstance].user.followerCount followingCount:[ShareVaule shareInstance].user.followingCount followState:[ShareVaule shareInstance].user.followState guideCount:[ShareVaule shareInstance].user.guideCount favoriteCount:[ShareVaule shareInstance].user.favoriteCount snsIds:snsId];
+                [self saveUser:user idKey:@"qqId" bind:YES];
+            }
+            updateModel = NO;
+        }
+        [_tableView reloadData];
     } else {
         
     }
 }
 
 - (void)dealloc {
+    [_sinaName release];
+    [_qqName release];
     [_tableView release];
     [super dealloc];
 }

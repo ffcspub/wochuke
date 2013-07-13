@@ -15,12 +15,16 @@
 #import "AppDelegate.h"
 #import "SVProgressHUD.h"
 #import <ShareSDK/ShareSDK.h>
+#import "NSString+BeeExtension.h"
 
 @interface LoginViewController ()
 
 @end
 
-@implementation LoginViewController
+@implementation LoginViewController{
+    NSString *_qqId;
+    NSString *_sinaId;
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -31,6 +35,32 @@
     return self;
 }
 
+
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    if (_sinaId) {
+        [_sinaId release];
+        _sinaId = nil;
+    }
+    if (_qqId) {
+        [_qqId release];
+        _qqId = nil;
+    }
+    if ([[ShareVaule shareInstance].tencentOAuth isSessionValid]) {
+        _qqId = [[[ShareVaule shareInstance].tencentOAuth openId]retain];
+    }
+    if([ShareSDK hasAuthorizedWithType:ShareTypeSinaWeibo]){
+        [ShareSDK getUserInfoWithType:ShareTypeSinaWeibo
+                          authOptions:nil
+                               result:^(BOOL result, id<ISSUserInfo> userInfo, id<ICMErrorInfo> error){
+                                   if (result) {
+                                       NSString *sinaId = userInfo.uid;
+                                       _sinaId = [sinaId retain];
+                                   }
+                               }];
+    }
+
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -54,19 +84,30 @@
         @try {
             id<JCAppIntfPrx> proxy = [[ICETool shareInstance] createProxy];
             @try {
-                JCUser *user = [proxy login:account password:password];
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [SVProgressHUD dismiss];
-                    if (user.id_) {
+                JCUser *user = [proxy login:account password:[password MD5]];
+                if (user.id_.length>0) {
+                    NSMutableDictionary *snsId = (NSMutableDictionary *)user.snsIds;
+                    if (_qqId) {
+                        [snsId setObject:_qqId forKey:@"qqId"];
+                        user.snsIds = snsId;
+                        [proxy saveUser:user];
+                    }
+                    if (_sinaId) {
+                        [snsId setObject:_sinaId forKey:@"sinaId"];
+                        user.snsIds = snsId;
+                        [proxy saveUser:user];
+                    }
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [SVProgressHUD dismiss];
                         [ShareVaule shareInstance].userId = user.id_;
                         [ShareVaule shareInstance].user = user;
                         [self.navigationController dismissViewControllerAnimated:YES completion:nil];
-                    } else {
-                        [SVProgressHUD showErrorWithStatus:@"该用户不存在"];
-                    }
-                });
+                    });
+
+                }
             }
             @catch (NSException *exception) {
+                [SVProgressHUD dismiss];
                 if ([exception isKindOfClass:[JCGuideException class]]) {
                     JCGuideException *_exception = (JCGuideException *)exception;
                     if (_exception.reason_) {
@@ -131,15 +172,15 @@
                 if ([user.id_ isEqualToString:@""]) {
                     NSLog(@"getUserByKey QQuser不存在 user.id_ == %@",user.id_);
                     if ([idKey isEqualToString:@"qqId"]) {
-                        [[ShareVaule shareInstance].tencentOAuth getUserInfo];
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [[ShareVaule shareInstance].tencentOAuth getUserInfo];
+                        });
                     }
                 }else{
                     NSLog(@"getUserByKey QQuser存在 user.id_ == %@",user.id_);
                     NSLog(@"getUserByKey QQuser存在 user.snsIds == %@",user.snsIds);
                     [ShareVaule shareInstance].userId = user.id_;
                     [ShareVaule shareInstance].user = user;
-                    [ShareVaule shareInstance].bindForQQ = YES;
-                    [ShareVaule shareInstance].nameForBindQQ = user.name;
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [self.navigationController dismissViewControllerAnimated:YES completion:nil];
                     });
@@ -186,13 +227,6 @@
                     NSLog(@"regiterByThirdUserInfo userInfo存在 userInfo.id_ == %@",userInfo.id_);
                     [ShareVaule shareInstance].userId = userInfo.id_;
                     [ShareVaule shareInstance].user = userInfo;
-                    if ([idKey isEqualToString:@"qqId"]) {
-                        [ShareVaule shareInstance].bindForQQ = YES;
-                        [ShareVaule shareInstance].nameForBindQQ = userInfo.name;
-                    }else if ([idKey isEqualToString:@"sinaId"]){
-                        [ShareVaule shareInstance].bindForSina = YES;
-                        [ShareVaule shareInstance].nameForBindSina = userInfo.name;
-                    }
                     NSLog(@"regiterByThirdUserInfo userInfo.id_ == %@",userInfo.id_);
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [self.navigationController dismissViewControllerAnimated:YES completion:nil];
@@ -244,9 +278,9 @@
 }
 
 - (IBAction)qqLoginAction:(id)sender {
-    [ShareVaule shareInstance].tencentOAuth = [[TencentOAuth alloc] initWithAppId:QQAPPID andDelegate:self];
-    [ShareVaule shareInstance].permissions = [[NSArray arrayWithObjects:kOPEN_PERMISSION_GET_USER_INFO, kOPEN_PERMISSION_GET_SIMPLE_USER_INFO, kOPEN_PERMISSION_ADD_ONE_BLOG, nil] retain];
-    [[ShareVaule shareInstance].tencentOAuth authorize:[ShareVaule shareInstance].permissions inSafari:NO];
+    [ShareVaule shareInstance].tencentOAuth.sessionDelegate = self;
+    NSArray *array = [NSArray arrayWithObjects:kOPEN_PERMISSION_GET_USER_INFO, kOPEN_PERMISSION_GET_SIMPLE_USER_INFO, kOPEN_PERMISSION_ADD_ONE_BLOG, nil];
+    [[ShareVaule shareInstance].tencentOAuth authorize:array inSafari:NO];
 }
 
 - (IBAction)loginAction:(id)sender {
@@ -276,8 +310,6 @@
                                                    NSLog(@"sinaLoginAction user存在 user.snsIds == %@",user.snsIds);
                                                    [ShareVaule shareInstance].userId = user.id_;
                                                    [ShareVaule shareInstance].user = user;
-                                                   [ShareVaule shareInstance].bindForSina = YES;
-                                                   [ShareVaule shareInstance].nameForBindSina = userInfo.nickname;
                                                    dispatch_async(dispatch_get_main_queue(), ^{
                                                        [self.navigationController dismissViewControllerAnimated:YES completion:nil];
                                                    });
@@ -374,7 +406,6 @@
         NSDictionary *snsIds = [NSDictionary dictionaryWithObjectsAndKeys:[[ShareVaule shareInstance].tencentOAuth openId], @"qqId", nil];
         user.snsIds = snsIds;
         [self regiterByThirdUserInfo:user idKey:@"qqId"];
-        
     } else {
         
     }
@@ -382,12 +413,15 @@
 
 
 - (void)dealloc {
+    [_sinaId release];
+    [_qqId release];
     [_tf_name release];
     [_tf_password release];
     [_iv_back release];
     [super dealloc];
 }
 - (void)viewDidUnload {
+    [ShareVaule shareInstance].tencentOAuth.sessionDelegate = nil;
     [self setTf_name:nil];
     [self setTf_password:nil];
     [self setIv_back:nil];

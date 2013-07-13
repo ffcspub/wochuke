@@ -64,7 +64,7 @@
 }
 
 - (IBAction)backAction:(id)sender {
-    [self.navigationController dismissModalViewControllerAnimated:YES];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (IBAction)faceAction:(id)sender {

@@ -63,14 +63,6 @@
 
 @property(nonatomic,assign) BOOL noChanged;
 
-@property(nonatomic,assign) BOOL bindForQQ;
-
-@property(nonatomic,assign) BOOL bindForSina;
-
-@property(nonatomic,retain) NSString *nameForBindQQ;
-
-@property(nonatomic,retain) NSString *nameForBindSina;
-
 @property(nonatomic,retain) TencentOAuth *tencentOAuth;
 
 @property(nonatomic,retain) NSMutableArray *permissions;

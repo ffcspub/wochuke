@@ -574,7 +574,7 @@
         vlc.guide = guide;
         [self.navigationController pushViewController:vlc animated:YES];
     }else{
-        UserViewController *vlc = [[UserViewController alloc]initWithNibName:@"UserViewController" bundle:nil];
+        UserViewController *vlc = [[[UserViewController alloc]initWithNibName:@"UserViewController" bundle:nil]autorelease];
         vlc.user = [_datas objectAtIndex:indexPath.row];
         [self.navigationController pushViewController:vlc animated:YES];
     }

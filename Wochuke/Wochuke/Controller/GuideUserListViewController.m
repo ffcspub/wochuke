@@ -186,7 +186,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath;{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    UserViewController *vlc = [[UserViewController alloc]initWithNibName:@"UserViewController" bundle:nil];
+    UserViewController *vlc = [[[UserViewController alloc]initWithNibName:@"UserViewController" bundle:nil]autorelease];
     JCUser *user = [_datas objectAtIndex:indexPath.row];
     vlc.user = user;
     [self.navigationController pushViewController:vlc animated:YES];

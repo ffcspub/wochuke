@@ -11,12 +11,18 @@
 #import <Guide.h>
 #import "ICETool.h"
 #import "ShareVaule.h"
+#import "NSString+BeeExtension.h"
+#import "SVProgressHUD.h"
+#import <ShareSDK/ShareSDK.h>
 
 @interface RegiterViewController ()
 
 @end
 
-@implementation RegiterViewController
+@implementation RegiterViewController{
+    NSString *_qqId;
+    NSString *_sinaId;
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -33,6 +39,32 @@
     // Do any additional setup after loading the view from its nib.
     UIImage *backImage = [[UIImage imageNamed:@"bg_register&login_card"] resizableImageWithCapInsets:UIEdgeInsetsMake(12, 12, 12, 12)];
     [_iv_back setImage:backImage];
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    if (_sinaId) {
+        [_sinaId release];
+        _sinaId = nil;
+    }
+    if (_qqId) {
+        [_qqId release];
+        _qqId = nil;
+    }
+    if ([[ShareVaule shareInstance].tencentOAuth isSessionValid]) {
+        _qqId = [[[ShareVaule shareInstance].tencentOAuth openId]retain];
+    }
+    if([ShareSDK hasAuthorizedWithType:ShareTypeSinaWeibo]){
+        [ShareSDK getUserInfoWithType:ShareTypeSinaWeibo
+                          authOptions:nil
+                               result:^(BOOL result, id<ISSUserInfo> userInfo, id<ICMErrorInfo> error){
+                                   if (result) {
+                                       NSString *sinaId = userInfo.uid;
+                                       _sinaId = [sinaId retain];
+                                   }
+                               }];
+    }
+
 }
 
 - (void)didReceiveMemoryWarning
@@ -53,29 +85,91 @@
     return [emailTest evaluateWithObject:email];
 }
 
-- (void)regiterWithEmail:(NSString *)email password:(NSString *)password confirm:(NSString *)confirm nickname:(NSString *)nickname
+-(void)saveUser:(JCUser *)user idKey:(NSString *)idKey bind:(BOOL)bind
 {
-    JCUser *user = [[JCUser alloc] init];
-    user.email = email;
-    user.password = password;
-    user.name = nickname;
-    
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
         @try {
             id<JCAppIntfPrx> proxy = [[ICETool shareInstance] createProxy];
             @try {
                 JCUser *userInfo = [proxy saveUser:user];
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    if (userInfo.id_) {
-                        [ShareVaule shareInstance].userId = userInfo.id_;
-                        [ShareVaule shareInstance].user = userInfo;
-                        [self backToMyViewController];
-                    } else {
-                        
+                if (userInfo.id_) {
+                    NSLog(@"saveUser:idKey:bind: userInfo存在 userInfo.snsIds == %@",userInfo.snsIds);
+                    [ShareVaule shareInstance].userId = userInfo.id_;
+                    [ShareVaule shareInstance].user = userInfo;
+                } else {
+                    if ([idKey isEqualToString:@"qqId"]) {
+                        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"nameForBindQQ"];
+                    }else if ([idKey isEqualToString:@"sinaId"]){
+                        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"nameForBindSina"];
                     }
-                });
+                }
             }
             @catch (NSException *exception) {
+                if ([exception isKindOfClass:[JCGuideException class]]) {
+                    JCGuideException *_exception = (JCGuideException *)exception;
+                    if (_exception.reason_) {
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [SVProgressHUD showErrorWithStatus:_exception.reason_];
+                        });
+                    }else{
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [SVProgressHUD showErrorWithStatus:ERROR_MESSAGE];
+                        });
+                    }
+                }else{
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [SVProgressHUD showErrorWithStatus:ERROR_MESSAGE];
+                    });
+                }
+            }
+            @finally {
+                
+            }
+        }@catch (ICEException *exception) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [SVProgressHUD showErrorWithStatus:@"服务访问异常"];
+            });
+        }
+        
+    });
+}
+
+
+- (void)regiterWithEmail:(NSString *)email password:(NSString *)password confirm:(NSString *)confirm nickname:(NSString *)nickname
+{
+    JCUser *userInfo = [[[JCUser alloc] init]autorelease];
+    userInfo.email = email;
+    userInfo.password = [password MD5];
+    userInfo.name = nickname;
+    [SVProgressHUD show];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+        @try {
+            id<JCAppIntfPrx> proxy = [[ICETool shareInstance] createProxy];
+            @try {
+                JCUser *user = [proxy saveUser:userInfo];
+                if (user.id_.length>0) {
+                    NSMutableDictionary *snsId = (NSMutableDictionary *)user.snsIds;
+                    if (_qqId) {
+                        [snsId setObject:_qqId forKey:@"qqId"];
+                        user.snsIds = snsId;
+                        [proxy saveUser:user];
+                    }
+                    if (_sinaId) {
+                        [snsId setObject:_sinaId forKey:@"sinaId"];
+                        user.snsIds = snsId;
+                        [proxy saveUser:user];
+                    }
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [SVProgressHUD dismiss];
+                        [ShareVaule shareInstance].userId = user.id_;
+                        [ShareVaule shareInstance].user = user;
+                        [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+                    });
+                    
+                }
+            }
+            @catch (NSException *exception) {
+                [SVProgressHUD dismiss];
                 if ([exception isKindOfClass:[JCGuideException class]]) {
                     JCGuideException *_exception = (JCGuideException *)exception;
                     if (_exception.reason_) {
@@ -103,6 +197,7 @@
                 
             }
         }@catch (ICEException *exception) {
+            [SVProgressHUD dismiss];
             dispatch_async(dispatch_get_main_queue(), ^{
                 UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil message:ERROR_MESSAGE delegate:nil cancelButtonTitle:@"服务访问异常" otherButtonTitles: nil];
                 [alert show];
@@ -228,6 +323,8 @@
 }
 
 - (void)dealloc {
+    [_sinaId release];
+    [_qqId release];
     [_tf_mail release];
     [_tf_password release];
     [_tf_confirm release];

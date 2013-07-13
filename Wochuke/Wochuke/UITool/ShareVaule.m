@@ -20,6 +20,7 @@ static ShareVaule *_shareVaule;
         _shareVaule = [[ShareVaule alloc]init];
         _shareVaule.stepImageDic = [[NSMutableDictionary alloc]init];
         _shareVaule.noChanged = YES;
+        _shareVaule.tencentOAuth = [[TencentOAuth alloc] initWithAppId:QQAPPID andDelegate:nil];
     }
     return _shareVaule;
 }

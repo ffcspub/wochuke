@@ -65,9 +65,6 @@
 
 // Backward compatible
 
-#undef	NSLog
-#define	NSLog							BeeLog
-
 #define UILineBreakModeWordWrap			NSLineBreakByWordWrapping
 #define UILineBreakModeCharacterWrap	NSLineBreakByCharWrapping
 #define UILineBreakModeClip				NSLineBreakByClipping
