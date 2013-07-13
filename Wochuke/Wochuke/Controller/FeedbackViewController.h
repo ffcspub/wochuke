@@ -7,7 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "HPGrowingTextView.h"
 
-@interface FeedbackViewController : UIViewController
+@interface FeedbackViewController : UIViewController<UITextFieldDelegate>{
+    HPGrowingTextView *textView;
+}
 
+@property (retain, nonatomic) IBOutlet UIImageView *iv_back;
+@property (retain, nonatomic) IBOutlet UITextField *tf_phone;
+
+- (IBAction)backAction:(id)sender;
+- (IBAction)sendAction:(id)sender;
+- (IBAction)backgroundClick:(id)sender;
 @end
