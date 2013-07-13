@@ -35,8 +35,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    _tencentOAuth = [[TencentOAuth alloc] initWithAppId:QQAPPID andDelegate:self];
-    _permissions = [[NSArray arrayWithObjects:kOPEN_PERMISSION_GET_USER_INFO, kOPEN_PERMISSION_GET_SIMPLE_USER_INFO, kOPEN_PERMISSION_ADD_ONE_BLOG, nil] retain];
+    
     
     UIImage *backImage = [[UIImage imageNamed:@"bg_register&login_card"]resizableImageWithCapInsets:UIEdgeInsetsMake(12, 12, 12, 12)];
     [_iv_back setImage:backImage];
@@ -132,7 +131,7 @@
                 if ([user.id_ isEqualToString:@""]) {
                     NSLog(@"getUserByKey QQuser不存在 user.id_ == %@",user.id_);
                     if ([idKey isEqualToString:@"qqId"]) {
-                        [_tencentOAuth getUserInfo];
+                        [[ShareVaule shareInstance].tencentOAuth getUserInfo];
                     }
                 }else{
                     NSLog(@"getUserByKey QQuser存在 user.id_ == %@",user.id_);
@@ -140,6 +139,7 @@
                     [ShareVaule shareInstance].userId = user.id_;
                     [ShareVaule shareInstance].user = user;
                     [ShareVaule shareInstance].bindForQQ = YES;
+                    [ShareVaule shareInstance].nameForBindQQ = user.name;
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [self.navigationController dismissViewControllerAnimated:YES completion:nil];
                     });
@@ -188,6 +188,7 @@
                     [ShareVaule shareInstance].user = userInfo;
                     if ([idKey isEqualToString:@"qqId"]) {
                         [ShareVaule shareInstance].bindForQQ = YES;
+                        [ShareVaule shareInstance].nameForBindQQ = userInfo.name;
                     }else if ([idKey isEqualToString:@"sinaId"]){
                         [ShareVaule shareInstance].bindForSina = YES;
                         [ShareVaule shareInstance].nameForBindSina = userInfo.name;
@@ -243,7 +244,9 @@
 }
 
 - (IBAction)qqLoginAction:(id)sender {
-    [_tencentOAuth authorize:_permissions inSafari:NO];
+    [ShareVaule shareInstance].tencentOAuth = [[TencentOAuth alloc] initWithAppId:QQAPPID andDelegate:self];
+    [ShareVaule shareInstance].permissions = [[NSArray arrayWithObjects:kOPEN_PERMISSION_GET_USER_INFO, kOPEN_PERMISSION_GET_SIMPLE_USER_INFO, kOPEN_PERMISSION_ADD_ONE_BLOG, nil] retain];
+    [[ShareVaule shareInstance].tencentOAuth authorize:[ShareVaule shareInstance].permissions inSafari:NO];
 }
 
 - (IBAction)loginAction:(id)sender {
@@ -348,7 +351,7 @@
 
 - (void)tencentDidLogin
 {
-    [self getUserByKey:@"qqId" idValue:[_tencentOAuth openId]];
+    [self getUserByKey:@"qqId" idValue:[[ShareVaule shareInstance].tencentOAuth openId]];
 }
 
 - (void)tencentDidNotLogin:(BOOL)cancelled
@@ -368,7 +371,7 @@
         JCUser *user = [[JCUser alloc] init];
         user.name = [response.jsonResponse objectForKey:@"nickname"];
         user.avatar.url = [response.jsonResponse objectForKey:@"figureurl"];
-        NSDictionary *snsIds = [NSDictionary dictionaryWithObjectsAndKeys:[_tencentOAuth openId], @"qqId", nil];
+        NSDictionary *snsIds = [NSDictionary dictionaryWithObjectsAndKeys:[[ShareVaule shareInstance].tencentOAuth openId], @"qqId", nil];
         user.snsIds = snsIds;
         [self regiterByThirdUserInfo:user idKey:@"qqId"];
         

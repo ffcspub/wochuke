@@ -43,6 +43,7 @@
 
 #import <Foundation/Foundation.h>
 #import <Guide.h>
+#import <TencentOpenAPI/TencentOAuth.h>
 
 @interface ShareVaule : NSObject{
     
@@ -69,6 +70,10 @@
 @property(nonatomic,retain) NSString *nameForBindQQ;
 
 @property(nonatomic,retain) NSString *nameForBindSina;
+
+@property(nonatomic,retain) TencentOAuth *tencentOAuth;
+
+@property(nonatomic,retain) NSMutableArray *permissions;
 
 -(void)removeStep:(JCStep *)step;
 

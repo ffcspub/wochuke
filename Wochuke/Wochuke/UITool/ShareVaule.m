@@ -41,6 +41,26 @@ static ShareVaule *_shareVaule;
     [[NSUserDefaults standardUserDefaults] setValue:userId forKey:@"userId"];
 }
 
+- (NSString *)nameForBindSina
+{
+    return [[NSUserDefaults standardUserDefaults] stringForKey:@"nameForBindSina"];
+}
+
+- (void)setNameForBindSina:(NSString *)nameForBindSina
+{
+    [[NSUserDefaults standardUserDefaults] setValue:nameForBindSina forKey:@"nameForBindSina"];
+}
+
+- (NSString *)nameForBindQQ
+{
+    return [[NSUserDefaults standardUserDefaults] stringForKey:@"nameForBindQQ"];
+}
+
+- (void)setNameForBindQQ:(NSString *)nameForBindQQ
+{
+    [[NSUserDefaults standardUserDefaults] setValue:nameForBindQQ forKey:@"nameForBindQQ"];
+}
+
 - (void)setUser:(JCUser *)user
 {
     if (_user) {
