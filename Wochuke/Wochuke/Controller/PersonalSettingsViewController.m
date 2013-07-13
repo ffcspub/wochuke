@@ -123,9 +123,6 @@
                     int loc = 0;
                     for (int i= 0; i<count; i++) {
                         NSData *data = [_blobImage subdataWithRange:NSMakeRange(loc, MIN(FILEBLOCKLENGTH,_blobImage.length - loc))];
-                        if (i==count-1) {
-                            NSLog(@"last");
-                        }
                         JCFileBlock *fileBlock = [JCFileBlock fileBlock:fileId blockIdx:i blockSize:data.length isLastBlock:i==count-1 data:data];
                         [proxy saveFileBlock:fileBlock];
                         loc += FILEBLOCKLENGTH;

@@ -21,11 +21,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Wochuke/Controller/MyViewController.m"
-         timestampString = "395317968.746111"
+         timestampString = "395397673.772408"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "484"
-         endingLineNumber = "484"
+         startingLineNumber = "485"
+         endingLineNumber = "485"
          landmarkName = "-loadFances"
          landmarkType = "5">
       </FileBreakpoint>
@@ -34,11 +34,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Wochuke/Controller/MyViewController.m"
-         timestampString = "395317968.746111"
+         timestampString = "395397673.772408"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "157"
-         endingLineNumber = "157"
+         startingLineNumber = "158"
+         endingLineNumber = "158"
          landmarkName = "-followListAction:"
          landmarkType = "5">
       </FileBreakpoint>

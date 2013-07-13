@@ -16,6 +16,7 @@
 #import <ShareSDK/ShareSDK.h>
 #import"WXApi.h"
 #import "WBApi.h"
+#import "MobClick.h"
 
 @implementation AppDelegate
 
@@ -44,6 +45,9 @@
 {
     [ShareSDK registerApp:KShareSDKAppKey];
     [self initializePlat];
+    
+    [MobClick startWithAppkey:@"51e1270b56240b518708d2ee"];
+    [MobClick checkUpdate];
     
     self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
     // Override point for customization after application launch.

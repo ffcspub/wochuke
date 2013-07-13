@@ -271,6 +271,7 @@
 		4C0A0A491790E680007CB0DC /* HomeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C0A0A471790E680007CB0DC /* HomeViewController.xib */; };
 		4C0A0A4C1790E90C007CB0DC /* ic_setting.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C0A0A4A1790E90C007CB0DC /* ic_setting.png */; };
 		4C0A0A4D1790E90C007CB0DC /* ic_setting@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C0A0A4B1790E90C007CB0DC /* ic_setting@2x.png */; };
+		4C0A0A5517915EE4007CB0DC /* libMobClickLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C0A0A5317915EE4007CB0DC /* libMobClickLibrary.a */; };
 		4C28A463178E9A8A00AA06D4 /* UserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C28A461178E9A8800AA06D4 /* UserViewController.m */; };
 		4C28A464178E9A8A00AA06D4 /* UserViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C28A462178E9A8900AA06D4 /* UserViewController.xib */; };
 		4C28A468178EA64800AA06D4 /* GuideUserListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C28A466178EA64700AA06D4 /* GuideUserListViewController.m */; };
@@ -731,6 +732,8 @@
 		4C0A0A471790E680007CB0DC /* HomeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HomeViewController.xib; sourceTree = "<group>"; };
 		4C0A0A4A1790E90C007CB0DC /* ic_setting.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_setting.png; sourceTree = "<group>"; };
 		4C0A0A4B1790E90C007CB0DC /* ic_setting@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_setting@2x.png"; sourceTree = "<group>"; };
+		4C0A0A5317915EE4007CB0DC /* libMobClickLibrary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libMobClickLibrary.a; sourceTree = "<group>"; };
+		4C0A0A5417915EE4007CB0DC /* MobClick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MobClick.h; sourceTree = "<group>"; };
 		4C28A460178E9A8700AA06D4 /* UserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserViewController.h; sourceTree = "<group>"; };
 		4C28A461178E9A8800AA06D4 /* UserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserViewController.m; sourceTree = "<group>"; };
 		4C28A462178E9A8900AA06D4 /* UserViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserViewController.xib; sourceTree = "<group>"; };
@@ -877,6 +880,7 @@
 				B7BC770A178FE69E00A6584A /* ShareSDKiPhoneDefaultShareViewUI.framework in Frameworks */,
 				B7BC770C178FE69E00A6584A /* ShareSDKiPhoneSimpleShareViewUI.framework in Frameworks */,
 				4C8152991790093000AB6FB6 /* libWeiboSDK.a in Frameworks */,
+				4C0A0A5517915EE4007CB0DC /* libMobClickLibrary.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1075,6 +1079,7 @@
 		188208D917792CBE00696A03 = {
 			isa = PBXGroup;
 			children = (
+				4C0A0A5217915EE4007CB0DC /* UMAnalytics_Sdk_2.2.0.OpenUDID */,
 				B7BC770F178FE73200A6584A /* libz.1.2.5.dylib */,
 				B7BC770D178FE71A00A6584A /* libicucore.dylib */,
 				B7BC76D4178FE69D00A6584A /* ShareSDK_v2.2.4 */,
@@ -1494,6 +1499,15 @@
 				18FF980317851EBC00E2CF2A /* spline_classify_list@2x.png */,
 			);
 			path = catory;
+			sourceTree = "<group>";
+		};
+		4C0A0A5217915EE4007CB0DC /* UMAnalytics_Sdk_2.2.0.OpenUDID */ = {
+			isa = PBXGroup;
+			children = (
+				4C0A0A5317915EE4007CB0DC /* libMobClickLibrary.a */,
+				4C0A0A5417915EE4007CB0DC /* MobClick.h */,
+			);
+			path = UMAnalytics_Sdk_2.2.0.OpenUDID;
 			sourceTree = "<group>";
 		};
 		4C3F5D02178F02AF00EE9C61 /* step */ = {
@@ -2145,6 +2159,7 @@
 					"\"$(SRCROOT)/External/GMGridView/build/GMGridView.build/Debug-iphoneos/GMGridView.build/Objects-normal/armv7s\"",
 					"\"$(SRCROOT)/ShareSDK_v2.2.4/Extend/SDKExport\"",
 					"\"$(SRCROOT)/ShareSDK_v2.2.4/Extend/TencentWeiboSSO\"",
+					"\"$(SRCROOT)/UMAnalytics_Sdk_2.2.0.OpenUDID\"",
 				);
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
@@ -2187,6 +2202,7 @@
 					"\"$(SRCROOT)/External/GMGridView/build/GMGridView.build/Debug-iphoneos/GMGridView.build/Objects-normal/armv7s\"",
 					"\"$(SRCROOT)/ShareSDK_v2.2.4/Extend/SDKExport\"",
 					"\"$(SRCROOT)/ShareSDK_v2.2.4/Extend/TencentWeiboSSO\"",
+					"\"$(SRCROOT)/UMAnalytics_Sdk_2.2.0.OpenUDID\"",
 				);
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
