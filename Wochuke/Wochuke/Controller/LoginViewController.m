@@ -130,22 +130,16 @@
             @try {
                 JCUser *user = [proxy getUserBySns:idKey idValue:idValue];
                 if ([user.id_ isEqualToString:@""]) {
-                    NSLog(@"getUserByKey user不存在 user.id_ == %@",user.id_);
+                    NSLog(@"getUserByKey QQuser不存在 user.id_ == %@",user.id_);
                     if ([idKey isEqualToString:@"qqId"]) {
                         [_tencentOAuth getUserInfo];
-                    }else if ([idKey isEqualToString:@"sinaId"]){
-                        NSLog(@"getUserByKey user不存在 走新浪微博");
-//                        SinaWeibo *sinaweibo = [self sinaweibo];
-//                        [sinaweibo requestWithURL:@"users/show.json"
-//                                           params:[NSMutableDictionary dictionaryWithObject:sinaweibo.userID forKey:@"uid"]
-//                                       httpMethod:@"GET"
-//                                         delegate:self];
                     }
                 }else{
-                    NSLog(@"getUserByKey user存在 user.id_ == %@",user.id_);
-                    NSLog(@"getUserByKey user存在 user.snsIds == %@",user.snsIds);
+                    NSLog(@"getUserByKey QQuser存在 user.id_ == %@",user.id_);
+                    NSLog(@"getUserByKey QQuser存在 user.snsIds == %@",user.snsIds);
                     [ShareVaule shareInstance].userId = user.id_;
                     [ShareVaule shareInstance].user = user;
+                    [ShareVaule shareInstance].bindForQQ = YES;
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [self.navigationController dismissViewControllerAnimated:YES completion:nil];
                     });
@@ -181,7 +175,7 @@
     });
 }
 
-- (void)regiterByThirdUserInfo:(JCUser *)user
+- (void)regiterByThirdUserInfo:(JCUser *)user idKey:(NSString *)idKey
 {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
         @try {
@@ -192,6 +186,12 @@
                     NSLog(@"regiterByThirdUserInfo userInfo存在 userInfo.id_ == %@",userInfo.id_);
                     [ShareVaule shareInstance].userId = userInfo.id_;
                     [ShareVaule shareInstance].user = userInfo;
+                    if ([idKey isEqualToString:@"qqId"]) {
+                        [ShareVaule shareInstance].bindForQQ = YES;
+                    }else if ([idKey isEqualToString:@"sinaId"]){
+                        [ShareVaule shareInstance].bindForSina = YES;
+                        [ShareVaule shareInstance].nameForBindSina = userInfo.name;
+                    }
                     NSLog(@"regiterByThirdUserInfo userInfo.id_ == %@",userInfo.id_);
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [self.navigationController dismissViewControllerAnimated:YES completion:nil];
@@ -255,12 +255,60 @@
                       authOptions:nil
                            result:^(BOOL result, id<ISSUserInfo> userInfo, id<ICMErrorInfo> error){
                                if (result) {
-                                   NSLog(@"成功 用户名：%@",userInfo.nickname);
-                                   dispatch_async(dispatch_get_main_queue(), ^{
-                                       [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+                                   dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+                                       @try {
+                                           id<JCAppIntfPrx> proxy = [[ICETool shareInstance] createProxy];
+                                           @try {
+                                               JCUser *user = [proxy getUserBySns:@"sinaId" idValue:userInfo.uid];
+                                               if ([user.id_ isEqualToString:@""]) {
+                                                   JCUser *jcUserInfo = [[JCUser alloc] init];
+                                                   jcUserInfo.name = userInfo.nickname;
+                                                   jcUserInfo.avatar.url = userInfo.icon;
+                                                   NSDictionary *snsIds = [NSDictionary dictionaryWithObjectsAndKeys:userInfo.uid, @"sinaId", nil];
+                                                   jcUserInfo.snsIds = snsIds;
+                                                   NSLog(@"sinaLoginAction user不存在 userInfo.uid == %@",userInfo.uid);
+                                                   NSLog(@"sinaLoginAction user不存在 user.snsIds == %@",user.snsIds);
+                                                   [self regiterByThirdUserInfo:jcUserInfo idKey:@"sinaId"];
+                                               }else{
+                                                   NSLog(@"sinaLoginAction user存在 user.snsIds == %@",user.snsIds);
+                                                   [ShareVaule shareInstance].userId = user.id_;
+                                                   [ShareVaule shareInstance].user = user;
+                                                   [ShareVaule shareInstance].bindForSina = YES;
+                                                   [ShareVaule shareInstance].nameForBindSina = userInfo.nickname;
+                                                   dispatch_async(dispatch_get_main_queue(), ^{
+                                                       [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+                                                   });
+                                               }
+                                           }
+                                           @catch (NSException *exception) {
+                                               if ([exception isKindOfClass:[JCGuideException class]]) {
+                                                   JCGuideException *_exception = (JCGuideException *)exception;
+                                                   if (_exception.reason_) {
+                                                       dispatch_async(dispatch_get_main_queue(), ^{
+                                                           [SVProgressHUD showErrorWithStatus:_exception.reason_];
+                                                       });
+                                                   }else{
+                                                       dispatch_async(dispatch_get_main_queue(), ^{
+                                                           [SVProgressHUD showErrorWithStatus:ERROR_MESSAGE];
+                                                       });
+                                                   }
+                                               }else{
+                                                   dispatch_async(dispatch_get_main_queue(), ^{
+                                                       [SVProgressHUD showErrorWithStatus:ERROR_MESSAGE];
+                                                   });
+                                               }
+                                           }
+                                           @finally {
+                                               
+                                           }
+                                       }@catch (ICEException *exception) {
+                                           dispatch_async(dispatch_get_main_queue(), ^{
+                                               [SVProgressHUD showErrorWithStatus:@"服务访问异常"];
+                                           });
+                                       }
                                    });
                                }else{
-                                   NSLog(@"失败");
+                                   [SVProgressHUD showErrorWithStatus:@"新浪微博登录失败"];
                                }
                            }];
 }
@@ -322,29 +370,13 @@
         user.avatar.url = [response.jsonResponse objectForKey:@"figureurl"];
         NSDictionary *snsIds = [NSDictionary dictionaryWithObjectsAndKeys:[_tencentOAuth openId], @"qqId", nil];
         user.snsIds = snsIds;
-        [self regiterByThirdUserInfo:user];
+        [self regiterByThirdUserInfo:user idKey:@"qqId"];
         
     } else {
         
     }
 }
 
-#pragma mark - SinaWeiboRequest Delegate
-
-//- (void)request:(SinaWeiboRequest *)request didFinishLoadingWithResult:(id)result
-//{
-//    if ([request.url hasSuffix:@"users/show.json"]) {
-//        SinaWeibo *sinaweibo = [self sinaweibo];
-//        JCUser *user = [[JCUser alloc] init];
-//        NSLog(@"result == %@",result);
-//        NSLog(@"sinaweibo.userID == %@",sinaweibo.userID);
-//        user.name = [result objectForKey:@"name"];
-//        user.avatar.url = [result objectForKey:@"profile_image_url"];
-//        NSDictionary *snsIds = [NSDictionary dictionaryWithObjectsAndKeys:sinaweibo.userID, @"sinaId", nil];
-//        user.snsIds = snsIds;
-//        [self regiterByThirdUserInfo:user];
-//    }
-//}
 
 - (void)dealloc {
     [_tf_name release];

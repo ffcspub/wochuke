@@ -7,8 +7,12 @@
 //
 
 #import "SetingViewController.h"
+#import <ShareSDK/ShareSDK.h>
+#import <TencentOpenAPI/TencentOAuth.h>
+#import "SVProgressHUD.h"
+#import <Guide.h>
 
-@interface SetingViewController ()
+@interface SetingViewController ()<UIAlertViewDelegate>
 
 @property (nonatomic, retain) UISwitch *sinaSwitch;
 
@@ -37,12 +41,21 @@
 {
     if ([senderSwitch isEqual:self.sinaSwitch]) {
         if (self.sinaSwitch.on) {//点击后变为ON时
-            UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"新浪"
-                                                         message:@"新浪微博登陆"
-                                                        delegate:nil
-                                               cancelButtonTitle:@"取消"
-                                               otherButtonTitles:nil];
-            [av show];
+            [ShareSDK getUserInfoWithType:ShareTypeSinaWeibo
+                              authOptions:nil
+                                   result:^(BOOL result, id<ISSUserInfo> userInfo, id<ICMErrorInfo> error){
+                                       if (result) {
+                                           if ([ShareVaule shareInstance].user) {
+                                               
+                                           }else{
+                                               [ShareVaule shareInstance].bindForSina = YES;
+                                               [ShareVaule shareInstance].nameForBindSina = userInfo.nickname;
+                                               [self.tableView reloadData];
+                                           }
+                                       }else{
+                                           [SVProgressHUD showErrorWithStatus:@"新浪微博登录失败"];
+                                       }
+                                   }];
         } else {//点击后变为OFF时
             
         }
@@ -60,25 +73,75 @@
     }
 }
 
+- (void)showSureAlert
+{
+    UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"是否退出登录？"
+                                                  message:nil
+                                                 delegate:self
+                                        cancelButtonTitle:@"确定"
+                                       otherButtonTitles:@"取消", nil];
+    av.tag = 10000;
+    [av show];
+    [av release];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
     self.sinaSwitch = [[[UISwitch alloc] initWithFrame:CGRectZero]autorelease];
-    self.sinaSwitch.on = NO;
     [self.sinaSwitch addTarget:self action:@selector(switchChanged:) forControlEvents:UIControlEventValueChanged];
     
     self.qqSwitch = [[[UISwitch alloc] initWithFrame:CGRectZero]autorelease];
-    self.qqSwitch.on = NO;
     [self.qqSwitch addTarget:self action:@selector(switchChanged:) forControlEvents:UIControlEventValueChanged];
     
-    UIView *view = [[[UIView alloc]initWithFrame:CGRectMake(0, 0, 320, 50)]autorelease];
-    _cancelBtn = [[[UIButton alloc] initWithFrame:CGRectMake(10, 5, 300, 43)]autorelease];
-    [_cancelBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [_cancelBtn setTitle:@"退出登录" forState:UIControlStateNormal];
-    [_cancelBtn setBackgroundImage:[UIImage imageNamed:@"btn_setting_quit.png"] forState:UIControlStateNormal];
-    [view addSubview:_cancelBtn];
-    self.tableView.tableFooterView = view;
+    if ([ShareVaule shareInstance].user) {
+        UIView *view = [[[UIView alloc]initWithFrame:CGRectMake(0, 0, 320, 50)]autorelease];
+        _cancelBtn = [[[UIButton alloc] initWithFrame:CGRectMake(10, 5, 300, 43)]autorelease];
+        [_cancelBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [_cancelBtn setTitle:@"退出登录" forState:UIControlStateNormal];
+        [_cancelBtn setBackgroundImage:[UIImage imageNamed:@"btn_setting_quit.png"] forState:UIControlStateNormal];
+        [_cancelBtn addTarget:self action:@selector(logoutClick:) forControlEvents:UIControlEventTouchUpInside];
+        [view addSubview:_cancelBtn];
+        self.tableView.tableFooterView = view;
+    }
+    
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    JCUser *_user = [ShareVaule shareInstance].user;
+    
+    if (_user.id_) {
+        NSString *sinaId = [_user.snsIds objectForKey:@"sinaId"];
+        NSString *qqId = [_user.snsIds objectForKey:@"qqId"];
+        if (![sinaId isEqualToString:@""]) {
+            [self.sinaSwitch setOn:YES];
+        }else{
+            [self.sinaSwitch setOn:NO];
+        }
+        if (![qqId isEqualToString:@""]) {
+            [self.qqSwitch setOn:YES];
+        }else{
+            [self.qqSwitch setOn:NO];
+        }
+    }else{
+        if ([ShareVaule shareInstance].bindForSina) {
+            [self.sinaSwitch setOn:YES];
+        }else{
+            [self.sinaSwitch setOn:NO];
+        }
+        if ([ShareVaule shareInstance].bindForQQ) {
+            [self.qqSwitch setOn:YES];
+        }
+    }
+}
+
+- (void)logoutClick:(id)sender
+{
+    [self showSureAlert];
 }
 
 - (void)viewDidUnload
@@ -97,6 +160,20 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - UIAlertViewDelegate
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (alertView.tag == 10000) {
+        if (buttonIndex == 0) {
+            [ShareSDK cancelAuthWithType:ShareTypeSinaWeibo];
+            [ShareVaule shareInstance].user = nil;
+            [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"userId"];
+            [self.navigationController popViewControllerAnimated:YES];
+        }
+    }
+}
+
 #pragma mark - UITableViewDelegate UITableViewDataSource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -111,7 +188,7 @@
     }else if (section == 1){
         return 1;
     }else if (section == 2){
-        return 3;
+        return 2;
     }
     return 0;
 }
@@ -121,14 +198,21 @@
     static NSString *CellIdentifier = @"Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier] autorelease];
+        cell.detailTextLabel.font = [UIFont systemFontOfSize:12];
     }
     
     if (indexPath.section == 0) {
         if (indexPath.row == 0) {
             cell.textLabel.text = @"绑定新浪微博";
+            if ([ShareVaule shareInstance].bindForSina) {
+                cell.detailTextLabel.text = [ShareVaule shareInstance].nameForBindSina;
+            }
         }else if (indexPath.row ==1){
             cell.textLabel.text = @"绑定腾讯QQ";
+            if ([ShareVaule shareInstance].bindForQQ) {
+                cell.detailTextLabel.text = [ShareVaule shareInstance].nameForBindQQ;
+            }
         }
     }else if (indexPath.section == 1){
         cell.textLabel.text = @"厨具管理";
@@ -136,11 +220,8 @@
         if (indexPath.row == 0) {
             cell.textLabel.text = @"意见反馈";
         }else if (indexPath.row ==1){
-            cell.textLabel.text = @"清除缓存";
-        }else if (indexPath.row ==2){
             cell.textLabel.text = @"关于";
         }
-//        tableView.tableFooterView = self.cancelBtn;
     }
     
     if (indexPath.section ==0) {

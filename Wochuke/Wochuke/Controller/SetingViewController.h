@@ -9,7 +9,9 @@
 #import <UIKit/UIKit.h>
 #import <TencentOpenAPI/TencentOAuth.h>
 
-@interface SetingViewController : UIViewController
+@interface SetingViewController : UIViewController<TencentSessionDelegate>{
+    TencentOAuth *_tencentOAuth;
+}
 
 @property (retain, nonatomic) IBOutlet UITableView *tableView;
 
