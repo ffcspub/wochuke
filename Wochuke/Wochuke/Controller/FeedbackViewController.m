@@ -55,12 +55,16 @@
 }
 
 - (IBAction)backAction:(id)sender {
-    [self.navigationController dismissViewControllerAnimated:YES completion:^{
-        
-    }];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (IBAction)sendAction:(id)sender {
+    if (textView.text.length == 0) {
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil message:@"您还未输入内容" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
+        [alert show];
+        [alert release];
+        return;
+    }
     [SVProgressHUD show];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
         @try {
@@ -70,9 +74,8 @@
                 [proxy saveFeedback:textView.text contact:_tf_phone.text termId:nil curUserId:userid];
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [SVProgressHUD dismiss];
-                    [self.navigationController dismissViewControllerAnimated:YES completion:^{
-                        [SVProgressHUD showSuccessWithStatus:@"提交成功，感谢您的反馈"];
-                    }];
+                    [SVProgressHUD showSuccessWithStatus:@"提交成功，感谢您的反馈"];
+                    [self.navigationController popViewControllerAnimated:YES];
                 });
             }
             @catch (ICEException *exception) {
