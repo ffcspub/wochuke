@@ -21,6 +21,7 @@
 #import "CommentViewController.h"
 #import "DriverManagerViewController.h"
 #import <ShareSDK/ShareSDK.h>
+#import "UserViewController.h"
 
 
 //#import "StepEditController.h"
@@ -528,6 +529,54 @@
 
 -(void)guideInfoViewComment:(GuideInfoView *)infoView{
     [self commentAction:nil];
+}
+
+-(void)guideInfoViewUserShow:(GuideInfoView *)infoView{
+    [SVProgressHUD show];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+        @try {
+            id<JCAppIntfPrx> proxy = [[ICETool shareInstance] createProxy];
+            @try {
+                JCUser *user = [proxy getUserById:[ShareVaule shareInstance].userId userId:_guide.userId];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [SVProgressHUD dismiss];
+                    UserViewController *vlc = [[UserViewController alloc]initWithNibName:@"UserViewController" bundle:nil];
+                    vlc.user = user;
+                    [self.navigationController pushViewController:vlc animated:YES];
+                    [vlc release];
+                 });
+                
+            }
+            @catch (ICEException *exception) {
+                if ([exception isKindOfClass:[JCGuideException class]]) {
+                    JCGuideException *_exception = (JCGuideException *)exception;
+                    if (_exception.reason_) {
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [SVProgressHUD showErrorWithStatus:_exception.reason_];
+                        });
+                    }else{
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [SVProgressHUD showErrorWithStatus:ERROR_MESSAGE];
+                        });
+                    }
+                }else{
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [SVProgressHUD showErrorWithStatus:ERROR_MESSAGE];
+                    });
+                }
+            }
+            @finally {
+                
+            }
+        }@catch (ICEException *exception) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [SVProgressHUD showErrorWithStatus:@"服务访问异常"];
+            });
+        }
+        
+        
+    });
+    
 }
 
 @end

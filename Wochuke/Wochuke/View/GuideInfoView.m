@@ -78,6 +78,12 @@
     }
 }
 
+-(void)handleSingleTapFrom{
+    if (_delegate && [_delegate respondsToSelector:@selector(guideInfoViewUserShow:)]) {
+        [_delegate guideInfoViewUserShow:self];
+    }
+}
+
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
@@ -112,6 +118,11 @@
         iv_photo.layer.masksToBounds = YES;
         iv_photo.contentMode = UIViewContentModeScaleAspectFill;
         iv_photo.backgroundColor = [UIColor grayColor];
+        UITapGestureRecognizer* singleRecognizer;  
+        singleRecognizer = [[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTapFrom)]autorelease];
+        singleRecognizer.numberOfTapsRequired = 1; // 单击  
+        [iv_photo addGestureRecognizer:singleRecognizer];  
+        [iv_photo setUserInteractionEnabled:YES];
         
         tv_title = [[[HPGrowingTextView alloc]init]autorelease];
         tv_title.font = [UIFont boldSystemFontOfSize:18];

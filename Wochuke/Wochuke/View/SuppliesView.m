@@ -164,8 +164,11 @@
     [self addSubview:_tf_quantity];
     
     _btn_del = [[UIButton alloc]init];
-    [_btn_del setTitleColor:[UIColor darkTextColor] forState:UIControlStateNormal];
+    [_btn_del setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [_btn_del.titleLabel setFont:[UIFont systemFontOfSize:14]];
     [_btn_del setTitle:@"删除" forState:UIControlStateNormal];
+    UIImage *backImage = [[UIImage imageNamed:@"btn_top"]resizableImageWithCapInsets:UIEdgeInsetsMake(12, 12, 12, 12)];
+    [_btn_del setBackgroundImage:backImage forState:UIControlStateNormal];
     [_btn_del addTarget:self action:@selector(cellDelete) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:_btn_del];
     
@@ -192,7 +195,7 @@
     _tf_name.frame = CGRectMake(3,  0, (bound.width-6)/5 * 2,bound.height);
     _line.frame = CGRectMake(3 + (bound.width-6)/5 * 2,  0, 0.5,bound.height);
     _tf_quantity.frame = CGRectMake(5 + (bound.width-6)/5 * 2, 0, (bound.width-6)/5 * 2 - 5, bound.height);
-    _btn_del.frame = CGRectMake((bound.width-6)/5 * 4 , 3, (bound.width-6)/5 , bound.height - 6);
+    _btn_del.frame = CGRectMake((bound.width-6)/5 * 4 , 10, (bound.width-6)/5 , bound.height - 20);
 }
 
 - (void)dataDidChanged;{

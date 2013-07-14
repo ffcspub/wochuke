@@ -43,7 +43,7 @@
 -(void)guideInfoViewViewcount:(GuideInfoView *)infoView;
 -(void)guideInfoViewFavorite:(GuideInfoView *)infoView;
 -(void)guideInfoViewComment:(GuideInfoView *)infoView;
-
+-(void)guideInfoViewUserShow:(GuideInfoView *)infoView;
 @end
 
 @interface GuideEditView : UIView<HPGrowingTextViewDelegate,UIKeyboardViewControllerDelegate>{

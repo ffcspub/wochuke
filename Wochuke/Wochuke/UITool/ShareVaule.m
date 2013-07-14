@@ -18,14 +18,22 @@ static ShareVaule *_shareVaule;
 +(ShareVaule *)shareInstance;{
     if (!_shareVaule) {
         _shareVaule = [[ShareVaule alloc]init];
-        _shareVaule.stepImageDic = [[NSMutableDictionary alloc]init];
-        _shareVaule.noChanged = YES;
-        _shareVaule.tencentOAuth = [[TencentOAuth alloc] initWithAppId:QQAPPID andDelegate:nil];
     }
     return _shareVaule;
 }
 
+-(id)init{
+    self = [super init];
+    if (self) {
+        _stepImageDic = [[NSMutableDictionary alloc]init];
+        _noChanged = YES;
+        _tencentOAuth = [[TencentOAuth alloc] initWithAppId:QQAPPID andDelegate:nil];
+    }
+    return self;
+}
+
 -(void)dealloc{
+    [_tencentOAuth release];
     [_stepImageDic release];
     [_editGuideEx release];
     [_user release];

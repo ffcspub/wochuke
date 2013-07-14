@@ -39,14 +39,28 @@
 
 + (CGSize)sizeInBound:(CGSize)bound forData:(NSObject *)data
 {
+    if (data) {
+        JCComment *comment = (JCComment *)data;
+        CGSize size = [comment.content sizeWithFont:[UIFont systemFontOfSize:11] constrainedToSize:CGSizeMake(bound.width - 80, 100) lineBreakMode:NSLineBreakByWordWrapping];
+       CGFloat subheight =  size.height - (bound.height-20)/2;
+        if (subheight > 0) {
+            return CGSizeMake(bound.width, bound.height + subheight);
+        }
+    }
 	return bound;
 }
 
 - (void)layoutInBound:(CGSize)bound forCell:(BeeUIGridCell *)cell
 {
-    iv_heard.frame = CGRectMake(10, 10, bound.height -20, bound.height -20);
-    lb_name.frame = CGRectMake(bound.height, 10, bound.width - 80, (bound.height-20)/2);
-    lb_comment.frame = CGRectMake(bound.height, 10 + (bound.height-20)/2, bound.width - 80, (bound.height-20)/2);
+    iv_heard.frame = CGRectMake(10, (bound.height - 40)/2, 40, 40);
+    lb_name.frame = CGRectMake(60, 10, bound.width - 80, (bound.height-20)/2);
+//    JCComment *comment = self.cellData;
+//    CGSize size = [comment.content sizeWithFont:[UIFont systemFontOfSize:11] constrainedToSize:CGSizeMake(bound.width - 80, 100) lineBreakMode:NSLineBreakByWordWrapping];
+//    CGFloat subheight =  size.height - (bound.height-20)/2;
+//    if (subheight < 0) {
+//        subheight = 0;
+//    }
+    lb_comment.frame = CGRectMake(60, bound.height/2 ,  bound.width - 80, bound.height/2 - 10);
     lb_time.frame = CGRectMake(bound.width - 90, 10, 60, (bound.height-20)/2);
 }
 
@@ -81,7 +95,8 @@
     lb_comment.backgroundColor = [UIColor clearColor];
     lb_comment.textColor = [UIColor darkTextColor];
     lb_comment.textAlignment = UITextAlignmentLeft;
-    lb_comment.numberOfLines = 2;
+    lb_comment.numberOfLines = 10;
+    lb_comment.lineBreakMode = NSLineBreakByWordWrapping;
     
     lb_time = [[[UILabel alloc]init]autorelease];
     lb_time.font = [UIFont boldSystemFontOfSize:10];
