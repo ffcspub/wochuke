@@ -74,7 +74,9 @@
     if (![ShareVaule shareInstance].user && [ShareVaule shareInstance].userId) {
         [self loadUser];
     }
-    [self reloadDatas];
+    if (_datas.count == 0) {
+        [self reloadDatas];
+    }
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
