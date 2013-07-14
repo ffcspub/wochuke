@@ -68,6 +68,8 @@
 -(void)delBtnClickedFromStepEditView:(StepEditView *)editView;
 @end
 
-@interface StepMinView : StepView
+@interface StepMinView : StepView{
+    UILabel *lb_text;
+}
 
 @end

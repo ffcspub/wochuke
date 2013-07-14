@@ -52,6 +52,10 @@
     // Do any additional setup after loading the view from its nib.
     
     _types = [[NSMutableArray alloc]init];
+    if ([ShareVaule shareInstance].editGuideEx.guideInfo.typeId) {
+        [_btn_type setTitle:[ShareVaule shareInstance].editGuideEx.guideInfo.typeName forState:UIControlStateNormal];
+        _typeId = [[ShareVaule shareInstance].editGuideEx.guideInfo.typeId retain];
+    }
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -132,13 +136,28 @@
                 }
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [SVProgressHUD dismiss];
-                    JCType *type = [_types objectAtIndex:0];
-                    if (_typeId) {
-                        [_typeId release];
-                        _typeId = nil;
+                    NSString *typeid = [ShareVaule shareInstance].editGuideEx.guideInfo.typeId;
+                    if (typeid) {
+                        for (JCType *type in list) {
+                            if ([type.id_ isEqual:typeid]) {
+                                if (_typeId) {
+                                    [_typeId release];
+                                    _typeId = nil;
+                                }
+                                _typeId = [type.id_ retain];
+                                [_btn_type setTitle:type.name forState:UIControlStateNormal];
+                                break;
+                            }
+                        }
+                    }else{
+                        JCType *type = [_types objectAtIndex:0];
+                        if (_typeId) {
+                            [_typeId release];
+                            _typeId = nil;
+                        }
+                        _typeId = [type.id_ retain];
+                        [_btn_type setTitle:type.name forState:UIControlStateNormal];
                     }
-                    _typeId = [type.id_ retain];
-                    [_btn_type setTitle:type.name forState:UIControlStateNormal];
                 });
             }
             @catch (ICEException *exception) {

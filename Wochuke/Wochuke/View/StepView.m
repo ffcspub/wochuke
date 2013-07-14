@@ -401,6 +401,12 @@
 //        self.backgroundColor = [UIColor clearColor];
 //        self.layer.cornerRadius = 6;
 //        self.layer.masksToBounds = YES;
+        lb_text = [[[UILabel alloc]init]autorelease];
+        lb_text.font = [UIFont systemFontOfSize:11];
+        lb_text.textColor = [UIColor darkTextColor];
+        lb_text.backgroundColor =[ UIColor clearColor];
+        lb_text.numberOfLines = 2;
+        [self addSubview:lb_text];
         line.hidden = YES;
         [self observeNotification:NOTIFICATION_ORDINALCHANGE];
     }
@@ -415,23 +421,25 @@
     btn_comment.frame = CGRectZero;
     line.frame = CGRectZero;
     lb_comment.frame = CGRectZero;
+    tv_text.frame = CGRectZero;
     if ([self hasImage]){
         imageView.frame = CGRectMake(10, 10, frame.size.width -20 , frame.size.height - 50);
-        tv_text.frame = CGRectMake(10, frame.size.height - 35  , frame.size.width -20, 25);
+        lb_text.frame = CGRectMake(10, frame.size.height - 35  , frame.size.width -20, 25);
     }else{
         imageView.frame = CGRectZero;
-        tv_text.frame = CGRectMake(10,  10 , frame.size.width - 20, frame.size.height - 20);
+        lb_text.frame = CGRectMake(10,  10 , frame.size.width - 20, frame.size.height - 20);
     }
 }
 
 -(void)setStep:(JCStep *)step{
     [super setStep:step];
+    lb_text.text = step.text;
     lb_step.text = [NSString stringWithFormat:@"%d",step.ordinal];
     [self upImage];
     if (step.photo.url) {
-        tv_text.font = [UIFont systemFontOfSize:11];
+        lb_text.font = [UIFont systemFontOfSize:11];
     }else{
-        tv_text.font = [UIFont systemFontOfSize:14];
+        lb_text.font = [UIFont systemFontOfSize:14];
     }
 }
 

@@ -43,7 +43,6 @@
     _pageFlowView.minimumPageScale = 0.9;
 }
 
-
 -(void)loadUser{
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
         @try {
@@ -61,12 +60,12 @@
                 
             }
         }@catch (ICEException *exception) {
-//            dispatch_async(dispatch_get_main_queue(), ^{
-//                [SVProgressHUD showErrorWithStatus:@"服务访问异常"];
-//            });
+            //            dispatch_async(dispatch_get_main_queue(), ^{
+            //                [SVProgressHUD showErrorWithStatus:@"服务访问异常"];
+            //            });
         }
     });
-        
+    
 }
 
 -(void)viewWillAppear:(BOOL)animated{

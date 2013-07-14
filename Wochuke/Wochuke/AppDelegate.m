@@ -41,6 +41,31 @@
     
 }
 
+-(void)loadUser{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+        @try {
+            id<JCAppIntfPrx> proxy = [[ICETool shareInstance] createProxy];
+            @try {
+                JCUser * user = [proxy getUserById:[ShareVaule shareInstance].userId userId:[ShareVaule shareInstance].userId];
+                if (user) {
+                    [ShareVaule shareInstance].user = user;
+                }
+            }
+            @catch (ICEException *exception) {
+                
+            }
+            @finally {
+                
+            }
+        }@catch (ICEException *exception) {
+            //            dispatch_async(dispatch_get_main_queue(), ^{
+            //                [SVProgressHUD showErrorWithStatus:@"服务访问异常"];
+            //            });
+        }
+    });
+    
+}
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     [ShareSDK registerApp:KShareSDKAppKey];
@@ -49,6 +74,7 @@
     [MobClick startWithAppkey:@"51e1270b56240b518708d2ee"];
     [MobClick checkUpdate];
     
+    [self loadUser];
     self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
@@ -60,6 +86,7 @@
     self.window.rootViewController = vlc;
     
     [self.window makeKeyAndVisible];
+    
     
     
     return YES;
