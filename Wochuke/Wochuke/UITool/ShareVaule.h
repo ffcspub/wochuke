@@ -44,6 +44,7 @@
 #import <Foundation/Foundation.h>
 #import <Guide.h>
 #import <TencentOpenAPI/TencentOAuth.h>
+#import "SinaWeibo.h"
 
 @interface ShareVaule : NSObject{
     
@@ -64,6 +65,12 @@
 @property(nonatomic,assign) BOOL noChanged;
 
 @property(nonatomic,retain) TencentOAuth *tencentOAuth;
+
+@property(nonatomic,retain) NSString *qqName;
+
+@property(nonatomic,retain) SinaWeibo *sinaweibo;
+
+@property(nonatomic,retain) NSString *sinaweiboName;
 
 @property(nonatomic,retain) NSMutableArray *permissions;
 

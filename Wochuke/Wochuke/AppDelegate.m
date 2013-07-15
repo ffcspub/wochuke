@@ -17,10 +17,12 @@
 #import"WXApi.h"
 #import "WBApi.h"
 #import "MobClick.h"
+#import "SinaWeibo.h"
 
 @implementation AppDelegate
 
 @synthesize tencentOAuth;
+@synthesize sinaweibo;
 
 - (void)dealloc
 {
@@ -68,6 +70,9 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    
+    
+    
     [ShareSDK registerApp:KShareSDKAppKey];
     [self initializePlat];
     

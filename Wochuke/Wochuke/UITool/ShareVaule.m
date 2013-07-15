@@ -28,8 +28,25 @@ static ShareVaule *_shareVaule;
         _stepImageDic = [[NSMutableDictionary alloc]init];
         _noChanged = YES;
         _tencentOAuth = [[TencentOAuth alloc] initWithAppId:QQAPPID andDelegate:nil];
+        _sinaweibo = [[SinaWeibo alloc] initWithAppKey:kAppKey appSecret:kAppSecret appRedirectURI:kAppRedirectURI andDelegate:nil];
     }
     return self;
+}
+
+-(void)setQqName:(NSString *)qqName{
+    [[NSUserDefaults standardUserDefaults]setValue:qqName forKey:@"QQNAME"];
+}
+
+-(NSString *)qqName{
+    return [[NSUserDefaults standardUserDefaults]stringForKey:@"QQNAME"];
+}
+
+-(void)setSinaweiboName:(NSString *)sinaName{
+    [[NSUserDefaults standardUserDefaults]setValue:sinaName forKey:@"SIANNAME"];
+}
+
+-(NSString *)sinaweiboName{
+    return [[NSUserDefaults standardUserDefaults]stringForKey:@"SIANNAME"];
 }
 
 -(void)dealloc{

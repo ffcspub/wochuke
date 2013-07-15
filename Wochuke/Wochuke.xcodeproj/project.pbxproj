@@ -332,6 +332,11 @@
 		4CFAA1E0178FA610009F615B /* DriverManagerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CFAA1DE178FA60F009F615B /* DriverManagerViewController.xib */; };
 		4CFAA1E4178FA71B009F615B /* DriverEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CFAA1E2178FA71A009F615B /* DriverEditViewController.m */; };
 		4CFAA1E5178FA71B009F615B /* DriverEditViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CFAA1E3178FA71B009F615B /* DriverEditViewController.xib */; };
+		B733F4751793DAFE00A0700B /* SinaWeibo.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B733F46D1793DAFE00A0700B /* SinaWeibo.bundle */; };
+		B733F4761793DAFE00A0700B /* SinaWeibo.m in Sources */ = {isa = PBXBuildFile; fileRef = B733F46F1793DAFE00A0700B /* SinaWeibo.m */; };
+		B733F4771793DAFE00A0700B /* SinaWeiboAuthorizeView.m in Sources */ = {isa = PBXBuildFile; fileRef = B733F4711793DAFE00A0700B /* SinaWeiboAuthorizeView.m */; };
+		B733F4781793DAFE00A0700B /* SinaWeiboRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = B733F4741793DAFE00A0700B /* SinaWeiboRequest.m */; };
+		B733F47C1793DB2800A0700B /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = B733F47B1793DB2800A0700B /* JSONKit.m */; };
 		B7538EF9178E492800BC4BA8 /* FeedbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7538EF4178E492800BC4BA8 /* FeedbackViewController.m */; };
 		B7538EFA178E492800BC4BA8 /* FeedbackViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7538EF5178E492800BC4BA8 /* FeedbackViewController.xib */; };
 		B7538EFB178E492800BC4BA8 /* PersonalSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7538EF7178E492800BC4BA8 /* PersonalSettingsViewController.m */; };
@@ -807,6 +812,16 @@
 		4CFAA1E2178FA71A009F615B /* DriverEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DriverEditViewController.m; sourceTree = "<group>"; };
 		4CFAA1E3178FA71B009F615B /* DriverEditViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DriverEditViewController.xib; sourceTree = "<group>"; };
 		B0E096F28CAD47D3A4472D71 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		B733F46D1793DAFE00A0700B /* SinaWeibo.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SinaWeibo.bundle; sourceTree = "<group>"; };
+		B733F46E1793DAFE00A0700B /* SinaWeibo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SinaWeibo.h; sourceTree = "<group>"; };
+		B733F46F1793DAFE00A0700B /* SinaWeibo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SinaWeibo.m; sourceTree = "<group>"; };
+		B733F4701793DAFE00A0700B /* SinaWeiboAuthorizeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SinaWeiboAuthorizeView.h; sourceTree = "<group>"; };
+		B733F4711793DAFE00A0700B /* SinaWeiboAuthorizeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SinaWeiboAuthorizeView.m; sourceTree = "<group>"; };
+		B733F4721793DAFE00A0700B /* SinaWeiboConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SinaWeiboConstants.h; sourceTree = "<group>"; };
+		B733F4731793DAFE00A0700B /* SinaWeiboRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SinaWeiboRequest.h; sourceTree = "<group>"; };
+		B733F4741793DAFE00A0700B /* SinaWeiboRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SinaWeiboRequest.m; sourceTree = "<group>"; };
+		B733F47A1793DB2800A0700B /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONKit.h; sourceTree = "<group>"; };
+		B733F47B1793DB2800A0700B /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONKit.m; sourceTree = "<group>"; };
 		B7538EF3178E492800BC4BA8 /* FeedbackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedbackViewController.h; sourceTree = "<group>"; };
 		B7538EF4178E492800BC4BA8 /* FeedbackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedbackViewController.m; sourceTree = "<group>"; };
 		B7538EF5178E492800BC4BA8 /* FeedbackViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FeedbackViewController.xib; sourceTree = "<group>"; };
@@ -1090,6 +1105,8 @@
 		188208D917792CBE00696A03 = {
 			isa = PBXGroup;
 			children = (
+				B733F4791793DB2800A0700B /* JSONKit */,
+				B733F46C1793DAFE00A0700B /* SinaWeibo */,
 				4C0A0A5217915EE4007CB0DC /* UMAnalytics_Sdk_2.2.0.OpenUDID */,
 				B7BC770F178FE73200A6584A /* libz.1.2.5.dylib */,
 				B7BC770D178FE71A00A6584A /* libicucore.dylib */,
@@ -1582,6 +1599,30 @@
 			path = login;
 			sourceTree = "<group>";
 		};
+		B733F46C1793DAFE00A0700B /* SinaWeibo */ = {
+			isa = PBXGroup;
+			children = (
+				B733F46D1793DAFE00A0700B /* SinaWeibo.bundle */,
+				B733F46E1793DAFE00A0700B /* SinaWeibo.h */,
+				B733F46F1793DAFE00A0700B /* SinaWeibo.m */,
+				B733F4701793DAFE00A0700B /* SinaWeiboAuthorizeView.h */,
+				B733F4711793DAFE00A0700B /* SinaWeiboAuthorizeView.m */,
+				B733F4721793DAFE00A0700B /* SinaWeiboConstants.h */,
+				B733F4731793DAFE00A0700B /* SinaWeiboRequest.h */,
+				B733F4741793DAFE00A0700B /* SinaWeiboRequest.m */,
+			);
+			path = SinaWeibo;
+			sourceTree = "<group>";
+		};
+		B733F4791793DB2800A0700B /* JSONKit */ = {
+			isa = PBXGroup;
+			children = (
+				B733F47A1793DB2800A0700B /* JSONKit.h */,
+				B733F47B1793DB2800A0700B /* JSONKit.m */,
+			);
+			path = JSONKit;
+			sourceTree = "<group>";
+		};
 		B7BC76D4178FE69D00A6584A /* ShareSDK_v2.2.4 */ = {
 			isa = PBXGroup;
 			children = (
@@ -1972,6 +2013,7 @@
 				4C0A0A5A1791A74A007CB0DC /* AboutViewController.xib in Resources */,
 				4C0A0A5D1791C287007CB0DC /* bg_setting_card.png in Resources */,
 				4C0A0A5E1791C287007CB0DC /* bg_setting_card@2x.png in Resources */,
+				B733F4751793DAFE00A0700B /* SinaWeibo.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2060,6 +2102,10 @@
 				4CFAA1E4178FA71B009F615B /* DriverEditViewController.m in Sources */,
 				4C0A0A481790E680007CB0DC /* HomeViewController.m in Sources */,
 				4C0A0A591791A74A007CB0DC /* AboutViewController.m in Sources */,
+				B733F4761793DAFE00A0700B /* SinaWeibo.m in Sources */,
+				B733F4771793DAFE00A0700B /* SinaWeiboAuthorizeView.m in Sources */,
+				B733F4781793DAFE00A0700B /* SinaWeiboRequest.m in Sources */,
+				B733F47C1793DB2800A0700B /* JSONKit.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

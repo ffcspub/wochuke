@@ -8,14 +8,17 @@
 
 #import <UIKit/UIKit.h>
 #import <TencentOpenAPI/TencentOAuth.h>
+@class SinaWeibo;
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 {
     TencentOAuth *tencentOAuth;
+    SinaWeibo *sinaweibo;
 }
 
 @property (strong, nonatomic) UIWindow *window;
 
 @property (readonly, nonatomic) TencentOAuth *tencentOAuth;
+@property (readonly, assign) SinaWeibo *sinaweibo;
 
 @end
