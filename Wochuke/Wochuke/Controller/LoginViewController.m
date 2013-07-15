@@ -288,6 +288,7 @@
 }
 
 - (IBAction)sinaLoginAction:(id)sender {
+    [ShareSDK ssoEnabled:YES];
     [ShareSDK getUserInfoWithType:ShareTypeSinaWeibo
                       authOptions:nil
                            result:^(BOOL result, id<ISSUserInfo> userInfo, id<ICMErrorInfo> error){

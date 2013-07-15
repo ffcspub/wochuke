@@ -17,6 +17,8 @@
 #import"WXApi.h"
 #import "WBApi.h"
 #import "MobClick.h"
+#import<TencentOpenAPI/QQApiInterface.h> 
+#import<TencentOpenAPI/TencentOAuth.h>
 
 @implementation AppDelegate
 
@@ -33,8 +35,9 @@
 {
     //添加新浪微博应用
     [ShareSDK connectSinaWeiboWithAppKey:kAppKey appSecret:kAppSecret redirectUri:kAppRedirectURI];
-    [ShareSDK connectTencentWeiboWithAppKey:tencentAppkey appSecret:tencentAppSecret
-                                redirectUri:@"http://www.sharesdk.cn" wbApiCls:[WBApi class]];
+    [ShareSDK connectQZoneWithAppKey:QQAPPID
+                           appSecret:QQAPPKEY qqApiInterfaceCls:[QQApiInterface class]
+                     tencentOAuthCls:[TencentOAuth class]];
 
     [ShareSDK connectWeChatWithAppId:weixinAppId
                            wechatCls:[WXApi class]];
@@ -50,6 +53,8 @@
                 if (user) {
                     [ShareVaule shareInstance].user = user;
                 }
+                NSString *slogon = [proxy getSlogon];
+                [[NSUserDefaults standardUserDefaults]setObject:slogon forKey:@"SLOGON"];
             }
             @catch (ICEException *exception) {
                 

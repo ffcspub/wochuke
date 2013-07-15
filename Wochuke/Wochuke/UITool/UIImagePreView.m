@@ -31,7 +31,7 @@
         }
     }
     self.layer.opacity = 0;
-    [UIView animateWithDuration:0.5 animations:^{
+    [UIView animateWithDuration:0.7 animations:^{
         self.layer.opacity = 1;
         self.frame = self.superview.frame;
         self.backgroundColor = [UIColor darkTextColor];
@@ -87,7 +87,7 @@
 
 -(void)closeTap{
     
-    [UIView animateWithDuration:0.5 animations:^{
+    [UIView animateWithDuration:0.7 animations:^{
         self.frame = viewRect;
         self.layer.opacity = 0;
     } completion:^(BOOL finished) {

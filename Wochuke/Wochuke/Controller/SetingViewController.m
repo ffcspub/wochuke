@@ -97,6 +97,7 @@
 {
     if ([senderSwitch isEqual:self.sinaSwitch]) {
         if (self.sinaSwitch.on) {//点击后变为ON时
+            [ShareSDK ssoEnabled:YES];
             [ShareSDK getUserInfoWithType:ShareTypeSinaWeibo
                               authOptions:nil
                                    result:^(BOOL result, id<ISSUserInfo> userInfo, id<ICMErrorInfo> error){

@@ -313,6 +313,9 @@
 		4CE1462E178EE27900056955 /* ic_classify_list_like_grad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CE14628178EE27900056955 /* ic_classify_list_like_grad@2x.png */; };
 		4CE1462F178EE27900056955 /* ic_classify_list_read_grad.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CE14629178EE27900056955 /* ic_classify_list_read_grad.png */; };
 		4CE14630178EE27900056955 /* ic_classify_list_read_grad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CE1462A178EE27900056955 /* ic_classify_list_read_grad@2x.png */; };
+		4CEB3874179384C10047DDD6 /* NSDate+BeeExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CEB3873179384C10047DDD6 /* NSDate+BeeExtension.m */; };
+		4CEB3877179384F30047DDD6 /* NSNumber+BeeExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CEB3876179384F30047DDD6 /* NSNumber+BeeExtension.m */; };
+		4CEB38791793962C0047DDD6 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CEB38781793962C0047DDD6 /* CoreText.framework */; };
 		4CFAA1BB178F95EE009F615B /* textfield_back.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CFAA1B9178F95EE009F615B /* textfield_back.png */; };
 		4CFAA1BC178F95EE009F615B /* textfield_back@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CFAA1BA178F95EE009F615B /* textfield_back@2x.png */; };
 		4CFAA1CA178F9600009F615B /* bg_register&login_card.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CFAA1BE178F9600009F615B /* bg_register&login_card.png */; };
@@ -785,6 +788,11 @@
 		4CE14628178EE27900056955 /* ic_classify_list_like_grad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_classify_list_like_grad@2x.png"; sourceTree = "<group>"; };
 		4CE14629178EE27900056955 /* ic_classify_list_read_grad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_classify_list_read_grad.png; sourceTree = "<group>"; };
 		4CE1462A178EE27900056955 /* ic_classify_list_read_grad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_classify_list_read_grad@2x.png"; sourceTree = "<group>"; };
+		4CEB3872179384C10047DDD6 /* NSDate+BeeExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+BeeExtension.h"; sourceTree = "<group>"; };
+		4CEB3873179384C10047DDD6 /* NSDate+BeeExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+BeeExtension.m"; sourceTree = "<group>"; };
+		4CEB3875179384F30047DDD6 /* NSNumber+BeeExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSNumber+BeeExtension.h"; sourceTree = "<group>"; };
+		4CEB3876179384F30047DDD6 /* NSNumber+BeeExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSNumber+BeeExtension.m"; sourceTree = "<group>"; };
+		4CEB38781793962C0047DDD6 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		4CFAA1B9178F95EE009F615B /* textfield_back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = textfield_back.png; sourceTree = "<group>"; };
 		4CFAA1BA178F95EE009F615B /* textfield_back@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "textfield_back@2x.png"; sourceTree = "<group>"; };
 		4CFAA1BE178F9600009F615B /* bg_register&login_card.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bg_register&login_card.png"; sourceTree = "<group>"; };
@@ -854,6 +862,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4CEB38791793962C0047DDD6 /* CoreText.framework in Frameworks */,
 				B77289131786692900332460 /* CoreTelephony.framework in Frameworks */,
 				B77289141786692F00332460 /* libsqlite3.dylib in Frameworks */,
 				B772890F1786691D00332460 /* libstdc++.dylib in Frameworks */,
@@ -1090,6 +1099,7 @@
 		188208D917792CBE00696A03 = {
 			isa = PBXGroup;
 			children = (
+				4CEB38781793962C0047DDD6 /* CoreText.framework */,
 				4C0A0A5217915EE4007CB0DC /* UMAnalytics_Sdk_2.2.0.OpenUDID */,
 				B7BC770F178FE73200A6584A /* libz.1.2.5.dylib */,
 				B7BC770D178FE71A00A6584A /* libicucore.dylib */,
@@ -1323,10 +1333,14 @@
 			isa = PBXGroup;
 			children = (
 				183AA78B17869F4D004C197F /* NSObject+BeeTypeConversion.h */,
+				4CEB3875179384F30047DDD6 /* NSNumber+BeeExtension.h */,
+				4CEB3876179384F30047DDD6 /* NSNumber+BeeExtension.m */,
 				183AA78C17869F4D004C197F /* NSObject+BeeTypeConversion.m */,
 				183AA78A17869F32004C197F /* NSData+BeeExtension.h */,
 				183AA78717869EE5004C197F /* NSData+BeeExtension.m */,
 				183AA78617869EBF004C197F /* Bee_Precompile.h */,
+				4CEB3872179384C10047DDD6 /* NSDate+BeeExtension.h */,
+				4CEB3873179384C10047DDD6 /* NSDate+BeeExtension.m */,
 				183AA78317869E92004C197F /* NSString+BeeExtension.h */,
 				183AA78417869E92004C197F /* NSString+BeeExtension.m */,
 				18E8D8171783084F00BD28CF /* JSBadgeView.m */,
@@ -2060,6 +2074,8 @@
 				4CFAA1E4178FA71B009F615B /* DriverEditViewController.m in Sources */,
 				4C0A0A481790E680007CB0DC /* HomeViewController.m in Sources */,
 				4C0A0A591791A74A007CB0DC /* AboutViewController.m in Sources */,
+				4CEB3874179384C10047DDD6 /* NSDate+BeeExtension.m in Sources */,
+				4CEB3877179384F30047DDD6 /* NSNumber+BeeExtension.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
