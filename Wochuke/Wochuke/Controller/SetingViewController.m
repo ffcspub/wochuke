@@ -134,9 +134,9 @@
 - (void)showSureAlert
 {
     UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"是否退出登录？"
-                                                  message:nil
-                                                 delegate:self
-                                        cancelButtonTitle:@"确定"
+                                                 message:nil
+                                                delegate:self
+                                       cancelButtonTitle:@"确定"
                                        otherButtonTitles:@"取消", nil];
     av.tag = 10000;
     [av show];
@@ -324,7 +324,7 @@
 - (void)sinaweiboDidLogOut:(SinaWeibo *)sinaweibo
 {
     NSLog(@"走 sinaweiboDidLogOut ");
-//    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+    //    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
     //    [self removeAuthData];
 }
 
@@ -378,7 +378,7 @@
 
 - (void)tencentDidLogout
 {
-//    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+    //    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
     
 }
 

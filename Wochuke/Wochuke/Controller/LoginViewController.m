@@ -53,17 +53,17 @@
     if ([[ShareVaule shareInstance].sinaweibo isAuthValid]) {
         _sinaId = [[ShareVaule shareInstance].sinaweibo.userID retain];
     }
-//    if([ShareSDK hasAuthorizedWithType:ShareTypeSinaWeibo]){
-//        [ShareSDK getUserInfoWithType:ShareTypeSinaWeibo
-//                          authOptions:nil
-//                               result:^(BOOL result, id<ISSUserInfo> userInfo, id<ICMErrorInfo> error){
-//                                   if (result) {
-//                                       NSString *sinaId = userInfo.uid;
-//                                       _sinaId = [sinaId retain];
-//                                   }
-//                               }];
-//    }
-
+    //    if([ShareSDK hasAuthorizedWithType:ShareTypeSinaWeibo]){
+    //        [ShareSDK getUserInfoWithType:ShareTypeSinaWeibo
+    //                          authOptions:nil
+    //                               result:^(BOOL result, id<ISSUserInfo> userInfo, id<ICMErrorInfo> error){
+    //                                   if (result) {
+    //                                       NSString *sinaId = userInfo.uid;
+    //                                       _sinaId = [sinaId retain];
+    //                                   }
+    //                               }];
+    //    }
+    
 }
 - (void)viewDidLoad
 {
@@ -111,7 +111,7 @@
                         [ShareVaule shareInstance].user = user;
                         [self.navigationController dismissViewControllerAnimated:YES completion:nil];
                     });
-
+                    
                 }
             }
             @catch (NSException *exception) {
@@ -267,64 +267,64 @@
     SinaWeibo *sinaweibo = [ShareVaule shareInstance].sinaweibo;
     sinaweibo.delegate = self;
     [sinaweibo logIn];
-//    [ShareSDK getUserInfoWithType:ShareTypeSinaWeibo
-//                      authOptions:nil
-//                           result:^(BOOL result, id<ISSUserInfo> userInfo, id<ICMErrorInfo> error){
-//                               if (result) {
-//                                   dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
-//                                       @try {
-//                                           id<JCAppIntfPrx> proxy = [[ICETool shareInstance] createProxy];
-//                                           @try {
-//                                               JCUser *user = [proxy getUserBySns:@"sinaId" idValue:userInfo.uid];
-//                                               if ([user.id_ isEqualToString:@""]) {
-//                                                   JCUser *jcUserInfo = [[JCUser alloc] init];
-//                                                   jcUserInfo.name = userInfo.nickname;
-//                                                   jcUserInfo.avatar.url = userInfo.icon;
-//                                                   NSDictionary *snsIds = [NSDictionary dictionaryWithObjectsAndKeys:userInfo.uid, @"sinaId", nil];
-//                                                   jcUserInfo.snsIds = snsIds;
-//                                                   NSLog(@"sinaLoginAction user不存在 userInfo.uid == %@",userInfo.uid);
-//                                                   NSLog(@"sinaLoginAction user不存在 user.snsIds == %@",user.snsIds);
-//                                                   [self regiterByThirdUserInfo:jcUserInfo idKey:@"sinaId"];
-//                                               }else{
-//                                                   NSLog(@"sinaLoginAction user存在 user.snsIds == %@",user.snsIds);
-//                                                   [ShareVaule shareInstance].userId = user.id_;
-//                                                   [ShareVaule shareInstance].user = user;
-//                                                   dispatch_async(dispatch_get_main_queue(), ^{
-//                                                       [self.navigationController dismissViewControllerAnimated:YES completion:nil];
-//                                                   });
-//                                               }
-//                                           }
-//                                           @catch (NSException *exception) {
-//                                               if ([exception isKindOfClass:[JCGuideException class]]) {
-//                                                   JCGuideException *_exception = (JCGuideException *)exception;
-//                                                   if (_exception.reason_) {
-//                                                       dispatch_async(dispatch_get_main_queue(), ^{
-//                                                           [SVProgressHUD showErrorWithStatus:_exception.reason_];
-//                                                       });
-//                                                   }else{
-//                                                       dispatch_async(dispatch_get_main_queue(), ^{
-//                                                           [SVProgressHUD showErrorWithStatus:ERROR_MESSAGE];
-//                                                       });
-//                                                   }
-//                                               }else{
-//                                                   dispatch_async(dispatch_get_main_queue(), ^{
-//                                                       [SVProgressHUD showErrorWithStatus:ERROR_MESSAGE];
-//                                                   });
-//                                               }
-//                                           }
-//                                           @finally {
-//                                               
-//                                           }
-//                                       }@catch (ICEException *exception) {
-//                                           dispatch_async(dispatch_get_main_queue(), ^{
-//                                               [SVProgressHUD showErrorWithStatus:@"服务访问异常"];
-//                                           });
-//                                       }
-//                                   });
-//                               }else{
-//                                   [SVProgressHUD showErrorWithStatus:@"新浪微博登录失败"];
-//                               }
-//                           }];
+    //    [ShareSDK getUserInfoWithType:ShareTypeSinaWeibo
+    //                      authOptions:nil
+    //                           result:^(BOOL result, id<ISSUserInfo> userInfo, id<ICMErrorInfo> error){
+    //                               if (result) {
+    //                                   dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+    //                                       @try {
+    //                                           id<JCAppIntfPrx> proxy = [[ICETool shareInstance] createProxy];
+    //                                           @try {
+    //                                               JCUser *user = [proxy getUserBySns:@"sinaId" idValue:userInfo.uid];
+    //                                               if ([user.id_ isEqualToString:@""]) {
+    //                                                   JCUser *jcUserInfo = [[JCUser alloc] init];
+    //                                                   jcUserInfo.name = userInfo.nickname;
+    //                                                   jcUserInfo.avatar.url = userInfo.icon;
+    //                                                   NSDictionary *snsIds = [NSDictionary dictionaryWithObjectsAndKeys:userInfo.uid, @"sinaId", nil];
+    //                                                   jcUserInfo.snsIds = snsIds;
+    //                                                   NSLog(@"sinaLoginAction user不存在 userInfo.uid == %@",userInfo.uid);
+    //                                                   NSLog(@"sinaLoginAction user不存在 user.snsIds == %@",user.snsIds);
+    //                                                   [self regiterByThirdUserInfo:jcUserInfo idKey:@"sinaId"];
+    //                                               }else{
+    //                                                   NSLog(@"sinaLoginAction user存在 user.snsIds == %@",user.snsIds);
+    //                                                   [ShareVaule shareInstance].userId = user.id_;
+    //                                                   [ShareVaule shareInstance].user = user;
+    //                                                   dispatch_async(dispatch_get_main_queue(), ^{
+    //                                                       [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+    //                                                   });
+    //                                               }
+    //                                           }
+    //                                           @catch (NSException *exception) {
+    //                                               if ([exception isKindOfClass:[JCGuideException class]]) {
+    //                                                   JCGuideException *_exception = (JCGuideException *)exception;
+    //                                                   if (_exception.reason_) {
+    //                                                       dispatch_async(dispatch_get_main_queue(), ^{
+    //                                                           [SVProgressHUD showErrorWithStatus:_exception.reason_];
+    //                                                       });
+    //                                                   }else{
+    //                                                       dispatch_async(dispatch_get_main_queue(), ^{
+    //                                                           [SVProgressHUD showErrorWithStatus:ERROR_MESSAGE];
+    //                                                       });
+    //                                                   }
+    //                                               }else{
+    //                                                   dispatch_async(dispatch_get_main_queue(), ^{
+    //                                                       [SVProgressHUD showErrorWithStatus:ERROR_MESSAGE];
+    //                                                   });
+    //                                               }
+    //                                           }
+    //                                           @finally {
+    //
+    //                                           }
+    //                                       }@catch (ICEException *exception) {
+    //                                           dispatch_async(dispatch_get_main_queue(), ^{
+    //                                               [SVProgressHUD showErrorWithStatus:@"服务访问异常"];
+    //                                           });
+    //                                       }
+    //                                   });
+    //                               }else{
+    //                                   [SVProgressHUD showErrorWithStatus:@"新浪微博登录失败"];
+    //                               }
+    //                           }];
 }
 
 #pragma mark - UITextField Delegate
@@ -366,8 +366,8 @@
 - (void)sinaweiboDidLogIn:(SinaWeibo *)sinaweibo
 {
     NSLog(@"走 sinaweiboDidLogIn ");
-//    [self storeAuthData];
-//    [self performSelectorOnMainThread:@selector(logout) withObject:nil waitUntilDone:NO];
+    //    [self storeAuthData];
+    //    [self performSelectorOnMainThread:@selector(logout) withObject:nil waitUntilDone:NO];
     dispatch_async(dispatch_get_main_queue(), ^{
         [self getUserByKey:@"sinaId" idValue:sinaweibo.userID];
     });
@@ -377,8 +377,8 @@
 - (void)sinaweiboDidLogOut:(SinaWeibo *)sinaweibo
 {
     NSLog(@"走 sinaweiboDidLogOut ");
-//    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
-//    [self removeAuthData];
+    //    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+    //    [self removeAuthData];
 }
 
 - (void)sinaweibo:(SinaWeibo *)sinaweibo logInDidFailWithError:(NSError *)error
