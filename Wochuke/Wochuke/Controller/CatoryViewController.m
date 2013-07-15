@@ -547,6 +547,7 @@
     UIImageView *imageView = [[[MyWebImgView alloc]initWithFrame:CGRectMake(0, 0, cycleScrollView.frame.size.width, cycleScrollView.frame.size.height)]autorelease];
     imageView.tag = page;
 //    imageView.contentMode = UIViewContentModeScaleAspectFill;
+    [imageView setContentMode:UIViewContentModeScaleAspectFill];
     [imageView setImageWithURL:[NSURL URLWithString:topic.cover.url]];
     imageView.userInteractionEnabled = YES;
     UITapGestureRecognizer* singleRecognizer;  

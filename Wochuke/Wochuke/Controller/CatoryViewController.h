@@ -20,7 +20,6 @@
 
 @property (retain, nonatomic) IBOutlet UIButton *btn_news;
 
-
 @property (retain, nonatomic) IBOutlet UITableView *tableView;
 
 @property (retain, nonatomic) IBOutlet CycleScrollView *imageScrollView;

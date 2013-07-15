@@ -97,6 +97,7 @@
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     _badgeView.badgeText = [NSString stringWithFormat:@"%d", _guide.commentCount];
+    [self postNotification:NOTIFICATION_HIDETOOLBAR];
 }
 
 - (void)viewDidLoad
