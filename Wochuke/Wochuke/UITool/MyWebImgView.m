@@ -99,6 +99,7 @@
     [super setFrame:frame];
     DDProgressView * progressView = (DDProgressView * )[self viewWithTag:209872];
     if (progressView) {
+        progressView.frame = CGRectMake(0, 0, frame.size.width - 30, 22);
         progressView.center = self.center;
     }
 }

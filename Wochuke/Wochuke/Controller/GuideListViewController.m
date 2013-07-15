@@ -66,6 +66,7 @@
     [self.tableView.pullToRefreshView setTitle:@"下拉刷新" forState:SVPullToRefreshStateTriggered];
     [self.tableView.pullToRefreshView setTitle:@"正在加载" forState:SVPullToRefreshStateLoading];
     
+    filter = 1;
     [self reloadDatas];
     // Do any additional setup after loading the view from its nib.
 }

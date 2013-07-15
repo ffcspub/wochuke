@@ -94,4 +94,6 @@
 
 +(NSArray *)allDriverNames;
 
++(NSString *)formatDate:(NSString *)dateString;
+
 @end

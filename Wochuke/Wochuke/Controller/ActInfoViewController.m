@@ -15,13 +15,23 @@
 #import "GuideViewController.h"
 #import "CreateGuideViewController.h"
 #import "LoginViewController.h"
+#import "UserViewController.h"
 
+@protocol ActInfoCellDelegate ;
 @interface ActInfoCell : BeeUIGridCell{
     UIImageView *iv_heard;
     UILabel *lb_message;
     UILabel *lb_comment;
     UILabel *lb_time;
 }
+
+@property(nonatomic,assign) id<ActInfoCellDelegate> delegate;
+@end
+
+@protocol ActInfoCellDelegate <NSObject>
+
+-(void)actInfoCellShowUser:(NSString *)userId;
+
 @end
 
 @implementation ActInfoCell
@@ -58,19 +68,36 @@
             case 3:
                 actionname = @"评论";
                 break;
+            case 4:
+                actionname = @"编辑";
+                break;
             default:
                 break;
         }
         lb_message.text = [NSString stringWithFormat:@"%@%@了%@",_info.userName,actionname,_info.guideInfo.title];
         lb_comment.text = _info.actSummary;
+        lb_time.text = [ShareVaule formatDate:_info.timestamp];
+    }
+}
 
-        lb_time.text = [_info.timestamp substringWithRange:NSMakeRange(5, 11)];
+-(void)handleSingleTapFrom{
+    if (_delegate && [_delegate respondsToSelector:@selector(actInfoCellShowUser:)]) {
+        JCActInfo *_info = self.cellData;
+        [_delegate actInfoCellShowUser:_info.userId];
     }
 }
 
 - (void)load
 {
     iv_heard = [[[UIImageView alloc]init]autorelease];
+    iv_heard.contentMode = UIViewContentModeScaleAspectFill;
+    iv_heard.layer.cornerRadius = 6;
+    iv_heard.layer.masksToBounds = YES;
+    [iv_heard setUserInteractionEnabled:YES];
+    UITapGestureRecognizer* singleRecognizer;  
+    singleRecognizer = [[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTapFrom)]autorelease];
+    singleRecognizer.numberOfTapsRequired = 1; // 单击  
+    [iv_heard addGestureRecognizer:singleRecognizer];
     
     lb_message = [[[UILabel alloc]init]autorelease];
     lb_message.font = [UIFont boldSystemFontOfSize:13];
@@ -103,7 +130,7 @@
 @end
 
 
-@interface ActInfoViewController (){
+@interface ActInfoViewController ()<ActInfoCellDelegate>{
     NSMutableArray * _datas;
     int pageIndex;
     int pageSize;
@@ -293,6 +320,8 @@
     UITableViewCell *cell = nil;
     cell = [tableView dequeueReusableCellWithBeeUIGirdCellClass:[ActInfoCell class]];
     cell.gridCell.cellData = [_datas objectAtIndex:indexPath.row];
+    ActInfoCell *actInfoCellCell = (ActInfoCell *)cell.gridCell;
+    actInfoCellCell.delegate = self;
     cell.accessoryType = UITableViewCellAccessoryNone;
     return cell;
 }
@@ -311,5 +340,53 @@
     [vlc release];
 }
 
+#pragma mark - ActInfoCellDelegate
+-(void)actInfoCellShowUser:(NSString *)userId;{
+    [SVProgressHUD show];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+        @try {
+            id<JCAppIntfPrx> proxy = [[ICETool shareInstance] createProxy];
+            @try {
+                JCUser *user = [proxy getUserById:[ShareVaule shareInstance].userId userId:userId];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [SVProgressHUD dismiss];
+                    UserViewController *vlc = [[UserViewController alloc]initWithNibName:@"UserViewController" bundle:nil];
+                    vlc.user = user;
+                    [self.navigationController pushViewController:vlc animated:YES];
+                    [vlc release];
+                });
+                
+            }
+            @catch (ICEException *exception) {
+                if ([exception isKindOfClass:[JCGuideException class]]) {
+                    JCGuideException *_exception = (JCGuideException *)exception;
+                    if (_exception.reason_) {
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [SVProgressHUD showErrorWithStatus:_exception.reason_];
+                        });
+                    }else{
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [SVProgressHUD showErrorWithStatus:ERROR_MESSAGE];
+                        });
+                    }
+                }else{
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [SVProgressHUD showErrorWithStatus:ERROR_MESSAGE];
+                    });
+                }
+            }
+            @finally {
+                
+            }
+        }@catch (ICEException *exception) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [SVProgressHUD showErrorWithStatus:@"服务访问异常"];
+            });
+        }
+        
+        
+    });
+
+}
 
 @end

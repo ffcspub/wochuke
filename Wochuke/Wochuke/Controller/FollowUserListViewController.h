@@ -19,6 +19,9 @@
 
 @property (retain, nonatomic) IBOutlet UINavigationBar *navBar;
 
+@property (retain, nonatomic) IBOutlet UILabel *lb_empty;
+
+
 - (IBAction)backAction:(id)sender;
 
 

@@ -103,7 +103,11 @@
                     if (pageIndex == 0) {
                         [_datas removeAllObjects];
                         if (list.count == 0) {
-                            [ReloadView showInView:self.tableView message:@"没有相关的内容" target:self action:@selector(reloadDatas)];
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                [_tableView setHidden:YES];
+                                [_lb_empty setHidden:NO];
+
+                            });
                         }
                     }
                     if (list.count > 0) {

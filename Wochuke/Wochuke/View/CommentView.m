@@ -71,7 +71,7 @@
         [iv_heard setImageWithURL:[NSURL URLWithString:comment.userAvatar.url] placeholderImage:[UIImage imageNamed:@"ic_user_top"]];
         lb_name.text = comment.userName;
         lb_comment.text = [NSString stringWithFormat:@"%@",comment.content];
-        lb_time.text = [comment.timestamp substringWithRange:NSMakeRange(5, 11)];
+        lb_time.text = [ShareVaule formatDate:comment.timestamp];
     }
 }
 

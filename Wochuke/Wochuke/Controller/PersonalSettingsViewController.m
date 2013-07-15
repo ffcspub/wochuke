@@ -43,7 +43,7 @@
     // Do any additional setup after loading the view from its nib.
     UIImage *backImage = [[UIImage imageNamed:@"bg_register&login_card"] resizableImageWithCapInsets:UIEdgeInsetsMake(12, 12, 12, 12)];
     [_iv_back setImage:backImage];
-    [self observeNotification:UIKeyboardDidHideNotification];
+    [self observeNotification:UIKeyboardWillHideNotification];
     
 }
 
@@ -90,19 +90,7 @@
         [alert release];
         return;
     }
-    if (_tf_password.text.length == 0) {
-        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil message:@"请输入密码" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
-        [alert show];
-        [alert release];
-        return;
-    }
-    if (_tf_confirm.text.length == 0) {
-        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil message:@"请输入确认密码" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
-        [alert show];
-        [alert release];
-        return;
-    }
-    if (![_tf_password.text isEqual:_tf_confirm.text]) {
+    if (_tf_password && ![_tf_password.text isEqual:_tf_confirm.text]) {
         UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil message:@"两次输入的密码不相同" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
         [alert show];
         [alert release];
@@ -114,7 +102,7 @@
         @try {
             id<JCAppIntfPrx> proxy = [[ICETool shareInstance] createProxy];
             @try {
-                JCUser *user = [JCUser user:[ShareVaule shareInstance].user.id_ name:_tf_nickname.text email:_tf_email.text password:[_tf_password.text MD5]  avatar:[ShareVaule shareInstance].user.avatar mobile:[ShareVaule shareInstance].user.mobile realname:[ShareVaule shareInstance].user.realname intro:[ShareVaule shareInstance].user.intro roleCode:[ShareVaule shareInstance].user.roleCode followerCount:[ShareVaule shareInstance].user.followerCount followingCount:[ShareVaule shareInstance].user.followingCount followState:[ShareVaule shareInstance].user.followState guideCount:[ShareVaule shareInstance].user.guideCount favoriteCount:[ShareVaule shareInstance].user.favoriteCount snsIds:[ShareVaule shareInstance].user.snsIds];
+                JCUser *user = [JCUser user:[ShareVaule shareInstance].user.id_ name:_tf_nickname.text email:_tf_email.text password:_tf_password.text.length>0?[_tf_password.text MD5]:[ShareVaule shareInstance].user.password  avatar:[ShareVaule shareInstance].user.avatar mobile:[ShareVaule shareInstance].user.mobile realname:[ShareVaule shareInstance].user.realname intro:[ShareVaule shareInstance].user.intro roleCode:[ShareVaule shareInstance].user.roleCode followerCount:[ShareVaule shareInstance].user.followerCount followingCount:[ShareVaule shareInstance].user.followingCount followState:[ShareVaule shareInstance].user.followState guideCount:[ShareVaule shareInstance].user.guideCount favoriteCount:[ShareVaule shareInstance].user.favoriteCount snsIds:[ShareVaule shareInstance].user.snsIds];
                 JCUser *usertemp = [proxy saveUser:user];
                 if (_blobImage) {
                     NSString *fileId = usertemp.avatar.id_;
@@ -169,11 +157,11 @@
 {
     if (IS_SCREEN_35_INCH) {
         if (textField == _tf_password){
-            [UIView animateWithDuration:0.3 animations:^{
+            [UIView animateWithDuration:0.2 animations:^{
                 self.view.frame = CGRectMake(0, -138, self.view.frame.size.width, self.view.frame.size.height);
             }];
         }else if (textField == _tf_confirm){
-            [UIView animateWithDuration:0.3 animations:^{
+            [UIView animateWithDuration:0.2 animations:^{
                 self.view.frame = CGRectMake(0, -138, self.view.frame.size.width, self.view.frame.size.height);
             }];
         }
@@ -207,7 +195,7 @@
     [super dealloc];
 }
 - (void)viewDidUnload {
-    [self unobserveNotification:UIKeyboardDidHideNotification];
+    [self unobserveNotification:UIKeyboardWillHideNotification];
     [self setTf_nickname:nil];
     [self setTf_email:nil];
     [self setTf_password:nil];
@@ -218,7 +206,7 @@
 }
 
 -(void)handleNotification:(NSNotification *)notification{
-    if ([notification.name isEqual:UIKeyboardDidHideNotification]) {
+    if ([notification.name isEqual:UIKeyboardWillHideNotification]) {
         [UIView animateWithDuration:0.3 animations:^{
             self.view.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
         }];

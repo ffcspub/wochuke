@@ -9,16 +9,62 @@
 #import "GuideInfoView.h"
 #import "NSObject+Notification.h"
 
+@interface UIUnderlinedButton : UIButton {
+    
+}
+
+@property(nonatomic,assign) BOOL underLine;
+
++ (UIUnderlinedButton*) underlinedButton;
+
+@end
+
+@implementation UIUnderlinedButton
+
++ (UIUnderlinedButton*) underlinedButton {
+    
+    UIUnderlinedButton* button = [[UIUnderlinedButton alloc] init];
+    return [button autorelease];
+}
+
+- (void) drawRect:(CGRect)rect {
+    if (_underLine) {
+        CGRect textRect = self.titleLabel.frame;
+        // need to put the line at top of descenders (negative value)
+        CGFloat descender = self.titleLabel.font.descender + 3;
+        CGContextRef contextRef = UIGraphicsGetCurrentContext();
+        // set to same colour as text
+        CGContextSetStrokeColorWithColor(contextRef, [[UIColor lightGrayColor]CGColor]);
+        float lengths[] = {2,2};
+        CGContextSetLineDash(contextRef, 0, lengths,2);
+        CGContextMoveToPoint(contextRef, textRect.origin.x, textRect.origin.y + textRect.size.height + descender);
+        CGContextAddLineToPoint(contextRef, textRect.origin.x + textRect.size.width + 3, textRect.origin.y + textRect.size.height + descender);
+        CGContextStrokePath(contextRef);
+        CGContextClosePath(contextRef);
+        CGContextDrawPath(contextRef, kCGPathStroke);
+    }
+}
+
+@end
 
 @implementation GuideInfoView
 
 -(void)handleNotification:(NSNotification *)notification{
     if ([notification.name isEqual:NOTIFICATION_COMMENTCOUNTCHANGE]) {
-        [btn_commentCount setTitle:[NSString stringWithFormat:@"%d",_guide.commentCount] forState:UIControlStateNormal];
+        [btn_commentCount setTitle:[NSString stringWithFormat:@" %d",_guide.commentCount] forState:UIControlStateNormal];
+        if (_guide.viewCount > 0) {
+            ((UIUnderlinedButton *)btn_viewCount).underLine = YES;
+        }
     }else if([notification.name isEqual:NOTIFICATION_VIEWCOUNTCHANGE]){
-        [btn_viewCount setTitle:[NSString stringWithFormat:@"%d",_guide.viewCount] forState:UIControlStateNormal];
+        [btn_viewCount setTitle:[NSString stringWithFormat:@" %d",_guide.viewCount] forState:UIControlStateNormal];
+        if (_guide.favoriteCount > 0) {
+            ((UIUnderlinedButton *)btn_favoriteCount).underLine = YES;
+        }
     }else if([notification.name isEqual:NOTIFICATION_FAVORITECOUNT]){
-        [btn_favoriteCount setTitle:[NSString stringWithFormat:@"%d",_guide.favoriteCount] forState:UIControlStateNormal];
+        [btn_favoriteCount setTitle:[NSString stringWithFormat:@" %d",_guide.favoriteCount] forState:UIControlStateNormal];
+        if (_guide.commentCount > 0) {
+            ((UIUnderlinedButton *)btn_commentCount).underLine = YES;
+        }
     }
 }
 
@@ -61,18 +107,27 @@
 }
 
 -(void)viewCountBtnClicked{
+    if (_guide.viewCount == 0) {
+        return;
+    }
     if (_delegate && [_delegate respondsToSelector:@selector(guideInfoViewViewcount:)]) {
         [_delegate guideInfoViewViewcount:self];
     }
 }
 
 -(void)favoriteCountBtnClicked{
+    if (_guide.favoriteCount == 0) {
+        return;
+    }
     if (_delegate && [_delegate respondsToSelector:@selector(guideInfoViewFavorite:)]) {
         [_delegate guideInfoViewFavorite:self];
     }
 }
 
 -(void)commentCountBtnClicked{
+    if (_guide.commentCount == 0) {
+        return;
+    }
     if (_delegate && [_delegate respondsToSelector:@selector(guideInfoViewComment:)]) {
         [_delegate guideInfoViewComment:self];
     }
@@ -139,21 +194,21 @@
         lb_publisher.textColor = [UIColor darkTextColor];
         lb_publisher.textAlignment = UITextAlignmentCenter;
         
-        btn_viewCount = [[[UIButton alloc]init]autorelease];
+        btn_viewCount = [[[UIUnderlinedButton alloc]init]autorelease];
         btn_viewCount.titleLabel.font = [UIFont systemFontOfSize:12];
         btn_viewCount.backgroundColor = [UIColor clearColor];
         [btn_viewCount setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
         [btn_viewCount setImage:[UIImage imageNamed:@"ic_cookhome_read"] forState:UIControlStateNormal];
         [btn_viewCount addTarget:self action:@selector(viewCountBtnClicked) forControlEvents:UIControlEventTouchUpInside];
         
-        btn_favoriteCount = [[[UIButton alloc]init]autorelease];
+        btn_favoriteCount = [[[UIUnderlinedButton alloc]init]autorelease];
         btn_favoriteCount.titleLabel.font = [UIFont systemFontOfSize:12];
         btn_favoriteCount.backgroundColor = [UIColor clearColor];
         [btn_favoriteCount setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
         [btn_favoriteCount setImage:[UIImage imageNamed:@"ic_cookhome_like"] forState:UIControlStateNormal];
         [btn_favoriteCount addTarget:self action:@selector(favoriteCountBtnClicked) forControlEvents:UIControlEventTouchUpInside];
         
-        btn_commentCount = [[[UIButton alloc]init]autorelease];
+        btn_commentCount = [[[UIUnderlinedButton alloc]init]autorelease];
         btn_commentCount.titleLabel.font = [UIFont systemFontOfSize:12];
         btn_commentCount.backgroundColor = [UIColor clearColor];
         [btn_commentCount setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
@@ -210,9 +265,18 @@
 //    tv_title.frame = CGRectMake(tv_title.frame.origin.x, tv_title.frame.origin.y, tv_title.frame.size.width, tvsize.height);
     [iv_photo setImageWithURL:[NSURL URLWithString:_guide.userAvatar.url] placeholderImage:[UIImage imageNamed:@"ic_user_top"]];
     lb_publisher.text = _guide.userName;
-    [btn_viewCount setTitle:[NSString stringWithFormat:@"%d",_guide.viewCount] forState:UIControlStateNormal];
-    [btn_favoriteCount setTitle:[NSString stringWithFormat:@"%d",_guide.favoriteCount] forState:UIControlStateNormal];
-    [btn_commentCount setTitle:[NSString stringWithFormat:@"%d",_guide.commentCount] forState:UIControlStateNormal];
+    [btn_viewCount setTitle:[NSString stringWithFormat:@" %d",_guide.viewCount] forState:UIControlStateNormal];
+    if (_guide.viewCount > 0) {
+        ((UIUnderlinedButton *)btn_viewCount).underLine = YES;
+    }
+    [btn_favoriteCount setTitle:[NSString stringWithFormat:@" %d",_guide.favoriteCount] forState:UIControlStateNormal];
+    if (_guide.favoriteCount > 0) {
+        ((UIUnderlinedButton *)btn_favoriteCount).underLine = YES;
+    }
+    [btn_commentCount setTitle:[NSString stringWithFormat:@" %d",_guide.commentCount] forState:UIControlStateNormal];
+    if (_guide.commentCount > 0) {
+        ((UIUnderlinedButton *)btn_commentCount).underLine = YES;
+    }
     if (_guide.description_.length == 0) {
         tv_content.hidden = YES;
         iv_contentBackView.hidden = YES;

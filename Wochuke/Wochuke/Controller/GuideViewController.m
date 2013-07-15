@@ -105,7 +105,7 @@
     _pagedFlowView.delegate = self;
     _pagedFlowView.dataSource = self;
     _pagedFlowView.minimumPageAlpha = 0.3;
-    _pagedFlowView.minimumPageScale = 0.9;
+    _pagedFlowView.minimumPageScale = 1.0;
     if (_guide.commentCount>0) {
         _badgeView = [[[JSBadgeView alloc] initWithParentView:_btn_comment alignment:JSBadgeViewAlignmentTopRight]autorelease];
         _badgeView.badgePositionAdjustment = CGPointMake(-10, 10);
@@ -403,7 +403,7 @@
 {
     //定义菜单分享列表
 //    NSArray *shareList = [ShareSDK getShareListWithType:ShareTypeTwitter, ShareTypeFacebook, ShareTypeSinaWeibo, ShareTypeTencentWeibo, ShareTypeRenren, ShareTypeKaixin, ShareTypeSohuWeibo, ShareType163Weibo, nil];
-    NSArray *shareList = [ShareSDK getShareListWithType:ShareTypeSinaWeibo,ShareTypeTencentWeibo,ShareTypeWeixiSession,ShareTypeWeixiTimeline,
+    NSArray *shareList = [ShareSDK getShareListWithType:ShareTypeSinaWeibo,ShareTypeQQSpace,ShareTypeWeixiSession,ShareTypeWeixiTimeline,
                           nil];
     
     //创建分享内容
@@ -433,7 +433,7 @@
                                     [ShareSDK userFieldWithType:SSUserFieldTypeName value:@"ShareSDK"],
                                     SHARE_TYPE_NUMBER(ShareTypeTencentWeibo),
                                     nil]];
-    
+    [ShareSDK ssoEnabled:YES];
     //显示分享菜单
     [ShareSDK showShareActionSheet:container
                          shareList:shareList

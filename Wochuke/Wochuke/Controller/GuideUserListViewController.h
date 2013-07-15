@@ -17,6 +17,8 @@
 
 @property(nonatomic,assign) int actCode;
 
+@property (retain, nonatomic) IBOutlet UILabel *lb_empty;
+
 @property (retain, nonatomic) IBOutlet UINavigationBar *navBar;
 
 - (IBAction)backAction:(id)sender;

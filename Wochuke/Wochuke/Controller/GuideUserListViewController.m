@@ -73,11 +73,13 @@
 - (void)dealloc {
     [_tableView release];
     [_navBar release];
+    [_lb_empty release];
     [super dealloc];
 }
 - (void)viewDidUnload {
     [self setTableView:nil];
     [self setNavBar:nil];
+    [self setLb_empty:nil];
     [super viewDidUnload];
 }
 
@@ -104,7 +106,10 @@
                     if (pageIndex == 0) {
                         [_datas removeAllObjects];
                         if (list.count == 0) {
-                            [ReloadView showInView:self.tableView message:@"没有相关的内容" target:self action:@selector(reloadDatas)];
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                [_tableView setHidden:YES];
+                                [_lb_empty setHidden:NO];
+                            });
                         }
                     }
                     if (list.count > 0) {

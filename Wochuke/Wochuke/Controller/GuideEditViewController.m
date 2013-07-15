@@ -19,7 +19,7 @@
 #import "PublishViewController.h"
 
 @interface GuideEditViewController ()<UIImagePickerControllerDelegate,UINavigationControllerDelegate, UIActionSheetDelegate,StepEditViewDelegate>{
-    StepEditView *_editView;
+    JCStep *_steptemp;
     UIImagePickerController *_picker;
 }
 
@@ -42,7 +42,7 @@
     _pagedFlowView.delegate = self;
     _pagedFlowView.dataSource = self;
     _pagedFlowView.minimumPageAlpha = 0.3;
-    _pagedFlowView.minimumPageScale = 0.9;
+    _pagedFlowView.minimumPageScale = 1.0;
     // Do any additional setup after loading the view from its nib.
 }
 
@@ -66,7 +66,7 @@
 }
 
 - (void)dealloc {
-    [_editView release];
+    [_steptemp release];
     [_pagedFlowView release];
     [super dealloc];
 }
@@ -155,14 +155,14 @@
 
 #pragma mark -StepEditViewDelegate
 -(void)imageTapFromStepEditView:(StepEditView *)editView;{
-    _editView = [editView retain];
+    _steptemp = [editView.step retain];
     UIActionSheet *sheet = [[UIActionSheet alloc]initWithTitle:@"图片来源" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"相册",@"拍照", nil];
     [sheet showInView:self.view];
     [sheet release];
 }
 
 -(void)delBtnClickedFromStepEditView:(StepEditView *)editView{
-    _editView = [editView retain];
+    _steptemp = [editView.step retain];
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"确定要删除该步骤?" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"删除", nil];
     [alert show];
     [alert release];
@@ -172,10 +172,9 @@
 {
     if (buttonIndex == 1)
     {
-        JCStep *step = _editView.step;
-        [[ShareVaule shareInstance] removeStep:step];
-        [_editView release];
-        _editView = nil;
+        [[ShareVaule shareInstance] removeStep:_steptemp];
+        [_steptemp release];
+        _steptemp = nil;
         [_pagedFlowView reloadData];
     }
 }
@@ -313,12 +312,11 @@
     //    UIImage *cmpImg = [self scaleImage:image toScale:kImageScaleRate];//縮圖
     //    UIImageWriteToSavedPhotosAlbum(cmpImg, nil, nil, nil);
     NSData *blobImage = UIImageJPEGRepresentation(croppedImage, kImageCompressRate);//圖片壓縮為NSData
-    if (_editView) {
-        JCStep *step = _editView.step;
-        [[ShareVaule shareInstance] putImageData:blobImage step:step];
-        [_editView upImage];
-        [_editView release];
-        _editView = nil;
+    if (_steptemp) {
+        [[ShareVaule shareInstance] putImageData:blobImage step:_steptemp];
+        [_pagedFlowView reloadData];
+        [_steptemp release];
+        _steptemp = nil;
     }
     __block PECropViewController *_controller = controller;
     [controller dismissViewControllerAnimated:YES completion:^{

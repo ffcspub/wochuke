@@ -36,6 +36,7 @@
         imageView = [[[MyWebImgView alloc]init]autorelease];
         imageView.layer.cornerRadius = 6;
         imageView.layer.masksToBounds = YES;
+        imageView.contentMode = UIViewContentModeScaleAspectFill;
         imageView.showProgress = YES;
         
         lb_type = [[[UILabel alloc]init]autorelease];
