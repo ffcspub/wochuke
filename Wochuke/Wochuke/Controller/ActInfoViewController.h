@@ -17,6 +17,8 @@
 
 @property (retain, nonatomic) IBOutlet UITableView *tableView;
 
+@property (retain, nonatomic) IBOutlet UILabel *lb_empty;
+
 - (IBAction)typeChangAction:(id)sender;
 
 - (IBAction)ceateAction:(id)sender;

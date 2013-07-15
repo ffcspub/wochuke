@@ -24,4 +24,4 @@
 #define IMAGE_NAME @"sharesdk_img"
 #define IMAGE_EXT @"jpg"
 
-#define CONTENT @"%@(分享自沃厨客-电厨具烹饪指南"
+#define CONTENT @"%@(分享自沃厨客-电厨具烹饪指南)"

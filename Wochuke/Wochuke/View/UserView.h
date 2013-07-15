@@ -22,6 +22,7 @@
     UILabel *lb_guides;//多少条指南
     UILabel *lb_fav;//多少条收藏
     UIButton *btn_following;//关注
+    UIView *line;
 }
 
 @property(nonatomic,assign) id<UserCellDeleagte> delegate;

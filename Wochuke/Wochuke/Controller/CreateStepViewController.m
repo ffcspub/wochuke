@@ -41,8 +41,8 @@
     [super viewDidLoad];
     _pagedFlowView.delegate = self;
     _pagedFlowView.dataSource = self;
-    _pagedFlowView.minimumPageAlpha = 0.3;
-    _pagedFlowView.minimumPageScale = 0.9;
+    _pagedFlowView.minimumPageAlpha = 1.0;
+    _pagedFlowView.minimumPageScale = 1.0;
     step = [JCStep step];
     step.ordinal = [ShareVaule shareInstance].editGuideEx.steps.count+1;
     [((NSMutableArray *)[ShareVaule shareInstance].editGuideEx.steps) addObject:step];

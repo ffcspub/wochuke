@@ -24,19 +24,19 @@
     
     for (UIWindow *window in frontToBackWindows){
         if (window.windowLevel == UIWindowLevelNormal) {
-            viewRect = [view convertRect:CGRectMake(0, 0, view.frame.size.width, view.frame.size.height) toView:window];
-            self.frame = viewRect;
+//            viewRect = [view convertRect:CGRectMake(0, 0, view.frame.size.width, view.frame.size.height) toView:window];
+            viewRect = CGRectMake(window.frame.size.width, window.frame.size.height, 0, 0);
             [window addSubview:self];
             break;
         }
     }
     self.layer.opacity = 0;
-    [UIView animateWithDuration:0.7 animations:^{
+    self.frame = viewRect;
+    [UIView animateWithDuration:0.5 animations:^{
         self.layer.opacity = 1;
         self.frame = self.superview.frame;
-        self.backgroundColor = [UIColor darkTextColor];
     } completion:^(BOOL finished) {
-        
+        self.backgroundColor = [UIColor darkTextColor];
     }];
 
 }
@@ -86,11 +86,10 @@
 }
 
 -(void)closeTap{
-    
-    [UIView animateWithDuration:0.7 animations:^{
+    [UIView animateWithDuration:0.5 animations:^{
         self.frame = viewRect;
-        self.layer.opacity = 0;
     } completion:^(BOOL finished) {
+        self.layer.opacity = 0;
         [self removeFromSuperview];
     }];
 }

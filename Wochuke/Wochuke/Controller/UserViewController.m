@@ -86,10 +86,15 @@
         [_iv_face setImageWithURL:[NSURL URLWithString:_user.avatar.url] placeholderImage:[UIImage imageNamed:@"ic_user_top"]];
         UIImage *backImage = [[UIImage imageNamed:@"btn_grad"]resizableImageWithCapInsets:UIEdgeInsetsMake(12, 12, 12, 12) ];
         [_btn_follow setBackgroundImage:backImage forState:UIControlStateNormal];
+        if ([_user.id_ isEqual:[ShareVaule shareInstance].userId]) {
+            [_btn_follow setHidden:YES];
+        }
         if (_user.followState == 1 || _user.followState == 3) {
             [_btn_follow setTitle:@"取消关注" forState:UIControlStateNormal];
+            [_btn_follow setTitleColor:[UIColor darkGrayColor]  forState:UIControlStateNormal];
         }else{
-            [_btn_follow setTitle:@"添加关注" forState:UIControlStateNormal];
+            [_btn_follow setTitle:@"加关注" forState:UIControlStateNormal];
+            [_btn_follow setTitleColor:[UIColor redColor]  forState:UIControlStateNormal];
         }
     }
     
@@ -603,8 +608,10 @@
                         }
                         if (_user.followState == 1 || _user.followState == 3) {
                             [_btn_follow setTitle:@"取消关注" forState:UIControlStateNormal];
+                            [_btn_follow setTitleColor:[UIColor darkGrayColor]  forState:UIControlStateNormal];
                         }else{
-                            [_btn_follow setTitle:@"添加关注" forState:UIControlStateNormal];
+                            [_btn_follow setTitle:@"加关注" forState:UIControlStateNormal];
+                            [_btn_follow setTitleColor:[UIColor redColor]  forState:UIControlStateNormal];
                         }
                         [self postNotification:NOTIFICATION_FOLLOWSTATECHANGE];
                     });
@@ -635,7 +642,6 @@
                     [SVProgressHUD showErrorWithStatus:@"服务访问异常"];
                 });
             }
-            
             
         });
     }else{

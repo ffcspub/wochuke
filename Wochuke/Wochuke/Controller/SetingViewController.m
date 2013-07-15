@@ -94,6 +94,7 @@
             }
         }else{
             dispatch_async(dispatch_get_main_queue(), ^{
+                [self upShareUI];
                 [self.tableView reloadData];
                 [SVProgressHUD dismiss];
             });
@@ -166,24 +167,36 @@
     [ShareVaule shareInstance].tencentOAuth.sessionDelegate = self;
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    
+-(void)upShareUI{
     if ([[ShareVaule shareInstance].tencentOAuth isSessionValid]) {
         [self.qqSwitch setOn:YES];
+        if (_qqName) {
+            [_qqName release];
+            _qqName = nil;
+        }
         _qqName = [[ShareVaule shareInstance].qqName retain];
+        [self.qqSwitch setOn:YES];
     }else{
         [self.qqSwitch setOn:NO];
     }
     if ([[ShareVaule shareInstance].sinaweibo isAuthValid]) {
+        if (_sinaName) {
+            [_sinaName release];
+            _sinaName = nil;
+        }
         _sinaName = [[ShareVaule shareInstance].sinaweiboName retain];
         [self.sinaSwitch setOn:YES];
     }else{
         [self.sinaSwitch setOn:NO];
     }
+
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self upShareUI];
     [_tableView reloadData];
-    
 }
 
 - (void)logoutClick:(id)sender
@@ -324,13 +337,19 @@
 - (void)sinaweiboDidLogOut:(SinaWeibo *)sinaweibo
 {
     NSLog(@"走 sinaweiboDidLogOut ");
+    [self upShareUI];
     //    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
     //    [self removeAuthData];
+}
+
+- (void)sinaweiboLogInDidCancel:(SinaWeibo *)sinaweibo;{
+    [self upShareUI];
 }
 
 - (void)sinaweibo:(SinaWeibo *)sinaweibo logInDidFailWithError:(NSError *)error
 {
     NSLog(@"sinaweibo logInDidFailWithError %@", error);
+    [self upShareUI];
 }
 
 - (void)sinaweibo:(SinaWeibo *)sinaweibo accessTokenInvalidOrExpired:(NSError *)error
@@ -368,16 +387,17 @@
 
 - (void)tencentDidNotLogin:(BOOL)cancelled
 {
-    
+    [self upShareUI];
 }
 
 - (void)tencentDidNotNetWork
 {
-    
+    [self upShareUI];
 }
 
 - (void)tencentDidLogout
 {
+    [self upShareUI];
     //    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
     
 }

@@ -167,6 +167,15 @@
                     }
                     if (list.count > 0) {
                         [_datas addObjectsFromArray:list];
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [_lb_empty setHidden:YES];
+                            [_tableView setHidden:NO];
+                        });
+                    }else{
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [_lb_empty setHidden:NO];
+                            [_tableView setHidden:YES];
+                        });
                     }
                     if (list.count == 20) {
                         pageIndex ++;
@@ -300,6 +309,7 @@
     [_tableView release];
     [_btn_new release];
     [_btn_flow release];
+    [_lb_empty release];
     [super dealloc];
 }
 
@@ -307,6 +317,7 @@
     [self setTableView:nil];
     [self setBtn_new:nil];
     [self setBtn_flow:nil];
+    [self setLb_empty:nil];
     [super viewDidUnload];
 }
 

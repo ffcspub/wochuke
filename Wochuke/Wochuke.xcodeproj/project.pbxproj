@@ -313,6 +313,12 @@
 		4CE1462E178EE27900056955 /* ic_classify_list_like_grad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CE14628178EE27900056955 /* ic_classify_list_like_grad@2x.png */; };
 		4CE1462F178EE27900056955 /* ic_classify_list_read_grad.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CE14629178EE27900056955 /* ic_classify_list_read_grad.png */; };
 		4CE14630178EE27900056955 /* ic_classify_list_read_grad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CE1462A178EE27900056955 /* ic_classify_list_read_grad@2x.png */; };
+		4CEB38951794025F0047DDD6 /* ShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CEB38931794025F0047DDD6 /* ShareViewController.m */; };
+		4CEB38961794025F0047DDD6 /* ShareViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CEB38941794025F0047DDD6 /* ShareViewController.xib */; };
+		4CEB389B179411BF0047DDD6 /* NSDate+BeeExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CEB3898179411BE0047DDD6 /* NSDate+BeeExtension.m */; };
+		4CEB389C179411BF0047DDD6 /* NSNumber+BeeExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CEB389A179411BF0047DDD6 /* NSNumber+BeeExtension.m */; };
+		4CEB389F17941C6E0047DDD6 /* back_grad.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CEB389D17941C6E0047DDD6 /* back_grad.png */; };
+		4CEB38A017941C6E0047DDD6 /* back_grad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CEB389E17941C6E0047DDD6 /* back_grad@2x.png */; };
 		4CFAA1BB178F95EE009F615B /* textfield_back.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CFAA1B9178F95EE009F615B /* textfield_back.png */; };
 		4CFAA1BC178F95EE009F615B /* textfield_back@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CFAA1BA178F95EE009F615B /* textfield_back@2x.png */; };
 		4CFAA1CA178F9600009F615B /* bg_register&login_card.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CFAA1BE178F9600009F615B /* bg_register&login_card.png */; };
@@ -790,6 +796,15 @@
 		4CE14628178EE27900056955 /* ic_classify_list_like_grad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_classify_list_like_grad@2x.png"; sourceTree = "<group>"; };
 		4CE14629178EE27900056955 /* ic_classify_list_read_grad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_classify_list_read_grad.png; sourceTree = "<group>"; };
 		4CE1462A178EE27900056955 /* ic_classify_list_read_grad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_classify_list_read_grad@2x.png"; sourceTree = "<group>"; };
+		4CEB38921794025F0047DDD6 /* ShareViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShareViewController.h; sourceTree = "<group>"; };
+		4CEB38931794025F0047DDD6 /* ShareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShareViewController.m; sourceTree = "<group>"; };
+		4CEB38941794025F0047DDD6 /* ShareViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShareViewController.xib; sourceTree = "<group>"; };
+		4CEB3897179411BE0047DDD6 /* NSDate+BeeExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+BeeExtension.h"; sourceTree = "<group>"; };
+		4CEB3898179411BE0047DDD6 /* NSDate+BeeExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+BeeExtension.m"; sourceTree = "<group>"; };
+		4CEB3899179411BF0047DDD6 /* NSNumber+BeeExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSNumber+BeeExtension.h"; sourceTree = "<group>"; };
+		4CEB389A179411BF0047DDD6 /* NSNumber+BeeExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSNumber+BeeExtension.m"; sourceTree = "<group>"; };
+		4CEB389D17941C6E0047DDD6 /* back_grad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = back_grad.png; sourceTree = "<group>"; };
+		4CEB389E17941C6E0047DDD6 /* back_grad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "back_grad@2x.png"; sourceTree = "<group>"; };
 		4CFAA1B9178F95EE009F615B /* textfield_back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = textfield_back.png; sourceTree = "<group>"; };
 		4CFAA1BA178F95EE009F615B /* textfield_back@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "textfield_back@2x.png"; sourceTree = "<group>"; };
 		4CFAA1BE178F9600009F615B /* bg_register&login_card.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bg_register&login_card.png"; sourceTree = "<group>"; };
@@ -933,6 +948,8 @@
 		182ABC6E177D28A200431A1F /* guide */ = {
 			isa = PBXGroup;
 			children = (
+				4CEB389D17941C6E0047DDD6 /* back_grad.png */,
+				4CEB389E17941C6E0047DDD6 /* back_grad@2x.png */,
 				18FFAABD1782E1E600E1D571 /* textViewBoard.png */,
 				18FFAABE1782E1E600E1D571 /* textViewBoard@2x.png */,
 				18FFAA791782E1D900E1D571 /* bg_cook_bottom.png */,
@@ -1339,6 +1356,10 @@
 		18E457AF177969B1003A0BBA /* UITool */ = {
 			isa = PBXGroup;
 			children = (
+				4CEB3897179411BE0047DDD6 /* NSDate+BeeExtension.h */,
+				4CEB3898179411BE0047DDD6 /* NSDate+BeeExtension.m */,
+				4CEB3899179411BF0047DDD6 /* NSNumber+BeeExtension.h */,
+				4CEB389A179411BF0047DDD6 /* NSNumber+BeeExtension.m */,
 				183AA78B17869F4D004C197F /* NSObject+BeeTypeConversion.h */,
 				183AA78C17869F4D004C197F /* NSObject+BeeTypeConversion.m */,
 				183AA78A17869F32004C197F /* NSData+BeeExtension.h */,
@@ -1375,6 +1396,9 @@
 		18E457B917796D55003A0BBA /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				4CEB38921794025F0047DDD6 /* ShareViewController.h */,
+				4CEB38931794025F0047DDD6 /* ShareViewController.m */,
+				4CEB38941794025F0047DDD6 /* ShareViewController.xib */,
 				4C0A0A451790E680007CB0DC /* HomeViewController.h */,
 				4C0A0A461790E680007CB0DC /* HomeViewController.m */,
 				4C0A0A471790E680007CB0DC /* HomeViewController.xib */,
@@ -2014,6 +2038,9 @@
 				4C0A0A5D1791C287007CB0DC /* bg_setting_card.png in Resources */,
 				4C0A0A5E1791C287007CB0DC /* bg_setting_card@2x.png in Resources */,
 				B733F4751793DAFE00A0700B /* SinaWeibo.bundle in Resources */,
+				4CEB38961794025F0047DDD6 /* ShareViewController.xib in Resources */,
+				4CEB389F17941C6E0047DDD6 /* back_grad.png in Resources */,
+				4CEB38A017941C6E0047DDD6 /* back_grad@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2106,6 +2133,9 @@
 				B733F4771793DAFE00A0700B /* SinaWeiboAuthorizeView.m in Sources */,
 				B733F4781793DAFE00A0700B /* SinaWeiboRequest.m in Sources */,
 				B733F47C1793DB2800A0700B /* JSONKit.m in Sources */,
+				4CEB38951794025F0047DDD6 /* ShareViewController.m in Sources */,
+				4CEB389B179411BF0047DDD6 /* NSDate+BeeExtension.m in Sources */,
+				4CEB389C179411BF0047DDD6 /* NSNumber+BeeExtension.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

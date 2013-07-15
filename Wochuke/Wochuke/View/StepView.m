@@ -16,14 +16,14 @@
     [super setFrame:frame];
     backImageView.frame = CGRectMake(0, 0, frame.size.width, frame.size.height);
     tagImageView.frame = CGRectMake(0, 20, 45, 25);
-    lb_step.frame = CGRectMake(10, 20, 35, 20);
+    lb_step.frame = CGRectMake(0, 20, 45, 20);
     btn_comment.frame = CGRectMake(11, frame.size.height - 11 - 30, 40, 30);
     line.frame = CGRectMake(11, frame.size.height - 11 - 35, frame.size.width - 22, 1);
     lb_comment.frame = CGRectMake(52, frame.size.height - 11 - 30, 40, 30);
     if ([self hasImage]){
         CGSize size = [_step.text.length>0?_step.text:@" " sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:CGSizeMake(frame.size.width -22 - UITEXTVIEW_MARGIN*2, 1000)];
-        imageView.frame = CGRectMake(11, 11, frame.size.width -22 , frame.size.height - 22 - 45 - MIN(size.height + UITEXTVIEW_MARGIN*2, 100));
-        tv_text.frame = CGRectMake(11, frame.size.height - 22 - 30 - MIN(size.height + UITEXTVIEW_MARGIN*2, 100), frame.size.width -22, MIN(size.height + UITEXTVIEW_MARGIN*2, 100));
+        imageView.frame = CGRectMake(11, 11, frame.size.width -22 , frame.size.height - 22 - 45 - MIN(size.height + UITEXTVIEW_MARGIN*2, 200));
+        tv_text.frame = CGRectMake(11, frame.size.height - 22 - 30 - MIN(size.height + UITEXTVIEW_MARGIN*2, 200), frame.size.width -22, MIN(size.height + UITEXTVIEW_MARGIN*2, 200));
     }else{
         imageView.frame = CGRectZero;
         tv_text.frame = CGRectMake(11,  11 , frame.size.width - 22, frame.size.height - 22 - 40);
@@ -31,7 +31,7 @@
 }
 
 -(BOOL)hasImage{
-    return [[ShareVaule shareInstance].stepImageDic objectForKey:[NSNumber numberWithInt:self.step.ordinal]] || _step.photo.url;
+    return [[ShareVaule shareInstance].stepImageDic objectForKey:[NSNumber numberWithInt:self.step.ordinal]] || _step.photo.url.length>0;
 }
 
 -(void)upImage;{
@@ -83,6 +83,7 @@
         lb_step.backgroundColor = [UIColor clearColor];
         lb_step.textColor = [UIColor whiteColor];
         lb_step.adjustsFontSizeToFitWidth = YES;
+        lb_step.textAlignment = UITextAlignmentCenter;
         [self addSubview:lb_step];
         
         imageView.userInteractionEnabled = YES;
@@ -175,10 +176,9 @@
     tagImageView.frame = CGRectMake(0, 20, 40, 25);
     lb_step.frame = CGRectMake(5, 20, 30, 20);
     
-    
     CGSize size = [_step.text.length>0?_step.text:@" " sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:CGSizeMake(frame.size.width -22 - UITEXTVIEW_MARGIN*2, 1000)];
-    imageView.frame = CGRectMake(11, 11, frame.size.width -22 , frame.size.height - 22 - 45 - MIN(size.height+UITEXTVIEW_MARGIN*2, 150));
-    tv_text.frame = CGRectMake(11, frame.size.height - 22 - 30 - MIN(size.height + UITEXTVIEW_MARGIN*2, 150) , frame.size.width - 22, MIN(size.height + UITEXTVIEW_MARGIN*2, 150));
+    imageView.frame = CGRectMake(11, 11, frame.size.width -22 , frame.size.height - 22 - 45 - MIN(size.height+UITEXTVIEW_MARGIN*2, 200));
+    tv_text.frame = CGRectMake(11, frame.size.height - 22 - 30 - MIN(size.height + UITEXTVIEW_MARGIN*2, 200) , frame.size.width - 22, MIN(size.height + UITEXTVIEW_MARGIN*2, 200));
     iv_contentBackView.frame = tv_text.frame;
     lb_textcount.frame = CGRectMake(frame.size.width - 110, frame.size.height - 32, 100, 20);
     
@@ -375,7 +375,7 @@
 @implementation StepMinView
 
 -(BOOL)hasImage{
-    return [[ShareVaule shareInstance] getImageDataByStep:self.step] || self.step.photo.url;
+    return [[ShareVaule shareInstance] getImageDataByStep:self.step] || self.step.photo.url.length>0;
 }
 
 -(void)upImage;{
@@ -417,7 +417,7 @@
     [super setFrame:frame];
     backImageView.frame = CGRectMake(0, 0, frame.size.width, frame.size.height);
     tagImageView.frame = CGRectMake(0, 15, 25, 25);
-    lb_step.frame = CGRectMake(10, 15, 15, 20);
+    lb_step.frame = CGRectMake(0, 15, 25, 20);
     btn_comment.frame = CGRectZero;
     line.frame = CGRectZero;
     lb_comment.frame = CGRectZero;

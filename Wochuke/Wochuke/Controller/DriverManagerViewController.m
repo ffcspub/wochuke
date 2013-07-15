@@ -17,6 +17,7 @@
     UILabel *lable;
     UIButton *btn_edit;
     UIButton *btn_delete;
+    UIView *line;
 }
 
 @property(nonatomic,assign) id<DriverCellDelegate> delegate;
@@ -42,7 +43,8 @@
 {
     lable.frame = CGRectMake(10, 0, 170, bound.height);
     btn_edit.frame = CGRectMake(190, 10, 50, bound.height - 20);
-    btn_delete.frame = CGRectMake(190 + 50 + 10, 10,50,bound.height - 20); 
+    btn_delete.frame = CGRectMake(190 + 50 + 10, 10,50,bound.height - 20);
+    line.frame = CGRectMake(0, bound.height - 0.6, bound.width, 0.6);
 }
 
 - (void)dataDidChanged
@@ -91,8 +93,12 @@
     [btn_delete setBackgroundImage:back forState:UIControlStateNormal];
     [btn_edit setBackgroundImage:back forState:UIControlStateNormal];
     
+    line = [[[UIView alloc]init]autorelease];
+    line.backgroundColor = [UIColor lightGrayColor];
+    
     [self addSubview:btn_delete];
     [self addSubview:btn_edit];
+    [self addSubview:line];
 }
 
 @end

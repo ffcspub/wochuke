@@ -150,7 +150,8 @@ static ShareVaule *_shareVaule;
     [steps removeObjectAtIndex:fromIndex];
     [steps insertObject:oldStep atIndex:toIndex];
     
-    NSData *oldData = [NSData dataWithData:[imageArray objectAtIndex:fromIndex]];
+
+    NSObject *oldData = [imageArray objectAtIndex:fromIndex];
     [imageArray removeObjectAtIndex:fromIndex];
     [imageArray insertObject:oldData atIndex:toIndex];
     

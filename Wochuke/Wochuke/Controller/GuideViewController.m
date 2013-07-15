@@ -105,7 +105,7 @@
     [super viewDidLoad];
     _pagedFlowView.delegate = self;
     _pagedFlowView.dataSource = self;
-    _pagedFlowView.minimumPageAlpha = 0.3;
+    _pagedFlowView.minimumPageAlpha = 1.0;
     _pagedFlowView.minimumPageScale = 1.0;
     if (_guide.commentCount>0) {
         _badgeView = [[[JSBadgeView alloc] initWithParentView:_btn_comment alignment:JSBadgeViewAlignmentTopRight]autorelease];

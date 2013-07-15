@@ -131,15 +131,15 @@
 		NSString *title = @"Return";
 	
 		switch (self.returnKeyType) {
-			case UIReturnKeyGo:				{ title = @"Go";	break;}
+			case UIReturnKeyGo:				{ title = @"完成";	break;}
 			case UIReturnKeyGoogle:			{ title = @"Google";break;}
 			case UIReturnKeyJoin:			{ title = @"Join";	break;}
 			case UIReturnKeyNext:			{ title = @"Next";	break;}
 			case UIReturnKeyRoute:			{ title = @"Route";	break;}
 			case UIReturnKeySearch:			{ title = @"Search";break;}
-			case UIReturnKeySend:			{ title = @"Send";	break;}
+			case UIReturnKeySend:			{ title = @"发送";	break;}
 			case UIReturnKeyYahoo:			{ title = @"Yahoo";	break;}
-			case UIReturnKeyDone:			{ title = @"Done";	break;}
+			case UIReturnKeyDone:			{ title = @"完成";	break;}
 			case UIReturnKeyEmergencyCall:	{ title = @"Call";	break;}
 			default:
 				break;
@@ -213,6 +213,10 @@
 		[UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
             promptLabel.alpha = 1.0;
 		} completion:^(BOOL finished){
+            UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, fullFrame.size.width, fullFrame.size.height)];
+            view.tag = 10086;
+            [fullView addSubview:view];
+            [fullView bringSubviewToFront:toolBar];
             self.borderStyle = UITextBorderStyleRoundedRect;
             self.backgroundColor = [UIColor whiteColor];
         }];
@@ -246,7 +250,8 @@
 	} completion:^(BOOL finished){
 		//  The order in which views are added to a superview and the addition of their contraints, matters
 		self.frame = originalFrame;
-        
+        UIView *view = [fullView viewWithTag:10086];
+        [view removeFromSuperview];
 		[originalContainer insertSubview:self atIndex:originalIndex];
 		if ([originalConstraints count]) {
 			[self removeConstraints:self.constraints];

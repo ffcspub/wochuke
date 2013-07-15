@@ -40,7 +40,7 @@
         CGContextMoveToPoint(contextRef, textRect.origin.x, textRect.origin.y + textRect.size.height + descender);
         CGContextAddLineToPoint(contextRef, textRect.origin.x + textRect.size.width + 3, textRect.origin.y + textRect.size.height + descender);
         CGContextStrokePath(contextRef);
-        CGContextClosePath(contextRef);
+//        CGContextClosePath(contextRef);
         CGContextDrawPath(contextRef, kCGPathStroke);
     }
 }
@@ -229,6 +229,7 @@
         tv_content.placeholderColor = [UIColor grayColor];
         tv_content.editable = NO;
         
+                
         self.backgroundColor = [UIColor clearColor];
         [self addSubview:backImageView];
         [self addSubview:backTopImageView];
@@ -300,6 +301,10 @@
 
 @implementation GuideEditView
 
+-(void)beginEdit;{
+    [tv_title becomeFirstResponder];
+}
+
 -(void)setFrame:(CGRect)frame{
     [super setFrame:frame];
     backImageView.frame = CGRectMake(0, 0, frame.size.width, frame.size.height);
@@ -320,6 +325,7 @@
     [tv_content refreshHeight];
     
 }
+
 
 - (void)growingTextView:(HPGrowingTextView *)growingTextView willChangeHeight:(float)height
 {
@@ -525,6 +531,7 @@
     btn_favoriteCount.frame = CGRectMake(70 ,bound.height - 22 - 25,40,25);
     btn_commentCount.frame = CGRectMake(110 , bound.height - 22 - 25,40,25);
     lb_publisher.frame = CGRectMake(140, bound.height - 22 - 25, bound.width - 22 - 140 - 10,25);
+    gradImageView.frame = CGRectMake(22, bound.height - 22 - 70, bound.width - 44, 70);
 }
 
 - (void)dataDidChanged
@@ -533,6 +540,7 @@
         JCGuide *_guide = self.cellData;
         lb_title.text = _guide.title;
         [iv_photo setImageWithURL:[NSURL URLWithString:_guide.cover.url] ];
+        
         lb_publisher.text = [NSString stringWithFormat:@"by %@",_guide.userName];
         [btn_viewCount setTitle:[NSString stringWithFormat:@"%d",_guide.viewCount] forState:UIControlStateNormal];
         [btn_viewCount setImage:[UIImage imageNamed:@"ic_classify_list_read"] forState:UIControlStateNormal];
@@ -549,6 +557,10 @@
     iv_photo.contentMode = UIViewContentModeScaleAspectFill;
     iv_photo.layer.cornerRadius = 6;
     iv_photo.layer.masksToBounds = YES;
+    
+    gradImageView = [[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"back_grad"]]autorelease];
+    gradImageView.layer.cornerRadius = 6;
+    gradImageView.layer.masksToBounds = YES;
     
     lb_title = [[[UILabel alloc]init]autorelease];
     lb_title.font = [UIFont boldSystemFontOfSize:18];
@@ -587,6 +599,7 @@
     
     [self addSubview:backImageView];
     [self addSubview:iv_photo];
+    [self addSubview:gradImageView];
     [self addSubview:lb_title];
     [self addSubview:line];
     [self addSubview:lb_publisher];
@@ -628,7 +641,8 @@
     btn_viewCount.frame = CGRectMake(bound.height + 5, (bound.height -10)/2, 40, 30);
     btn_favoriteCount.frame = CGRectMake(bound.height + 5 + 40, (bound.height -10)/2, 40, 30);
     btn_commentCount.frame = CGRectMake(bound.height + 5 + 40 + 40, (bound.height -10)/2, 40, 30);
-    lb_publisher.frame = CGRectMake(bound.width - 100, bound.height, bound.width - 170 - 10,25);
+    lb_publisher.frame = CGRectMake(bound.width - 100, (bound.height -10)/2, 100 - 5,25);
+    gradImageView.frame = CGRectZero;
 }
 
 - (void)load
@@ -674,6 +688,7 @@
     [super layoutInBound:bound forCell:cell];
     backImageView.frame = CGRectZero;
     btn_edit.frame = CGRectMake(bound.width - 50 , (bound.height - 30)/2, 45,30);
+    lb_publisher.frame = CGRectZero;
 }
 
 - (void)dataDidChanged
@@ -683,6 +698,7 @@
         JCGuide *guide = self.cellData;
         if (!guide.published) {
             [lb_title setTextColor:[UIColor redColor]];
+            [lb_title setText:[NSString stringWithFormat:@"草稿:%@",guide.title]];
         }else{
             [lb_title setTextColor:[UIColor darkTextColor]];
 

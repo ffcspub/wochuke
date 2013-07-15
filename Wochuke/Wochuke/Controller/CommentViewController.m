@@ -20,6 +20,7 @@
     int pageIndex;
     int pageSize;
     BOOL hasNextPage;
+    int tempIndex;
 }
 
 @end
@@ -259,6 +260,49 @@
     [self loadDatas];
 }
 
+-(void)deleteComment{
+    [SVProgressHUD show];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+        @try {
+            id<JCAppIntfPrx> proxy = [[ICETool shareInstance] createProxy];
+            @try {
+                JCComment *comment = [_datas objectAtIndex:tempIndex];
+                [proxy deleteComment:[ShareVaule shareInstance].user.id_ commentId:comment.id_];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [SVProgressHUD dismiss];
+                    [self reloadDatas];
+                });
+            }
+            @catch (ICEException *exception) {
+                if ([exception isKindOfClass:[JCGuideException class]]) {
+                    JCGuideException *_exception = (JCGuideException *)exception;
+                    if (_exception.reason_) {
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [SVProgressHUD showErrorWithStatus:_exception.reason_];
+                        });
+                    }else{
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [SVProgressHUD showErrorWithStatus:ERROR_MESSAGE];
+                        });
+                    }
+                }else{
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [SVProgressHUD showErrorWithStatus:ERROR_MESSAGE];
+                    });
+                }
+            }
+            @finally {
+                
+            }
+        }@catch (ICEException *exception) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [SVProgressHUD showErrorWithStatus:@"服务访问异常"];
+            });
+        }
+    });
+    
+}
+
 -(void)loadDatas{
     [SVProgressHUD show];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
@@ -346,8 +390,21 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath;{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    JCComment *comment = [_datas objectAtIndex:indexPath.row];
+    tempIndex = indexPath.row;
+    if ([comment.userId isEqual:[ShareVaule shareInstance].userId]) {
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil message:@"是否要删除该条评论？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+        [alert show];
+        [alert release];
+    }
 }
 
+#pragma mark - UIAlertViewDelegate
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex;{
+    if (buttonIndex == 1) {
+        [self deleteComment];
+    }
+}
 
 - (void)dealloc {
     [_tableView release];

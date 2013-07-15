@@ -62,6 +62,7 @@
 //    }
     lb_comment.frame = CGRectMake(60, bound.height/2 ,  bound.width - 80, bound.height/2 - 10);
     lb_time.frame = CGRectMake(bound.width - 90, 10, 60, (bound.height-20)/2);
+    line.frame = CGRectMake(0, bound.height - 0.6, bound.width, 0.6);
 }
 
 - (void)dataDidChanged
@@ -104,11 +105,14 @@
     lb_time.textColor = [UIColor grayColor];
     lb_time.textAlignment = UITextAlignmentLeft;
     
+    line = [[[UIView alloc]init]autorelease];
+    line.backgroundColor = [UIColor lightGrayColor];
+    
     [self addSubview:iv_heard];
     [self addSubview:lb_name];
     [self addSubview:lb_comment];
     [self addSubview:lb_time];
-    
+    [self addSubview:line];
 }
 
 

@@ -61,6 +61,8 @@
     CGPoint oldCenter;
 }
 
+-(void)beginEdit;
+
 @end
 
 @interface GuideInfoMinView : GuideInfoView
@@ -73,6 +75,7 @@
     UIImageView *backImageView;
     MyWebImgView *iv_photo;
     UILabel *lb_publisher;
+    UIImageView *gradImageView;
     UIButton *btn_viewCount;
     UIButton *btn_favoriteCount;
     UIButton *btn_commentCount;

@@ -19,6 +19,7 @@
     lb_type.frame = CGRectMake(5, 17, 73 - 8, 25);
     lb_name.frame = CGRectMake(18, self.frame.size.height - 22 - 50, self.frame.size.width - 36, 35);
     lb_publisher.frame = CGRectMake(18, self.frame.size.height - 22 - 20, self.frame.size.width - 36, 20);
+    _gradView.frame = CGRectMake(11, self.frame.size.height - 11 - 70, self.frame.size.width - 22, 70);
 }
 
 - (id)initWithFrame:(CGRect)frame
@@ -56,10 +57,16 @@
         lb_publisher.backgroundColor = [UIColor clearColor];
         lb_publisher.textColor = [UIColor whiteColor];
         
+        
+        _gradView = [[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"back_grad"]]autorelease];
+        _gradView.layer.cornerRadius = 6;
+        _gradView.layer.masksToBounds = YES;
+        
         self.backgroundColor = [UIColor clearColor];
         [self addSubview:backImageView];
         [self addSubview:imageView];
         [self addSubview:tagImageView];
+        [self addSubview:_gradView];
         [self addSubview:lb_type];
         [self addSubview:lb_name];
         [self addSubview:lb_publisher];

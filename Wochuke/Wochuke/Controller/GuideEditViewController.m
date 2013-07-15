@@ -41,7 +41,7 @@
     [super viewDidLoad];
     _pagedFlowView.delegate = self;
     _pagedFlowView.dataSource = self;
-    _pagedFlowView.minimumPageAlpha = 0.3;
+    _pagedFlowView.minimumPageAlpha = 1.0;
     _pagedFlowView.minimumPageScale = 1.0;
     // Do any additional setup after loading the view from its nib.
 }
@@ -109,13 +109,13 @@
 }
 
 - (void)flowView:(PagedFlowView *)flowView didTapPageAtIndex:(NSInteger)index;{
-    if (index == 1) {
-        SuppliesEditViewController *vlc = [[SuppliesEditViewController alloc]initWithNibName:@"SuppliesEditViewController" bundle:nil];
-        [self.navigationController pushViewController:vlc animated:YES];
-        [vlc release];
-    }else{
-       
-    }
+//    if (index == 1) {
+//        SuppliesEditViewController *vlc = [[SuppliesEditViewController alloc]initWithNibName:@"SuppliesEditViewController" bundle:nil];
+//        [self.navigationController pushViewController:vlc animated:YES];
+//        [vlc release];
+//    }else{
+//       
+//    }
 }
 
 #pragma mark -PagedFlowViewDataSource
@@ -133,11 +133,11 @@
         }
         return view;
     }else if(index == 1){
-        SuppliesView *view = (SuppliesView *)[flowView dequeueReusableCellWithClass:[SuppliesView class]];
+        SuppliesEditView *view = (SuppliesEditView *)[flowView dequeueReusableCellWithClass:[SuppliesEditView class]];
         if (!view) {
-            view = [[[SuppliesView alloc]init]autorelease];
+            view = [[[SuppliesEditView alloc]init]autorelease];
         }
-        view.list = [ShareVaule shareInstance].editGuideEx.supplies;
+//        view.list = [ShareVaule shareInstance].editGuideEx.supplies;
         return view;
     }else{
         StepEditView *view = (StepEditView *)[flowView dequeueReusableCellWithClass:[StepEditView class]];

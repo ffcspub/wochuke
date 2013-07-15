@@ -16,6 +16,7 @@
     UIImageView *backImageView;
     UIImageView *tagImageView;
     MyWebImgView *imageView;
+    UIImageView *_gradView;
     UILabel *lb_type;
     UILabel *lb_name;
     UILabel *lb_publisher;

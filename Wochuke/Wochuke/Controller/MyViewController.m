@@ -51,7 +51,8 @@
     [super viewDidLoad];
     _datas = [[NSMutableArray alloc]init];
     pageSize = 20;
-    
+    _iv_face.layer.cornerRadius = 8;
+    _iv_face.layer.masksToBounds = YES;
     [self.tableView addInfiniteScrollingWithActionHandler:^{
         [self loadDatas];
     }];

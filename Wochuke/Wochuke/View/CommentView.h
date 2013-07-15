@@ -19,6 +19,7 @@
     UILabel *lb_name;//姓名
     UILabel *lb_comment;//评论内容
     UILabel *lb_time;//时间
+    UIView *line;
 }
 
 @end

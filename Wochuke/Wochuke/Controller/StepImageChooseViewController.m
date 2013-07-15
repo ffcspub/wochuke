@@ -12,13 +12,20 @@
 #import "SuppliesView.h"
 #import "StepView.h"
 #import "ShareVaule.h"
+#import "UIImageView+WebCache.h"
 
-
-@interface StepImageChooseViewController ()
+@interface StepImageChooseViewController (){
+    NSMutableArray *_imageSteps;
+}
 
 @end
 
 @implementation StepImageChooseViewController
+
+-(void)dealloc{
+    [_imageSteps release];
+    [super dealloc];
+}
 
 
 - (IBAction)backAction:(id)sender {
@@ -49,8 +56,22 @@
     _girdView.actionDelegate = self;
     _girdView.minEdgeInsets = UIEdgeInsetsMake(spacing, spacing, spacing, spacing);
     _girdView.centerGrid = NO;
+    
+    _imageSteps = [[NSMutableArray alloc]init];
+    for (JCStep * step in [ShareVaule shareInstance].editGuideEx.steps) {
+        NSData *data = [[ShareVaule shareInstance] getImageDataByStep:step];
+        if (data) {
+            [ShareVaule shareInstance].guideImage = [NSData dataWithData:data];
+            [_imageSteps addObject:step];
+        }else{
+            if (step.photo.url.length>0) {
+                [_imageSteps addObject:step];
+            }
+        }
+        
+    }
 //    _girdView.actionDelegate = self;
-//    [_girdView reloadData];
+    [_girdView reloadData];
     // Do any additional setup after loading the view from its nib.
 }
 
@@ -68,7 +89,7 @@
 
 - (NSInteger)numberOfItemsInGMGridView:(GMGridView *)gridView
 {
-    return [ShareVaule shareInstance].editGuideEx.steps.count;
+    return _imageSteps.count;
 }
 
 - (CGSize)GMGridView:(GMGridView *)gridView sizeForItemsInInterfaceOrientation:(UIInterfaceOrientation)orientation
@@ -91,19 +112,21 @@
         cell.contentView = view;
     }
     StepView *view = (StepView *)cell.contentView;
-    view.step = [[ShareVaule shareInstance].editGuideEx.steps objectAtIndex:index];
+    view.step = [_imageSteps objectAtIndex:index];
     return cell;
 }
 
 #pragma mark - GMGridViewActionDelegate
 - (void)GMGridView:(GMGridView *)gridView didTapOnItemAtIndex:(NSInteger)position;{
-    NSData *data = [[ShareVaule shareInstance].stepImageDic objectForKey:[NSString stringWithFormat:@"%d",position+1]];
+    JCStep *step = [_imageSteps objectAtIndex:position];
+    NSData *data = [[ShareVaule shareInstance] getImageDataByStep:step];
     if (data) {
         [ShareVaule shareInstance].guideImage = [NSData dataWithData:data];
     }else{
-        [ShareVaule shareInstance].guideImage = nil;
-        JCStep *step = [[ShareVaule shareInstance].editGuideEx.steps objectAtIndex:position];
+        UIImageView *view = [[[UIImageView alloc]init]autorelease];
+        [view setImageWithURL:[NSURL URLWithString: step.photo.url]];
         [ShareVaule shareInstance].editGuideEx.guideInfo.cover.url = step.photo.url;
+        [ShareVaule shareInstance].guideImage = UIImageJPEGRepresentation(view.image, 1.0);
     }
     [self.navigationController popViewControllerAnimated:NO];
 }

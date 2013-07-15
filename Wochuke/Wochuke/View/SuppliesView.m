@@ -44,6 +44,7 @@
         [self addSubview:lb_empty];
         
         _tableView = [[[UITableView alloc]initWithFrame:CGRectZero style:UITableViewStylePlain]autorelease];
+        [_tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
         _tableView.delegate = self;
         _tableView.dataSource = self;
         [self addSubview:_tableView];
@@ -111,6 +112,11 @@
         lb_quantity.textColor = [UIColor grayColor];
         lb_quantity.backgroundColor = [UIColor clearColor];
         [cell.contentView addSubview:lb_quantity];
+        
+        UIView *line = [[[UIView alloc]initWithFrame:CGRectMake(0, 44.0-0.6, tableView.frame.size.width, 0.6)]autorelease];
+        line.backgroundColor = [UIColor lightGrayColor];
+        line.tag = 3;
+        [cell.contentView addSubview:line];
     }
     UILabel *lb_name = (UILabel *)[cell.contentView viewWithTag:1];
     UILabel *lb_quantity = (UILabel *)[cell.contentView viewWithTag:2];
@@ -196,6 +202,7 @@
     _line.frame = CGRectMake(3 + (bound.width-6)/5 * 2,  0, 0.5,bound.height);
     _tf_quantity.frame = CGRectMake(5 + (bound.width-6)/5 * 2, 0, (bound.width-6)/5 * 2 - 5, bound.height);
     _btn_del.frame = CGRectMake((bound.width-6)/5 * 4 , 10, (bound.width-6)/5 , bound.height - 20);
+    _line.frame = CGRectMake(0, bound.height - 0.6, bound.width, 0.6);
 }
 
 - (void)dataDidChanged;{
@@ -349,12 +356,17 @@
         [lb_other setHidden:YES];
     }else{
         [addImageView setHidden:YES];
-        [lb_other setHidden:NO];
+        if (list.count>6) {
+            [lb_other setHidden:NO];
+        }else{
+            [lb_other setHidden:YES];
+        }
+    
     }
 }
 
 -(CGSize)tableViewCellSize{
-    return CGSizeMake(_tableView.frame.size.width, 17);
+    return CGSizeMake(_tableView.frame.size.width, 14);
 }
 
 -(id)initWithFrame:(CGRect)frame{
@@ -387,6 +399,8 @@
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     UILabel *lb_name = (UILabel *)[cell.contentView viewWithTag:1];
     UILabel *lb_quantity = (UILabel *)[cell.contentView viewWithTag:2];
+    UIView *line = (UIView *)[cell.contentView viewWithTag:3];
+    [line setHidden:YES];
     lb_name.font = [UIFont systemFontOfSize:11];
     lb_quantity.font = [UIFont systemFontOfSize:11];
     return cell;

@@ -28,9 +28,10 @@
 {
     iv_heard.frame = CGRectMake(5, 5, bound.height -10, bound.height -10);
     lb_name.frame = CGRectMake(bound.height, 5, bound.width - 60, (bound.height-10)/2);
-    lb_guides.frame = CGRectMake(bound.height, (bound.height-10)/2, 60, (bound.height-10)/2);
-    lb_fav.frame = CGRectMake(bound.height + 70, (bound.height-10)/2, 60, (bound.height-10)/2);
+    lb_guides.frame = CGRectMake(bound.height, (bound.height-10)/2, 50, (bound.height-10)/2);
+    lb_fav.frame = CGRectMake(bound.height + 50, (bound.height-10)/2, 50, (bound.height-10)/2);
     btn_following.frame = CGRectMake(bound.width - 80, 10, 70, bound.height-20);
+    line.frame = CGRectMake(0, bound.height - 0.6, bound.width, 0.6);
 }
 
 - (void)dataDidChanged
@@ -41,7 +42,13 @@
         lb_name.text = user.name;
         lb_guides.text = [NSString stringWithFormat:@"%d上传",user.guideCount];
         lb_fav.text = [NSString stringWithFormat:@"%d收藏",user.favoriteCount];
-        [btn_following setTitle:user.followState==1||user.followState==3?@"取消关注":@"添加关注" forState:UIControlStateNormal];
+        [btn_following setTitle:user.followState==1||user.followState==3?@"取消关注":@"加关注" forState:UIControlStateNormal];
+        [btn_following setTitleColor:user.followState==1||user.followState==3?[UIColor darkGrayColor]:[UIColor redColor] forState:UIControlStateNormal];
+        if ([user.id_ isEqual:[ShareVaule shareInstance].userId]) {
+            [btn_following setHidden:YES];
+        }else{
+            [btn_following setHidden:NO];
+        }
     }
 }
 
@@ -65,18 +72,28 @@
     lb_guides.textColor = [UIColor darkTextColor];
     lb_guides.textAlignment = UITextAlignmentLeft;
     
+    lb_fav = [[[UILabel alloc]init]autorelease];
+    lb_fav.font = [UIFont boldSystemFontOfSize:12];
+    lb_fav.backgroundColor = [UIColor clearColor];
+    lb_fav.textColor = [UIColor darkTextColor];
+    lb_fav.textAlignment = UITextAlignmentLeft;
+    
     btn_following = [[[UIButton alloc]init]autorelease];
     UIImage *backImage = [[UIImage imageNamed:@"btn_grad"]resizableImageWithCapInsets:UIEdgeInsetsMake(12, 12, 12, 12) ];
 //    [btn_following setBackgroundImage:[UIImage imageNamed:@""] forState:UIControlStateNormal];
     [btn_following setBackgroundImage:backImage forState:UIControlStateNormal];
-    [btn_following setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
     btn_following.titleLabel.font = [UIFont systemFontOfSize:12];
     [btn_following addTarget:self action:@selector(followBtnClicked) forControlEvents:UIControlEventTouchUpInside];
+    
+    line = [[[UIView alloc]init]autorelease];
+    line.backgroundColor = [UIColor lightGrayColor];
     
     [self addSubview:iv_heard];
     [self addSubview:lb_name];
     [self addSubview:lb_guides];
+    [self addSubview:lb_fav];
     [self addSubview:btn_following];
+    [self addSubview:line];
     
     [self observeNotification:NOTIFICATION_FOLLOWSTATECHANGE];
 }

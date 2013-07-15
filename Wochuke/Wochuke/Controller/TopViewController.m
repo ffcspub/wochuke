@@ -37,13 +37,14 @@
 }
 
 -(void)viewWillAppear:(BOOL)animated{
-    [self postNotification:NOTIFICATION_SHOWTOOLBAR];
     [super viewWillAppear:animated];
+     [self postNotification:NOTIFICATION_SHOWTOOLBAR];
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
     [self postNotification:NOTIFICATION_HIDETOOLBAR];
     [super viewWillDisappear:animated];
+      
 }
 
 @end

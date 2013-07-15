@@ -33,8 +33,8 @@
     [super viewDidLoad];
     _pagedFlowView.delegate = self;
     _pagedFlowView.dataSource = self;
-    _pagedFlowView.minimumPageAlpha = 0.3;
-    _pagedFlowView.minimumPageScale = 0.9;
+    _pagedFlowView.minimumPageAlpha = 1.0;
+    _pagedFlowView.minimumPageScale = 1.0;
     
     JCGuide *guide = [JCGuide guide];
     guide.userId = [ShareVaule shareInstance].user.id_;
@@ -43,6 +43,7 @@
     
     JCGuideEx *guideEx = [JCGuideEx guideEx:guide supplies:[NSMutableArray array] steps:[NSMutableArray array]];
     [ShareVaule shareInstance].editGuideEx = guideEx;
+    
     // Do any additional setup after loading the view from its nib.
 }
 
@@ -113,6 +114,7 @@
         GuideEditView *view = (GuideEditView *)[flowView dequeueReusableCellWithClass:[GuideEditView class]];
         if (!view) {
             view = [[[GuideEditView alloc]init]autorelease];
+            [view beginEdit];
         }
         return view;
     }
