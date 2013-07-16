@@ -461,11 +461,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Wochuke/Controller/DriverManagerViewController.m"
-         timestampString = "395595198.939558"
+         timestampString = "395655549.649895"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "206"
-         endingLineNumber = "206"
+         startingLineNumber = "216"
+         endingLineNumber = "216"
          landmarkName = "-cellEditAction:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1596,6 +1596,71 @@
          startingLineNumber = "103"
          endingLineNumber = "103"
          landmarkName = "-removeStep:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Wochuke/Controller/ActInfoViewController.m"
+         timestampString = "395655717.943122"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "183"
+         endingLineNumber = "183"
+         landmarkName = "-loadDatas"
+         landmarkType = "5">
+         <Locations>
+            <Location
+               shouldBeEnabled = "No"
+               ignoreCount = "0"
+               continueAfterRunningActions = "No"
+               symbolName = "__34-[ActInfoViewController loadDatas]_block_invoke"
+               urlString = "file://localhost/Users/hesh/Documents/out/wochuke/Wochuke/Wochuke/Controller/ActInfoViewController.m"
+               timestampString = "395655893.490354"
+               startingColumnNumber = "9223372036854775807"
+               endingColumnNumber = "9223372036854775807"
+               startingLineNumber = "183"
+               endingLineNumber = "183">
+            </Location>
+            <Location
+               shouldBeEnabled = "No"
+               ignoreCount = "0"
+               continueAfterRunningActions = "No"
+               symbolName = "__34-[ActInfoViewController loadDatas]_block_invoke_2"
+               urlString = "file://localhost/Users/hesh/Documents/out/wochuke/Wochuke/Wochuke/Controller/ActInfoViewController.m"
+               timestampString = "395655893.491059"
+               startingColumnNumber = "9223372036854775807"
+               endingColumnNumber = "9223372036854775807"
+               startingLineNumber = "183"
+               endingLineNumber = "183">
+            </Location>
+         </Locations>
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Wochuke/Controller/ActInfoViewController.m"
+         timestampString = "395655708.310007"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "274"
+         endingLineNumber = "274"
+         landmarkName = "-typeChangeAction:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Wochuke/Controller/ActInfoViewController.m"
+         timestampString = "395656064.502693"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "168"
+         endingLineNumber = "168"
+         landmarkName = "-loadDatas"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

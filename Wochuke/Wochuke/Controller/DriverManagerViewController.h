@@ -11,6 +11,7 @@
 
 @interface DriverManagerViewController : UIViewController
 
+@property (retain, nonatomic) IBOutlet UILabel *lb_empty;
 
 @property (retain, nonatomic) IBOutlet UITableView *tableView;
 

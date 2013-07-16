@@ -14,12 +14,6 @@
 
 @property (retain, nonatomic) IBOutlet UINavigationBar *navBar;
 
-@property (retain, nonatomic) IBOutlet UIButton *btn_catory;
-
-@property (retain, nonatomic) IBOutlet UIButton *btn_hot;
-
-@property (retain, nonatomic) IBOutlet UIButton *btn_news;
-
 @property (retain, nonatomic) IBOutlet UITableView *tableView;
 
 @property (retain, nonatomic) IBOutlet CycleScrollView *imageScrollView;

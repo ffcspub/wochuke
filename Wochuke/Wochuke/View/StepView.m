@@ -436,7 +436,7 @@
     lb_text.text = step.text;
     lb_step.text = [NSString stringWithFormat:@"%d",step.ordinal];
     [self upImage];
-    if (step.photo.url) {
+    if ([self hasImage]) {
         lb_text.font = [UIFont systemFontOfSize:11];
     }else{
         lb_text.font = [UIFont systemFontOfSize:14];

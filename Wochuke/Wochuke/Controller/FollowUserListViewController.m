@@ -102,13 +102,6 @@
                 if (list) {
                     if (pageIndex == 0) {
                         [_datas removeAllObjects];
-                        if (list.count == 0) {
-                            dispatch_async(dispatch_get_main_queue(), ^{
-                                [_tableView setHidden:YES];
-                                [_lb_empty setHidden:NO];
-
-                            });
-                        }
                     }
                     if (list.count > 0) {
                         [_datas addObjectsFromArray:list];
@@ -121,6 +114,13 @@
                     }
                 }
                 dispatch_async(dispatch_get_main_queue(), ^{
+                    if (pageIndex == 0 && list.count == 0) {
+                        _lb_empty.hidden = NO;
+                        _tableView.hidden = YES;
+                    }else{
+                        _lb_empty.hidden = YES;
+                        _tableView.hidden = NO;
+                    }
                     [SVProgressHUD dismiss];
                     [_tableView reloadData];
                     [_tableView.infiniteScrollingView stopAnimating];

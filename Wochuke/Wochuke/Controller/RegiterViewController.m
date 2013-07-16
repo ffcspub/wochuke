@@ -131,7 +131,7 @@
 {
     JCUser *userInfo = [[[JCUser alloc] init]autorelease];
     userInfo.email = email;
-    userInfo.password = [password MD5];
+    userInfo.password = [[password MD5]uppercaseString];
     userInfo.name = nickname;
     [SVProgressHUD show];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{

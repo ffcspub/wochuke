@@ -425,9 +425,6 @@
     [_lb_topic release];
     [_topView release];
     [_navBar release];
-    [_btn_catory release];
-    [_btn_hot release];
-    [_btn_news release];
     [super dealloc];
 }
 
@@ -441,29 +438,14 @@
     [self setLb_topic:nil];
     [self setTopView:nil];
     [self setNavBar:nil];
-    [self setBtn_catory:nil];
-    [self setBtn_hot:nil];
-    [self setBtn_news:nil];
     [super viewDidUnload];
 }
 
--(void)btnImageSet{
-    [_btn_catory setBackgroundImage:[UIImage imageNamed:@"btn_classify_top_1"] forState:UIControlStateNormal];
-    [_btn_hot setBackgroundImage:[UIImage imageNamed:@"btn_classify_top_2"] forState:UIControlStateNormal];
-    [_btn_news setBackgroundImage:[UIImage imageNamed:@"btn_classify_top_3"] forState:UIControlStateNormal];
-    if (filter == 0) {
-        [_btn_catory setBackgroundImage:[UIImage imageNamed:@"btn_classify_top_1_pressed"] forState:UIControlStateNormal];
-    }else if(filter == 1){
-         [_btn_hot setBackgroundImage:[UIImage imageNamed:@"btn_classify_top_2_pressed"] forState:UIControlStateNormal];
-    }else if(filter == 2){
-        [_btn_news setBackgroundImage:[UIImage imageNamed:@"btn_classify_top_3_pressed"] forState:UIControlStateNormal];
-    }
-}
+
 
 - (IBAction)catoryChangAction:(id)sender {
-    UIButton *btn = (UIButton *)sender;
-    filter = btn.tag;
-    [self btnImageSet];
+    UISegmentedControl *controller = (UISegmentedControl *)sender;
+    filter = controller.selectedSegmentIndex;
     [self reloadDatas];
 }
 

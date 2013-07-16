@@ -88,7 +88,7 @@
         @try {
             id<JCAppIntfPrx> proxy = [[ICETool shareInstance] createProxy];
             @try {
-                JCUser *user = [proxy login:account password:[password MD5]];
+                JCUser *user = [proxy login:account password:[[password MD5]uppercaseString]];
                 if (user.id_.length>0) {
                     NSMutableDictionary *snsId = [NSMutableDictionary dictionaryWithDictionary:user.snsIds];
                     if (_qqId) {

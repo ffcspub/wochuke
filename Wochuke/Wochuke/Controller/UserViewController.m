@@ -269,6 +269,7 @@
                     }
                 }
                 dispatch_async(dispatch_get_main_queue(), ^{
+                    
                     [SVProgressHUD dismiss];
                     if (pageIndex==0 && list.count==0) {
                         _bottomBackView.hidden = YES;

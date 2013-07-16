@@ -137,16 +137,26 @@
 - (void)dealloc {
     [_name release];
     [_tableView release];
+    [_lb_empty release];
     [super dealloc];
 }
 
 - (void)viewDidUnload {
     [self setTableView:nil];
+    [self setLb_empty:nil];
     [super viewDidUnload];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    if ([ShareVaule allDriverNames].count == 0) {
+        _lb_empty.hidden = NO;
+        _tableView.hidden = YES;
+    }else{
+        _lb_empty.hidden = YES;
+        _tableView.hidden = NO;
+    }
+
     [_tableView reloadData];
 }
 

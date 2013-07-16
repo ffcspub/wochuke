@@ -162,7 +162,6 @@
 -(void)loadDatas{
     [SVProgressHUD show];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
-        
         @try {
             id<JCAppIntfPrx> proxy = [[ICETool shareInstance] createProxy];
             @try {
@@ -173,15 +172,6 @@
                     }
                     if (list.count > 0) {
                         [_datas addObjectsFromArray:list];
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            [_lb_empty setHidden:YES];
-                            [_tableView setHidden:NO];
-                        });
-                    }else{
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            [_lb_empty setHidden:NO];
-                            [_tableView setHidden:YES];
-                        });
                     }
                     if (list.count == 20) {
                         pageIndex ++;
@@ -193,6 +183,13 @@
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [SVProgressHUD dismiss];
                     [_tableView reloadData];
+                    if (pageIndex == 0 && list.count == 0) {
+                        _lb_empty.hidden = NO;
+                        _tableView.hidden = YES;
+                    }else{
+                        _lb_empty.hidden = YES;
+                        _tableView.hidden = NO;
+                    }
                     [self.tableView.infiniteScrollingView stopAnimating];
                     [self.tableView.pullToRefreshView stopAnimating];
                     if (!hasNextPage) {
@@ -272,9 +269,10 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (IBAction)typeChangAction:(id)sender {
-    UIButton *btn = (UIButton *)sender;
-    if (btn.tag == 1 && [ShareVaule shareInstance].user.id_.length == 0) {
+
+- (IBAction)typeChangeAction:(id)sender {
+    UISegmentedControl *control = (UISegmentedControl *)sender;
+    if (control.selectedSegmentIndex == 1 && [ShareVaule shareInstance].user.id_.length == 0) {
         LoginViewController *vlc = [[[LoginViewController alloc]initWithNibName:@"LoginViewController" bundle:nil]autorelease];
         UINavigationController *navController = [[[UINavigationController alloc]initWithRootViewController:vlc]autorelease];
         navController.navigationBarHidden = YES;
@@ -282,14 +280,7 @@
         
         return;
     }
-    filterCode = btn.tag;
-    [_btn_new setBackgroundImage:[UIImage imageNamed:@"btn_classify_top_1"] forState:UIControlStateNormal];
-    [_btn_flow setBackgroundImage:[UIImage imageNamed:@"btn_classify_top_3"] forState:UIControlStateNormal];
-    if (filterCode == 0) {
-        [_btn_new setBackgroundImage:[UIImage imageNamed:@"btn_classify_top_1_pressed"] forState:UIControlStateNormal];
-    }else{
-        [_btn_flow setBackgroundImage:[UIImage imageNamed:@"btn_classify_top_3_pressed"] forState:UIControlStateNormal];
-    }
+    filterCode = control.selectedSegmentIndex;
     [self reloadDatas];
 }
 
@@ -313,16 +304,12 @@
 
 - (void)dealloc {
     [_tableView release];
-    [_btn_new release];
-    [_btn_flow release];
     [_lb_empty release];
     [super dealloc];
 }
 
 - (void)viewDidUnload {
     [self setTableView:nil];
-    [self setBtn_new:nil];
-    [self setBtn_flow:nil];
     [self setLb_empty:nil];
     [super viewDidUnload];
 }
