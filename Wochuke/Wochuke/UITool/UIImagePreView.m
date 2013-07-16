@@ -25,12 +25,12 @@
     for (UIWindow *window in frontToBackWindows){
         if (window.windowLevel == UIWindowLevelNormal) {
 //            viewRect = [view convertRect:CGRectMake(0, 0, view.frame.size.width, view.frame.size.height) toView:window];
-            viewRect = CGRectMake(window.frame.size.width, window.frame.size.height, 0, 0);
+            viewRect = CGRectMake((window.frame.size.width - view.frame.size.width)/2, window.frame.size.height, view.frame.size.width, view.frame.size.height);
             [window addSubview:self];
             break;
         }
     }
-    self.layer.opacity = 0;
+    self.layer.opacity = 1;
     self.frame = viewRect;
     [UIView animateWithDuration:0.5 animations:^{
         self.layer.opacity = 1;
@@ -86,6 +86,7 @@
 }
 
 -(void)closeTap{
+    self.backgroundColor = [UIColor clearColor];
     [UIView animateWithDuration:0.5 animations:^{
         self.frame = viewRect;
     } completion:^(BOOL finished) {

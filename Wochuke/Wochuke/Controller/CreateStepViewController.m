@@ -78,7 +78,7 @@
 
 - (IBAction)popAction:(id)sender {
     [((NSMutableArray *)[ShareVaule shareInstance].editGuideEx.steps) removeObject:step];
-    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (IBAction)saveAction:(id)sender {

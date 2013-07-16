@@ -15,18 +15,18 @@
 -(void)setFrame:(CGRect)frame{
     [super setFrame:frame];
     backImageView.frame = CGRectMake(0, 0, frame.size.width, frame.size.height);
-    tagImageView.frame = CGRectMake(0, 20, 45, 25);
-    lb_step.frame = CGRectMake(0, 20, 45, 20);
+    tagImageView.frame = CGRectMake(2, 20, 45, 25);
+    lb_step.frame = CGRectMake(2, 20, 45, 20);
     btn_comment.frame = CGRectMake(11, frame.size.height - 11 - 30, 40, 30);
     line.frame = CGRectMake(11, frame.size.height - 11 - 35, frame.size.width - 22, 1);
     lb_comment.frame = CGRectMake(52, frame.size.height - 11 - 30, 40, 30);
+     CGSize size = [_step.text.length>0?_step.text:@" " sizeWithFont:tv_text.font constrainedToSize:CGSizeMake(frame.size.width -22 - UITEXTVIEW_MARGIN*2, 1000)];
     if ([self hasImage]){
-        CGSize size = [_step.text.length>0?_step.text:@" " sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:CGSizeMake(frame.size.width -22 - UITEXTVIEW_MARGIN*2, 1000)];
         imageView.frame = CGRectMake(11, 11, frame.size.width -22 , frame.size.height - 22 - 45 - MIN(size.height + UITEXTVIEW_MARGIN*2, 200));
         tv_text.frame = CGRectMake(11, frame.size.height - 22 - 30 - MIN(size.height + UITEXTVIEW_MARGIN*2, 200), frame.size.width -22, MIN(size.height + UITEXTVIEW_MARGIN*2, 200));
     }else{
         imageView.frame = CGRectZero;
-        tv_text.frame = CGRectMake(11,  11 , frame.size.width - 22, frame.size.height - 22 - 40);
+        tv_text.frame = CGRectMake(11,  (frame.size.height - size.height - UITEXTVIEW_MARGIN*2 - 40)/2 , frame.size.width - 22, size.height + UITEXTVIEW_MARGIN*2);
     }
 }
 
@@ -144,7 +144,7 @@
     if (_step.photo.url) {
         tv_text.font = [UIFont systemFontOfSize:14];
     }else{
-        tv_text.font = [UIFont systemFontOfSize:18];
+        tv_text.font = [UIFont systemFontOfSize:20];
     }
 }
 
@@ -173,8 +173,8 @@
 -(void)setFrame:(CGRect)frame{
     [super setFrame:frame];
     backImageView.frame = CGRectMake(0, 0, frame.size.width, frame.size.height);
-    tagImageView.frame = CGRectMake(0, 20, 40, 25);
-    lb_step.frame = CGRectMake(5, 20, 30, 20);
+    tagImageView.frame = CGRectMake(2, 20, 40, 25);
+    lb_step.frame = CGRectMake(7, 20, 30, 20);
     
     CGSize size = [_step.text.length>0?_step.text:@" " sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:CGSizeMake(frame.size.width -22 - UITEXTVIEW_MARGIN*2, 1000)];
     imageView.frame = CGRectMake(11, 11, frame.size.width -22 , frame.size.height - 22 - 45 - MIN(size.height+UITEXTVIEW_MARGIN*2, 200));
@@ -416,8 +416,8 @@
 -(void)setFrame:(CGRect)frame{
     [super setFrame:frame];
     backImageView.frame = CGRectMake(0, 0, frame.size.width, frame.size.height);
-    tagImageView.frame = CGRectMake(0, 15, 25, 25);
-    lb_step.frame = CGRectMake(0, 15, 25, 20);
+    tagImageView.frame = CGRectMake(2, 15, 25, 25);
+    lb_step.frame = CGRectMake(2, 15, 25, 20);
     btn_comment.frame = CGRectZero;
     line.frame = CGRectZero;
     lb_comment.frame = CGRectZero;

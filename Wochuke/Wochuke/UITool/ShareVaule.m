@@ -101,8 +101,6 @@ static ShareVaule *_shareVaule;
 
 -(void)removeStep:(JCStep *)step;{
     NSMutableArray *steps = (NSMutableArray *)[ShareVaule shareInstance].editGuideEx.steps;
-    int index = [steps indexOfObject:step];
-    [steps removeObjectAtIndex:index];
     
     NSMutableArray * imageArray = [NSMutableArray arrayWithCapacity:steps.count];
     for (JCStep *step in steps) {
@@ -113,6 +111,8 @@ static ShareVaule *_shareVaule;
             [imageArray addObject:[NSData dataWithData:data]];
         }
     }
+    int index = [steps indexOfObject:step];
+    [steps removeObjectAtIndex:index];
     [imageArray removeObjectAtIndex:index];
     [[ShareVaule shareInstance].stepImageDic removeAllObjects];
     
@@ -249,10 +249,14 @@ static ShareVaule *_shareVaule;
     if (subtime < 60 * 60) {
         return [NSString stringWithFormat:@"%d分钟前",subtime/60];
     }
-    if (subtime < 60 * 60 *12) {
+    if ([[date stringWithDateFormat:@"yyyy-MM-dd"] isEqual:[[NSDate date]stringWithDateFormat:@"yyyy-MM-dd"]]) {
         return [NSString stringWithFormat:@"今天 %@",[date stringWithDateFormat:@"HH:mm"]];
     }
-    if (subtime < 60 * 60 *12 * 2) {
+    
+    NSInteger time = [[NSDate date] timeIntervalSinceNow];
+    time -= 60 * 60 *24;
+    NSDate *yesterday = [NSDate dateWithTimeIntervalSinceNow:time];
+    if ([[date stringWithDateFormat:@"yyyy-MM-dd"] isEqual:[yesterday stringWithDateFormat:@"yyyy-MM-dd"]]) {
         return [NSString stringWithFormat:@"昨天 %@",[date stringWithDateFormat:@"HH:mm"]];
     }
     if ([[date stringWithDateFormat:@"yyyy"] isEqual:[[NSDate date]stringWithDateFormat:@"yyyy"]]) {

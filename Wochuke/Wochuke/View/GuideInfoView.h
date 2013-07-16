@@ -21,7 +21,7 @@
     UIImageView *backTopImageView;
     UIImageView *tagImageView;
     UILabel *lb_tag;
-    HPGrowingTextView *tv_title;
+    UITextView *tv_title;
     UIView *iv_photoback;
     MyWebImgView *iv_photo;
     UILabel *lb_publisher;
@@ -29,7 +29,7 @@
     UIButton *btn_favoriteCount;
     UIButton *btn_commentCount;
     UIImageView *iv_contentBackView;
-    HPGrowingTextView *tv_content;
+    UITextView *tv_content;
     
 }
 

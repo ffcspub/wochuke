@@ -195,8 +195,8 @@
             id<JCAppIntfPrx> proxy = [[ICETool shareInstance] createProxy];
             @try {
                 JCUser *userInfo = [proxy getUserBySns:idKey idValue:idValue];
-                if ([user.id_ isEqualToString:@""]) {
-                    [proxy saveUser:user];
+                if (userInfo.id_.length == 0) {
+                   userInfo = [proxy saveUser:user];
                 }
                 if (userInfo.id_) {
                     NSLog(@"regiterByThirdUserInfo userInfo存在 userInfo.id_ == %@",userInfo.id_);

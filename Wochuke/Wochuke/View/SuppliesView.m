@@ -19,8 +19,8 @@
     [super setFrame:frame];
     backImageView.frame = CGRectMake(0, 0, frame.size.width, frame.size.height);
     _tableView.frame = CGRectMake(10, 10, frame.size.width-20, frame.size.height-20);
-    iv_omit.frame = CGRectMake(0, 20, 45, 25);
-    lb_omit.frame = CGRectMake(10, 20, 35, 20);
+    iv_omit.frame = CGRectMake(2, 20, 45, 25);
+    lb_omit.frame = CGRectMake(12, 20, 35, 20);
     lb_empty.frame = CGRectMake(10, 10,frame.size.width-20, frame.size.height-20);
 }
 
@@ -144,6 +144,9 @@
     if ([notification.name isEqual:UIKeyboardWillHideNotification]) {
         [_tf_name resignFirstResponder];
         [_tf_quantity resignFirstResponder];
+    }else if([notification.name isEqual:NOTIFICATION_CANNELEDIT]){
+        [_tf_name resignFirstResponder];
+        [_tf_quantity resignFirstResponder];
     }
 }
 
@@ -183,11 +186,13 @@
     [self addSubview:_line];
     
     [self observeNotification:UIKeyboardWillHideNotification];
+    [self observeNotification:NOTIFICATION_CANNELEDIT];
     
 }
 
 -(void)unload{
     [self unobserveNotification:UIKeyboardWillHideNotification];
+    [self unobserveNotification:NOTIFICATION_CANNELEDIT];
     [super unload];
 }
 
@@ -254,6 +259,10 @@
     _btn_delete.frame = CGRectMake((frame.size.width - _btn_delete.frame.size.width)/2, 0, _btn_delete.frame.size.width, _btn_delete.frame.size.height);
 }
 
+-(void)handleSingleTapFrom{
+    [self postNotification:NOTIFICATION_CANNELEDIT];
+}
+
 -(void)initSelf{
     backImageView = [[[UIImageView alloc]init]autorelease];
     self.backgroundColor = [UIColor clearColor];
@@ -265,7 +274,11 @@
     _tableView = [[[UITableView alloc]initWithFrame:CGRectZero style:UITableViewStylePlain]autorelease];
     _tableView.delegate = self;
     _tableView.dataSource = self;
-    
+    UITapGestureRecognizer* singleRecognizer;  
+    singleRecognizer = [[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTapFrom)]autorelease];
+    singleRecognizer.numberOfTapsRequired = 1; // 单击  
+    [_tableView addGestureRecognizer:singleRecognizer];  
+       
     _btn_delete = [[[UIButton alloc]initWithFrame:CGRectMake(0, 0, 40, 40)]autorelease];
     [_btn_delete setImage:[UIImage imageNamed:@"ic_edit_list_add"] forState:UIControlStateNormal];
     [_btn_delete addTarget:self action:@selector(addCell) forControlEvents:UIControlEventTouchUpInside];

@@ -156,6 +156,8 @@
                             _typeId = nil;
                         }
                         _typeId = [type.id_ retain];
+                        [ShareVaule shareInstance].editGuideEx.guideInfo.typeId = _typeId;
+                        [ShareVaule shareInstance].noChanged = NO;
                         [_btn_type setTitle:type.name forState:UIControlStateNormal];
                     }
                 });
@@ -193,7 +195,6 @@
 
 #pragma mark - dataSend
 -(void)pubishAction{
-    [ShareVaule shareInstance].editGuideEx.guideInfo.typeId = _typeId;
     [SVProgressHUD showWithStatus:@"正在提交..."];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
         @try {
@@ -289,11 +290,15 @@
     if (actionSheet.tag == 10086) {
         if (buttonIndex < _types.count) {
             JCType *type = [_types objectAtIndex:buttonIndex];
-            if (_typeId) {
+            if (![_typeId isEqual:type.id_]) {
                 [_typeId release];
                 _typeId = nil;
+            }else{
+                return;
             }
             _typeId = [type.id_ retain];
+            [ShareVaule shareInstance].editGuideEx.guideInfo.typeId = _typeId;
+            [ShareVaule shareInstance].noChanged = NO;
             [_btn_type setTitle:type.name forState:UIControlStateNormal];
         }
         return;

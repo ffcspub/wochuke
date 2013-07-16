@@ -50,6 +50,8 @@
     [super viewDidLoad];
     _datas = [[NSMutableArray alloc]init];
     pageSize = 20;
+    _iv_face.layer.cornerRadius = 8;
+    _iv_face.layer.masksToBounds = YES;
     if (_user.id_ == [ShareVaule shareInstance].user.id_) {
         [_btn_follow setHidden:YES];
     }
@@ -77,7 +79,7 @@
         _lb_fanceCount.text = [NSString stringWithFormat:@"%d",_user.followerCount];
     }
     
-    UIImage *backImage = [[UIImage imageNamed:@"bg_classify_card"]resizableImageWithCapInsets:UIEdgeInsetsMake(12, 12, 12, 12)];
+    UIImage *backImage = [[UIImage imageNamed:@"bg_classify_card"]resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
     [_iv_bottomBackView setImage:backImage];
     
     if (_user.id_) {

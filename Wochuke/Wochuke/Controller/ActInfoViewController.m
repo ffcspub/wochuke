@@ -23,6 +23,7 @@
     UILabel *lb_message;
     UILabel *lb_comment;
     UILabel *lb_time;
+    UIView *line;
 }
 
 @property(nonatomic,assign) id<ActInfoCellDelegate> delegate;
@@ -47,6 +48,7 @@
     lb_message.frame = CGRectMake(5 + bound.height - 10 + 10, 5, bound.width/2 + 20, 30);
     lb_comment.frame = CGRectMake(5 + bound.height - 10 + 10, bound.height - 25 , bound.width/2 , 20);
     lb_time.frame = CGRectMake(bound.width - 70-10,bound.height - 25,70,20);
+    line.frame = CGRectMake(0, bound.height - 0.6, bound.width, 0.6);
 }
 
 - (void)dataDidChanged
@@ -119,11 +121,15 @@
     lb_time.textColor = [UIColor darkTextColor];
     lb_time.textAlignment = UITextAlignmentRight;
     
+    line = [[[UIView alloc]init]autorelease];
+    line.backgroundColor = [UIColor lightGrayColor];
+    
     
     [self addSubview:iv_heard];
     [self addSubview:lb_message];
     [self addSubview:lb_comment];
     [self addSubview:lb_time];
+    [self addSubview:line];
 }
 
 
@@ -278,11 +284,11 @@
     }
     filterCode = btn.tag;
     [_btn_new setBackgroundImage:[UIImage imageNamed:@"btn_classify_top_1"] forState:UIControlStateNormal];
-    [_btn_flow setBackgroundImage:[UIImage imageNamed:@"btn_classify_top_2"] forState:UIControlStateNormal];
+    [_btn_flow setBackgroundImage:[UIImage imageNamed:@"btn_classify_top_3"] forState:UIControlStateNormal];
     if (filterCode == 0) {
         [_btn_new setBackgroundImage:[UIImage imageNamed:@"btn_classify_top_1_pressed"] forState:UIControlStateNormal];
     }else{
-        [_btn_flow setBackgroundImage:[UIImage imageNamed:@"btn_classify_top_2_pressed"] forState:UIControlStateNormal];
+        [_btn_flow setBackgroundImage:[UIImage imageNamed:@"btn_classify_top_3_pressed"] forState:UIControlStateNormal];
     }
     [self reloadDatas];
 }

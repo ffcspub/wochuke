@@ -48,7 +48,7 @@
     _currentPageIndex = 0;
     
     _minimumPageAlpha = 1.0;
-    _minimumPageScale = 1.0;
+    _minimumPageScale = 0.95;
     
     _visibleRange = NSMakeRange(0, 0);
     

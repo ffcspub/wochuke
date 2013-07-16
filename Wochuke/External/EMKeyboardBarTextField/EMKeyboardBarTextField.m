@@ -85,6 +85,7 @@
     }
 }
 
+
 - (void)keyboardWillShow:(NSNotification *)notification {
 	
 	if (![self isFirstResponder]) return;
@@ -214,6 +215,11 @@
             promptLabel.alpha = 1.0;
 		} completion:^(BOOL finished){
             UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, fullFrame.size.width, fullFrame.size.height)];
+            view.userInteractionEnabled = YES;
+            UITapGestureRecognizer* singleRecognizer;  
+            singleRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(done)];
+            singleRecognizer.numberOfTapsRequired = 1; // 单击  
+            [view addGestureRecognizer:singleRecognizer];  
             view.tag = 10086;
             [fullView addSubview:view];
             [fullView bringSubviewToFront:toolBar];

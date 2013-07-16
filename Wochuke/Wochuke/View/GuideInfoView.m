@@ -81,8 +81,8 @@
     
     iv_photo.frame = CGRectMake((frame.size.width - 40)/2, 75, 40 , 40);
     tv_title.frame = CGRectMake(5, 20, frame.size.width-10, 30);
-    tv_title.textMaxLength = 30;
-    tv_title.delegate = self;
+//    tv_title.textMaxLength = 30;
+//    tv_title.delegate = self;
     lb_publisher.frame = CGRectMake(0, 130, frame.size.width, 20);
     CGFloat btnwidth = fabsf((frame.size.width - 100)/3);
     btn_viewCount.frame = CGRectMake(50,155,btnwidth,30);
@@ -93,7 +93,7 @@
 
     tv_content.frame = CGRectMake(15, 190, frame.size.width - 30, MIN(contentSize.height + UITEXTVIEW_MARGIN*2, frame.size.height - 190 - 30));
     
-    iv_contentBackView.frame = CGRectMake(tv_content.frame.origin.x , tv_content.frame.origin.y, tv_content.frame.size.width, tv_content.frame.size.height + UITEXTVIEW_MARGIN);
+    iv_contentBackView.frame = CGRectMake(tv_content.frame.origin.x , tv_content.frame.origin.y, tv_content.frame.size.width, tv_content.frame.size.height);
     
 }
 
@@ -179,13 +179,11 @@
         [iv_photo addGestureRecognizer:singleRecognizer];  
         [iv_photo setUserInteractionEnabled:YES];
         
-        tv_title = [[[HPGrowingTextView alloc]init]autorelease];
+        tv_title = [[[UITextView alloc]init]autorelease];
         tv_title.font = [UIFont boldSystemFontOfSize:18];
         tv_title.backgroundColor = [UIColor clearColor];
         tv_title.textColor = [UIColor darkTextColor];
         tv_title.textAlignment = UITextAlignmentCenter;
-        tv_title.placeholder = @"指南名称";
-        tv_title.placeholderColor = [UIColor grayColor];
         tv_title.editable = NO;
         
         lb_publisher = [[[UILabel alloc]init]autorelease];
@@ -220,13 +218,10 @@
         iv_contentBackView.contentMode = UIViewContentModeScaleToFill;
         [iv_contentBackView setImage:contentbackImage];
         
-        tv_content = [[[HPGrowingTextView alloc]init]autorelease];
+        tv_content = [[[UITextView alloc]init]autorelease];
         tv_content.font = [UIFont systemFontOfSize:12];
-        tv_content.minNumberOfLines = 1;
         tv_content.backgroundColor = [UIColor clearColor];
         tv_content.textColor = [UIColor grayColor];
-        tv_content.placeholder = @"指南简介";
-        tv_content.placeholderColor = [UIColor grayColor];
         tv_content.editable = NO;
         
                 
@@ -286,10 +281,11 @@
         iv_contentBackView.hidden = NO;
     }
     tv_content.text = _guide.description_;
-    [tv_content refreshHeight];
+//    [tv_content refreshHeight];
 }
 
 -(void)dealloc{
+    tv_content.delegate = nil;
     [self unobserveNotification:NOTIFICATION_COMMENTCOUNTCHANGE];
     [self unobserveNotification:NOTIFICATION_FAVORITECOUNT];
     [self unobserveNotification:NOTIFICATION_VIEWCOUNTCHANGE];
@@ -458,6 +454,7 @@
 }
 
 -(void)dealloc{
+    tv_content.delegate = nil;
     NSNotificationCenter *notification = [NSNotificationCenter defaultCenter];
     [notification removeObserver:self
                             name:UIKeyboardWillHideNotification
@@ -579,16 +576,19 @@
     btn_viewCount.titleLabel.font = [UIFont systemFontOfSize:12];
     btn_viewCount.backgroundColor = [UIColor clearColor];
     [btn_viewCount setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    btn_viewCount.userInteractionEnabled = NO;
     
     btn_favoriteCount = [[[UIButton alloc]init]autorelease];
     btn_favoriteCount.titleLabel.font = [UIFont systemFontOfSize:12];
     btn_favoriteCount.backgroundColor = [UIColor clearColor];
     [btn_favoriteCount setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    btn_favoriteCount.userInteractionEnabled = NO;
     
     btn_commentCount = [[[UIButton alloc]init]autorelease];
     btn_commentCount.titleLabel.font = [UIFont systemFontOfSize:12];
     btn_commentCount.backgroundColor = [UIColor clearColor];
     [btn_commentCount setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    btn_commentCount.userInteractionEnabled = NO;
     
     line = [[[UIView alloc]init]autorelease];
     line.backgroundColor = [UIColor whiteColor];

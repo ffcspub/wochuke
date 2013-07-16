@@ -35,6 +35,7 @@
     //向微信注册
     [WXApi registerApp:weixinAppId];
     
+    
 }
 
 -(void)loadUser{
@@ -118,7 +119,9 @@
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
-    if ([[url scheme] isEqualToString:@"tencent100454485"]) {
+    if ([[url scheme] isEqualToString:@"sinaweibosso.732356489"]) {
+        return [[ShareVaule shareInstance].sinaweibo handleOpenURL:url];
+    }else if ([[url scheme] isEqualToString:@"tencent100454485"]) {
         return [TencentOAuth HandleOpenURL:url];
     }else{
        return [WXApi handleOpenURL:url delegate:self];
@@ -128,7 +131,9 @@
 
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
 {
-    if ([[url scheme] isEqualToString:@"tencent100454485"]) {
+    if ([[url scheme] isEqualToString:@"sinaweibosso.732356489"]) {
+        return [[ShareVaule shareInstance].sinaweibo handleOpenURL:url];
+    }else if ([[url scheme] isEqualToString:@"tencent100454485"]) {
         return [TencentOAuth HandleOpenURL:url];
     }else{
         return  [WXApi handleOpenURL:url delegate:self];

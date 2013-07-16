@@ -76,7 +76,7 @@
     _lb_followCount.text = [NSString stringWithFormat:@"%d",_user.followingCount];
     _lb_fanceCount.text = [NSString stringWithFormat:@"%d",_user.followerCount];
     
-    UIImage *backImage = [[UIImage imageNamed:@"bg_classify_card"]resizableImageWithCapInsets:UIEdgeInsetsMake(15, 15, 15, 15)];
+    UIImage *backImage = [[UIImage imageNamed:@"bg_classify_card"]resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
     [_iv_bottomBackView setImage:backImage];
     
     if (_user.id_) {
@@ -90,7 +90,6 @@
         [_iv_face setImage:nil];
         [_bottomBackView setHidden:YES];
     }
-    
     
     [self reloadDatas];
 }

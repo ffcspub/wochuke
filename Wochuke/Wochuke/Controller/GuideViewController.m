@@ -167,7 +167,7 @@
 
 #pragma mark -PagedFlowViewDelegate
 - (CGSize)sizeForPageInFlowView:(PagedFlowView *)flowView{
-    return  CGSizeMake(flowView.frame.size.width - 50, flowView.frame.size.height - 10);
+    return  CGSizeMake(flowView.frame.size.width - 20, flowView.frame.size.height - 10);
 }
 
 
@@ -282,17 +282,9 @@
 
 
 - (IBAction)commentAction:(id)sender {
-    if ([ShareVaule shareInstance].user.id_) {
-        CommentViewController *vlc = [[[CommentViewController alloc]init]autorelease];
-        vlc.guide = _guide;
-        [self.navigationController pushViewController:vlc animated:YES];
-    }else{
-        LoginViewController *vlc = [[[LoginViewController alloc]initWithNibName:@"LoginViewController" bundle:nil]autorelease];
-        UINavigationController *navController = [[[UINavigationController alloc]initWithRootViewController:vlc ]autorelease];
-        navController.navigationBarHidden = YES;
-        [self presentModalViewController:navController animated:YES];
-    }
-    
+    CommentViewController *vlc = [[[CommentViewController alloc]init]autorelease];
+    vlc.guide = _guide;
+    [self.navigationController pushViewController:vlc animated:YES];
 }
 
 -(NSString *)paramFormGuide{

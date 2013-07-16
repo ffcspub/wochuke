@@ -19,6 +19,8 @@
 
 @property(nonatomic,retain) JCStep *step;
 
+@property (retain, nonatomic) IBOutlet UILabel *lb_empty;
+
 @property (retain, nonatomic) IBOutlet UITableView *tableView;
 
 - (IBAction)backAction:(id)sender;

@@ -42,7 +42,6 @@
 }
 
 -(void)showNaviationController:(int)tag{
-    
     if (tag == 1) {
         if (!_homeViewNaviationController) {
             HomeViewController *vlc = [[[HomeViewController alloc]initWithNibName:@"HomeViewController" bundle:nil]autorelease];
@@ -51,7 +50,7 @@
             [_homeViewNaviationController.view setFrame: [self.view bounds]];
             [self.view addSubview:_homeViewNaviationController.view];
         }else{
-            [_homeViewNaviationController viewWillAppear:YES];
+//            [_homeViewNaviationController viewWillAppear:YES];
         }
         currentController = _homeViewNaviationController;
     }else if(tag ==2){
@@ -62,7 +61,7 @@
             [_catoryViewNaviationController.view setFrame: [self.view bounds]];
             [self.view addSubview:_catoryViewNaviationController.view];
         }else{
-            [_catoryViewNaviationController viewWillAppear:YES];
+//            [_catoryViewNaviationController viewWillAppear:YES];
         }
         currentController = _catoryViewNaviationController;
     }else if(tag ==3){
@@ -73,7 +72,7 @@
             [_actionViewNaviationController.view setFrame: [self.view bounds]];
             [self.view addSubview:_actionViewNaviationController.view];
         }else{
-            [_myViewNaviationController viewWillAppear:YES];
+//            [_myViewNaviationController viewWillAppear:YES];
         }
         currentController = _actionViewNaviationController;
     }else if(tag ==4){
@@ -84,7 +83,7 @@
             [_myViewNaviationController.view setFrame: [self.view bounds]];
             [self.view addSubview:_myViewNaviationController.view];
         }else{
-            [_myViewNaviationController viewWillAppear:YES];
+//            [_myViewNaviationController viewWillAppear:YES];
         }
         currentController = _myViewNaviationController;
     }

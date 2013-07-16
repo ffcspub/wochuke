@@ -14,6 +14,7 @@
 #import <Guide.h>
 #import "SVPullToRefresh.h"
 #import "NSObject+Notification.h"
+#import "LoginViewController.h"
 
 @interface CommentViewController ()<UITableViewDataSource,UITableViewDelegate>{
     NSMutableArray *_datas;
@@ -182,6 +183,18 @@
 	[UIView commitAnimations];
 }
 
+
+- (BOOL)growingTextViewShouldBeginEditing:(HPGrowingTextView *)growingTextView;{
+    if (![ShareVaule shareInstance].user.id_) {
+        LoginViewController *vlc = [[[LoginViewController alloc]initWithNibName:@"LoginViewController" bundle:nil]autorelease];
+        UINavigationController *navController = [[[UINavigationController alloc]initWithRootViewController:vlc ]autorelease];
+        navController.navigationBarHidden = YES;
+        [self presentModalViewController:navController animated:YES];
+        return NO;
+    }
+    return YES;
+}
+
 - (void)growingTextView:(HPGrowingTextView *)growingTextView willChangeHeight:(float)height
 {
     float diff = (growingTextView.frame.size.height - height);
@@ -327,6 +340,13 @@
                 }
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [SVProgressHUD dismiss];
+                    if (pageIndex == 0 && list.count == 0) {
+                        _lb_empty.hidden = NO;
+                        _tableView.hidden = YES;
+                    }else{
+                        _lb_empty.hidden = YES;
+                        _tableView.hidden = NO;
+                    }
                     [_tableView reloadData];
                     [_tableView.infiniteScrollingView stopAnimating];
                     [_tableView setTableHeaderView:nil];
@@ -408,12 +428,14 @@
 
 - (void)dealloc {
     [_tableView release];
+    [_lb_empty release];
     [super dealloc];
 }
 
 - (void)viewDidUnload {
     [_datas dealloc];
     [self setTableView:nil];
+    [self setLb_empty:nil];
     [super viewDidUnload];
 }
 
