@@ -42,6 +42,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        
     }
     return self;
 }
@@ -168,7 +169,7 @@
 }
 
 -(void)upShareUI{
-    if ([[ShareVaule shareInstance].tencentOAuth isSessionValid]) {
+    if ([ShareVaule shareInstance].qqName) {
         [self.qqSwitch setOn:YES];
         if (_qqName) {
             [_qqName release];
@@ -179,7 +180,7 @@
     }else{
         [self.qqSwitch setOn:NO];
     }
-    if ([[ShareVaule shareInstance].sinaweibo isAuthValid]) {
+    if ([ShareVaule shareInstance].sinaweiboName) {
         if (_sinaName) {
             [_sinaName release];
             _sinaName = nil;
@@ -189,7 +190,6 @@
     }else{
         [self.sinaSwitch setOn:NO];
     }
-
 }
 
 - (void)viewWillAppear:(BOOL)animated

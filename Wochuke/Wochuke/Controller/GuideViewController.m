@@ -508,16 +508,16 @@
     AWActionSheetCell* cell = [[[AWActionSheetCell alloc] init] autorelease];
     if (index == 0) {
         [cell.iconView setImage:[UIImage imageNamed:@"sns_icon_1"]];
-//        cell.titleLabel.text = @"新浪微博";
+        cell.titleLabel.text = @"新浪微博";
     }else if(index == 1){
         [cell.iconView setImage:[UIImage imageNamed:@"sns_icon_6"]];
-//        cell.titleLabel.text = @"QQ空间";
+        cell.titleLabel.text = @"QQ空间";
     }else if(index == 2){
         [cell.iconView setImage:[UIImage imageNamed:@"sns_icon_22"]];
-//        cell.titleLabel.text = @"微信好友圈";
+        cell.titleLabel.text = @"微信会话";
     }else if(index == 3){
         [cell.iconView setImage:[UIImage imageNamed:@"sns_icon_23"]];
-//        cell.titleLabel.text= @"微信社交";
+        cell.titleLabel.text= @"微信朋友圈";
     }
     cell.index = index;
     return cell;

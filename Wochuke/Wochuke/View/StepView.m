@@ -335,6 +335,9 @@
     _step.text = growingTextView.text;
 }
 
+- (void)growingTextViewDidEndEditing:(HPGrowingTextView *)growingTextView;{
+    [ShareVaule shareInstance].noChanged = NO;
+}
 
 -(void)hideKeyBoard{
     [tv_text resignFirstResponder];

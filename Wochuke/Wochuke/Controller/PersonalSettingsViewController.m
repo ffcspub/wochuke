@@ -44,6 +44,8 @@
     UIImage *backImage = [[UIImage imageNamed:@"bg_register&login_card"] resizableImageWithCapInsets:UIEdgeInsetsMake(12, 12, 12, 12)];
     [_iv_back setImage:backImage];
     [self observeNotification:UIKeyboardWillHideNotification];
+    _iv_face.layer.cornerRadius = 8;
+    _iv_face.layer.masksToBounds = YES;
     
 }
 

@@ -106,7 +106,7 @@
 - (void)request:(SinaWeiboRequest *)request didFinishLoadingWithResult:(id)result;{
     if ([request.url hasSuffix:@"statuses/update.json"]){
         dispatch_async(dispatch_get_main_queue(), ^{
-            [SVProgressHUD showErrorWithStatus:@"分享成功"];
+            [SVProgressHUD showSuccessWithStatus:@"分享成功"];
             [self.navigationController popViewControllerAnimated:YES];
         });
         

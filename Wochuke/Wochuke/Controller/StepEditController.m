@@ -140,6 +140,7 @@
 
 -(void)dealloc{
     [_guide release];
+    [ShareVaule shareInstance].noChanged = YES;
 //    [[ShareVaule shareInstance].editGuideEx release];
     [ShareVaule shareInstance].editGuideEx = nil;
     [[ShareVaule shareInstance].stepImageDic removeAllObjects];
