@@ -20,13 +20,14 @@
 #import "GuideUserListViewController.h"
 #import "CommentViewController.h"
 #import "DriverManagerViewController.h"
-#import <ShareSDK/ShareSDK.h>
 #import "UserViewController.h"
-
+#import "AWActionSheet.h"
+#import "ShareViewController.h"
+#import "WXApi.h"
 
 //#import "StepEditController.h"
 
-@interface GuideViewController ()<StepViewDelegate,UIActionSheetDelegate>{
+@interface GuideViewController ()<StepViewDelegate,UIActionSheetDelegate,AWActionSheetDelegate,SinaWeiboDelegate,TencentSessionDelegate>{
     JCGuideDetail *_detail;
     JSBadgeView *_badgeView;
 }
@@ -97,7 +98,6 @@
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     _badgeView.badgeText = [NSString stringWithFormat:@"%d", _guide.commentCount];
-    [self postNotification:NOTIFICATION_HIDETOOLBAR];
 }
 
 - (void)viewDidLoad
@@ -395,89 +395,14 @@
     }
 }
 
-/**
- *	@brief	简单分享全部
- *
- *	@param 	sender 	事件对象
- */
-- (void)simpleShare
-{
-    //定义菜单分享列表
-//    NSArray *shareList = [ShareSDK getShareListWithType:ShareTypeTwitter, ShareTypeFacebook, ShareTypeSinaWeibo, ShareTypeTencentWeibo, ShareTypeRenren, ShareTypeKaixin, ShareTypeSohuWeibo, ShareType163Weibo, nil];
-    NSArray *shareList = [ShareSDK getShareListWithType:ShareTypeSinaWeibo,ShareTypeQQSpace,ShareTypeWeixiSession,ShareTypeWeixiTimeline,
-                          nil];
-    
-    //创建分享内容
-    NSString *imagePath = [[NSBundle mainBundle] pathForResource:IMAGE_NAME ofType:IMAGE_EXT];
-    id<ISSContent> publishContent = [ShareSDK content:[NSString stringWithFormat:CONTENT,_guide.title]
-                                       defaultContent:@""
-                                                image:[ShareSDK imageWithPath:imagePath]
-                                                title:@"分享"
-                                                  url:@"http://www.wochuke.com"
-                                          description:@""
-                                            mediaType:SSPublishContentMediaTypeNews];
-    
-    //创建容器
-    id<ISSContainer> container = [ShareSDK container];
-//    [container setIPadContainerWithView:sender arrowDirect:UIPopoverArrowDirectionUp];
-    
-    id<ISSAuthOptions> authOptions = [ShareSDK authOptionsWithAutoAuth:YES
-                                                         allowCallback:YES
-                                                         authViewStyle:SSAuthViewStyleFullScreenPopup
-                                                          viewDelegate:nil
-                                               authManagerViewDelegate:nil];
-    
-    //在授权页面中添加关注官方微博
-    [authOptions setFollowAccounts:[NSDictionary dictionaryWithObjectsAndKeys:
-                                    [ShareSDK userFieldWithType:SSUserFieldTypeName value:@"ShareSDK"],
-                                    SHARE_TYPE_NUMBER(ShareTypeSinaWeibo),
-                                    [ShareSDK userFieldWithType:SSUserFieldTypeName value:@"ShareSDK"],
-                                    SHARE_TYPE_NUMBER(ShareTypeTencentWeibo),
-                                    nil]];
-    [ShareSDK ssoEnabled:YES];
-    //显示分享菜单
-    [ShareSDK showShareActionSheet:container
-                         shareList:shareList
-                           content:publishContent
-                     statusBarTips:YES
-                       authOptions:authOptions
-                      shareOptions:[ShareSDK defaultShareOptionsWithTitle:nil
-                                                          oneKeyShareList:shareList
-                                                           qqButtonHidden:NO
-                                                    wxSessionButtonHidden:NO
-                                                   wxTimelineButtonHidden:NO
-                                                     showKeyboardOnAppear:NO
-                                                        shareViewDelegate:nil
-                                                      friendsViewDelegate:nil
-                                                    picViewerViewDelegate:nil]
-                            result:^(ShareType type, SSPublishContentState state, id<ISSStatusInfo> statusInfo, id<ICMErrorInfo> error, BOOL end) {
-                                if (state == SSPublishContentStateSuccess)
-                                {
-//                                    [SVProgressHUD showSuccessWithStatus:@"分享成功"];
-                                    NSLog(@"分享成功");
-                                }
-                                else if (state == SSPublishContentStateFail)
-                                {
-//                                    [SVProgressHUD showErrorWithStatus:@"分享失败"];
-                                    NSLog(@"分享失败,错误码:%d,错误描述:%@", [error errorCode], [error errorDescription]);
-                                }
-                            }];
-}
+
 
 
 #pragma mark -Action
 - (IBAction)shareAction:(id)sender {
-    [self simpleShare];
-//    [ShareSDK oneKeyShareContent:(id<ISSContent>)content
-//                       shareList:(NSArray *)shareList
-//                     authOptions:(id<ISSAuthOptions>)authOptions
-//                   statusBarTips:(BOOL)statusBarTips
-//                          result:(SSPublishContentEventHandler)result;
-//    
-//    UIActionSheet *sheet = [[UIActionSheet alloc]initWithTitle:@"分享" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"新浪微博" otherButtonTitles:@"QQ", nil];
-//    sheet.tag = 10086;
-//    [sheet showInView:self.view];
-//    [sheet release];
+    AWActionSheet *sheet = [[AWActionSheet alloc] initwithIconSheetDelegate:self ItemCount:[self numberOfItemsInActionSheet]];
+    [sheet showInView:self.view];
+    [sheet release];
 }
 
 - (IBAction)likeAction:(id)sender {
@@ -577,6 +502,124 @@
         
         
     });
+    
+}
+
+#pragma mark -AWActionSheetDelegate
+-(int)numberOfItemsInActionSheet
+{
+    return 4;
+}
+
+-(AWActionSheetCell *)cellForActionAtIndex:(NSInteger)index
+{
+    AWActionSheetCell* cell = [[[AWActionSheetCell alloc] init] autorelease];
+    if (index == 0) {
+        [cell.iconView setImage:[UIImage imageNamed:@"sns_icon_1"]];
+//        cell.titleLabel.text = @"新浪微博";
+    }else if(index == 1){
+        [cell.iconView setImage:[UIImage imageNamed:@"sns_icon_6"]];
+//        cell.titleLabel.text = @"QQ空间";
+    }else if(index == 2){
+        [cell.iconView setImage:[UIImage imageNamed:@"sns_icon_22"]];
+//        cell.titleLabel.text = @"微信好友圈";
+    }else if(index == 3){
+        [cell.iconView setImage:[UIImage imageNamed:@"sns_icon_23"]];
+//        cell.titleLabel.text= @"微信社交";
+    }
+    cell.index = index;
+    return cell;
+}
+
+-(void)DidTapOnItemAtIndex:(NSInteger)index
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (index == 0) {
+            [ShareVaule shareInstance].sinaweibo.delegate = self ;
+            if ([[ShareVaule shareInstance].sinaweibo isAuthValid]) {
+                [ShareVaule shareInstance].sinaweibo.delegate = nil ;
+                [self loadShareViewController:0];
+            }else{
+                [[ShareVaule shareInstance].sinaweibo logIn];
+            }
+        }else if(index == 1){
+            if ([[ShareVaule shareInstance].tencentOAuth isSessionValid]) {
+                [self loadShareViewController:1];
+            }else{
+                [ShareVaule shareInstance].tencentOAuth.sessionDelegate = self;
+                NSArray *array = [NSArray arrayWithObjects:kOPEN_PERMISSION_GET_USER_INFO, kOPEN_PERMISSION_GET_SIMPLE_USER_INFO, kOPEN_PERMISSION_ADD_SHARE, nil];
+                [[ShareVaule shareInstance].tencentOAuth authorize:array inSafari:NO];
+            }
+        }else if(index == 2){
+            SendMessageToWXReq* req = [[[SendMessageToWXReq alloc] init]autorelease];
+            req.bText = YES;
+            req.text = [NSString stringWithFormat:SHARE_CONTENT,_guide.title];
+            req.scene = WXSceneSession;
+            BOOL flag = [WXApi sendReq:req];
+            if (flag) {
+                [SVProgressHUD showSuccessWithStatus:@"分享成功"];
+            }else{
+                [SVProgressHUD showErrorWithStatus:@"分享失败"];
+            }
+        }else if(index == 3){
+            SendMessageToWXReq* req = [[[SendMessageToWXReq alloc] init]autorelease];
+            req.bText = YES;
+            req.text = [NSString stringWithFormat:SHARE_CONTENT,_guide.title];
+            req.scene = WXSceneTimeline;
+            BOOL flag = [WXApi sendReq:req];
+            if (!flag) {
+                [SVProgressHUD showErrorWithStatus:@"无法打开微信客户端"];
+            }
+        }
+
+    });
+}
+
+-(void)loadShareViewController:(int)type{
+    ShareViewController *vlc = [[ShareViewController alloc]initWithNibName:@"ShareViewController" bundle:nil];
+    vlc.type = type;
+    if (type == 1) {
+        vlc.titleText = [NSString stringWithFormat:SHARE_CONTENT1,_guide.title];
+    }else{
+        vlc.titleText = [NSString stringWithFormat:SHARE_CONTENT,_guide.title];
+    }
+    
+    vlc.content = _guide.description_;
+    [self.navigationController pushViewController:vlc animated:YES];
+    [vlc release];
+}
+
+#pragma mark SinaWeiboDelegate
+- (void)sinaweiboDidLogIn:(SinaWeibo *)sinaweibo{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self loadShareViewController:0];
+    });
+}
+
+- (void)sinaweiboDidLogOut:(SinaWeibo *)sinaweibo;{
+    
+}
+- (void)sinaweiboLogInDidCancel:(SinaWeibo *)sinaweibo;{
+    
+}
+- (void)sinaweibo:(SinaWeibo *)sinaweibo logInDidFailWithError:(NSError *)error;{
+    
+}
+
+#pragma mark - TencentSession Delegate
+
+- (void)tencentDidLogin
+{
+    [self loadShareViewController:1];
+}
+
+- (void)tencentDidNotLogin:(BOOL)cancelled
+{
+    
+}
+
+- (void)tencentDidNotNetWork
+{
     
 }
 

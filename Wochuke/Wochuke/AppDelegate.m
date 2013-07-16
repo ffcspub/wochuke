@@ -13,9 +13,6 @@
 #import "CatoryViewController.h"
 #import "SearchViewController.h"
 #import "MainViewController.h"
-#import <ShareSDK/ShareSDK.h>
-#import"WXApi.h"
-#import "WBApi.h"
 #import "MobClick.h"
 #import "SinaWeibo.h"
 #import<TencentOpenAPI/QQApiInterface.h> 
@@ -35,14 +32,8 @@
 
 - (void)initializePlat
 {
-    //添加新浪微博应用
-    [ShareSDK connectSinaWeiboWithAppKey:kAppKey appSecret:kAppSecret redirectUri:kAppRedirectURI];
-    [ShareSDK connectQZoneWithAppKey:QQAPPID
-                           appSecret:QQAPPKEY qqApiInterfaceCls:[QQApiInterface class]
-                     tencentOAuthCls:[TencentOAuth class]];
-
-    [ShareSDK connectWeChatWithAppId:weixinAppId
-                           wechatCls:[WXApi class]];
+    //向微信注册
+    [WXApi registerApp:weixinAppId];
     
 }
 
@@ -75,10 +66,6 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    
-    
-    
-    [ShareSDK registerApp:KShareSDKAppKey];
     [self initializePlat];
     
     [MobClick startWithAppkey:@"51e1270b56240b518708d2ee"];
@@ -133,19 +120,52 @@
 {
     if ([[url scheme] isEqualToString:@"tencent100454485"]) {
         return [TencentOAuth HandleOpenURL:url];
+    }else{
+       return [WXApi handleOpenURL:url delegate:self];
     }
-    return [ShareSDK handleOpenURL:url
-                 sourceApplication:sourceApplication
-                        annotation:annotation
-                        wxDelegate:self];
+    return YES;
 }
 
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
 {
     if ([[url scheme] isEqualToString:@"tencent100454485"]) {
         return [TencentOAuth HandleOpenURL:url];
+    }else{
+        return  [WXApi handleOpenURL:url delegate:self];
     }
-    return [ShareSDK handleOpenURL:url wxDelegate:self];
+    return YES;
+}
+
+
+-(void) onReq:(BaseReq*)req
+{
+        
+}
+
+-(void) onResp:(BaseResp*)resp
+{
+    if([resp isKindOfClass:[SendMessageToWXResp class]])
+    {
+        if (resp.errCode == WXSuccess) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"分享成功" message:nil delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+            [alert show];
+            [alert release];
+        }else if (resp.errCode !=WXErrCodeUserCancel){
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"分享失败" message:nil delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+            [alert show];
+            [alert release];
+        }
+        
+    }
+    else if([resp isKindOfClass:[SendAuthResp class]])
+    {
+//        NSString *strTitle = [NSString stringWithFormat:@"Auth结果"];
+//        NSString *strMsg = [NSString stringWithFormat:@"Auth结果:%d", resp.errCode];
+//        
+//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:strTitle message:strMsg delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+//        [alert show];
+//        [alert release];
+    }
 }
 
 @end

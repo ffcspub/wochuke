@@ -34,8 +34,6 @@
 
 #define weixinAppId         @"wxec7b41f2ae9f5cb3"
 
-#define KShareSDKAppKey     @"5baad35997a"
-
 
 
 #define FILEBLOCKLENGTH 2048

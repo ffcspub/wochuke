@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 #import <TencentOpenAPI/TencentOAuth.h>
 @class SinaWeibo;
+#import "WXApi.h"
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate,WXApiDelegate>
 {
     TencentOAuth *tencentOAuth;
     SinaWeibo *sinaweibo;

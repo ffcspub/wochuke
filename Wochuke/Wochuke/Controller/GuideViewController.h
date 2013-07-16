@@ -17,7 +17,6 @@
 
 @property(nonatomic,retain) JCGuide *guide;
 
-
 - (IBAction)popAction:(id)sender;
 
 - (IBAction)showPreviewAction:(id)sender;

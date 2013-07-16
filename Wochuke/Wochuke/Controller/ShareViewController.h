@@ -7,10 +7,21 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "HPGrowingTextView.h"
 
 @interface ShareViewController : UIViewController
 
-@property(nonatomic,retain) NSString *context;
+@property(nonatomic,retain) NSString *titleText;
+@property(nonatomic,retain) NSString *content;
+@property(nonatomic,assign) int type;
+
+@property (retain, nonatomic) IBOutlet UILabel *lb_count;
+
+@property (retain, nonatomic) IBOutlet HPGrowingTextView *tv_content;
+
+- (IBAction)backAction:(id)sender;
+
+- (IBAction)shareAction:(id)sender;
 
 
 @end

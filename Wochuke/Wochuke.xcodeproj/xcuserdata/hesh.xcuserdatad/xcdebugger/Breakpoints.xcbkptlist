@@ -388,7 +388,7 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "481"
          endingLineNumber = "481"
-         landmarkName = "-shareAction:"
+         landmarkName = "-guideInfoViewUserShow:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -906,7 +906,7 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "540"
          endingLineNumber = "540"
-         landmarkName = "-guideInfoViewUserShow:"
+         landmarkName = "-DidTapOnItemAtIndex:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -919,7 +919,7 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "543"
          endingLineNumber = "543"
-         landmarkName = "-guideInfoViewUserShow:"
+         landmarkName = "-DidTapOnItemAtIndex:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint

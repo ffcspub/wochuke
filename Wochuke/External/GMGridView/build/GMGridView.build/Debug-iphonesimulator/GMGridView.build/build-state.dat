@@ -1,490 +1,0 @@
-TGMGridView
-v5
-r1
-cCheck dependencies
-cCompileC build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/Objects-normal/i386/GMGridView.o /Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/GMGridView.m normal i386 objective-c com.apple.compilers.llvm.clang.1_0.compiler
-cCompileC build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/Objects-normal/i386/GMGridViewCell.o /Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/GMGridViewCell.m normal i386 objective-c com.apple.compilers.llvm.clang.1_0.compiler
-cCompileC build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/Objects-normal/i386/GMGridViewLayoutStrategies.o /Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/GMGridViewLayoutStrategies.m normal i386 objective-c com.apple.compilers.llvm.clang.1_0.compiler
-cCompileC build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/Objects-normal/i386/UIGestureRecognizer+GMGridViewAdditions.o /Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/UIGestureRecognizer+GMGridViewAdditions.m normal i386 objective-c com.apple.compilers.llvm.clang.1_0.compiler
-cCompileC build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/Objects-normal/i386/UIView+GMGridViewAdditions.o /Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/UIView+GMGridViewAdditions.m normal i386 objective-c com.apple.compilers.llvm.clang.1_0.compiler
-cLibtool /Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/build/Debug-iphonesimulator/libGMGridView.a normal i386
-cCpHeader GMGridView.h build/Debug-iphonesimulator/usr/local/include/GMGridView.h
-cCpHeader GMGridView-Constants.h build/Debug-iphonesimulator/usr/local/include/GMGridView-Constants.h
-cCpHeader GMGridViewCell.h build/Debug-iphonesimulator/usr/local/include/GMGridViewCell.h
-cCpHeader GMGridViewCell+Extended.h build/Debug-iphonesimulator/usr/local/include/GMGridViewCell+Extended.h
-cCpHeader GMGridViewLayoutStrategies.h build/Debug-iphonesimulator/usr/local/include/GMGridViewLayoutStrategies.h
-
-N/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator6.1.sdk
-c0000000050EDEAFB0000000000000110
-t1357769467
-s272
-
-N/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator6.1.sdk/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics
-c0000000051649DE30000000000228FE0
-t1365548515
-s2265056
-
-N/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator6.1.sdk/System/Library/Frameworks/Foundation.framework/Foundation
-c0000000051649DF100000000003DDFA0
-t1365548529
-s4054944
-
-N/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator6.1.sdk/System/Library/Frameworks/QuartzCore.framework/QuartzCore
-c0000000051649E1D00000000001D5750
-t1365548573
-s1922896
-
-N/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator6.1.sdk/System/Library/Frameworks/UIKit.framework/UIKit
-c0000000051649E290000000000AB6230
-t1365548585
-s11231792
-
-N/Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/GMGridView-Constants.h
-c00000000000000000000000000000000
-t2
-s0
-
-N/Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/GMGridView.h
-c00000000000000000000000000000000
-t2
-s0
-
-N/Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/GMGridView.m
-c00000000000000000000000000000000
-t2
-s0
-
-N/Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/GMGridViewCell+Extended.h
-c00000000000000000000000000000000
-t2
-s0
-
-N/Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/GMGridViewCell.h
-c00000000000000000000000000000000
-t2
-s0
-
-N/Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/GMGridViewCell.m
-c00000000000000000000000000000000
-t2
-s0
-
-N/Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/GMGridViewLayoutStrategies.h
-c00000000000000000000000000000000
-t2
-s0
-
-N/Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/GMGridViewLayoutStrategies.m
-c00000000000000000000000000000000
-t2
-s0
-
-N/Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/UIGestureRecognizer+GMGridViewAdditions.h
-c00000000000000000000000000000000
-t2
-s0
-
-N/Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/UIGestureRecognizer+GMGridViewAdditions.m
-c00000000000000000000000000000000
-t2
-s0
-
-N/Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/UIView+GMGridViewAdditions.h
-c00000000000000000000000000000000
-t2
-s0
-
-N/Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/UIView+GMGridViewAdditions.m
-c00000000000000000000000000000000
-t2
-s0
-
-N/Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/build/Debug-iphonesimulator/libGMGridView.a
-t1372212333
-s625408
-
-N/Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/build/Debug-iphonesimulator/usr/local/include/GMGridView-Constants.h
-t1372212333
-s1796
-
-N/Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/build/Debug-iphonesimulator/usr/local/include/GMGridView.h
-t1372212333
-s9131
-
-N/Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/build/Debug-iphonesimulator/usr/local/include/GMGridViewCell+Extended.h
-t1372212333
-s2523
-
-N/Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/build/Debug-iphonesimulator/usr/local/include/GMGridViewCell.h
-t1372212333
-s1909
-
-N/Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/build/Debug-iphonesimulator/usr/local/include/GMGridViewLayoutStrategies.h
-t1372212333
-s6539
-
-N/Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/Objects-normal/i386/GMGridView.LinkFileList
-c0000000051CA4C6B00000000000003AC
-t1372212331
-s940
-
-N/Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/Objects-normal/i386/GMGridView.o
-t1372212333
-s279752
-
-N/Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/Objects-normal/i386/GMGridViewCell.o
-t1372212333
-s121804
-
-N/Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/Objects-normal/i386/GMGridViewLayoutStrategies.o
-t1372212333
-s75100
-
-N/Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/Objects-normal/i386/UIGestureRecognizer+GMGridViewAdditions.o
-t1372212333
-s67520
-
-N/Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/Objects-normal/i386/UIView+GMGridViewAdditions.o
-t1372212333
-s75584
-
-N/Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/GMGridView-Constants.h
-c0000000051825EBC0000000000000704
-t1367498428
-s1796
-
-N/Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/GMGridView.h
-c0000000051C99B6C00000000000023AB
-t1372167020
-s9131
-
-N/Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/GMGridView.m
-c0000000051C9A73A000000000001003E
-t1372170042
-s65598
-
-N/Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/GMGridViewCell+Extended.h
-c0000000051825EBC00000000000009DB
-t1367498428
-s2523
-
-N/Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/GMGridViewCell.h
-c0000000051825EBC0000000000000775
-t1367498428
-s1909
-
-N/Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/GMGridViewCell.m
-c0000000051825EBC0000000000002BA6
-t1367498428
-s11174
-
-N/Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/GMGridViewLayoutStrategies.h
-c0000000051825EBC000000000000198B
-t1367498428
-s6539
-
-N/Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/GMGridViewLayoutStrategies.m
-c0000000051825EBC0000000000004999
-t1367498428
-s18841
-
-N/Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/UIGestureRecognizer+GMGridViewAdditions.h
-c0000000051825EBC00000000000005F0
-t1367498428
-s1520
-
-N/Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/UIGestureRecognizer+GMGridViewAdditions.m
-c0000000051825EBC00000000000006C2
-t1367498428
-s1730
-
-N/Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/UIView+GMGridViewAdditions.h
-c0000000051825EBC0000000000000615
-t1367498428
-s1557
-
-N/Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/UIView+GMGridViewAdditions.m
-c0000000051825EBC0000000000000A16
-t1367498428
-s2582
-
-N/Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/build/Debug-iphonesimulator/libGMGridView.a
-t1372382105
-s625488
-
-N/Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/build/Debug-iphonesimulator/usr/local/include/GMGridView-Constants.h
-t1372212333
-s1796
-
-N/Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/build/Debug-iphonesimulator/usr/local/include/GMGridView.h
-t1372212333
-s9131
-
-N/Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/build/Debug-iphonesimulator/usr/local/include/GMGridViewCell+Extended.h
-t1372212333
-s2523
-
-N/Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/build/Debug-iphonesimulator/usr/local/include/GMGridViewCell.h
-t1372212333
-s1909
-
-N/Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/build/Debug-iphonesimulator/usr/local/include/GMGridViewLayoutStrategies.h
-t1372212333
-s6539
-
-N/Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/Objects-normal/i386/GMGridView.LinkFileList
-c0000000051CCE39400000000000003C5
-t1372382100
-s965
-
-N/Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/Objects-normal/i386/GMGridView.o
-t1372382104
-s279768
-
-N/Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/Objects-normal/i386/GMGridViewCell.o
-t1372382104
-s121820
-
-N/Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/Objects-normal/i386/GMGridViewLayoutStrategies.o
-t1372382105
-s75116
-
-N/Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/Objects-normal/i386/UIGestureRecognizer+GMGridViewAdditions.o
-t1372382105
-s67536
-
-N/Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/Objects-normal/i386/UIView+GMGridViewAdditions.o
-t1372382105
-s75600
-
-CBuild AST from /Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/GMGridView.m
-r0
-
-CBuild AST from /Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/GMGridViewCell.m
-r0
-
-CBuild AST from /Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/GMGridViewLayoutStrategies.m
-r0
-
-CBuild AST from /Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/UIGestureRecognizer+GMGridViewAdditions.m
-r0
-
-CBuild AST from /Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/UIView+GMGridViewAdditions.m
-r0
-
-CBuild AST from /Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/GMGridView.m
-r0
-
-CBuild AST from /Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/GMGridViewCell.m
-r0
-
-CBuild AST from /Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/GMGridViewLayoutStrategies.m
-r0
-
-CBuild AST from /Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/UIGestureRecognizer+GMGridViewAdditions.m
-r0
-
-CBuild AST from /Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/UIView+GMGridViewAdditions.m
-r0
-
-CCheck dependencies
-r0
-lSLF05#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection18"Check dependencies75e5b3662e7db741^fb3cba662e7db741^---0#1#0#--18"Check dependencies36"81FD42B8-EC77-4D1F-A903-D83F3AB33B91-
-
-CCompileC build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/Objects-normal/i386/GMGridView.o /Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/GMGridView.m normal i386 objective-c com.apple.compilers.llvm.clang.1_0.compiler
-s393905131.946959
-e393905133.565352
-r1
-xCompileC
-xbuild/GMGridView.build/Debug-iphonesimulator/GMGridView.build/Objects-normal/i386/GMGridView.o
-x/Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/GMGridView.m
-xnormal
-xi386
-xobjective-c
-xcom.apple.compilers.llvm.clang.1_0.compiler
-lSLF05#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection100"Compile /Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/GMGridView.m5391f2eb837ab741^c4eb92ed837ab741^---0#0#0#-19%DVTDocumentLocation2@126"file://localhost/Users/hesonghang/Documents/workspace/out/%E6%B2%83%E5%8E%A8%E5%AE%A2/Wochuke/External/GMGridView/GMGridView.m0000000000000000^3583"CompileC build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/Objects-normal/i386/GMGridView.o GMGridView.m normal i386 objective-c com.apple.compilers.llvm.clang.1_0.compiler    cd /Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView    setenv LANG en_US.US-ASCII    setenv PATH "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x objective-c -arch i386 -fmessage-length=0 -std=gnu99 -fobjc-arc -Wno-trigraphs -fpascal-strings -O0 -Wno-missing-field-initializers -Wno-missing-prototypes -Wreturn-type -Wno-implicit-atomic-properties -Wno-receiver-is-weak -Wformat -Wno-missing-braces -Wparentheses -Wswitch -Wno-unused-function -Wno-unused-label -Wno-unused-parameter -Wunused-variable -Wunused-value -Wno-empty-body -Wuninitialized -Wno-unknown-pragmas -Wno-shadow -Wno-four-char-constants -Wno-conversion -Wno-constant-conversion -Wno-int-conversion -Wno-enum-conversion -Wno-shorten-64-to-32 -Wpointer-sign -Wno-newline-eof -Wno-selector -Wno-strict-selector-match -Wno-undeclared-selector -Wno-deprecated-implementations -DDEBUG=1 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator6.1.sdk -fexceptions -fasm-blocks -fstrict-aliasing -Wprotocol -Wdeprecated-declarations -g -Wno-sign-conversion -fobjc-abi-version=2 -fobjc-legacy-dispatch -mios-simulator-version-min=4.0 -iquote /Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/GMGridView-generated-files.hmap -I/Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/GMGridView-own-target-headers.hmap -I/Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/GMGridView-all-target-headers.hmap -iquote /Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/GMGridView-project-headers.hmap -I/Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/build/Debug-iphonesimulator/include -I../External/GMGridView -I/Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/DerivedSources/i386 -I/Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/DerivedSources -F/Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/build/Debug-iphonesimulator -MMD -MT dependencies -MF /Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/Objects-normal/i386/GMGridView.d --serialize-diagnostics /Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/Objects-normal/i386/GMGridView.dia -c /Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/GMGridView.m -o /Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/Objects-normal/i386/GMGridView.o36"D47AD96D-D95C-4F63-B9A4-36E7696DA72C-
-
-CCompileC build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/Objects-normal/i386/GMGridView.o /Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/GMGridView.m normal i386 objective-c com.apple.compilers.llvm.clang.1_0.compiler
-s394074900.074032
-e394074904.918315
-r1
-xCompileC
-xbuild/GMGridView.build/Debug-iphonesimulator/GMGridView.build/Objects-normal/i386/GMGridView.o
-x/Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/GMGridView.m
-xnormal
-xi386
-xobjective-c
-xcom.apple.compilers.llvm.clang.1_0.compiler
-lSLF05#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection105"Compile /Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/GMGridView.mc21613141b7db741^0916eb181b7db741^---0#0#0#-19%DVTDocumentLocation2@131"file://localhost/Users/hesonghang/Documents/workspace/out/%E6%B2%83%E5%8E%A8%E5%AE%A2/code/Wochuke/External/GMGridView/GMGridView.m0000000000000000^3648"CompileC build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/Objects-normal/i386/GMGridView.o GMGridView.m normal i386 objective-c com.apple.compilers.llvm.clang.1_0.compiler    cd /Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView    setenv LANG en_US.US-ASCII    setenv PATH "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x objective-c -arch i386 -fmessage-length=0 -std=gnu99 -fobjc-arc -Wno-trigraphs -fpascal-strings -O0 -Wno-missing-field-initializers -Wno-missing-prototypes -Wreturn-type -Wno-implicit-atomic-properties -Wno-receiver-is-weak -Wformat -Wno-missing-braces -Wparentheses -Wswitch -Wno-unused-function -Wno-unused-label -Wno-unused-parameter -Wunused-variable -Wunused-value -Wno-empty-body -Wuninitialized -Wno-unknown-pragmas -Wno-shadow -Wno-four-char-constants -Wno-conversion -Wno-constant-conversion -Wno-int-conversion -Wno-enum-conversion -Wno-shorten-64-to-32 -Wpointer-sign -Wno-newline-eof -Wno-selector -Wno-strict-selector-match -Wno-undeclared-selector -Wno-deprecated-implementations -DDEBUG=1 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator6.1.sdk -fexceptions -fasm-blocks -fstrict-aliasing -Wprotocol -Wdeprecated-declarations -g -Wno-sign-conversion -fobjc-abi-version=2 -fobjc-legacy-dispatch -mios-simulator-version-min=4.0 -iquote /Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/GMGridView-generated-files.hmap -I/Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/GMGridView-own-target-headers.hmap -I/Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/GMGridView-all-target-headers.hmap -iquote /Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/GMGridView-project-headers.hmap -I/Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/build/Debug-iphonesimulator/include -I../External/GMGridView -I/Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/DerivedSources/i386 -I/Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/DerivedSources -F/Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/build/Debug-iphonesimulator -MMD -MT dependencies -MF /Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/Objects-normal/i386/GMGridView.d --serialize-diagnostics /Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/Objects-normal/i386/GMGridView.dia -c /Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/GMGridView.m -o /Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/Objects-normal/i386/GMGridView.o36"57E93234-A3D6-4138-B9ED-107D16CE3ED0-
-
-CCompileC build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/Objects-normal/i386/GMGridViewCell.o /Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/GMGridViewCell.m normal i386 objective-c com.apple.compilers.llvm.clang.1_0.compiler
-s393905131.947402
-e393905133.364403
-r1
-xCompileC
-xbuild/GMGridView.build/Debug-iphonesimulator/GMGridView.build/Objects-normal/i386/GMGridViewCell.o
-x/Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/GMGridViewCell.m
-xnormal
-xi386
-xobjective-c
-xcom.apple.compilers.llvm.clang.1_0.compiler
-lSLF05#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection104"Compile /Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/GMGridViewCell.m19aaf2eb837ab741^41495ded837ab741^---0#0#0#-19%DVTDocumentLocation2@130"file://localhost/Users/hesonghang/Documents/workspace/out/%E6%B2%83%E5%8E%A8%E5%AE%A2/Wochuke/External/GMGridView/GMGridViewCell.m0000000000000000^3607"CompileC build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/Objects-normal/i386/GMGridViewCell.o GMGridViewCell.m normal i386 objective-c com.apple.compilers.llvm.clang.1_0.compiler    cd /Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView    setenv LANG en_US.US-ASCII    setenv PATH "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x objective-c -arch i386 -fmessage-length=0 -std=gnu99 -fobjc-arc -Wno-trigraphs -fpascal-strings -O0 -Wno-missing-field-initializers -Wno-missing-prototypes -Wreturn-type -Wno-implicit-atomic-properties -Wno-receiver-is-weak -Wformat -Wno-missing-braces -Wparentheses -Wswitch -Wno-unused-function -Wno-unused-label -Wno-unused-parameter -Wunused-variable -Wunused-value -Wno-empty-body -Wuninitialized -Wno-unknown-pragmas -Wno-shadow -Wno-four-char-constants -Wno-conversion -Wno-constant-conversion -Wno-int-conversion -Wno-enum-conversion -Wno-shorten-64-to-32 -Wpointer-sign -Wno-newline-eof -Wno-selector -Wno-strict-selector-match -Wno-undeclared-selector -Wno-deprecated-implementations -DDEBUG=1 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator6.1.sdk -fexceptions -fasm-blocks -fstrict-aliasing -Wprotocol -Wdeprecated-declarations -g -Wno-sign-conversion -fobjc-abi-version=2 -fobjc-legacy-dispatch -mios-simulator-version-min=4.0 -iquote /Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/GMGridView-generated-files.hmap -I/Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/GMGridView-own-target-headers.hmap -I/Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/GMGridView-all-target-headers.hmap -iquote /Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/GMGridView-project-headers.hmap -I/Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/build/Debug-iphonesimulator/include -I../External/GMGridView -I/Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/DerivedSources/i386 -I/Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/DerivedSources -F/Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/build/Debug-iphonesimulator -MMD -MT dependencies -MF /Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/Objects-normal/i386/GMGridViewCell.d --serialize-diagnostics /Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/Objects-normal/i386/GMGridViewCell.dia -c /Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/GMGridViewCell.m -o /Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/Objects-normal/i386/GMGridViewCell.o36"8598C023-789B-4363-A5D4-46B7D81ED5FC-
-
-CCompileC build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/Objects-normal/i386/GMGridViewCell.o /Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/GMGridViewCell.m normal i386 objective-c com.apple.compilers.llvm.clang.1_0.compiler
-s394074900.074036
-e394074904.790136
-r1
-xCompileC
-xbuild/GMGridView.build/Debug-iphonesimulator/GMGridView.build/Objects-normal/i386/GMGridViewCell.o
-x/Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/GMGridViewCell.m
-xnormal
-xi386
-xobjective-c
-xcom.apple.compilers.llvm.clang.1_0.compiler
-lSLF05#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection109"Compile /Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/GMGridViewCell.md80d13141b7db741^3d45ca181b7db741^---0#0#0#-19%DVTDocumentLocation2@135"file://localhost/Users/hesonghang/Documents/workspace/out/%E6%B2%83%E5%8E%A8%E5%AE%A2/code/Wochuke/External/GMGridView/GMGridViewCell.m0000000000000000^3672"CompileC build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/Objects-normal/i386/GMGridViewCell.o GMGridViewCell.m normal i386 objective-c com.apple.compilers.llvm.clang.1_0.compiler    cd /Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView    setenv LANG en_US.US-ASCII    setenv PATH "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x objective-c -arch i386 -fmessage-length=0 -std=gnu99 -fobjc-arc -Wno-trigraphs -fpascal-strings -O0 -Wno-missing-field-initializers -Wno-missing-prototypes -Wreturn-type -Wno-implicit-atomic-properties -Wno-receiver-is-weak -Wformat -Wno-missing-braces -Wparentheses -Wswitch -Wno-unused-function -Wno-unused-label -Wno-unused-parameter -Wunused-variable -Wunused-value -Wno-empty-body -Wuninitialized -Wno-unknown-pragmas -Wno-shadow -Wno-four-char-constants -Wno-conversion -Wno-constant-conversion -Wno-int-conversion -Wno-enum-conversion -Wno-shorten-64-to-32 -Wpointer-sign -Wno-newline-eof -Wno-selector -Wno-strict-selector-match -Wno-undeclared-selector -Wno-deprecated-implementations -DDEBUG=1 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator6.1.sdk -fexceptions -fasm-blocks -fstrict-aliasing -Wprotocol -Wdeprecated-declarations -g -Wno-sign-conversion -fobjc-abi-version=2 -fobjc-legacy-dispatch -mios-simulator-version-min=4.0 -iquote /Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/GMGridView-generated-files.hmap -I/Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/GMGridView-own-target-headers.hmap -I/Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/GMGridView-all-target-headers.hmap -iquote /Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/GMGridView-project-headers.hmap -I/Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/build/Debug-iphonesimulator/include -I../External/GMGridView -I/Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/DerivedSources/i386 -I/Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/DerivedSources -F/Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/build/Debug-iphonesimulator -MMD -MT dependencies -MF /Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/Objects-normal/i386/GMGridViewCell.d --serialize-diagnostics /Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/Objects-normal/i386/GMGridViewCell.dia -c /Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/GMGridViewCell.m -o /Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/Objects-normal/i386/GMGridViewCell.o36"4B3FBED2-1245-458D-84BB-CD614134B891-
-
-CCompileC build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/Objects-normal/i386/GMGridViewLayoutStrategies.o /Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/GMGridViewLayoutStrategies.m normal i386 objective-c com.apple.compilers.llvm.clang.1_0.compiler
-s393905131.947389
-e393905133.355099
-r1
-xCompileC
-xbuild/GMGridView.build/Debug-iphonesimulator/GMGridView.build/Objects-normal/i386/GMGridViewLayoutStrategies.o
-x/Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/GMGridViewLayoutStrategies.m
-xnormal
-xi386
-xobjective-c
-xcom.apple.compilers.llvm.clang.1_0.compiler
-lSLF05#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection116"Compile /Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/GMGridViewLayoutStrategies.mfbacf2eb837ab741^bbf15aed837ab741^---0#0#0#-19%DVTDocumentLocation2@142"file://localhost/Users/hesonghang/Documents/workspace/out/%E6%B2%83%E5%8E%A8%E5%AE%A2/Wochuke/External/GMGridView/GMGridViewLayoutStrategies.m0000000000000000^3679"CompileC build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/Objects-normal/i386/GMGridViewLayoutStrategies.o GMGridViewLayoutStrategies.m normal i386 objective-c com.apple.compilers.llvm.clang.1_0.compiler    cd /Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView    setenv LANG en_US.US-ASCII    setenv PATH "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x objective-c -arch i386 -fmessage-length=0 -std=gnu99 -fobjc-arc -Wno-trigraphs -fpascal-strings -O0 -Wno-missing-field-initializers -Wno-missing-prototypes -Wreturn-type -Wno-implicit-atomic-properties -Wno-receiver-is-weak -Wformat -Wno-missing-braces -Wparentheses -Wswitch -Wno-unused-function -Wno-unused-label -Wno-unused-parameter -Wunused-variable -Wunused-value -Wno-empty-body -Wuninitialized -Wno-unknown-pragmas -Wno-shadow -Wno-four-char-constants -Wno-conversion -Wno-constant-conversion -Wno-int-conversion -Wno-enum-conversion -Wno-shorten-64-to-32 -Wpointer-sign -Wno-newline-eof -Wno-selector -Wno-strict-selector-match -Wno-undeclared-selector -Wno-deprecated-implementations -DDEBUG=1 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator6.1.sdk -fexceptions -fasm-blocks -fstrict-aliasing -Wprotocol -Wdeprecated-declarations -g -Wno-sign-conversion -fobjc-abi-version=2 -fobjc-legacy-dispatch -mios-simulator-version-min=4.0 -iquote /Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/GMGridView-generated-files.hmap -I/Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/GMGridView-own-target-headers.hmap -I/Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/GMGridView-all-target-headers.hmap -iquote /Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/GMGridView-project-headers.hmap -I/Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/build/Debug-iphonesimulator/include -I../External/GMGridView -I/Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/DerivedSources/i386 -I/Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/DerivedSources -F/Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/build/Debug-iphonesimulator -MMD -MT dependencies -MF /Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/Objects-normal/i386/GMGridViewLayoutStrategies.d --serialize-diagnostics /Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/Objects-normal/i386/GMGridViewLayoutStrategies.dia -c /Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/GMGridViewLayoutStrategies.m -o /Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/Objects-normal/i386/GMGridViewLayoutStrategies.o36"093CC460-A2C4-4B2E-837F-F7270FE12BF5-
-
-CCompileC build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/Objects-normal/i386/GMGridViewLayoutStrategies.o /Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/GMGridViewLayoutStrategies.m normal i386 objective-c com.apple.compilers.llvm.clang.1_0.compiler
-s394074904.791549
-e394074905.049074
-r1
-xCompileC
-xbuild/GMGridView.build/Debug-iphonesimulator/GMGridView.build/Objects-normal/i386/GMGridViewLayoutStrategies.o
-x/Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/GMGridViewLayoutStrategies.m
-xnormal
-xi386
-xobjective-c
-xcom.apple.compilers.llvm.clang.1_0.compiler
-lSLF05#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection121"Compile /Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/GMGridViewLayoutStrategies.m8cbeca181b7db741^1d900c191b7db741^---0#0#0#-19%DVTDocumentLocation2@147"file://localhost/Users/hesonghang/Documents/workspace/out/%E6%B2%83%E5%8E%A8%E5%AE%A2/code/Wochuke/External/GMGridView/GMGridViewLayoutStrategies.m0000000000000000^3744"CompileC build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/Objects-normal/i386/GMGridViewLayoutStrategies.o GMGridViewLayoutStrategies.m normal i386 objective-c com.apple.compilers.llvm.clang.1_0.compiler    cd /Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView    setenv LANG en_US.US-ASCII    setenv PATH "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x objective-c -arch i386 -fmessage-length=0 -std=gnu99 -fobjc-arc -Wno-trigraphs -fpascal-strings -O0 -Wno-missing-field-initializers -Wno-missing-prototypes -Wreturn-type -Wno-implicit-atomic-properties -Wno-receiver-is-weak -Wformat -Wno-missing-braces -Wparentheses -Wswitch -Wno-unused-function -Wno-unused-label -Wno-unused-parameter -Wunused-variable -Wunused-value -Wno-empty-body -Wuninitialized -Wno-unknown-pragmas -Wno-shadow -Wno-four-char-constants -Wno-conversion -Wno-constant-conversion -Wno-int-conversion -Wno-enum-conversion -Wno-shorten-64-to-32 -Wpointer-sign -Wno-newline-eof -Wno-selector -Wno-strict-selector-match -Wno-undeclared-selector -Wno-deprecated-implementations -DDEBUG=1 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator6.1.sdk -fexceptions -fasm-blocks -fstrict-aliasing -Wprotocol -Wdeprecated-declarations -g -Wno-sign-conversion -fobjc-abi-version=2 -fobjc-legacy-dispatch -mios-simulator-version-min=4.0 -iquote /Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/GMGridView-generated-files.hmap -I/Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/GMGridView-own-target-headers.hmap -I/Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/GMGridView-all-target-headers.hmap -iquote /Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/GMGridView-project-headers.hmap -I/Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/build/Debug-iphonesimulator/include -I../External/GMGridView -I/Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/DerivedSources/i386 -I/Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/DerivedSources -F/Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/build/Debug-iphonesimulator -MMD -MT dependencies -MF /Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/Objects-normal/i386/GMGridViewLayoutStrategies.d --serialize-diagnostics /Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/Objects-normal/i386/GMGridViewLayoutStrategies.dia -c /Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/GMGridViewLayoutStrategies.m -o /Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/Objects-normal/i386/GMGridViewLayoutStrategies.o36"9B84BE13-2425-4564-9591-476781E59F3F-
-
-CCompileC build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/Objects-normal/i386/UIGestureRecognizer+GMGridViewAdditions.o /Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/UIGestureRecognizer+GMGridViewAdditions.m normal i386 objective-c com.apple.compilers.llvm.clang.1_0.compiler
-s393905131.947752
-e393905133.286677
-r1
-xCompileC
-xbuild/GMGridView.build/Debug-iphonesimulator/GMGridView.build/Objects-normal/i386/UIGestureRecognizer+GMGridViewAdditions.o
-x/Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/UIGestureRecognizer+GMGridViewAdditions.m
-xnormal
-xi386
-xobjective-c
-xcom.apple.compilers.llvm.clang.1_0.compiler
-lSLF05#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection129"Compile /Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/UIGestureRecognizer+GMGridViewAdditions.m06bef2eb837ab741^de7649ed837ab741^---0#0#0#-19%DVTDocumentLocation2@155"file://localhost/Users/hesonghang/Documents/workspace/out/%E6%B2%83%E5%8E%A8%E5%AE%A2/Wochuke/External/GMGridView/UIGestureRecognizer+GMGridViewAdditions.m0000000000000000^3757"CompileC build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/Objects-normal/i386/UIGestureRecognizer+GMGridViewAdditions.o UIGestureRecognizer+GMGridViewAdditions.m normal i386 objective-c com.apple.compilers.llvm.clang.1_0.compiler    cd /Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView    setenv LANG en_US.US-ASCII    setenv PATH "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x objective-c -arch i386 -fmessage-length=0 -std=gnu99 -fobjc-arc -Wno-trigraphs -fpascal-strings -O0 -Wno-missing-field-initializers -Wno-missing-prototypes -Wreturn-type -Wno-implicit-atomic-properties -Wno-receiver-is-weak -Wformat -Wno-missing-braces -Wparentheses -Wswitch -Wno-unused-function -Wno-unused-label -Wno-unused-parameter -Wunused-variable -Wunused-value -Wno-empty-body -Wuninitialized -Wno-unknown-pragmas -Wno-shadow -Wno-four-char-constants -Wno-conversion -Wno-constant-conversion -Wno-int-conversion -Wno-enum-conversion -Wno-shorten-64-to-32 -Wpointer-sign -Wno-newline-eof -Wno-selector -Wno-strict-selector-match -Wno-undeclared-selector -Wno-deprecated-implementations -DDEBUG=1 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator6.1.sdk -fexceptions -fasm-blocks -fstrict-aliasing -Wprotocol -Wdeprecated-declarations -g -Wno-sign-conversion -fobjc-abi-version=2 -fobjc-legacy-dispatch -mios-simulator-version-min=4.0 -iquote /Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/GMGridView-generated-files.hmap -I/Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/GMGridView-own-target-headers.hmap -I/Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/GMGridView-all-target-headers.hmap -iquote /Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/GMGridView-project-headers.hmap -I/Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/build/Debug-iphonesimulator/include -I../External/GMGridView -I/Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/DerivedSources/i386 -I/Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/DerivedSources -F/Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/build/Debug-iphonesimulator -MMD -MT dependencies -MF /Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/Objects-normal/i386/UIGestureRecognizer+GMGridViewAdditions.d --serialize-diagnostics /Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/Objects-normal/i386/UIGestureRecognizer+GMGridViewAdditions.dia -c /Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/UIGestureRecognizer+GMGridViewAdditions.m -o /Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/Objects-normal/i386/UIGestureRecognizer+GMGridViewAdditions.o36"E3280D5F-FCC4-44AC-AC8D-7A1BC6A07F7C-
-
-CCompileC build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/Objects-normal/i386/UIGestureRecognizer+GMGridViewAdditions.o /Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/UIGestureRecognizer+GMGridViewAdditions.m normal i386 objective-c com.apple.compilers.llvm.clang.1_0.compiler
-s394074904.919695
-e394074905.132589
-r1
-xCompileC
-xbuild/GMGridView.build/Debug-iphonesimulator/GMGridView.build/Objects-normal/i386/UIGestureRecognizer+GMGridViewAdditions.o
-x/Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/UIGestureRecognizer+GMGridViewAdditions.m
-xnormal
-xi386
-xobjective-c
-xcom.apple.compilers.llvm.clang.1_0.compiler
-lSLF05#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection134"Compile /Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/UIGestureRecognizer+GMGridViewAdditions.m338ceb181b7db741^80f021191b7db741^---0#0#0#-19%DVTDocumentLocation2@160"file://localhost/Users/hesonghang/Documents/workspace/out/%E6%B2%83%E5%8E%A8%E5%AE%A2/code/Wochuke/External/GMGridView/UIGestureRecognizer+GMGridViewAdditions.m0000000000000000^3822"CompileC build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/Objects-normal/i386/UIGestureRecognizer+GMGridViewAdditions.o UIGestureRecognizer+GMGridViewAdditions.m normal i386 objective-c com.apple.compilers.llvm.clang.1_0.compiler    cd /Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView    setenv LANG en_US.US-ASCII    setenv PATH "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x objective-c -arch i386 -fmessage-length=0 -std=gnu99 -fobjc-arc -Wno-trigraphs -fpascal-strings -O0 -Wno-missing-field-initializers -Wno-missing-prototypes -Wreturn-type -Wno-implicit-atomic-properties -Wno-receiver-is-weak -Wformat -Wno-missing-braces -Wparentheses -Wswitch -Wno-unused-function -Wno-unused-label -Wno-unused-parameter -Wunused-variable -Wunused-value -Wno-empty-body -Wuninitialized -Wno-unknown-pragmas -Wno-shadow -Wno-four-char-constants -Wno-conversion -Wno-constant-conversion -Wno-int-conversion -Wno-enum-conversion -Wno-shorten-64-to-32 -Wpointer-sign -Wno-newline-eof -Wno-selector -Wno-strict-selector-match -Wno-undeclared-selector -Wno-deprecated-implementations -DDEBUG=1 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator6.1.sdk -fexceptions -fasm-blocks -fstrict-aliasing -Wprotocol -Wdeprecated-declarations -g -Wno-sign-conversion -fobjc-abi-version=2 -fobjc-legacy-dispatch -mios-simulator-version-min=4.0 -iquote /Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/GMGridView-generated-files.hmap -I/Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/GMGridView-own-target-headers.hmap -I/Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/GMGridView-all-target-headers.hmap -iquote /Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/GMGridView-project-headers.hmap -I/Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/build/Debug-iphonesimulator/include -I../External/GMGridView -I/Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/DerivedSources/i386 -I/Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/DerivedSources -F/Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/build/Debug-iphonesimulator -MMD -MT dependencies -MF /Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/Objects-normal/i386/UIGestureRecognizer+GMGridViewAdditions.d --serialize-diagnostics /Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/Objects-normal/i386/UIGestureRecognizer+GMGridViewAdditions.dia -c /Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/UIGestureRecognizer+GMGridViewAdditions.m -o /Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/Objects-normal/i386/UIGestureRecognizer+GMGridViewAdditions.o36"FC2BFB73-5B32-4EC4-B3A1-C7DAB12D27E2-
-
-CCompileC build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/Objects-normal/i386/UIView+GMGridViewAdditions.o /Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/UIView+GMGridViewAdditions.m normal i386 objective-c com.apple.compilers.llvm.clang.1_0.compiler
-s393905133.287979
-e393905133.577783
-r1
-xCompileC
-xbuild/GMGridView.build/Debug-iphonesimulator/GMGridView.build/Objects-normal/i386/UIView+GMGridViewAdditions.o
-x/Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/UIView+GMGridViewAdditions.m
-xnormal
-xi386
-xobjective-c
-xcom.apple.compilers.llvm.clang.1_0.compiler
-lSLF05#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection116"Compile /Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/UIView+GMGridViewAdditions.mace249ed837ab741^53e993ed837ab741^---0#0#0#-19%DVTDocumentLocation2@142"file://localhost/Users/hesonghang/Documents/workspace/out/%E6%B2%83%E5%8E%A8%E5%AE%A2/Wochuke/External/GMGridView/UIView+GMGridViewAdditions.m0000000000000000^3679"CompileC build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/Objects-normal/i386/UIView+GMGridViewAdditions.o UIView+GMGridViewAdditions.m normal i386 objective-c com.apple.compilers.llvm.clang.1_0.compiler    cd /Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView    setenv LANG en_US.US-ASCII    setenv PATH "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x objective-c -arch i386 -fmessage-length=0 -std=gnu99 -fobjc-arc -Wno-trigraphs -fpascal-strings -O0 -Wno-missing-field-initializers -Wno-missing-prototypes -Wreturn-type -Wno-implicit-atomic-properties -Wno-receiver-is-weak -Wformat -Wno-missing-braces -Wparentheses -Wswitch -Wno-unused-function -Wno-unused-label -Wno-unused-parameter -Wunused-variable -Wunused-value -Wno-empty-body -Wuninitialized -Wno-unknown-pragmas -Wno-shadow -Wno-four-char-constants -Wno-conversion -Wno-constant-conversion -Wno-int-conversion -Wno-enum-conversion -Wno-shorten-64-to-32 -Wpointer-sign -Wno-newline-eof -Wno-selector -Wno-strict-selector-match -Wno-undeclared-selector -Wno-deprecated-implementations -DDEBUG=1 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator6.1.sdk -fexceptions -fasm-blocks -fstrict-aliasing -Wprotocol -Wdeprecated-declarations -g -Wno-sign-conversion -fobjc-abi-version=2 -fobjc-legacy-dispatch -mios-simulator-version-min=4.0 -iquote /Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/GMGridView-generated-files.hmap -I/Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/GMGridView-own-target-headers.hmap -I/Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/GMGridView-all-target-headers.hmap -iquote /Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/GMGridView-project-headers.hmap -I/Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/build/Debug-iphonesimulator/include -I../External/GMGridView -I/Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/DerivedSources/i386 -I/Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/DerivedSources -F/Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/build/Debug-iphonesimulator -MMD -MT dependencies -MF /Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/Objects-normal/i386/UIView+GMGridViewAdditions.d --serialize-diagnostics /Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/Objects-normal/i386/UIView+GMGridViewAdditions.dia -c /Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/UIView+GMGridViewAdditions.m -o /Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/Objects-normal/i386/UIView+GMGridViewAdditions.o36"0C3DC52D-3BEC-48BE-9EDC-ADB1CD3C0D1B-
-
-CCompileC build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/Objects-normal/i386/UIView+GMGridViewAdditions.o /Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/UIView+GMGridViewAdditions.m normal i386 objective-c com.apple.compilers.llvm.clang.1_0.compiler
-s394074905.050395
-e394074905.278944
-r1
-xCompileC
-xbuild/GMGridView.build/Debug-iphonesimulator/GMGridView.build/Objects-normal/i386/UIView+GMGridViewAdditions.o
-x/Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/UIView+GMGridViewAdditions.m
-xnormal
-xi386
-xobjective-c
-xcom.apple.compilers.llvm.clang.1_0.compiler
-lSLF05#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection121"Compile /Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/UIView+GMGridViewAdditions.m08010d191b7db741^ba6947191b7db741^---0#0#0#-19%DVTDocumentLocation2@147"file://localhost/Users/hesonghang/Documents/workspace/out/%E6%B2%83%E5%8E%A8%E5%AE%A2/code/Wochuke/External/GMGridView/UIView+GMGridViewAdditions.m0000000000000000^3744"CompileC build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/Objects-normal/i386/UIView+GMGridViewAdditions.o UIView+GMGridViewAdditions.m normal i386 objective-c com.apple.compilers.llvm.clang.1_0.compiler    cd /Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView    setenv LANG en_US.US-ASCII    setenv PATH "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x objective-c -arch i386 -fmessage-length=0 -std=gnu99 -fobjc-arc -Wno-trigraphs -fpascal-strings -O0 -Wno-missing-field-initializers -Wno-missing-prototypes -Wreturn-type -Wno-implicit-atomic-properties -Wno-receiver-is-weak -Wformat -Wno-missing-braces -Wparentheses -Wswitch -Wno-unused-function -Wno-unused-label -Wno-unused-parameter -Wunused-variable -Wunused-value -Wno-empty-body -Wuninitialized -Wno-unknown-pragmas -Wno-shadow -Wno-four-char-constants -Wno-conversion -Wno-constant-conversion -Wno-int-conversion -Wno-enum-conversion -Wno-shorten-64-to-32 -Wpointer-sign -Wno-newline-eof -Wno-selector -Wno-strict-selector-match -Wno-undeclared-selector -Wno-deprecated-implementations -DDEBUG=1 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator6.1.sdk -fexceptions -fasm-blocks -fstrict-aliasing -Wprotocol -Wdeprecated-declarations -g -Wno-sign-conversion -fobjc-abi-version=2 -fobjc-legacy-dispatch -mios-simulator-version-min=4.0 -iquote /Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/GMGridView-generated-files.hmap -I/Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/GMGridView-own-target-headers.hmap -I/Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/GMGridView-all-target-headers.hmap -iquote /Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/GMGridView-project-headers.hmap -I/Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/build/Debug-iphonesimulator/include -I../External/GMGridView -I/Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/DerivedSources/i386 -I/Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/DerivedSources -F/Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/build/Debug-iphonesimulator -MMD -MT dependencies -MF /Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/Objects-normal/i386/UIView+GMGridViewAdditions.d --serialize-diagnostics /Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/Objects-normal/i386/UIView+GMGridViewAdditions.dia -c /Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/UIView+GMGridViewAdditions.m -o /Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/Objects-normal/i386/UIView+GMGridViewAdditions.o36"D022206C-41E4-4C63-ADD5-D4E145329E21-
-
-CCpHeader GMGridView-Constants.h build/Debug-iphonesimulator/usr/local/include/GMGridView-Constants.h
-s393905133.650905
-e393905133.656944
-r1
-xCpHeader
-xGMGridView-Constants.h
-xbuild/Debug-iphonesimulator/usr/local/include/GMGridView-Constants.h
-lSLF05#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection73"Copy build/Debug-iphonesimulator/usr/local/include/GMGridView-Constants.h37c2a6ed837ab741^6b2da8ed837ab741^---0#0#0#-19%DVTDocumentLocation2@182"file://localhost/Users/hesonghang/Documents/workspace/out/%E6%B2%83%E5%8E%A8%E5%AE%A2/Wochuke/External/GMGridView/build/Debug-iphonesimulator/usr/local/include/GMGridView-Constants.h000000000080d041^724"CpHeader GMGridView-Constants.h build/Debug-iphonesimulator/usr/local/include/GMGridView-Constants.h    cd /Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView    setenv PATH "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks /Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/GMGridView-Constants.h /Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/build/Debug-iphonesimulator/usr/local/include36"8DB1455C-8CC3-44E4-A78F-AA16B06EC516-
-
-CCpHeader GMGridView.h build/Debug-iphonesimulator/usr/local/include/GMGridView.h
-s393905133.650922
-e393905133.653712
-r1
-xCpHeader
-xGMGridView.h
-xbuild/Debug-iphonesimulator/usr/local/include/GMGridView.h
-lSLF05#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection63"Copy build/Debug-iphonesimulator/usr/local/include/GMGridView.h87bfa6ed837ab741^ef59a7ed837ab741^---0#0#0#-19%DVTDocumentLocation2@172"file://localhost/Users/hesonghang/Documents/workspace/out/%E6%B2%83%E5%8E%A8%E5%AE%A2/Wochuke/External/GMGridView/build/Debug-iphonesimulator/usr/local/include/GMGridView.h000000000080d041^694"CpHeader GMGridView.h build/Debug-iphonesimulator/usr/local/include/GMGridView.h    cd /Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView    setenv PATH "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks /Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/GMGridView.h /Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/build/Debug-iphonesimulator/usr/local/include36"D77723EE-D43C-4884-905F-4425E5594A80-
-
-CCpHeader GMGridViewCell+Extended.h build/Debug-iphonesimulator/usr/local/include/GMGridViewCell+Extended.h
-s393905133.651102
-e393905133.654668
-r1
-xCpHeader
-xGMGridViewCell+Extended.h
-xbuild/Debug-iphonesimulator/usr/local/include/GMGridViewCell+Extended.h
-lSLF05#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection76"Copy build/Debug-iphonesimulator/usr/local/include/GMGridViewCell+Extended.hebc3a6ed837ab741^6398a7ed837ab741^---0#0#0#-19%DVTDocumentLocation2@185"file://localhost/Users/hesonghang/Documents/workspace/out/%E6%B2%83%E5%8E%A8%E5%AE%A2/Wochuke/External/GMGridView/build/Debug-iphonesimulator/usr/local/include/GMGridViewCell+Extended.h000000000080d041^733"CpHeader GMGridViewCell+Extended.h build/Debug-iphonesimulator/usr/local/include/GMGridViewCell+Extended.h    cd /Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView    setenv PATH "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks /Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/GMGridViewCell+Extended.h /Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/build/Debug-iphonesimulator/usr/local/include36"4183D2DE-6FBA-44D5-BAA7-AC0688D550D5-
-
-CCpHeader GMGridViewCell.h build/Debug-iphonesimulator/usr/local/include/GMGridViewCell.h
-s393905133.650917
-e393905133.655815
-r1
-xCpHeader
-xGMGridViewCell.h
-xbuild/Debug-iphonesimulator/usr/local/include/GMGridViewCell.h
-lSLF05#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection67"Copy build/Debug-iphonesimulator/usr/local/include/GMGridViewCell.ha0c1a6ed837ab741^9fe3a7ed837ab741^---0#0#0#-19%DVTDocumentLocation2@176"file://localhost/Users/hesonghang/Documents/workspace/out/%E6%B2%83%E5%8E%A8%E5%AE%A2/Wochuke/External/GMGridView/build/Debug-iphonesimulator/usr/local/include/GMGridViewCell.h000000000080d041^706"CpHeader GMGridViewCell.h build/Debug-iphonesimulator/usr/local/include/GMGridViewCell.h    cd /Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView    setenv PATH "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks /Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/GMGridViewCell.h /Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/build/Debug-iphonesimulator/usr/local/include36"5F744368-FE45-4ADA-99A4-1536C3034A78-
-
-CCpHeader GMGridViewLayoutStrategies.h build/Debug-iphonesimulator/usr/local/include/GMGridViewLayoutStrategies.h
-s393905133.654867
-e393905133.658265
-r1
-xCpHeader
-xGMGridViewLayoutStrategies.h
-xbuild/Debug-iphonesimulator/usr/local/include/GMGridViewLayoutStrategies.h
-lSLF05#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection79"Copy build/Debug-iphonesimulator/usr/local/include/GMGridViewLayoutStrategies.heeb2a7ed837ab741^5184a8ed837ab741^---0#0#0#-19%DVTDocumentLocation2@188"file://localhost/Users/hesonghang/Documents/workspace/out/%E6%B2%83%E5%8E%A8%E5%AE%A2/Wochuke/External/GMGridView/build/Debug-iphonesimulator/usr/local/include/GMGridViewLayoutStrategies.h000000000080d041^742"CpHeader GMGridViewLayoutStrategies.h build/Debug-iphonesimulator/usr/local/include/GMGridViewLayoutStrategies.h    cd /Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView    setenv PATH "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks /Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/GMGridViewLayoutStrategies.h /Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/build/Debug-iphonesimulator/usr/local/include36"B62AE431-D401-40C7-A6E4-592996727D60-
-
-CLibtool /Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/build/Debug-iphonesimulator/libGMGridView.a normal i386
-s393905133.584870
-e393905133.642360
-r1
-xLibtool
-x/Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/build/Debug-iphonesimulator/libGMGridView.a
-xnormal
-xi386
-o/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/libtool: -dynamic not specified the following flags are invalid: -ObjC 
-lSLF05#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection63"Libtool build/Debug-iphonesimulator/libGMGridView.a normal i386f2ed95ed837ab741^2673a4ed837ab741^-159"/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/libtool: -dynamic not specified the following flags are invalid: -ObjC -0#0#0#--1163"Libtool build/Debug-iphonesimulator/libGMGridView.a normal i386    cd /Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView    setenv IPHONEOS_DEPLOYMENT_TARGET 4.0    setenv PATH "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/libtool -static -arch_only i386 -syslibroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator6.1.sdk -L/Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/build/Debug-iphonesimulator -filelist /Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/Objects-normal/i386/GMGridView.LinkFileList -ObjC -framework Foundation -framework QuartzCore -framework UIKit -framework CoreGraphics -o /Users/hesonghang/Documents/workspace/out/沃厨客/Wochuke/External/GMGridView/build/Debug-iphonesimulator/libGMGridView.a36"800A801D-B992-41B5-A089-A33BDF6D0C68-
-
-CLibtool /Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/build/Debug-iphonesimulator/libGMGridView.a normal i386
-s394074905.286046
-e394074905.387027
-r1
-xLibtool
-x/Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/build/Debug-iphonesimulator/libGMGridView.a
-xnormal
-xi386
-o/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/libtool: -dynamic not specified the following flags are invalid: -ObjC 
-lSLF05#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection63"Libtool build/Debug-iphonesimulator/libGMGridView.a normal i3866a4f49191b7db741^b11564191b7db741^-159"/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/libtool: -dynamic not specified the following flags are invalid: -ObjC -0#0#0#--1183"Libtool build/Debug-iphonesimulator/libGMGridView.a normal i386    cd /Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView    setenv IPHONEOS_DEPLOYMENT_TARGET 4.0    setenv PATH "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/libtool -static -arch_only i386 -syslibroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator6.1.sdk -L/Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/build/Debug-iphonesimulator -filelist /Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/build/GMGridView.build/Debug-iphonesimulator/GMGridView.build/Objects-normal/i386/GMGridView.LinkFileList -ObjC -framework Foundation -framework QuartzCore -framework UIKit -framework CoreGraphics -o /Users/hesonghang/Documents/workspace/out/沃厨客/code/Wochuke/External/GMGridView/build/Debug-iphonesimulator/libGMGridView.a36"8FBFFCD0-3EFE-4808-BD11-8F2A7B59CD42-
-

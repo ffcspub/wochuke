@@ -13,7 +13,6 @@
 #import "ShareVaule.h"
 #import "NSString+BeeExtension.h"
 #import "SVProgressHUD.h"
-#import <ShareSDK/ShareSDK.h>
 
 @interface RegiterViewController ()
 
@@ -54,15 +53,8 @@
     if ([[ShareVaule shareInstance].tencentOAuth isSessionValid]) {
         _qqId = [[[ShareVaule shareInstance].tencentOAuth openId]retain];
     }
-    if([ShareSDK hasAuthorizedWithType:ShareTypeSinaWeibo]){
-        [ShareSDK getUserInfoWithType:ShareTypeSinaWeibo
-                          authOptions:nil
-                               result:^(BOOL result, id<ISSUserInfo> userInfo, id<ICMErrorInfo> error){
-                                   if (result) {
-                                       NSString *sinaId = userInfo.uid;
-                                       _sinaId = [sinaId retain];
-                                   }
-                               }];
+    if ([[ShareVaule shareInstance].sinaweibo isAuthValid]) {
+        _sinaId = [ShareVaule shareInstance].sinaweibo.userID;
     }
 
 }
