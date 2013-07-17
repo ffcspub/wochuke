@@ -404,8 +404,12 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    [self reloadDatas];
-    [self loadTopics];
+    if (_datas.count == 0) {
+        [self reloadDatas];
+    }
+    if (_topics.count == 0) {
+        [self loadTopics];
+    }
 }
 
 - (void)didReceiveMemoryWarning
