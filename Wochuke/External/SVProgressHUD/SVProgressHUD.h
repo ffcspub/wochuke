@@ -57,4 +57,6 @@ typedef NSUInteger SVProgressHUDMaskType;
 
 + (BOOL)isVisible;
 
++ (BOOL)isVisibleByImage;
+
 @end

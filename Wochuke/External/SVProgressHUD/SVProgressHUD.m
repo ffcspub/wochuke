@@ -628,6 +628,9 @@ CGFloat SVProgressHUDRingThickness = 6;
     return ([self sharedView].alpha == 1);
 }
 
++ (BOOL)isVisibleByImage;{
+    return ([self sharedView].alpha == 1 && [self sharedView].imageView.hidden==NO);
+}
 
 #pragma mark - Getters
 

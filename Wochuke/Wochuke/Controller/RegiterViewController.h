@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface RegiterViewController : UIViewController<UITextFieldDelegate>
+@interface RegiterViewController : BaseViewController<UITextFieldDelegate>
 
 @property (retain, nonatomic) IBOutlet UITextField *tf_mail;
 @property (retain, nonatomic) IBOutlet UITextField *tf_password;

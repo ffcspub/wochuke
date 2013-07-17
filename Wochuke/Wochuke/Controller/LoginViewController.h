@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <TencentOpenAPI/TencentOAuth.h>
 
-@interface LoginViewController : UIViewController<TencentSessionDelegate,UITextFieldDelegate>
+@interface LoginViewController : BaseViewController<TencentSessionDelegate,UITextFieldDelegate>
 
 @property (retain, nonatomic) IBOutlet UIImageView *iv_back;
 

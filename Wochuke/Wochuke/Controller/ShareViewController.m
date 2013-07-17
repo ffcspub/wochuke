@@ -10,8 +10,9 @@
 #import <QuartzCore/QuartzCore.h>
 #import "SVProgressHUD.h"
 #import <TencentOpenAPI/TencentOAuthObject.h>
+#import "UIImageView+WebCache.h"
 
-@interface ShareViewController ()<HPGrowingTextViewDelegate,SinaWeiboRequestDelegate,TencentSessionDelegate>
+@interface ShareViewController ()<HPGrowingTextViewDelegate,SinaWeiboRequestDelegate,TencentSessionDelegate,SinaWeiboDelegate>
 
 @end
 
@@ -36,6 +37,15 @@
     _lb_count.layer.cornerRadius = 6;
     _lb_count.layer.masksToBounds = YES;
     _lb_count.text = [NSString stringWithFormat:@"%d",150 - _titleText.length];
+    
+//    if (_type == 0) {
+//        SinaWeibo *weibo = [ShareVaule shareInstance].sinaweibo;
+//        [weibo requestWithURL:@"friendships/create"
+//                                                      params:[NSMutableDictionary dictionaryWithObjectsAndKeys:@"沃厨客",@"screen_name",nil]
+//                                                  httpMethod:@"POST"
+//                                                    delegate:self];
+//    }
+    
     // Do any additional setup after loading the view from its nib.
 }
 
@@ -56,12 +66,26 @@
         [alert release];
     }else{
         if (_type == 0) {
-            [[ShareVaule shareInstance].sinaweibo requestWithURL:@"statuses/update.json"
-                                                          params:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                                                  _tv_content.text, @"status",
-                                                                  @"0",@"visible", nil]
-                                                      httpMethod:@"POST"
-                                                        delegate:self];
+            [SVProgressHUD show];
+            [ShareVaule shareInstance].sinaweibo.delegate = self;
+            if (_imageUrl) {
+                UIImageView *view = [[[UIImageView alloc]init]autorelease];
+                [view setImageWithURL:[NSURL URLWithString:_imageUrl]];
+                [[ShareVaule shareInstance].sinaweibo requestWithURL:@"statuses/upload.json"
+                                                              params:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                                                      _tv_content.text, @"status",
+                                                                      view.image, @"pic", nil]
+                                                          httpMethod:@"POST"
+                                                            delegate:self];
+            }else{
+                [[ShareVaule shareInstance].sinaweibo requestWithURL:@"statuses/update.json"
+                                                              params:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                                                      _tv_content.text, @"status",
+                                                                      @"0",@"visible", nil]
+                                                          httpMethod:@"POST"
+                                                            delegate:self];
+            }
+            [SVProgressHUD dismiss];
         }else{
             [ShareVaule shareInstance].tencentOAuth.sessionDelegate =self;
             TCAddShareDic *params = [TCAddShareDic dictionary];
@@ -69,6 +93,9 @@
             params.paramComment = @"电厨具烹饪指南";
             params.paramSummary =  _content;
             params.paramUrl = @"http://wochuke.com";
+            if (_imageUrl) {
+                params.paramImages = _imageUrl;
+            }
             [[ShareVaule shareInstance].tencentOAuth addShareWithParams:params];
         }
     }
@@ -96,15 +123,12 @@
 
 #pragma mark - SinaWeiboRequestDelegate
 - (void)request:(SinaWeiboRequest *)request didFailWithError:(NSError *)error;{
-   if ([request.url hasSuffix:@"statuses/update.json"])
-    {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [SVProgressHUD showErrorWithStatus:@"分享失败"];
-        });
-    }
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [SVProgressHUD showErrorWithStatus:@"分享失败"];
+    });
 }
 - (void)request:(SinaWeiboRequest *)request didFinishLoadingWithResult:(id)result;{
-    if ([request.url hasSuffix:@"statuses/update.json"]){
+    if ([request.url hasSuffix:@"statuses/update.json"] || [request.url hasSuffix:@"statuses/upload.json"]){
         dispatch_async(dispatch_get_main_queue(), ^{
             [SVProgressHUD showSuccessWithStatus:@"分享成功"];
             [self.navigationController popViewControllerAnimated:YES];
@@ -142,7 +166,7 @@
 - (void)addShareResponse:(APIResponse*) response;{
     if (response.retCode == URLREQUEST_SUCCEED) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [SVProgressHUD showErrorWithStatus:@"分享成功"];
+            [SVProgressHUD showSuccessWithStatus:@"分享成功"];
             [self.navigationController popViewControllerAnimated:YES];
         });
     }else if (response.retCode == URLREQUEST_FAILED){

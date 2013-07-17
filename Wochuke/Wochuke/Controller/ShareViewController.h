@@ -9,11 +9,12 @@
 #import <UIKit/UIKit.h>
 #import "HPGrowingTextView.h"
 
-@interface ShareViewController : UIViewController
+@interface ShareViewController : BaseViewController
 
 @property(nonatomic,retain) NSString *titleText;
 @property(nonatomic,retain) NSString *content;
 @property(nonatomic,assign) int type;
+@property(nonatomic,retain) NSString *imageUrl;
 
 @property (retain, nonatomic) IBOutlet UILabel *lb_count;
 

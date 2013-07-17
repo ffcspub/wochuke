@@ -255,7 +255,8 @@
 - (IBAction)qqLoginAction:(id)sender {
     [ShareVaule shareInstance].tencentOAuth.sessionDelegate = self;
     NSArray *array = [NSArray arrayWithObjects:kOPEN_PERMISSION_GET_USER_INFO, kOPEN_PERMISSION_GET_SIMPLE_USER_INFO, kOPEN_PERMISSION_ADD_ONE_BLOG, nil];
-    [[ShareVaule shareInstance].tencentOAuth authorize:array inSafari:NO];
+    BOOL flag = [[ShareVaule shareInstance].tencentOAuth authorize:array inSafari:NO];
+    
 }
 
 - (IBAction)loginAction:(id)sender {
@@ -368,9 +369,11 @@
     NSLog(@"走 sinaweiboDidLogIn ");
     //    [self storeAuthData];
     //    [self performSelectorOnMainThread:@selector(logout) withObject:nil waitUntilDone:NO];
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self getUserByKey:@"sinaId" idValue:sinaweibo.userID];
-    });
+    [sinaweibo requestWithURL:@"friendships/create.json"
+                       params:[NSMutableDictionary dictionaryWithObjectsAndKeys:@"沃厨客",@"screen_name",nil]
+                   httpMethod:@"POST"
+                     delegate:self];
+    
     
 }
 
@@ -384,6 +387,7 @@
 - (void)sinaweibo:(SinaWeibo *)sinaweibo logInDidFailWithError:(NSError *)error
 {
     NSLog(@"sinaweibo logInDidFailWithError %@", error);
+    [SVProgressHUD showErrorWithStatus:error.description];
 }
 
 - (void)sinaweibo:(SinaWeibo *)sinaweibo accessTokenInvalidOrExpired:(NSError *)error
@@ -409,10 +413,16 @@
             [self regiterByThirdUserInfo:user idKey:@"sinaId" idValue:sinaweibo.userID];
         });
         
+    }else if([request.url hasSuffix:@"friendships/create.json"]){
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self getUserByKey:@"sinaId" idValue:[ShareVaule shareInstance].sinaweibo.userID];
+        });
+        
     }
 }
 
-#pragma mark - TencentSession Delegate
+#pragma mark - TencentSessionDelegate
 
 - (void)tencentDidLogin
 {
@@ -426,7 +436,7 @@
 
 - (void)tencentDidNotNetWork
 {
-    
+    [SVProgressHUD showErrorWithStatus:@"网络无法连接"];
 }
 
 //获取用户个人信息回调

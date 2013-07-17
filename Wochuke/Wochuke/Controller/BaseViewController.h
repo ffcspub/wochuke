@@ -1,13 +1,13 @@
 //
-//  TopViewController.h
+//  BaseViewController.h
 //  Wochuke
 //
-//  Created by he songhang on 13-6-27.
+//  Created by hesh on 13-7-16.
 //  Copyright (c) 2013年 he songhang. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
-@interface TopViewController : BaseViewController
+@interface BaseViewController : UIViewController
 
 @end

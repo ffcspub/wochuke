@@ -39,29 +39,34 @@
 }
 
 -(void)loadUser{
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
-        @try {
-            id<JCAppIntfPrx> proxy = [[ICETool shareInstance] createProxy];
+    if ([ShareVaule shareInstance].userId) {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+            
             @try {
-                JCUser * user = [proxy getUserById:[ShareVaule shareInstance].userId userId:[ShareVaule shareInstance].userId];
-                if (user) {
-                    [ShareVaule shareInstance].user = user;
+                id<JCAppIntfPrx> proxy = [[ICETool shareInstance] createProxy];
+                @try {
+                    JCUser * user = [proxy getUserById:[ShareVaule shareInstance].userId userId:[ShareVaule shareInstance].userId];
+                    if (user) {
+                        [ShareVaule shareInstance].user = user;
+                    }
+                    NSString *slogon = [proxy getSlogon];
+                    [[NSUserDefaults standardUserDefaults]setObject:slogon forKey:@"SLOGON"];
                 }
-                NSString *slogon = [proxy getSlogon];
-                [[NSUserDefaults standardUserDefaults]setObject:slogon forKey:@"SLOGON"];
-            }
-            @catch (ICEException *exception) {
+                @catch (ICEException *exception) {
+                    
+                }
+                @finally {
+                    
+                }
+            }@catch (ICEException *exception) {
+                //            dispatch_async(dispatch_get_main_queue(), ^{
+                //                [SVProgressHUD showErrorWithStatus:@"服务访问异常"];
+                //            });
+            }@finally {
                 
             }
-            @finally {
-                
-            }
-        }@catch (ICEException *exception) {
-            //            dispatch_async(dispatch_get_main_queue(), ^{
-            //                [SVProgressHUD showErrorWithStatus:@"服务访问异常"];
-            //            });
-        }
-    });
+        });
+    }
     
 }
 
@@ -72,7 +77,6 @@
     [MobClick startWithAppkey:@"51e1270b56240b518708d2ee"];
     [MobClick checkUpdate];
     
-    [self loadUser];
     self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
@@ -82,11 +86,8 @@
 //    UINavigationController *navigationController =[[[UINavigationController alloc]initWithRootViewController:vlc]autorelease];
 //    [navigationController setNavigationBarHidden:YES];
     self.window.rootViewController = vlc;
-    
+    [self loadUser];
     [self.window makeKeyAndVisible];
-    
-    
-    
     return YES;
 }
 

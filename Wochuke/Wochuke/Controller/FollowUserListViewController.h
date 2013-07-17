@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <Guide.h>
 
-@interface FollowUserListViewController : UIViewController
+@interface FollowUserListViewController : BaseViewController
 
 @property (retain, nonatomic) IBOutlet UITableView *tableView;
 

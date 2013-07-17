@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <Guide.h>
 
-@interface GuideListViewController : UIViewController
+@interface GuideListViewController : BaseViewController
 
 @property (retain, nonatomic) IBOutlet UILabel *lb_empty;
 

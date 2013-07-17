@@ -20,10 +20,16 @@
     btn_comment.frame = CGRectMake(11, frame.size.height - 11 - 30, 40, 30);
     line.frame = CGRectMake(11, frame.size.height - 11 - 35, frame.size.width - 22, 1);
     lb_comment.frame = CGRectMake(52, frame.size.height - 11 - 30, 40, 30);
-     CGSize size = [_step.text.length>0?_step.text:@" " sizeWithFont:tv_text.font constrainedToSize:CGSizeMake(frame.size.width -22 - UITEXTVIEW_MARGIN*2, 1000)];
+     CGSize size = [_step.text.length>0?_step.text:@"" sizeWithFont:tv_text.font constrainedToSize:CGSizeMake(frame.size.width -22 - UITEXTVIEW_MARGIN*2, 1000)];
     if ([self hasImage]){
-        imageView.frame = CGRectMake(11, 11, frame.size.width -22 , frame.size.height - 22 - 45 - MIN(size.height + UITEXTVIEW_MARGIN*2, 200));
-        tv_text.frame = CGRectMake(11, frame.size.height - 22 - 30 - MIN(size.height + UITEXTVIEW_MARGIN*2, 200), frame.size.width -22, MIN(size.height + UITEXTVIEW_MARGIN*2, 200));
+        if (_step.text.length > 0) {
+            imageView.frame = CGRectMake(11, 11, frame.size.width -22 , frame.size.height - 22 - 45 - MIN(size.height + UITEXTVIEW_MARGIN*2, 200));
+            tv_text.frame = CGRectMake(11, frame.size.height - 22 - 30 - MIN(size.height + UITEXTVIEW_MARGIN*2, 200), frame.size.width -22, MIN(size.height + UITEXTVIEW_MARGIN*2, 200));
+        }else{
+            imageView.frame = CGRectMake(11, 11, frame.size.width -22 , frame.size.height - 22 - 45);
+            tv_text.frame = CGRectZero;
+        }
+        
     }else{
         imageView.frame = CGRectZero;
         tv_text.frame = CGRectMake(11,  (frame.size.height - size.height - UITEXTVIEW_MARGIN*2 - 40)/2 , frame.size.width - 22, size.height + UITEXTVIEW_MARGIN*2);
@@ -426,8 +432,14 @@
     lb_comment.frame = CGRectZero;
     tv_text.frame = CGRectZero;
     if ([self hasImage]){
-        imageView.frame = CGRectMake(10, 10, frame.size.width -20 , frame.size.height - 50);
-        lb_text.frame = CGRectMake(10, frame.size.height - 35  , frame.size.width -20, 25);
+        if (self.step.text.length == 0) {
+            imageView.frame = CGRectMake(10, 10, frame.size.width -20 , frame.size.height - 20);
+            lb_text.frame = CGRectZero;
+        }else{
+            imageView.frame = CGRectMake(10, 10, frame.size.width -20 , frame.size.height - 50);
+            lb_text.frame = CGRectMake(10, frame.size.height - 35  , frame.size.width -20, 25);
+        }
+        
     }else{
         imageView.frame = CGRectZero;
         lb_text.frame = CGRectMake(10,  10 , frame.size.width - 20, frame.size.height - 20);

@@ -265,4 +265,19 @@ static ShareVaule *_shareVaule;
     return [date stringWithDateFormat:@"yyyy-MM-dd HH:mm"];
 }
 
+-(void)removeEmptySupply{
+    NSMutableArray *array = (NSMutableArray *)[ShareVaule shareInstance].editGuideEx.supplies;
+    NSMutableArray *emptyArray = [NSMutableArray array];
+    for (JCSupply *supply in array) {
+        if (supply.name.length == 0 && supply.quantity.length == 0) {
+            [emptyArray addObject:supply];
+        }
+    }
+    if (emptyArray.count >0) {
+        [array removeObjectsInArray:emptyArray];
+        [self postNotification:NOTIFICATION_SUPPLIERELOAD];
+    }
+    
+}
+
 @end

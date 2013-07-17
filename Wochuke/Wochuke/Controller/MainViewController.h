@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MainViewController : UIViewController
+@interface MainViewController : BaseViewController
 
 @property(nonatomic,retain) IBOutlet UITabBar *toolBar;
 

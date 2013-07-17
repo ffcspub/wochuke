@@ -11,7 +11,7 @@
 #import "GuideInfoView.h"
 #import <Guide.h>
 
-@interface GuideViewController : UIViewController<PagedFlowViewDataSource,PagedFlowViewDelegate,GuideInfoViewDelegate>
+@interface GuideViewController : BaseViewController<PagedFlowViewDataSource,PagedFlowViewDelegate,GuideInfoViewDelegate>
 
 @property (retain, nonatomic) IBOutlet PagedFlowView *pagedFlowView;
 

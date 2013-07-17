@@ -11,7 +11,7 @@
 #import <Guide.h>
 #import "NSObject+Notification.h"
 
-@interface StepImageChooseViewController : UIViewController<GMGridViewDataSource,GMGridViewActionDelegate>{
+@interface StepImageChooseViewController : BaseViewController<GMGridViewDataSource,GMGridViewActionDelegate>{
    IBOutlet GMGridView *_girdView;
 }
 

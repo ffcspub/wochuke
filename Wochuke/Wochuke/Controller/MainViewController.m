@@ -12,6 +12,7 @@
 #import "ActInfoViewController.h"
 #import "MyViewController.h"
 #import "NSObject+Notification.h"
+#import "SVProgressHUD.h"
 
 @interface MainViewController ()<UITabBarDelegate>{
     UINavigationController *_homeViewNaviationController;
@@ -44,6 +45,7 @@
 -(void)showNaviationController:(int)tag{
     if (tag == 1) {
         if (!_homeViewNaviationController) {
+            [SVProgressHUD dismiss];
             HomeViewController *vlc = [[[HomeViewController alloc]initWithNibName:@"HomeViewController" bundle:nil]autorelease];
             _homeViewNaviationController = [[UINavigationController alloc]initWithRootViewController:vlc];
             _homeViewNaviationController.navigationBarHidden = YES;
@@ -55,6 +57,7 @@
         currentController = _homeViewNaviationController;
     }else if(tag ==2){
         if (!_catoryViewNaviationController) {
+            [SVProgressHUD dismiss];
             CatoryViewController *vlc = [[[CatoryViewController alloc]initWithNibName:@"CatoryViewController" bundle:nil]autorelease];
             _catoryViewNaviationController = [[UINavigationController alloc]initWithRootViewController:vlc];
             _catoryViewNaviationController.navigationBarHidden = YES;
@@ -66,6 +69,7 @@
         currentController = _catoryViewNaviationController;
     }else if(tag ==3){
         if (!_actionViewNaviationController) {
+            [SVProgressHUD dismiss];
             ActInfoViewController *vlc = [[[ActInfoViewController alloc]initWithNibName:@"ActInfoViewController" bundle:nil]autorelease];
             _actionViewNaviationController = [[UINavigationController alloc]initWithRootViewController:vlc];
             _actionViewNaviationController.navigationBarHidden = YES;
@@ -77,6 +81,7 @@
         currentController = _actionViewNaviationController;
     }else if(tag ==4){
         if (!_myViewNaviationController) {
+            [SVProgressHUD dismiss];
             MyViewController *vlc = [[[MyViewController alloc]initWithNibName:@"MyViewController" bundle:nil]autorelease];
             _myViewNaviationController = [[UINavigationController alloc]initWithRootViewController:vlc];
             _myViewNaviationController.navigationBarHidden = YES;

@@ -276,6 +276,7 @@
 		4C0A0A5A1791A74A007CB0DC /* AboutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C0A0A581791A74A007CB0DC /* AboutViewController.xib */; };
 		4C0A0A5D1791C287007CB0DC /* bg_setting_card.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C0A0A5B1791C287007CB0DC /* bg_setting_card.png */; };
 		4C0A0A5E1791C287007CB0DC /* bg_setting_card@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C0A0A5C1791C287007CB0DC /* bg_setting_card@2x.png */; };
+		4C1678AA179597D500983D8F /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1678A9179597D500983D8F /* BaseViewController.m */; };
 		4C28A463178E9A8A00AA06D4 /* UserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C28A461178E9A8800AA06D4 /* UserViewController.m */; };
 		4C28A464178E9A8A00AA06D4 /* UserViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C28A462178E9A8900AA06D4 /* UserViewController.xib */; };
 		4C28A468178EA64800AA06D4 /* GuideUserListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C28A466178EA64700AA06D4 /* GuideUserListViewController.m */; };
@@ -812,6 +813,8 @@
 		4C0A0A581791A74A007CB0DC /* AboutViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AboutViewController.xib; sourceTree = "<group>"; };
 		4C0A0A5B1791C287007CB0DC /* bg_setting_card.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bg_setting_card.png; sourceTree = "<group>"; };
 		4C0A0A5C1791C287007CB0DC /* bg_setting_card@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bg_setting_card@2x.png"; sourceTree = "<group>"; };
+		4C1678A8179597D400983D8F /* BaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
+		4C1678A9179597D500983D8F /* BaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
 		4C28A460178E9A8700AA06D4 /* UserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserViewController.h; sourceTree = "<group>"; };
 		4C28A461178E9A8800AA06D4 /* UserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserViewController.m; sourceTree = "<group>"; };
 		4C28A462178E9A8900AA06D4 /* UserViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserViewController.xib; sourceTree = "<group>"; };
@@ -1591,6 +1594,8 @@
 				4C0A0A561791A74A007CB0DC /* AboutViewController.h */,
 				4C0A0A571791A74A007CB0DC /* AboutViewController.m */,
 				4C0A0A581791A74A007CB0DC /* AboutViewController.xib */,
+				4C1678A8179597D400983D8F /* BaseViewController.h */,
+				4C1678A9179597D500983D8F /* BaseViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -2334,6 +2339,7 @@
 				4CEB389B179411BF0047DDD6 /* NSDate+BeeExtension.m in Sources */,
 				4CEB389C179411BF0047DDD6 /* NSNumber+BeeExtension.m in Sources */,
 				4CA419161794D453001879C8 /* AWActionSheet.m in Sources */,
+				4C1678AA179597D500983D8F /* BaseViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

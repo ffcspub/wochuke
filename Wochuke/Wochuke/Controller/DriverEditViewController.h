@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface DriverEditViewController : UIViewController
+@interface DriverEditViewController : BaseViewController
 
 @property (retain, nonatomic) IBOutlet UINavigationItem *navBar;
 

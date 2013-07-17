@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "SuppliesView.h"
 
-@interface SuppliesEditViewController : UIViewController
+@interface SuppliesEditViewController : BaseViewController
 
 @property (retain, nonatomic) IBOutlet SuppliesEditView *suppliesEditView;
 

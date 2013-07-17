@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface PublishViewController : UIViewController
+@interface PublishViewController : BaseViewController
 
 @property (retain, nonatomic) IBOutlet UIImageView *iv_photo;
 

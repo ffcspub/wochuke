@@ -10,7 +10,7 @@
 #import <Guide.h>
 #import "HPGrowingTextView.h"
 
-@interface CommentViewController : UIViewController <HPGrowingTextViewDelegate>{
+@interface CommentViewController : BaseViewController <HPGrowingTextViewDelegate>{
 	UIView *containerView;
     HPGrowingTextView *textView;
 }

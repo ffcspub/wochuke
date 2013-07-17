@@ -37,7 +37,34 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    BOOL flag = NO;
+    if ([ShareVaule shareInstance].editGuideEx.guideInfo.cover.url.length > 0) {
+        NSString *url = [ShareVaule shareInstance].editGuideEx.guideInfo.cover.url;
+        NSString *pngname = [[url componentsSeparatedByString:@"/"]lastObject];
+        if ([pngname isEqual:@"default.png"]) {
+            flag = YES;
+        }
+    }else{
+        flag = YES;
+    }
     
+    if (flag && ![ShareVaule shareInstance].guideImage) {
+        int count = [ShareVaule shareInstance].editGuideEx.steps.count;
+        for (int i = count-1; i>=0; i--) {
+            JCStep *step = [[ShareVaule shareInstance].editGuideEx.steps objectAtIndex:i];
+            NSData *data = [[ShareVaule shareInstance]getImageDataByStep:step];
+            if (data) {
+                [ShareVaule shareInstance].guideImage = data;
+            }else if (step.photo.url) {
+                UIImageView *imageView = [[[UIImageView alloc]init]autorelease];
+                [imageView setImageWithURL:[NSURL URLWithString:step.photo.url]];
+                [ShareVaule shareInstance].guideImage = UIImageJPEGRepresentation(imageView.image, 1.0);
+            }
+            
+        }
+    }
+
+    [[ShareVaule shareInstance]removeEmptySupply];
     _photoBackview.layer.cornerRadius = 6;
     _photoBackview.layer.masksToBounds = YES;
     
@@ -52,7 +79,7 @@
     // Do any additional setup after loading the view from its nib.
     
     _types = [[NSMutableArray alloc]init];
-    if ([ShareVaule shareInstance].editGuideEx.guideInfo.typeId) {
+    if ([ShareVaule shareInstance].editGuideEx.guideInfo.typeId.length>0) {
         [_btn_type setTitle:[ShareVaule shareInstance].editGuideEx.guideInfo.typeName forState:UIControlStateNormal];
         _typeId = [[ShareVaule shareInstance].editGuideEx.guideInfo.typeId retain];
     }
@@ -137,7 +164,7 @@
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [SVProgressHUD dismiss];
                     NSString *typeid = [ShareVaule shareInstance].editGuideEx.guideInfo.typeId;
-                    if (typeid) {
+                    if (typeid.length>0) {
                         for (JCType *type in list) {
                             if ([type.id_ isEqual:typeid]) {
                                 if (_typeId) {

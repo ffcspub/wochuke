@@ -10,7 +10,7 @@
 #import "GMGridView.h"
 #import <Guide.h>
 
-@interface StepEditController : UIViewController<GMGridViewDataSource,GMGridViewSortingDelegate,GMGridViewActionDelegate>{
+@interface StepEditController : BaseViewController<GMGridViewDataSource,GMGridViewSortingDelegate,GMGridViewActionDelegate>{
    IBOutlet GMGridView *_girdView;
     IBOutlet UIButton *btn_add;
 }

@@ -67,6 +67,7 @@
 }
 
 - (void)dealloc {
+    [[ShareVaule shareInstance]removeEmptySupply];
     [_steptemp release];
     [_pagedFlowView release];
     [super dealloc];
@@ -80,6 +81,11 @@
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [_pagedFlowView reloadData];
+    
+}
+
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
 }
 
 - (IBAction)popAction:(id)sender {
@@ -97,21 +103,6 @@
         [alert show];
         [alert release];
     }else{
-        if ([ShareVaule shareInstance].editGuideEx.guideInfo.cover.url.length == 0 && ![ShareVaule shareInstance].guideImage) {
-            int count = [ShareVaule shareInstance].editGuideEx.steps.count;
-            for (int i = count-1; i>=0; i--) {
-                JCStep *step = [[ShareVaule shareInstance].editGuideEx.steps objectAtIndex:i];
-                NSData *data = [[ShareVaule shareInstance]getImageDataByStep:step];
-                if (data) {
-                    [ShareVaule shareInstance].guideImage = data;
-                }else if (step.photo.url) {
-                    UIImageView *imageView = [[[UIImageView alloc]init]autorelease];
-                    [imageView setImageWithURL:[NSURL URLWithString:step.photo.url]];
-                    [ShareVaule shareInstance].guideImage = UIImageJPEGRepresentation(imageView.image, 1.0);
-                }
-                
-            }
-        }
         PublishViewController *vlc = [[PublishViewController alloc]initWithNibName:@"PublishViewController" bundle:nil];
         [self.navigationController pushViewController:vlc animated:YES];
         [vlc release];

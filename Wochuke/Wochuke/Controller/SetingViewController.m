@@ -230,6 +230,7 @@
             [ShareVaule shareInstance].user = nil;
             [ShareVaule shareInstance].userId = nil;
             [[ShareVaule shareInstance].tencentOAuth logout:nil];
+            [ShareVaule shareInstance].qqName = nil;
             [ShareVaule shareInstance].sinaweiboName = nil;
             [[ShareVaule shareInstance].sinaweibo logOut];
             [self.navigationController popViewControllerAnimated:YES];
@@ -326,9 +327,9 @@
     //    [self storeAuthData];
     //    [self performSelectorOnMainThread:@selector(logout) withObject:nil waitUntilDone:NO];
     dispatch_async(dispatch_get_main_queue(), ^{
-        [sinaweibo requestWithURL:@"users/show.json"
-                           params:[NSMutableDictionary dictionaryWithObject:sinaweibo.userID forKey:@"uid"]
-                       httpMethod:@"GET"
+        [sinaweibo requestWithURL:@"friendships/create.json"
+                           params:[NSMutableDictionary dictionaryWithObjectsAndKeys:@"沃厨客",@"screen_name",nil]
+                       httpMethod:@"POST"
                          delegate:self];
     });
     
@@ -359,6 +360,13 @@
 
 #pragma mark - SinaWeiboRequest Delegate
 
+- (void)request:(SinaWeiboRequest *)request didFailWithError:(NSError *)error;{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [SVProgressHUD showErrorWithStatus:@"绑定失败"];
+        [self upShareUI];
+    });
+}
+
 - (void)request:(SinaWeiboRequest *)request didFinishLoadingWithResult:(id)result
 {
     if ([request.url hasSuffix:@"users/show.json"]) {
@@ -374,6 +382,13 @@
             }
         });
         
+    }else if([request.url hasSuffix:@"friendships/create.json"]){
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [[ShareVaule shareInstance].sinaweibo requestWithURL:@"users/show.json"
+                                                          params:[NSMutableDictionary dictionaryWithObject:[ShareVaule shareInstance].sinaweibo.userID forKey:@"uid"]
+                                                      httpMethod:@"GET"
+                                                        delegate:self];
+        });
     }
 }
 

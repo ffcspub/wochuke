@@ -70,7 +70,7 @@
     [superViewOfScrollView setBackgroundColor:[UIColor clearColor]];
     [superViewOfScrollView addSubview:_scrollView];
     [self addSubview:superViewOfScrollView];
-    
+
 }
 
 

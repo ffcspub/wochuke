@@ -141,8 +141,8 @@
 -(void)dealloc{
     [_guide release];
     [ShareVaule shareInstance].noChanged = YES;
-//    [[ShareVaule shareInstance].editGuideEx release];
     [ShareVaule shareInstance].editGuideEx = nil;
+    [ShareVaule shareInstance].guideImage = nil;
     [[ShareVaule shareInstance].stepImageDic removeAllObjects];
     [btn_add release];
     [super dealloc];
@@ -187,11 +187,13 @@
 - (void)GMGridView:(GMGridView *)gridView didTapOnItemAtIndex:(NSInteger)position;{
     GuideEditViewController *guideEditViewController = [[[GuideEditViewController alloc]initWithNibName:@"GuideEditViewController" bundle:nil]autorelease];
     [self.navigationController pushViewController:guideEditViewController animated:YES];
-    double delayInSeconds = 0.1;
+    double delayInSeconds = 0.2;
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
     dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
         [guideEditViewController scrollToIndex:position];
     });
+    
+//    [guideEditViewController.pagedFlowView scrollToPage:position animation:NO];
 }
 
 -(BOOL)GMGridView:(GMGridView *)gridView shouldAllowActionForItemAtIndex:(NSInteger)index{

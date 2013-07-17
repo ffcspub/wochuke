@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "HPGrowingTextView.h"
 
-@interface FeedbackViewController : UIViewController<UITextFieldDelegate>{
+@interface FeedbackViewController : BaseViewController<UITextFieldDelegate>{
     HPGrowingTextView *textView;
 }
 

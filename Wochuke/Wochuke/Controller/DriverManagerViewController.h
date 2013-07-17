@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "UITableView+BeeUIGirdCell.h"
 
-@interface DriverManagerViewController : UIViewController
+@interface DriverManagerViewController : BaseViewController
 
 @property (retain, nonatomic) IBOutlet UILabel *lb_empty;
 

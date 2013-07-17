@@ -56,6 +56,8 @@ typedef enum{
     
     id <PagedFlowViewDataSource> __weak _dataSource;
     id <PagedFlowViewDelegate>   __weak _delegate;
+    
+    
 }
 
 @property(nonatomic,weak)   id <PagedFlowViewDataSource> dataSource;
@@ -65,6 +67,7 @@ typedef enum{
 @property (nonatomic, assign) CGFloat minimumPageScale;
 @property (nonatomic, assign) PagedFlowViewOrientation orientation;
 @property (nonatomic, assign, readonly) NSInteger currentPageIndex;
+
 
 - (void)reloadData;
 

@@ -10,7 +10,7 @@
 #import "TopViewController.h"
 #import <Guide.h>
 
-@interface UserViewController : UIViewController
+@interface UserViewController : BaseViewController
 
 @property (retain, nonatomic) IBOutlet UINavigationBar *navBar;
 

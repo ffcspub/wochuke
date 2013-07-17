@@ -229,6 +229,7 @@
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField;{
+    [ShareVaule shareInstance].noChanged = NO;
     if (textField == _tf_name) {
         JCSupply *supply = self.cellData;
         supply.name = _tf_name.text;
@@ -249,6 +250,8 @@
         NSInteger index = [[ShareVaule shareInstance].editGuideEx.supplies indexOfObject:supply];
         [(NSMutableArray *)[ShareVaule shareInstance].editGuideEx.supplies removeObjectAtIndex:index];
         [_tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
+    }else if([notification.name isEqual:NOTIFICATION_SUPPLIERELOAD]){
+        [_tableView reloadData];
     }
 }
 
@@ -256,7 +259,7 @@
     [super setFrame:frame];
     backImageView.frame = CGRectMake(0, 0, frame.size.width, frame.size.height);
     _tableView.frame = CGRectMake(10, 10, frame.size.width-20, frame.size.height-20);
-    _btn_delete.frame = CGRectMake((frame.size.width - _btn_delete.frame.size.width)/2, 0, _btn_delete.frame.size.width, _btn_delete.frame.size.height);
+//    _btn_delete.frame = CGRectMake((frame.size.width - _btn_delete.frame.size.width)/2, 0, _btn_delete.frame.size.width, _btn_delete.frame.size.height);
 }
 
 -(void)handleSingleTapFrom{
@@ -286,6 +289,7 @@
     [self addSubview:_tableView];
     
     [self observeNotification:NOTIFICATION_SUPPLIECELLDELETE];
+    [self observeNotification:NOTIFICATION_SUPPLIERELOAD];
 }
 
 -(id)initWithCoder:(NSCoder *)aDecoder{
@@ -314,6 +318,7 @@
 
 -(void)dealloc{
     [self unobserveNotification:NOTIFICATION_SUPPLIECELLDELETE];
+    [self unobserveNotification:NOTIFICATION_SUPPLIERELOAD];
     [super dealloc];
 }
 

@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface PECropViewController : UIViewController
+@interface PECropViewController : BaseViewController
 
 @property (nonatomic,assign) id delegate;
 @property (nonatomic,assign) UIImage *image;

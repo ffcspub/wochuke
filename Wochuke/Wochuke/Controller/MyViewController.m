@@ -191,7 +191,7 @@
             id<JCAppIntfPrx> proxy = [[ICETool shareInstance] createProxy];
             @try {
                 JCMutableGuideList * list = nil;
-                list = [proxy getGuideListByUser:[ShareVaule shareInstance].user.id_ filterCode:[ShareVaule shareInstance].user == [ShareVaule shareInstance].user?0:1 timestamp:nil pageIdx:pageIndex pageSize:pageSize];
+                list = [proxy getGuideListByUser:[ShareVaule shareInstance].user.id_ filterCode:0 timestamp:nil pageIdx:pageIndex pageSize:pageSize];
                 if (list) {
                     if (pageIndex == 0) {
                         [_datas removeAllObjects];

@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface PersonalSettingsViewController : UIViewController<UITextFieldDelegate>
+@interface PersonalSettingsViewController : BaseViewController<UITextFieldDelegate>
 
 @property (retain, nonatomic) IBOutlet UITextField *tf_nickname;
 
