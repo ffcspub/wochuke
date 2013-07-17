@@ -18,8 +18,6 @@
 
 
 @interface SetingViewController ()<UIAlertViewDelegate,SinaWeiboDelegate,SinaWeiboRequestDelegate>{
-    NSString *_qqName;
-    NSString *_sinaName;
     BOOL updateModel;
 }
 
@@ -47,87 +45,25 @@
     return self;
 }
 
--(void)bindSnsByKeyId:(NSString *)keyId valueId:(NSString *)valueId{
-    [SVProgressHUD show];
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
-        NSMutableDictionary *snsId = [NSMutableDictionary dictionaryWithDictionary:[ShareVaule shareInstance].user.snsIds];
-        if (![[snsId valueForKey:keyId] isEqual:valueId]) {
-            [snsId setObject:valueId forKey:keyId];
-            JCUser *_user = [JCUser user:[ShareVaule shareInstance].user.id_ name:[ShareVaule shareInstance].user.name email:[ShareVaule shareInstance].user.email password:[ShareVaule shareInstance].user.password  avatar:[ShareVaule shareInstance].user.avatar mobile:[ShareVaule shareInstance].user.mobile realname:[ShareVaule shareInstance].user.realname intro:[ShareVaule shareInstance].user.intro roleCode:[ShareVaule shareInstance].user.roleCode followerCount:[ShareVaule shareInstance].user.followerCount followingCount:[ShareVaule shareInstance].user.followingCount followState:[ShareVaule shareInstance].user.followState guideCount:[ShareVaule shareInstance].user.guideCount favoriteCount:[ShareVaule shareInstance].user.favoriteCount snsIds:snsId];
-            @try {
-                id<JCAppIntfPrx> proxy = [[ICETool shareInstance] createProxy];
-                @try {
-                    JCUser *user = [proxy saveUser:_user];
-                    if (user) {
-                        [[ShareVaule shareInstance].user.snsIds setValue:valueId forKey:keyId];
-                    }
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [SVProgressHUD dismiss];
-                    });
-                }
-                @catch (NSException *exception) {
-                    if ([exception isKindOfClass:[JCGuideException class]]) {
-                        JCGuideException *_exception = (JCGuideException *)exception;
-                        if (_exception.reason_) {
-                            dispatch_async(dispatch_get_main_queue(), ^{
-                                [SVProgressHUD showErrorWithStatus:_exception.reason_];
-                            });
-                        }else{
-                            dispatch_async(dispatch_get_main_queue(), ^{
-                                [SVProgressHUD showErrorWithStatus:ERROR_MESSAGE];
-                            });
-                        }
-                    }else{
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            [SVProgressHUD showErrorWithStatus:ERROR_MESSAGE];
-                        });
-                    }
-                }
-                @finally {
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [self.tableView reloadData];
-                    });
-                }
-            }@catch (ICEException *exception) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [SVProgressHUD showErrorWithStatus:@"服务访问异常"];
-                });
-            }
-        }else{
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self upShareUI];
-                [self.tableView reloadData];
-                [SVProgressHUD dismiss];
-            });
-        }
-        
-    });
-    
-}
-
 - (void)switchChanged: (UISwitch *)senderSwitch
 {
     if ([senderSwitch isEqual:self.sinaSwitch]) {
-        if (self.sinaSwitch.on) {//点击后变为ON时
+        if ([ShareVaule shareInstance].sinaweiboName.length == 0) {//点击后变为ON时
             [ShareVaule shareInstance].sinaweibo.delegate = self;
             [[ShareVaule shareInstance].sinaweibo logIn];
         } else {//点击后变为OFF时
             [[ShareVaule shareInstance].sinaweibo logOut];
             [ShareVaule shareInstance].sinaweiboName = nil;
-            [_sinaName release];
-            _sinaName = nil;
             [self bindSnsByKeyId:@"sinaId" valueId:@""];
         }
     }else if ([senderSwitch isEqual:self.qqSwitch]){
-        if (self.qqSwitch.on) {
+        if ([ShareVaule shareInstance].qqName.length == 0) {
             [ShareVaule shareInstance].tencentOAuth.sessionDelegate = self;
             NSArray *authorize  = [NSArray arrayWithObjects:kOPEN_PERMISSION_GET_USER_INFO, kOPEN_PERMISSION_GET_SIMPLE_USER_INFO, kOPEN_PERMISSION_ADD_ONE_BLOG, nil];
             [[ShareVaule shareInstance].tencentOAuth authorize:authorize inSafari:NO];
         } else {
             [[ShareVaule shareInstance].tencentOAuth logout:nil];
             [ShareVaule shareInstance].qqName = nil;
-            [_qqName release];
-            _qqName = nil;
             [self bindSnsByKeyId:@"qqId" valueId:@""];
         }
     }
@@ -168,34 +104,10 @@
     [ShareVaule shareInstance].tencentOAuth.sessionDelegate = self;
 }
 
--(void)upShareUI{
-    if ([ShareVaule shareInstance].qqName) {
-        [self.qqSwitch setOn:YES];
-        if (_qqName) {
-            [_qqName release];
-            _qqName = nil;
-        }
-        _qqName = [[ShareVaule shareInstance].qqName retain];
-        [self.qqSwitch setOn:YES];
-    }else{
-        [self.qqSwitch setOn:NO];
-    }
-    if ([ShareVaule shareInstance].sinaweiboName) {
-        if (_sinaName) {
-            [_sinaName release];
-            _sinaName = nil;
-        }
-        _sinaName = [[ShareVaule shareInstance].sinaweiboName retain];
-        [self.sinaSwitch setOn:YES];
-    }else{
-        [self.sinaSwitch setOn:NO];
-    }
-}
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self upShareUI];
     [_tableView reloadData];
 }
 
@@ -269,10 +181,10 @@
     if (indexPath.section == 0) {
         if (indexPath.row == 0) {
             cell.textLabel.text = @"绑定新浪微博";
-            cell.detailTextLabel.text = _sinaName;
+            cell.detailTextLabel.text = [ShareVaule shareInstance].sinaweiboName;
         }else if (indexPath.row ==1){
             cell.textLabel.text = @"绑定腾讯QQ";
-            cell.detailTextLabel.text = _qqName;
+            cell.detailTextLabel.text = [ShareVaule shareInstance].qqName;
         }
     }else if (indexPath.section == 1){
         cell.textLabel.text = @"厨具管理";
@@ -287,8 +199,18 @@
     if (indexPath.section ==0) {
         if (indexPath.row == 0) {
             cell.accessoryView = self.sinaSwitch;
+            if ([ShareVaule shareInstance].sinaweiboName) {
+                [self.sinaSwitch setOn:YES];
+            }else{
+                [self.sinaSwitch setOn:NO];
+            }
         }else if (indexPath.row == 1){
             cell.accessoryView = self.qqSwitch;
+            if ([ShareVaule shareInstance].qqName) {
+                [self.qqSwitch setOn:YES];
+            }else{
+                [self.qqSwitch setOn:NO];
+            }
         }
     } else {
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -338,19 +260,19 @@
 - (void)sinaweiboDidLogOut:(SinaWeibo *)sinaweibo
 {
     NSLog(@"走 sinaweiboDidLogOut ");
-    [self upShareUI];
+//    [_tableView reloadData];
     //    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
     //    [self removeAuthData];
 }
 
 - (void)sinaweiboLogInDidCancel:(SinaWeibo *)sinaweibo;{
-    [self upShareUI];
+    [_tableView reloadData];
 }
 
 - (void)sinaweibo:(SinaWeibo *)sinaweibo logInDidFailWithError:(NSError *)error
 {
     NSLog(@"sinaweibo logInDidFailWithError %@", error);
-    [self upShareUI];
+    [_tableView reloadData];
 }
 
 - (void)sinaweibo:(SinaWeibo *)sinaweibo accessTokenInvalidOrExpired:(NSError *)error
@@ -363,7 +285,7 @@
 - (void)request:(SinaWeiboRequest *)request didFailWithError:(NSError *)error;{
     dispatch_async(dispatch_get_main_queue(), ^{
         [SVProgressHUD showErrorWithStatus:@"绑定失败"];
-        [self upShareUI];
+        [_tableView reloadData];
     });
 }
 
@@ -371,7 +293,6 @@
 {
     if ([request.url hasSuffix:@"users/show.json"]) {
         [ShareVaule shareInstance].sinaweiboName = [result objectForKey:@"name"];
-        _sinaName = [[ShareVaule shareInstance].sinaweiboName retain];
         
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.sinaSwitch setOn:YES];
@@ -397,22 +318,25 @@
 - (void)tencentDidLogin
 {
     updateModel = YES;
+    [SVProgressHUD show];
     [[ShareVaule shareInstance].tencentOAuth getUserInfo];
 }
 
 - (void)tencentDidNotLogin:(BOOL)cancelled
 {
-    [self upShareUI];
+    [_tableView reloadData];
+    [SVProgressHUD dismiss];
 }
 
 - (void)tencentDidNotNetWork
 {
-    [self upShareUI];
+    [_tableView reloadData];
+    [SVProgressHUD showErrorWithStatus:@"网络无法连接"];
 }
 
 - (void)tencentDidLogout
 {
-    [self upShareUI];
+//    [_tableView reloadData];
     //    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
     
 }
@@ -423,33 +347,85 @@
 - (void)getUserInfoResponse:(APIResponse *)response
 {
     if (response.retCode == URLREQUEST_SUCCEED) {
-        if (_qqName) {
-            [_qqName release];
-            _qqName = nil;
-        }
-        _qqName = [[response.jsonResponse objectForKey:@"nickname"]retain];
+        NSString *_qqName = [[response.jsonResponse objectForKey:@"nickname"]retain];
         [ShareVaule shareInstance].qqName = _qqName;
         if (updateModel) {
             if ([ShareVaule shareInstance].user.id_.length
                 >0) {
-                [self bindSnsByKeyId:@"qqId" valueId:[ShareVaule shareInstance].tencentOAuth.openId];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self bindSnsByKeyId:@"qqId" valueId:[ShareVaule shareInstance].tencentOAuth.openId];
+                });
             }
             updateModel = NO;
         }
-        [_tableView reloadData];
     } else {
-        
+        [SVProgressHUD showErrorWithStatus:@"登录失败"];
     }
 }
+
+-(void)bindSnsByKeyId:(NSString *)keyId valueId:(NSString *)valueId{
+    [SVProgressHUD show];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+        NSMutableDictionary *snsId = [NSMutableDictionary dictionaryWithDictionary:[ShareVaule shareInstance].user.snsIds];
+        if (![[snsId valueForKey:keyId] isEqual:valueId]) {
+            [snsId setObject:valueId forKey:keyId];
+            JCUser *_user = [JCUser user:[ShareVaule shareInstance].user.id_ name:[ShareVaule shareInstance].user.name email:[ShareVaule shareInstance].user.email password:[ShareVaule shareInstance].user.password  avatar:[ShareVaule shareInstance].user.avatar mobile:[ShareVaule shareInstance].user.mobile realname:[ShareVaule shareInstance].user.realname intro:[ShareVaule shareInstance].user.intro roleCode:[ShareVaule shareInstance].user.roleCode followerCount:[ShareVaule shareInstance].user.followerCount followingCount:[ShareVaule shareInstance].user.followingCount followState:[ShareVaule shareInstance].user.followState guideCount:[ShareVaule shareInstance].user.guideCount favoriteCount:[ShareVaule shareInstance].user.favoriteCount snsIds:snsId];
+            @try {
+                id<JCAppIntfPrx> proxy = [[ICETool shareInstance] createProxy];
+                @try {
+                    JCUser *user = [proxy saveUser:_user];
+                    if (user) {
+                        [[ShareVaule shareInstance].user.snsIds setValue:valueId forKey:keyId];
+                    }
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [SVProgressHUD dismiss];
+                        [_tableView reloadData];
+                    });
+                }
+                @catch (NSException *exception) {
+                    if ([exception isKindOfClass:[JCGuideException class]]) {
+                        JCGuideException *_exception = (JCGuideException *)exception;
+                        if (_exception.reason_) {
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                [SVProgressHUD showErrorWithStatus:_exception.reason_];
+                            });
+                        }else{
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                [SVProgressHUD showErrorWithStatus:ERROR_MESSAGE];
+                            });
+                        }
+                    }else{
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [SVProgressHUD showErrorWithStatus:ERROR_MESSAGE];
+                        });
+                    }
+                }
+                @finally {
+                }
+            }@catch (ICEException *exception) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [SVProgressHUD showErrorWithStatus:@"服务访问异常"];
+                });
+            }
+        }else{
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [SVProgressHUD dismiss];
+                [_tableView reloadData];
+            });
+        }
+        
+    });
+    
+}
+
 
 - (void)dealloc {
     [ShareVaule shareInstance].sinaweibo.delegate = nil;
     [ShareVaule shareInstance].tencentOAuth.sessionDelegate = nil;
-    [_sinaName release];
-    [_qqName release];
     [_tableView release];
     [super dealloc];
 }
+
 - (IBAction)backAction:(id)sender {
     [self.navigationController popViewControllerAnimated:YES];
 }

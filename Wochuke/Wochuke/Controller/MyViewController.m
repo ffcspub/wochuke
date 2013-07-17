@@ -66,9 +66,47 @@
     // Do any additional setup after loading the view from its nib.
 }
 
+-(void)loadUser{
+    
+    if ([ShareVaule shareInstance].userId) {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+            
+            @try {
+                id<JCAppIntfPrx> proxy = [[ICETool shareInstance] createProxy];
+                @try {
+                    JCUser * user = [proxy getUserById:[ShareVaule shareInstance].userId userId:[ShareVaule shareInstance].userId];
+                    if (user) {
+                        [ShareVaule shareInstance].user = user;
+                    }
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        _lb_uploadCount.text = [NSString stringWithFormat:@"%d",user.guideCount];
+                        _lb_favCount.text = [NSString stringWithFormat:@"%d",user.favoriteCount];
+                        _lb_followCount.text = [NSString stringWithFormat:@"%d",user.followingCount];
+                        _lb_fanceCount.text = [NSString stringWithFormat:@"%d",user.followerCount];
+                    });
+                }
+                @catch (ICEException *exception) {
+                    
+                }
+                @finally {
+                    
+                }
+            }@catch (ICEException *exception) {
+                //            dispatch_async(dispatch_get_main_queue(), ^{
+                //                [SVProgressHUD showErrorWithStatus:@"服务访问异常"];
+                //            });
+            }@finally {
+                
+            }
+        });
+    }
+    
+}
+
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    [self loadUser];
     JCUser *_user = [ShareVaule shareInstance].user;
 
     _lb_uploadCount.text = [NSString stringWithFormat:@"%d",_user.guideCount];
@@ -605,10 +643,22 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath;{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (type < 2) {
-        GuideViewController *vlc =[[[GuideViewController alloc]initWithNibName:@"GuideViewController" bundle:nil]autorelease];
         JCGuide *guide = [_datas objectAtIndex:indexPath.row];
-        vlc.guide = guide;
-        [self.navigationController pushViewController:vlc animated:YES];
+        if (type == 0 && !guide.published) {
+            StepEditController *vlc = [[[StepEditController alloc]initWithNibName:@"StepEditController" bundle:nil]autorelease];
+            vlc.guide = guide;
+            UINavigationController *navController = [[[UINavigationController alloc]initWithRootViewController:vlc]autorelease];
+            navController.navigationBarHidden = YES;
+            [self presentViewController:navController animated:YES completion:^{
+                
+            }];
+        }else{
+            GuideViewController *vlc =[[[GuideViewController alloc]initWithNibName:@"GuideViewController" bundle:nil]autorelease];
+            
+            vlc.guide = guide;
+            [self.navigationController pushViewController:vlc animated:YES];
+        }
+        
     }else{
         UserViewController *vlc = [[[UserViewController alloc]initWithNibName:@"UserViewController" bundle:nil]autorelease];
         vlc.user = [_datas objectAtIndex:indexPath.row];

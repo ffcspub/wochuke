@@ -55,10 +55,12 @@
             NSData *data = [[ShareVaule shareInstance]getImageDataByStep:step];
             if (data) {
                 [ShareVaule shareInstance].guideImage = data;
+                break;
             }else if (step.photo.url) {
                 UIImageView *imageView = [[[UIImageView alloc]init]autorelease];
                 [imageView setImageWithURL:[NSURL URLWithString:step.photo.url]];
                 [ShareVaule shareInstance].guideImage = UIImageJPEGRepresentation(imageView.image, 1.0);
+                break;
             }
             
         }

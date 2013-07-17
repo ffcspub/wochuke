@@ -2111,7 +2111,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "716"
             endingLineNumber = "716"
-            landmarkName = "-tencentDidLogin"
+            landmarkName = "-sinaweibo:logInDidFailWithError:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -2127,7 +2127,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "742"
             endingLineNumber = "742"
-            landmarkName = "-getUserInfoResponse:"
+            landmarkName = "-request:didFinishLoadingWithResult:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -2143,8 +2143,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "591"
             endingLineNumber = "591"
-            landmarkName = "-bindSnsByKeyId:valueId:"
-            landmarkType = "5">
+            landmarkName = "@implementation GuideViewController"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2159,7 +2159,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "600"
             endingLineNumber = "600"
-            landmarkName = "-bindSnsByKeyId:valueId:"
+            landmarkName = "-loadShareViewController:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -2191,7 +2191,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "702"
             endingLineNumber = "702"
-            landmarkName = "-request:didFinishLoadingWithResult:"
+            landmarkName = "-sinaweiboDidLogOut:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -2207,7 +2207,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "595"
             endingLineNumber = "595"
-            landmarkName = "-bindSnsByKeyId:valueId:"
+            landmarkName = "-loadShareViewController:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -2223,7 +2223,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "594"
             endingLineNumber = "594"
-            landmarkName = "-bindSnsByKeyId:valueId:"
+            landmarkName = "-loadShareViewController:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -2239,7 +2239,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "596"
             endingLineNumber = "596"
-            landmarkName = "-bindSnsByKeyId:valueId:"
+            landmarkName = "-loadShareViewController:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -2255,7 +2255,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "703"
             endingLineNumber = "703"
-            landmarkName = "-request:didFinishLoadingWithResult:"
+            landmarkName = "-sinaweiboDidLogOut:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -2271,7 +2271,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "704"
             endingLineNumber = "704"
-            landmarkName = "-request:didFinishLoadingWithResult:"
+            landmarkName = "-sinaweiboDidLogOut:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

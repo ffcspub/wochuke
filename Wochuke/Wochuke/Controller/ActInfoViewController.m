@@ -277,7 +277,7 @@
         UINavigationController *navController = [[[UINavigationController alloc]initWithRootViewController:vlc]autorelease];
         navController.navigationBarHidden = YES;
         [self presentViewController:navController animated:YES completion:nil];
-        
+        [control setSelectedSegmentIndex:0];
         return;
     }
     filterCode = control.selectedSegmentIndex;

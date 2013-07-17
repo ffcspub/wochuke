@@ -307,6 +307,7 @@
 		4C3F5D2E178F054400EE9C61 /* spline@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C3F5D2C178F054400EE9C61 /* spline@2x.png */; };
 		4C3F5D31178F117E00EE9C61 /* btn_grad.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C3F5D2F178F117E00EE9C61 /* btn_grad.png */; };
 		4C3F5D32178F117E00EE9C61 /* btn_grad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C3F5D30178F117E00EE9C61 /* btn_grad@2x.png */; };
+		4C57631117969BBA00DCA4A8 /* YYJSONHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C57631017969BBA00DCA4A8 /* YYJSONHelper.m */; };
 		4CA419111794D433001879C8 /* TencentOpenApi_IOS_Bundle.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4CA4190F1794D433001879C8 /* TencentOpenApi_IOS_Bundle.bundle */; };
 		4CA419121794D433001879C8 /* TencentOpenAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CA419101794D433001879C8 /* TencentOpenAPI.framework */; };
 		4CA419161794D453001879C8 /* AWActionSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CA419151794D453001879C8 /* AWActionSheet.m */; };
@@ -848,6 +849,8 @@
 		4C3F5D2C178F054400EE9C61 /* spline@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "spline@2x.png"; sourceTree = "<group>"; };
 		4C3F5D2F178F117E00EE9C61 /* btn_grad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_grad.png; sourceTree = "<group>"; };
 		4C3F5D30178F117E00EE9C61 /* btn_grad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn_grad@2x.png"; sourceTree = "<group>"; };
+		4C57630F17969BBA00DCA4A8 /* YYJSONHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYJSONHelper.h; sourceTree = "<group>"; };
+		4C57631017969BBA00DCA4A8 /* YYJSONHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYJSONHelper.m; sourceTree = "<group>"; };
 		4CA4190F1794D433001879C8 /* TencentOpenApi_IOS_Bundle.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = TencentOpenApi_IOS_Bundle.bundle; sourceTree = "<group>"; };
 		4CA419101794D433001879C8 /* TencentOpenAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TencentOpenAPI.framework; sourceTree = "<group>"; };
 		4CA419141794D453001879C8 /* AWActionSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AWActionSheet.h; sourceTree = "<group>"; };
@@ -1315,6 +1318,7 @@
 		18820A7B1779309500696A03 /* External */ = {
 			isa = PBXGroup;
 			children = (
+				4C57630E17969BBA00DCA4A8 /* YYJSON */,
 				4CA419131794D453001879C8 /* AWIconSheet */,
 				188EE41617841C0E005E577A /* CycleScrollView */,
 				18A876D81782A1E500642D75 /* PEPhotoCropEditor */,
@@ -1701,6 +1705,15 @@
 				4C3F5D12178F02BB00EE9C61 /* tag_cook_comment number@2x.png */,
 			);
 			path = step;
+			sourceTree = "<group>";
+		};
+		4C57630E17969BBA00DCA4A8 /* YYJSON */ = {
+			isa = PBXGroup;
+			children = (
+				4C57630F17969BBA00DCA4A8 /* YYJSONHelper.h */,
+				4C57631017969BBA00DCA4A8 /* YYJSONHelper.m */,
+			);
+			path = YYJSON;
 			sourceTree = "<group>";
 		};
 		4CA419131794D453001879C8 /* AWIconSheet */ = {
@@ -2340,6 +2353,7 @@
 				4CEB389C179411BF0047DDD6 /* NSNumber+BeeExtension.m in Sources */,
 				4CA419161794D453001879C8 /* AWActionSheet.m in Sources */,
 				4C1678AA179597D500983D8F /* BaseViewController.m in Sources */,
+				4C57631117969BBA00DCA4A8 /* YYJSONHelper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

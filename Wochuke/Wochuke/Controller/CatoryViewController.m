@@ -406,6 +406,8 @@
     [super viewWillAppear:animated];
     if (_datas.count == 0) {
         [self reloadDatas];
+    }else{
+        [_tableView reloadData];
     }
     if (_topics.count == 0) {
         [self loadTopics];

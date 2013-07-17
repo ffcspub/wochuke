@@ -21,11 +21,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Wochuke/Controller/MyViewController.m"
-         timestampString = "395642205.028665"
+         timestampString = "395752815.140655"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "480"
-         endingLineNumber = "480"
+         startingLineNumber = "518"
+         endingLineNumber = "518"
          landmarkName = "-loadFances"
          landmarkType = "5">
       </FileBreakpoint>
@@ -34,11 +34,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Wochuke/Controller/MyViewController.m"
-         timestampString = "395642205.028665"
+         timestampString = "395752815.140655"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "157"
-         endingLineNumber = "157"
+         startingLineNumber = "195"
+         endingLineNumber = "195"
          landmarkName = "-followListAction:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -123,13 +123,13 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Wochuke/Controller/GuideEditViewController.m"
-         timestampString = "395716529.018712"
+         timestampString = "395738644.740861"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "91"
-         endingLineNumber = "91"
-         landmarkName = "-popAction:"
-         landmarkType = "5">
+         startingLineNumber = "90"
+         endingLineNumber = "90"
+         landmarkName = "@implementation GuideEditViewController"
+         landmarkType = "3">
       </FileBreakpoint>
       <FileBreakpoint
          shouldBeEnabled = "No"
@@ -175,11 +175,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Wochuke/Controller/PublishViewController.m"
-         timestampString = "395684465.609841"
+         timestampString = "395729315.631579"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "453"
-         endingLineNumber = "453"
+         startingLineNumber = "455"
+         endingLineNumber = "455"
          landmarkName = "-imagePickerControllerDidCancel:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -201,11 +201,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Wochuke/Controller/GuideEditViewController.m"
-         timestampString = "395716529.018712"
+         timestampString = "395738644.740861"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "321"
-         endingLineNumber = "321"
+         startingLineNumber = "320"
+         endingLineNumber = "320"
          landmarkName = "-cropViewController:didFinishCroppingImage:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -227,11 +227,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Wochuke/Controller/MyViewController.m"
-         timestampString = "395579513.878788"
+         timestampString = "395752815.140655"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "72"
-         endingLineNumber = "72"
+         startingLineNumber = "110"
+         endingLineNumber = "110"
          landmarkName = "-viewWillAppear:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -331,11 +331,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Wochuke/Controller/PublishViewController.m"
-         timestampString = "395684465.609841"
+         timestampString = "395729315.631579"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "318"
-         endingLineNumber = "318"
+         startingLineNumber = "320"
+         endingLineNumber = "320"
          landmarkName = "-actionSheet:clickedButtonAtIndex:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -344,11 +344,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Wochuke/Controller/PublishViewController.m"
-         timestampString = "395684465.609841"
+         timestampString = "395729315.631579"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "304"
-         endingLineNumber = "304"
+         startingLineNumber = "306"
+         endingLineNumber = "306"
          landmarkName = "-pubishAction"
          landmarkType = "5">
       </FileBreakpoint>
@@ -370,25 +370,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Wochuke/View/StepView.m"
-         timestampString = "395669729.116899"
+         timestampString = "395753268.237878"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "431"
-         endingLineNumber = "431"
-         landmarkName = "-setFrame:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "Wochuke/Controller/GuideViewController.m"
-         timestampString = "395680077.775805"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "474"
-         endingLineNumber = "474"
-         landmarkName = "-guideInfoViewUserShow:"
+         startingLineNumber = "422"
+         endingLineNumber = "422"
+         landmarkName = "-initWithFrame:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -473,32 +460,6 @@
          shouldBeEnabled = "No"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
-         filePath = "Wochuke/Controller/GuideViewController.m"
-         timestampString = "395680077.775805"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "379"
-         endingLineNumber = "379"
-         landmarkName = "-actionSheet:clickedButtonAtIndex:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "Wochuke/Controller/GuideViewController.m"
-         timestampString = "395680077.775805"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "376"
-         endingLineNumber = "376"
-         landmarkName = "-actionSheet:clickedButtonAtIndex:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
          filePath = "Wochuke/Controller/PersonalSettingsViewController.m"
          timestampString = "395661968.785327"
          startingColumnNumber = "9223372036854775807"
@@ -524,11 +485,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Wochuke/Controller/LoginViewController.m"
-         timestampString = "395715671.335308"
+         timestampString = "395751282.57985"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "282"
-         endingLineNumber = "282"
+         startingLineNumber = "279"
+         endingLineNumber = "279"
          landmarkName = "-sinaLoginAction:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -537,11 +498,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Wochuke/Controller/LoginViewController.m"
-         timestampString = "395426228.142439"
+         timestampString = "395751282.57985"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "167"
-         endingLineNumber = "167"
+         startingLineNumber = "157"
+         endingLineNumber = "157"
          landmarkName = "-login"
          landmarkType = "5">
          <Locations>
@@ -576,11 +537,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Wochuke/Controller/LoginViewController.m"
-         timestampString = "395426228.142439"
+         timestampString = "395751282.57985"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "172"
-         endingLineNumber = "172"
+         startingLineNumber = "162"
+         endingLineNumber = "162"
          landmarkName = "@implementation LoginViewController"
          landmarkType = "3">
       </FileBreakpoint>
@@ -589,11 +550,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Wochuke/Controller/SetingViewController.m"
-         timestampString = "395712694.004403"
+         timestampString = "395751282.57985"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "252"
-         endingLineNumber = "252"
+         startingLineNumber = "164"
+         endingLineNumber = "164"
          landmarkName = "-tableView:numberOfRowsInSection:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -602,24 +563,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Wochuke/Controller/SetingViewController.m"
-         timestampString = "395661968.785327"
+         timestampString = "395751282.57985"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "100"
-         endingLineNumber = "100"
-         landmarkName = "-bindSnsByKeyId:valueId:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "Wochuke/Controller/SetingViewController.m"
-         timestampString = "395712694.004403"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "292"
-         endingLineNumber = "292"
+         startingLineNumber = "214"
+         endingLineNumber = "214"
          landmarkName = "-tableView:cellForRowAtIndexPath:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -628,11 +576,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Wochuke/Controller/LoginViewController.m"
-         timestampString = "395426228.142439"
+         timestampString = "395751282.57985"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "185"
-         endingLineNumber = "185"
+         startingLineNumber = "175"
+         endingLineNumber = "175"
          landmarkName = "-getUserByKey:idValue:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -641,11 +589,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Wochuke/Controller/LoginViewController.m"
-         timestampString = "395715671.335308"
+         timestampString = "395751282.57985"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "407"
-         endingLineNumber = "407"
+         startingLineNumber = "404"
+         endingLineNumber = "404"
          landmarkName = "-request:didFinishLoadingWithResult:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -654,11 +602,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Wochuke/Controller/LoginViewController.m"
-         timestampString = "395715671.335308"
+         timestampString = "395751282.57985"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "391"
-         endingLineNumber = "391"
+         startingLineNumber = "388"
+         endingLineNumber = "388"
          landmarkName = "-sinaweibo:logInDidFailWithError:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -667,11 +615,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Wochuke/Controller/LoginViewController.m"
-         timestampString = "395426228.142439"
+         timestampString = "395751282.57985"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "169"
-         endingLineNumber = "169"
+         startingLineNumber = "159"
+         endingLineNumber = "159"
          landmarkName = "-login"
          landmarkType = "5">
       </FileBreakpoint>
@@ -680,11 +628,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Wochuke/Controller/LoginViewController.m"
-         timestampString = "395426228.142439"
+         timestampString = "395751282.57985"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "180"
-         endingLineNumber = "180"
+         startingLineNumber = "170"
+         endingLineNumber = "170"
          landmarkName = "-getUserByKey:idValue:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -693,11 +641,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Wochuke/Controller/LoginViewController.m"
-         timestampString = "395426228.142439"
+         timestampString = "395751282.57985"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "221"
-         endingLineNumber = "221"
+         startingLineNumber = "216"
+         endingLineNumber = "216"
          landmarkName = "-regiterByThirdUserInfo:idKey:idValue:"
          landmarkType = "5">
          <Locations>
@@ -732,11 +680,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Wochuke/Controller/LoginViewController.m"
-         timestampString = "395426228.142439"
+         timestampString = "395751282.57985"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "225"
-         endingLineNumber = "225"
+         startingLineNumber = "220"
+         endingLineNumber = "220"
          landmarkName = "-regiterByThirdUserInfo:idKey:idValue:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -745,11 +693,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Wochuke/Controller/SetingViewController.m"
-         timestampString = "395713056.537419"
+         timestampString = "395751282.57985"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "410"
-         endingLineNumber = "410"
+         startingLineNumber = "333"
+         endingLineNumber = "333"
          landmarkName = "-tencentDidNotNetWork"
          landmarkType = "5">
       </FileBreakpoint>
@@ -758,37 +706,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Wochuke/Controller/LoginViewController.m"
-         timestampString = "395426228.142439"
+         timestampString = "395751282.57985"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "87"
-         endingLineNumber = "87"
-         landmarkName = "-loginWithName:andPassword:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "Wochuke/Controller/LoginViewController.m"
-         timestampString = "395426228.142439"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "100"
-         endingLineNumber = "100"
-         landmarkName = "-loginWithName:andPassword:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "Wochuke/Controller/LoginViewController.m"
-         timestampString = "395426228.142439"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "100"
-         endingLineNumber = "100"
+         startingLineNumber = "71"
+         endingLineNumber = "71"
          landmarkName = "-loginWithName:andPassword:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -797,11 +719,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Wochuke/Controller/SetingViewController.m"
-         timestampString = "395661968.785327"
+         timestampString = "395751282.57985"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "216"
-         endingLineNumber = "216"
+         startingLineNumber = "128"
+         endingLineNumber = "128"
          landmarkName = "@implementation SetingViewController"
          landmarkType = "3">
       </FileBreakpoint>
@@ -810,11 +732,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Wochuke/Controller/SetingViewController.m"
-         timestampString = "395661968.785327"
+         timestampString = "395751282.57985"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "144"
-         endingLineNumber = "144"
+         startingLineNumber = "80"
+         endingLineNumber = "80"
          landmarkName = "-showSureAlert"
          landmarkType = "5">
       </FileBreakpoint>
@@ -823,11 +745,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Wochuke/Controller/SetingViewController.m"
-         timestampString = "395661968.785327"
+         timestampString = "395751282.57985"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "138"
-         endingLineNumber = "138"
+         startingLineNumber = "74"
+         endingLineNumber = "74"
          landmarkName = "-showSureAlert"
          landmarkType = "5">
       </FileBreakpoint>
@@ -836,24 +758,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Wochuke/Controller/SetingViewController.m"
-         timestampString = "395661968.785327"
+         timestampString = "395751282.57985"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "57"
-         endingLineNumber = "57"
-         landmarkName = "-bindSnsByKeyId:valueId:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "Wochuke/Controller/SetingViewController.m"
-         timestampString = "395713056.537419"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "402"
-         endingLineNumber = "402"
+         startingLineNumber = "324"
+         endingLineNumber = "324"
          landmarkName = "@implementation SetingViewController"
          landmarkType = "3">
       </FileBreakpoint>
@@ -900,32 +809,6 @@
          shouldBeEnabled = "No"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
-         filePath = "Wochuke/Controller/GuideViewController.m"
-         timestampString = "395680077.775805"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "533"
-         endingLineNumber = "533"
-         landmarkName = "-DidTapOnItemAtIndex:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "Wochuke/Controller/GuideViewController.m"
-         timestampString = "395680077.775805"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "536"
-         endingLineNumber = "536"
-         landmarkName = "-DidTapOnItemAtIndex:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
          filePath = "Wochuke/Controller/CatoryViewController.m"
          timestampString = "395502222.207575"
          startingColumnNumber = "9223372036854775807"
@@ -940,11 +823,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Wochuke/Controller/GuideEditViewController.m"
-         timestampString = "395716529.018712"
+         timestampString = "395738644.740861"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "165"
-         endingLineNumber = "165"
+         startingLineNumber = "164"
+         endingLineNumber = "164"
          landmarkName = "-imageTapFromStepEditView:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -953,11 +836,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Wochuke/Controller/GuideEditViewController.m"
-         timestampString = "395716529.018712"
+         timestampString = "395738644.740861"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "322"
-         endingLineNumber = "322"
+         startingLineNumber = "321"
+         endingLineNumber = "321"
          landmarkName = "-cropViewController:didFinishCroppingImage:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -966,11 +849,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Wochuke/Controller/GuideEditViewController.m"
-         timestampString = "395716529.018712"
+         timestampString = "395738644.740861"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "323"
-         endingLineNumber = "323"
+         startingLineNumber = "322"
+         endingLineNumber = "322"
          landmarkName = "-cropViewController:didFinishCroppingImage:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1213,25 +1096,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Wochuke/Controller/SetingViewController.m"
-         timestampString = "395661968.785327"
+         timestampString = "395751282.57985"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "110"
-         endingLineNumber = "110"
+         startingLineNumber = "50"
+         endingLineNumber = "50"
          landmarkName = "-switchChanged:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "Wochuke/Controller/SetingViewController.m"
-         timestampString = "395661968.785327"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "192"
-         endingLineNumber = "192"
-         landmarkName = "-upShareUI"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -1317,12 +1187,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Wochuke/View/StepView.m"
-         timestampString = "395669729.116899"
+         timestampString = "395753268.237878"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "387"
-         endingLineNumber = "387"
-         landmarkName = "-hasImage"
+         startingLineNumber = "378"
+         endingLineNumber = "378"
+         landmarkName = "-setStep:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -1473,11 +1343,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Wochuke/Controller/LoginViewController.m"
-         timestampString = "395715671.335308"
+         timestampString = "395751282.57985"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "369"
-         endingLineNumber = "369"
+         startingLineNumber = "366"
+         endingLineNumber = "366"
          landmarkName = "-sinaweiboDidLogIn:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1486,11 +1356,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Wochuke/Controller/LoginViewController.m"
-         timestampString = "395652343.834927"
+         timestampString = "395751282.57985"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "181"
-         endingLineNumber = "181"
+         startingLineNumber = "171"
+         endingLineNumber = "171"
          landmarkName = "-getUserByKey:idValue:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1499,11 +1369,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Wochuke/Controller/LoginViewController.m"
-         timestampString = "395652345.684459"
+         timestampString = "395751282.57985"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "175"
-         endingLineNumber = "175"
+         startingLineNumber = "165"
+         endingLineNumber = "165"
          landmarkName = "-getUserByKey:idValue:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1512,11 +1382,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Wochuke/Controller/LoginViewController.m"
-         timestampString = "395715671.335308"
+         timestampString = "395751282.57985"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "402"
-         endingLineNumber = "402"
+         startingLineNumber = "399"
+         endingLineNumber = "399"
          landmarkName = "-request:didFinishLoadingWithResult:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1525,11 +1395,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Wochuke/Controller/LoginViewController.m"
-         timestampString = "395652393.723593"
+         timestampString = "395751282.57985"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "197"
-         endingLineNumber = "197"
+         startingLineNumber = "187"
+         endingLineNumber = "187"
          landmarkName = "-regiterByThirdUserInfo:idKey:idValue:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1538,11 +1408,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Wochuke/Controller/LoginViewController.m"
-         timestampString = "395715671.335308"
+         timestampString = "395751282.57985"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "403"
-         endingLineNumber = "403"
+         startingLineNumber = "400"
+         endingLineNumber = "400"
          landmarkName = "-request:didFinishLoadingWithResult:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1655,12 +1525,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Wochuke/View/StepView.m"
-         timestampString = "395669729.116899"
+         timestampString = "395753268.237878"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "345"
-         endingLineNumber = "345"
-         landmarkName = "-growingTextViewDidEndEditing:"
+         startingLineNumber = "336"
+         endingLineNumber = "336"
+         landmarkName = "-growingTextViewShouldBeginEditing:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -1668,25 +1538,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Wochuke/View/StepView.m"
-         timestampString = "395669729.116899"
+         timestampString = "395753268.237878"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "340"
-         endingLineNumber = "340"
-         landmarkName = "-growingTextViewDidChange:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "Wochuke/AppDelegate.m"
-         timestampString = "395668052.848693"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "48"
-         endingLineNumber = "48"
-         landmarkName = "-loadUser"
+         startingLineNumber = "331"
+         endingLineNumber = "331"
+         landmarkName = "-growingTextViewShouldBeginEditing:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -1694,12 +1551,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Wochuke/Controller/GuideViewController.m"
-         timestampString = "395713056.537419"
+         timestampString = "395753268.237878"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "734"
-         endingLineNumber = "734"
-         landmarkName = "-tencentDidLogin"
+         startingLineNumber = "759"
+         endingLineNumber = "759"
+         landmarkName = "-request:didFinishLoadingWithResult:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -1707,12 +1564,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Wochuke/Controller/GuideViewController.m"
-         timestampString = "395713056.537419"
+         timestampString = "395753268.237878"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "760"
-         endingLineNumber = "760"
-         landmarkName = "-getUserInfoResponse:"
+         startingLineNumber = "785"
+         endingLineNumber = "785"
+         landmarkName = "-tencentDidNotLogin:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -1720,25 +1577,25 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Wochuke/Controller/GuideViewController.m"
-         timestampString = "395682367.325586"
+         timestampString = "395753268.237878"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "591"
-         endingLineNumber = "591"
-         landmarkName = "-bindSnsByKeyId:valueId:"
-         landmarkType = "5">
+         startingLineNumber = "612"
+         endingLineNumber = "612"
+         landmarkName = "@implementation GuideViewController"
+         landmarkType = "3">
       </FileBreakpoint>
       <FileBreakpoint
          shouldBeEnabled = "No"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Wochuke/Controller/GuideViewController.m"
-         timestampString = "395682367.325586"
+         timestampString = "395753268.237878"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "600"
-         endingLineNumber = "600"
-         landmarkName = "-bindSnsByKeyId:valueId:"
+         startingLineNumber = "621"
+         endingLineNumber = "621"
+         landmarkName = "-loadShareViewController:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -1746,11 +1603,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Wochuke/Controller/ShareViewController.m"
-         timestampString = "395710894.979841"
+         timestampString = "395745147.096237"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "90"
-         endingLineNumber = "90"
+         startingLineNumber = "101"
+         endingLineNumber = "101"
          landmarkName = "-shareAction:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1759,12 +1616,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Wochuke/Controller/GuideViewController.m"
-         timestampString = "395713056.537419"
+         timestampString = "395753268.237878"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "714"
-         endingLineNumber = "714"
-         landmarkName = "-request:didFinishLoadingWithResult:"
+         startingLineNumber = "616"
+         endingLineNumber = "616"
+         landmarkName = "-loadShareViewController:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -1772,12 +1629,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Wochuke/Controller/GuideViewController.m"
-         timestampString = "395682367.325586"
+         timestampString = "395753268.237878"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "595"
-         endingLineNumber = "595"
-         landmarkName = "-bindSnsByKeyId:valueId:"
+         startingLineNumber = "615"
+         endingLineNumber = "615"
+         landmarkName = "-loadShareViewController:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -1785,51 +1642,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Wochuke/Controller/GuideViewController.m"
-         timestampString = "395682367.325586"
+         timestampString = "395753268.237878"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "594"
-         endingLineNumber = "594"
-         landmarkName = "-bindSnsByKeyId:valueId:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "Wochuke/Controller/GuideViewController.m"
-         timestampString = "395682367.325586"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "596"
-         endingLineNumber = "596"
-         landmarkName = "-bindSnsByKeyId:valueId:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "Wochuke/Controller/GuideViewController.m"
-         timestampString = "395713056.537419"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "715"
-         endingLineNumber = "715"
-         landmarkName = "-request:didFinishLoadingWithResult:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "Wochuke/Controller/GuideViewController.m"
-         timestampString = "395713056.537419"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "716"
-         endingLineNumber = "716"
-         landmarkName = "-request:didFinishLoadingWithResult:"
+         startingLineNumber = "617"
+         endingLineNumber = "617"
+         landmarkName = "-loadShareViewController:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -1863,25 +1681,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Wochuke/Controller/GuideEditViewController.m"
-         timestampString = "395716529.018712"
+         timestampString = "395738644.740861"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "106"
-         endingLineNumber = "106"
+         startingLineNumber = "105"
+         endingLineNumber = "105"
          landmarkName = "-pubishAction:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "Wochuke/Controller/PublishViewController.m"
-         timestampString = "395684465.609841"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "51"
-         endingLineNumber = "51"
-         landmarkName = "-viewDidLoad"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -1902,24 +1707,24 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Wochuke/Controller/ShareViewController.m"
-         timestampString = "395710894.979841"
+         timestampString = "395745147.096237"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "105"
-         endingLineNumber = "105"
+         startingLineNumber = "119"
+         endingLineNumber = "119"
          landmarkName = "-dealloc"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
-         shouldBeEnabled = "Yes"
+         shouldBeEnabled = "No"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Wochuke/Controller/ShareViewController.m"
-         timestampString = "395710894.979841"
+         timestampString = "395745147.096237"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "126"
-         endingLineNumber = "126"
+         startingLineNumber = "140"
+         endingLineNumber = "140"
          landmarkName = "-request:didFailWithError:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1928,11 +1733,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Wochuke/Controller/ShareViewController.m"
-         timestampString = "395711706.736161"
+         timestampString = "395745147.096237"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "131"
-         endingLineNumber = "131"
+         startingLineNumber = "145"
+         endingLineNumber = "145"
          landmarkName = "-request:didFinishLoadingWithResult:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1941,12 +1746,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Wochuke/Controller/GuideViewController.m"
-         timestampString = "395711540.276855"
+         timestampString = "395753268.237878"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "663"
-         endingLineNumber = "663"
-         landmarkName = "-sinaweiboDidLogIn:"
+         startingLineNumber = "684"
+         endingLineNumber = "684"
+         landmarkName = "-bindSnsByKeyId:valueId:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -1954,12 +1759,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Wochuke/Controller/GuideViewController.m"
-         timestampString = "395713056.537419"
+         timestampString = "395753268.237878"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "704"
-         endingLineNumber = "704"
-         landmarkName = "-request:didFailWithError:"
+         startingLineNumber = "726"
+         endingLineNumber = "726"
+         landmarkName = "-sinaweiboDidLogOut:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -1992,13 +1797,234 @@
          shouldBeEnabled = "No"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
-         filePath = "Wochuke/Controller/GuideEditViewController.m"
-         timestampString = "395716254.918434"
+         filePath = "Wochuke/Controller/GuideViewController.m"
+         timestampString = "395753268.237878"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "84"
-         endingLineNumber = "84"
+         startingLineNumber = "736"
+         endingLineNumber = "736"
+         landmarkName = "-sinaweibo:logInDidFailWithError:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Wochuke/Controller/GuideViewController.m"
+         timestampString = "395753268.237878"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "687"
+         endingLineNumber = "687"
+         landmarkName = "-bindSnsByKeyId:valueId:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Wochuke/Controller/GuideViewController.m"
+         timestampString = "395753268.237878"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "618"
+         endingLineNumber = "618"
+         landmarkName = "-loadShareViewController:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Wochuke/Controller/UserViewController.m"
+         timestampString = "395723808.18778"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "76"
+         endingLineNumber = "76"
          landmarkName = "-viewWillAppear:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Wochuke/Controller/ActInfoViewController.m"
+         timestampString = "395723991.319177"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "354"
+         endingLineNumber = "354"
+         landmarkName = "-actInfoCellShowUser:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Wochuke/Controller/UserViewController.m"
+         timestampString = "395752213.104775"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "183"
+         endingLineNumber = "183"
+         landmarkName = "-loadUploadGuides"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Wochuke/Controller/SetingViewController.m"
+         timestampString = "395751282.57985"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "67"
+         endingLineNumber = "67"
+         landmarkName = "-switchChanged:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Wochuke/Controller/SetingViewController.m"
+         timestampString = "395751282.57985"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "320"
+         endingLineNumber = "320"
+         landmarkName = "-tencentDidLogin"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Wochuke/Controller/BaseViewController.m"
+         timestampString = "395738463.441615"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "36"
+         endingLineNumber = "36"
+         landmarkName = "-viewWillDisappear:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Wochuke/Controller/BaseViewController.m"
+         timestampString = "395738503.322839"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "35"
+         endingLineNumber = "35"
+         landmarkName = "-viewWillDisappear:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "External/Jastor/JastorRuntimeHelper.m"
+         timestampString = "395744308.89159"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "34"
+         endingLineNumber = "34"
+         landmarkName = "+propertyNames:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "External/YYJSON/YYJSONHelper.m"
+         timestampString = "395745163.70574"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "68"
+         endingLineNumber = "68"
+         landmarkName = "-YYJSONString"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "External/YYJSON/YYJSONHelper.m"
+         timestampString = "395747917.048639"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "114"
+         endingLineNumber = "114"
+         landmarkName = "-YYJSONDictionary"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "External/YYJSON/YYJSONHelper.m"
+         timestampString = "395746595.67692"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "95"
+         endingLineNumber = "95"
+         landmarkName = "-YYJSONDictionary"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "External/YYJSON/YYJSONHelper.m"
+         timestampString = "395746815.527236"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "101"
+         endingLineNumber = "101"
+         landmarkName = "-YYJSONDictionary"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "External/YYJSON/YYJSONHelper.m"
+         timestampString = "395747537.99254"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "99"
+         endingLineNumber = "99"
+         landmarkName = "-YYJSONDictionary"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Wochuke/Controller/GuideViewController.m"
+         timestampString = "395753268.237878"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "562"
+         endingLineNumber = "562"
+         landmarkName = "-DidTapOnItemAtIndex:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Wochuke/Controller/MyViewController.m"
+         timestampString = "395752870.853184"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "71"
+         endingLineNumber = "71"
+         landmarkName = "-loadUser"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

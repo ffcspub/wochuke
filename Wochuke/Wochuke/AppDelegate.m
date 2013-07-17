@@ -145,7 +145,11 @@
 
 -(void) onReq:(BaseReq*)req
 {
-        
+//    if([req isKindOfClass:[ShowMessageFromWXReq class]])
+//    {
+//        ShowMessageFromWXReq *wxreq = (ShowMessageFromWXReq *)req;
+//        
+//    }
 }
 
 -(void) onResp:(BaseResp*)resp

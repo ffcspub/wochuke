@@ -20,9 +20,7 @@
 
 @interface SearchViewController (){
     NSMutableArray *_hotWords;
-    UITableView *_tableView;
     NSString *_word;
-    
     NSMutableArray * _datas;
     int pageIndex;
     int pageSize;
@@ -280,9 +278,6 @@
 {
     [super viewDidLoad];
     _hotWords = [[NSMutableArray alloc]init];
-    _tableView = [[UITableView alloc]initWithFrame:_scrollView.frame];
-    _tableView.dataSource = self;
-    _tableView.delegate = self;
     _tableView.backgroundColor = [UIColor whiteColor];
     _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [_tableView addInfiniteScrollingWithActionHandler:^{
@@ -291,12 +286,9 @@
     [_tableView addPullToRefreshWithActionHandler:^{
         [self reloadDatas];
     }];
-    
     [_tableView.pullToRefreshView setTitle:@"松开刷新" forState:SVPullToRefreshStateAll];
     [_tableView.pullToRefreshView setTitle:@"下拉刷新" forState:SVPullToRefreshStateTriggered];
     [_tableView.pullToRefreshView setTitle:@"正在加载" forState:SVPullToRefreshStateLoading];
-
-    [self.view addSubview:_tableView];
     
 //    NSArray *array = [[NSUserDefaults standardUserDefaults]arrayForKey:@"HotWordList"];
 //    if (array) {
@@ -327,6 +319,7 @@
 }
 
 - (void)viewDidUnload {
+    [self setTableView:nil];
     [self setScrollView:nil];
     [self setSearchBar:nil];
     [super viewDidUnload];

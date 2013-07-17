@@ -23,8 +23,6 @@
 @end
 
 @implementation LoginViewController{
-    NSString *_qqId;
-    NSString *_sinaId;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -39,20 +37,6 @@
 
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-    if (_sinaId) {
-        [_sinaId release];
-        _sinaId = nil;
-    }
-    if (_qqId) {
-        [_qqId release];
-        _qqId = nil;
-    }
-    if ([[ShareVaule shareInstance].tencentOAuth isSessionValid]) {
-        _qqId = [[[ShareVaule shareInstance].tencentOAuth openId]retain];
-    }
-    if ([[ShareVaule shareInstance].sinaweibo isAuthValid]) {
-        _sinaId = [[ShareVaule shareInstance].sinaweibo.userID retain];
-    }
     //    if([ShareSDK hasAuthorizedWithType:ShareTypeSinaWeibo]){
     //        [ShareSDK getUserInfoWithType:ShareTypeSinaWeibo
     //                          authOptions:nil
@@ -91,19 +75,25 @@
                 JCUser *user = [proxy login:account password:[[password MD5]uppercaseString]];
                 if (user.id_.length>0) {
                     NSMutableDictionary *snsId = [NSMutableDictionary dictionaryWithDictionary:user.snsIds];
-                    if (_qqId) {
-                        if (![[snsId objectForKey:@"qqId"] isEqual:_qqId]) {
-                            [snsId setObject:_qqId forKey:@"qqId"];
-                            user.snsIds = snsId;
-                            [proxy saveUser:user];
+                    NSString *qqId = [snsId objectForKey:@"qqId"];
+                    if (qqId.length == 0) {
+                        [ShareVaule shareInstance].qqName = nil;
+                    }else if ([[ShareVaule shareInstance].tencentOAuth isSessionValid]) {
+                        if (![qqId isEqual:[[ShareVaule shareInstance].tencentOAuth openId]]) {
+                            [ShareVaule shareInstance].qqName = @" ";
                         }
+                    }else{
+                        [ShareVaule shareInstance].qqName = @" ";
                     }
-                    if (_sinaId) {
-                        if (![[snsId objectForKey:@"sinaId"] isEqual:_sinaId]) {
-                            [snsId setObject:_sinaId forKey:@"sinaId"];
-                            user.snsIds = snsId;
-                            [proxy saveUser:user];
+                    NSString *sinaId = [snsId objectForKey:@"sinaId"];
+                    if (sinaId.length == 0) {
+                        [ShareVaule shareInstance].sinaweiboName = nil;
+                    }else if ([[ShareVaule shareInstance].sinaweibo isAuthValid]) {
+                        if (![sinaId isEqual:[[ShareVaule shareInstance].sinaweibo userID]]) {
+                            [ShareVaule shareInstance].sinaweiboName = @" ";
                         }
+                    }else{
+                        [ShareVaule shareInstance].sinaweiboName = @" ";
                     }
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [SVProgressHUD dismiss];
@@ -199,6 +189,11 @@
                    userInfo = [proxy saveUser:user];
                 }
                 if (userInfo.id_) {
+                    if ([idKey isEqual:@"qqId"]) {
+                        [ShareVaule shareInstance].sinaweiboName = nil;
+                    }else{
+                        [ShareVaule shareInstance].qqName = nil;
+                    }
                     NSLog(@"regiterByThirdUserInfo userInfo存在 userInfo.id_ == %@",userInfo.id_);
                     [ShareVaule shareInstance].userId = userInfo.id_;
                     [ShareVaule shareInstance].user = userInfo;
@@ -256,7 +251,9 @@
     [ShareVaule shareInstance].tencentOAuth.sessionDelegate = self;
     NSArray *array = [NSArray arrayWithObjects:kOPEN_PERMISSION_GET_USER_INFO, kOPEN_PERMISSION_GET_SIMPLE_USER_INFO, kOPEN_PERMISSION_ADD_ONE_BLOG, nil];
     BOOL flag = [[ShareVaule shareInstance].tencentOAuth authorize:array inSafari:NO];
-    
+    if (!flag) {
+        [SVProgressHUD showErrorWithStatus:@"无法打开QQ客户端"];
+    }
 }
 
 - (IBAction)loginAction:(id)sender {
@@ -426,12 +423,15 @@
 
 - (void)tencentDidLogin
 {
-    [self getUserByKey:@"qqId" idValue:[[ShareVaule shareInstance].tencentOAuth openId]];
+    dispatch_async(dispatch_get_main_queue(), ^{
+         [self getUserByKey:@"qqId" idValue:[[ShareVaule shareInstance].tencentOAuth openId]];
+    });
 }
 
 - (void)tencentDidNotLogin:(BOOL)cancelled
 {
     
+//    [SVProgressHUD showErrorWithStatus:@"未登录QQ"];
 }
 
 - (void)tencentDidNotNetWork
@@ -462,8 +462,6 @@
     
     [ShareVaule shareInstance].sinaweibo.delegate = nil;
     [ShareVaule shareInstance].tencentOAuth.sessionDelegate = nil;
-    [_sinaId release];
-    [_qqId release];
     [_tf_name release];
     [_tf_password release];
     [_iv_back release];

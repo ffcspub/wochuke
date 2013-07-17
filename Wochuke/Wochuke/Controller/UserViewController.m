@@ -168,7 +168,9 @@
 }
 
 - (IBAction)followAction:(id)sender {
-    [self followUser:_user];
+    if (![_user.id_ isEqual:[ShareVaule shareInstance].userId]) {
+        [self followUser:_user];
+    }
 }
 
 -(void)loadUploadGuides{
