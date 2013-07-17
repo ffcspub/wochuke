@@ -25,7 +25,9 @@
 #import "ShareViewController.h"
 #import "WXApi.h"
 #import "UIImageView+WebCache.h"
-
+#import "JSONKit.h"
+#import "SDImageCache.h"
+#import "YYJSONHelper.h"
 //#import "StepEditController.h"
 
 @interface GuideViewController ()<StepViewDelegate,UIActionSheetDelegate,AWActionSheetDelegate,SinaWeiboDelegate,TencentSessionDelegate,SinaWeiboRequestDelegate>{
@@ -98,6 +100,9 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    if (!_detail) {
+        [self loadDetail];
+    }
     _badgeView.badgeText = [NSString stringWithFormat:@"%d", _guide.commentCount];
 }
 
@@ -113,7 +118,6 @@
         _badgeView.badgePositionAdjustment = CGPointMake(-10, 10);
     }
     [self observeNotification:StepPreviewController.TAP];
-    [self loadDetail];
     // Do any additional setup after loading the view from its nib.
 }
 
@@ -227,7 +231,7 @@
 #pragma mark - Actions
 
 -(void)followGudie{
-//    [SVProgressHUD show];
+    //    [SVProgressHUD show];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
         @try {
             id<JCAppIntfPrx> proxy = [[ICETool shareInstance] createProxy];
@@ -239,15 +243,10 @@
                     if (_detail.favorited) {
                         [SVProgressHUD showSuccessWithStatus:@"已收藏"];
                         [_btn_like setImage:[UIImage imageNamed:@"ic_cook_like_bottom_pressed"] forState:UIControlStateNormal];
-                        _guide.favoriteCount++ ;
-                        [ShareVaule shareInstance].user.favoriteCount ++;
                     }else{
                         [SVProgressHUD showSuccessWithStatus:@"已取消收藏"];
                         [_btn_like setImage:[UIImage imageNamed:@"ic_cook_like_bottom"] forState:UIControlStateNormal];
-                        _guide.favoriteCount -- ;
-                        [ShareVaule shareInstance].user.favoriteCount --;
                     }
-                    [self postNotification:NOTIFICATION_FAVORITECOUNT];
                     [_pagedFlowView reloadData];
                 });
             }
@@ -332,7 +331,7 @@
                 }else{
                     NSMutableString *_token = nil;
                     BOOL *online = nil;
-                   int res =  [agentPrx bind:nil token:&_token online:online];
+                    int res =  [agentPrx bind:nil token:&_token online:online];
                     if (!online) {
                         dispatch_async(dispatch_get_main_queue(), ^{
                             [SVProgressHUD showErrorWithStatus:@"请求的设备没有联机"];
@@ -364,7 +363,7 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                 [SVProgressHUD showErrorWithStatus:@"服务无法访问"];
             });
-
+            
         }
     });
 }
@@ -400,7 +399,7 @@
 
 - (IBAction)likeAction:(id)sender {
     if ([ShareVaule shareInstance].user.id_) {
-         [self followGudie];
+        [self followGudie];
     }else{
         LoginViewController *vlc = [[[LoginViewController alloc]initWithNibName:@"LoginViewController" bundle:nil]autorelease];
         UINavigationController *navController = [[[UINavigationController alloc]initWithRootViewController:vlc ]autorelease];
@@ -463,7 +462,7 @@
                     vlc.user = user;
                     [self.navigationController pushViewController:vlc animated:YES];
                     [vlc release];
-                 });
+                });
                 
             }
             @catch (ICEException *exception) {
@@ -524,6 +523,8 @@
     return cell;
 }
 
+
+#define BUFFER_SIZE 1024
 -(void)DidTapOnItemAtIndex:(NSInteger)index
 {
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -544,27 +545,68 @@
                 [[ShareVaule shareInstance].tencentOAuth authorize:array inSafari:NO];
             }
         }else if(index == 2){
-            SendMessageToWXReq* req = [[[SendMessageToWXReq alloc] init]autorelease];
-            req.bText = YES;
-            req.text = [NSString stringWithFormat:SHARE_CONTENT,_guide.title];
-            req.scene = WXSceneSession;
-            BOOL flag = [WXApi sendReq:req];
-            if (flag) {
-                [SVProgressHUD showSuccessWithStatus:@"分享成功"];
-            }else{
-                [SVProgressHUD showErrorWithStatus:@"分享失败"];
+            // 发送内容给微信
+            WXMediaMessage *message = [WXMediaMessage message];
+            message.title = [NSString stringWithFormat:@"%@",_guide.title];
+            message.description = _guide.description_;
+            
+            WXAppExtendObject *ext = [WXAppExtendObject object];
+            NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+            [dict setValuesForKeysWithDictionary:[_guide YYJSONDictionary]];
+            NSDictionary *smallCoverdict = [_guide.smallCover YYJSONDictionary];
+            NSDictionary *userAvatardict = [_guide.userAvatar YYJSONDictionary];
+            NSDictionary *coverdict = [_guide.cover YYJSONDictionary];
+            [dict setValue:smallCoverdict forKey:@"smallCover"];
+            [dict setValue:userAvatardict forKey:@"userAvatar"];
+            [dict setValue:coverdict forKey:@"cover"];
+            NSString *jsonString = [dict JSONString];
+            ext.extInfo = jsonString;
+            if (_guide.cover.url.length>0) {
+                UIImage *image = [[SDImageCache sharedImageCache]imageFromKey:[[NSURL URLWithString:_guide.cover.url]absoluteString]];
+                NSData *data = UIImageJPEGRepresentation(image, 0.5);
+                if (data.length > 32 *1024 ) {
+                    data = UIImageJPEGRepresentation(image, 0.25);
+                }
+                [message setThumbData:data];
+//                ext.fileData =  data;
+            }
+            message.mediaObject = ext;
+            
+            GetMessageFromWXResp* resp = [[[GetMessageFromWXResp alloc] init] autorelease];
+            resp.message = message;
+            resp.bText = NO;
+            BOOL flag =[WXApi sendResp:resp];
+            if (!flag) {
+                [SVProgressHUD showErrorWithStatus:@"无法打开客户端"];
             }
         }else if(index == 3){
+            WXMediaMessage *message = [WXMediaMessage message];
+            message.title = [NSString stringWithFormat:@"%@",_guide.title];
+            message.description = _guide.description_;
+            if (_guide.cover.url.length>0) {
+                UIImage *image = [[SDImageCache sharedImageCache]imageFromKey:[[NSURL URLWithString:_guide.cover.url]absoluteString]];
+                NSData *data = UIImageJPEGRepresentation(image, 0.5);
+                if (data.length > 32 *1024 ) {
+                    data = UIImageJPEGRepresentation(image, 0.25);
+                }
+                [message setThumbData:data];
+            }
+            
+            WXWebpageObject *ext = [WXWebpageObject object];
+            ext.webpageUrl = @"http://wochuke.com";
+            message.mediaObject = ext;
             SendMessageToWXReq* req = [[[SendMessageToWXReq alloc] init]autorelease];
-            req.bText = YES;
-            req.text = [NSString stringWithFormat:SHARE_CONTENT,_guide.title];
+            req.bText = NO;
+            req.message = message;
             req.scene = WXSceneTimeline;
+            
+            
             BOOL flag = [WXApi sendReq:req];
             if (!flag) {
                 [SVProgressHUD showErrorWithStatus:@"无法打开微信客户端"];
             }
         }
-
+        
     });
 }
 
@@ -664,14 +706,15 @@
     //    [self storeAuthData];
     //    [self performSelectorOnMainThread:@selector(logout) withObject:nil waitUntilDone:NO];
     dispatch_async(dispatch_get_main_queue(), ^{
+        [SVProgressHUD show];
         [sinaweibo requestWithURL:@"friendships/create.json"
-                       params:[NSMutableDictionary dictionaryWithObjectsAndKeys:@"沃厨客",@"screen_name",nil]
-                   httpMethod:@"POST"
-                     delegate:self];
-//        [sinaweibo requestWithURL:@"users/show.json"
-//                           params:[NSMutableDictionary dictionaryWithObject:sinaweibo.userID forKey:@"uid"]
-//                       httpMethod:@"GET"
-//                         delegate:self];
+                           params:[NSMutableDictionary dictionaryWithObjectsAndKeys:@"沃厨客",@"screen_name",nil]
+                       httpMethod:@"POST"
+                         delegate:self];
+        //        [sinaweibo requestWithURL:@"users/show.json"
+        //                           params:[NSMutableDictionary dictionaryWithObject:sinaweibo.userID forKey:@"uid"]
+        //                       httpMethod:@"GET"
+        //                         delegate:self];
     });
     
 }
@@ -679,19 +722,19 @@
 - (void)sinaweiboDidLogOut:(SinaWeibo *)sinaweibo
 {
     NSLog(@"走 sinaweiboDidLogOut ");
-//    [self upShareUI];
+    //    [self upShareUI];
     //    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
     //    [self removeAuthData];
 }
 
 - (void)sinaweiboLogInDidCancel:(SinaWeibo *)sinaweibo;{
-//    [self upShareUI];
+    //    [self upShareUI];
 }
 
 - (void)sinaweibo:(SinaWeibo *)sinaweibo logInDidFailWithError:(NSError *)error
 {
     NSLog(@"sinaweibo logInDidFailWithError %@", error);
-//    [self upShareUI];
+    //    [self upShareUI];
 }
 
 - (void)sinaweibo:(SinaWeibo *)sinaweibo accessTokenInvalidOrExpired:(NSError *)error
@@ -716,6 +759,9 @@
         if ([ShareVaule shareInstance].user.id_.length
             >0) {
             [self bindSnsByKeyId:@"sinaId" valueId:[ShareVaule shareInstance].sinaweibo.userID];
+        }else{
+            [SVProgressHUD dismiss];
+            [self loadShareViewController:0];
         }
     }else if([request.url hasSuffix:@"friendships/create.json"]){
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -736,17 +782,17 @@
 
 - (void)tencentDidNotLogin:(BOOL)cancelled
 {
-//    [self upShareUI];
+    //    [self upShareUI];
 }
 
 - (void)tencentDidNotNetWork
 {
-//    [self upShareUI];
+    //    [self upShareUI];
 }
 
 - (void)tencentDidLogout
 {
-//    [self upShareUI];
+    //    [self upShareUI];
     //    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
     
 }
@@ -762,6 +808,12 @@
         if ([ShareVaule shareInstance].user.id_.length
             >0) {
             [self bindSnsByKeyId:@"qqId" valueId:[ShareVaule shareInstance].tencentOAuth.openId];
+        }else{
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [SVProgressHUD dismiss];
+                [self loadShareViewController:1];
+            });
+            
         }
     } 
 }
