@@ -10,7 +10,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "SVProgressHUD.h"
 #import <TencentOpenAPI/TencentOAuthObject.h>
-#import "UIImageView+WebCache.h"
+#import "SDImageCache.h"
 
 @interface ShareViewController ()<HPGrowingTextViewDelegate,SinaWeiboRequestDelegate,TencentSessionDelegate,SinaWeiboDelegate>
 
@@ -68,25 +68,36 @@
         if (_type == 0) {
             [SVProgressHUD show];
             [ShareVaule shareInstance].sinaweibo.delegate = self;
-            if (_imageUrl) {
-                UIImageView *view = [[[UIImageView alloc]init]autorelease];
-                [view setImageWithURL:[NSURL URLWithString:_imageUrl]];
-                [[ShareVaule shareInstance].sinaweibo requestWithURL:@"statuses/upload.json"
-                                                              params:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                                                      _tv_content.text, @"status",
-                                                                      view.image, @"pic", nil]
-                                                          httpMethod:@"POST"
-                                                            delegate:self];
+            if (_imageUrl.length > 0) {
+                UIImage *image = [[SDImageCache sharedImageCache]imageFromKey:[[NSURL URLWithString:_imageUrl]absoluteString]];
+                NSData *data = UIImageJPEGRepresentation(image, 0.5);
+                if (data.length > 32 *1024 ) {
+                    data = UIImageJPEGRepresentation(image, 0.25);
+                }
+
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [[ShareVaule shareInstance].sinaweibo requestWithURL:@"statuses/upload.json"
+                                                                  params:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                                                          _tv_content.text, @"status",
+                                                                          [UIImage imageWithData:data], @"pic", nil]
+                                                              httpMethod:@"POST"
+                                                                delegate:self];
+                });
+                
+
+               
             }else{
-                [[ShareVaule shareInstance].sinaweibo requestWithURL:@"statuses/update.json"
-                                                              params:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                                                      _tv_content.text, @"status",
-                                                                      @"0",@"visible", nil]
-                                                          httpMethod:@"POST"
-                                                            delegate:self];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [[ShareVaule shareInstance].sinaweibo requestWithURL:@"statuses/update.json"
+                                                                  params:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                                                          _tv_content.text, @"status",
+                                                                          @"0",@"visible", nil]
+                                                              httpMethod:@"POST"
+                                                                delegate:self];
+                });
             }
-            [SVProgressHUD dismiss];
         }else{
+            [SVProgressHUD show];
             [ShareVaule shareInstance].tencentOAuth.sessionDelegate =self;
             TCAddShareDic *params = [TCAddShareDic dictionary];
             params.paramTitle = _tv_content.text;
@@ -96,7 +107,10 @@
             if (_imageUrl) {
                 params.paramImages = _imageUrl;
             }
-            [[ShareVaule shareInstance].tencentOAuth addShareWithParams:params];
+             dispatch_async(dispatch_get_main_queue(), ^{
+                 [[ShareVaule shareInstance].tencentOAuth addShareWithParams:params];
+             });
+            
         }
     }
 }
