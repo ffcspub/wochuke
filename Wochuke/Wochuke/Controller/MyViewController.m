@@ -67,8 +67,8 @@
 }
 
 -(void)loadUser{
-    
     if ([ShareVaule shareInstance].userId) {
+        [SVProgressHUD show];
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
             @try {
                 id<JCAppIntfPrx> proxy = [[ICETool shareInstance] createProxy];
@@ -86,18 +86,21 @@
                         [_bottomBackView setHidden:NO];
                         [_nickNameBtn setTitle:user.name forState:UIControlStateNormal];
                         [_iv_face setImageWithURL:[NSURL URLWithString:user.avatar.url] placeholderImage:[UIImage imageNamed:@"ic_user_top"]];
+                        [SVProgressHUD dismiss];
                     });
                 }
                 @catch (ICEException *exception) {
-                    
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [SVProgressHUD dismiss];
+                    });
                 }
                 @finally {
                     
                 }
             }@catch (ICEException *exception) {
-                //            dispatch_async(dispatch_get_main_queue(), ^{
-                //                [SVProgressHUD showErrorWithStatus:@"服务访问异常"];
-                //            });
+                dispatch_async(dispatch_get_main_queue(), ^{
+                 [SVProgressHUD showErrorWithStatus:@"服务访问异常"];
+                });
             }@finally {
                 
             }
@@ -110,16 +113,9 @@
 {
     [super viewWillAppear:animated];
     [self loadUser];
-    JCUser *_user = [ShareVaule shareInstance].user;
-
-    _lb_uploadCount.text = [NSString stringWithFormat:@"%d",_user.guideCount];
-    _lb_favCount.text = [NSString stringWithFormat:@"%d",_user.favoriteCount];
-    _lb_followCount.text = [NSString stringWithFormat:@"%d",_user.followingCount];
-    _lb_fanceCount.text = [NSString stringWithFormat:@"%d",_user.followerCount];
-    
     UIImage *backImage = [[UIImage imageNamed:@"bg_classify_card"]resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
     [_iv_bottomBackView setImage:backImage];
-    
+    JCUser *_user = [ShareVaule shareInstance].user;
     if (_user.id_) {
         [_loginButton setTitle:@"上传"];
         [_bottomBackView setHidden:NO];

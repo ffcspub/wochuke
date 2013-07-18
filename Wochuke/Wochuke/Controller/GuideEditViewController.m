@@ -84,7 +84,6 @@
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [_pagedFlowView reloadData];
-    
 }
 
 -(void)viewDidAppear:(BOOL)animated{

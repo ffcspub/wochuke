@@ -370,22 +370,15 @@
     return YES;
 }
 
-- (BOOL)textFieldShouldEndEditing:(UITextField *)textField
-{
-    if (textField == _tf_password) {
-        [UIView animateWithDuration:0.3 animations:^{
-            self.view.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
-        }];
-    }
-    return YES;
-}
-
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     if (textField == _tf_name) {
         [_tf_password becomeFirstResponder];
     }else if (textField == _tf_password){
         [_tf_password resignFirstResponder];
+        [UIView animateWithDuration:0.3 animations:^{
+            self.view.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
+        }];
         if (_tf_password.text.length>0) {
             [self login];
         }
@@ -439,6 +432,10 @@
         NSLog(@"result == %@",result);
         NSString *profile_image_url = [result objectForKey:@"profile_image_url"];
         if (profile_image_url) {
+            if (_faceUrl) {
+                [_faceUrl release];
+                _faceUrl = nil;
+            }
             _faceUrl = [profile_image_url retain];
         }
         NSLog(@"sinaweibo.userID == %@",sinaweibo.userID);
@@ -488,6 +485,10 @@
         user.name = [response.jsonResponse objectForKey:@"nickname"];
         NSString *profile_image_url = [response.jsonResponse objectForKey:@"figureurl_qq_2"];
         if (profile_image_url) {
+            if (_faceUrl) {
+                [_faceUrl release];
+                _faceUrl = nil;
+            }
             _faceUrl = [profile_image_url retain];
         }
         [ShareVaule shareInstance].qqName = [response.jsonResponse objectForKey:@"nickname"];
@@ -504,6 +505,7 @@
 
 
 - (void)dealloc {
+    [_faceUrl release];
     [ShareVaule shareInstance].sinaweibo.delegate = nil;
     [ShareVaule shareInstance].tencentOAuth.sessionDelegate = nil;
     [_tf_name release];

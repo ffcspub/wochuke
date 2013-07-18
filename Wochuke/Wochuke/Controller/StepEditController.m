@@ -66,7 +66,6 @@
 -(void)loadDetail{
     [SVProgressHUD show];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
-        
         @try {
             id<JCAppIntfPrx> proxy = [[ICETool shareInstance] createProxy];
             @try {
@@ -77,7 +76,14 @@
                 }
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [SVProgressHUD dismiss];
-                    [guideEditViewNavigationController.topViewController viewWillAppear:YES];
+                    GuideEditViewController *guideEditViewController = [[[GuideEditViewController alloc]initWithNibName:@"GuideEditViewController" bundle:nil]autorelease];
+                    guideEditViewController.controllerDelegate = self;
+                    guideEditViewNavigationController = [[UINavigationController alloc]initWithRootViewController:guideEditViewController];
+                    guideEditViewNavigationController.navigationBarHidden = YES;
+                    guideEditViewNavigationController.view.hidden = YES;
+                    [guideEditViewNavigationController.view setFrame: [self.view bounds]];
+                    [self.view addSubview:guideEditViewNavigationController.view];
+                    [self.view sendSubviewToBack:guideEditViewNavigationController.view];
                     [_girdView reloadData];
                 });
             }
@@ -138,14 +144,7 @@
         _guide = [[ShareVaule shareInstance].editGuideEx.guideInfo retain];
     }
     
-    GuideEditViewController *guideEditViewController = [[[GuideEditViewController alloc]initWithNibName:@"GuideEditViewController" bundle:nil]autorelease];
-    guideEditViewController.controllerDelegate = self;
-    guideEditViewNavigationController = [[UINavigationController alloc]initWithRootViewController:guideEditViewController];
-    guideEditViewNavigationController.navigationBarHidden = YES;
-    guideEditViewNavigationController.view.hidden = YES;
-    [guideEditViewNavigationController.view setFrame: [self.view bounds]];
-    [self.view addSubview:guideEditViewNavigationController.view];
-    [self.view sendSubviewToBack:guideEditViewNavigationController.view];
+    
     // Do any additional setup after loading the view from its nib.
     
 //    [btn_add setBackgroundImage:[[UIImage imageNamed:@"btn_orange_small"]resizableImageWithCapInsets:UIEdgeInsetsMake(12, 12, 12, 12)] forState:UIControlStateNormal];
@@ -159,6 +158,7 @@
     } completion:^(BOOL finished) {
         guideEditViewNavigationController.view.hidden = YES;
         [self.view sendSubviewToBack:guideEditViewNavigationController.view];
+        [_girdView reloadData];
     }];
 }
 

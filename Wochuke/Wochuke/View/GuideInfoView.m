@@ -320,13 +320,14 @@
     iv_photoback.frame = CGRectMake((frame.size.width - 46)/2, 92, 46, 46);
     iv_photo.frame = CGRectMake((frame.size.width - 40)/2, 95, 40 , 40);
     tv_title.frame = CGRectMake(5, 30, frame.size.width-10, 30);
-    tv_title.textMaxLength = 30;
+    tv_title.textMaxLength = 20;
     tv_title.delegate = self;
     lb_publisher.frame = CGRectMake(0, 140, frame.size.width, 20);
     
     CGSize contentSize = [[ShareVaule shareInstance].editGuideEx.guideInfo.description_.length>0?[ShareVaule shareInstance].editGuideEx.guideInfo.description_:@" " sizeWithFont:[UIFont systemFontOfSize:12] constrainedToSize:CGSizeMake(frame.size.width - 30 - UITEXTVIEW_MARGIN*2, 1000)];
     
     tv_content.frame = CGRectMake(15, 190, frame.size.width - 30, MIN(contentSize.height + UITEXTVIEW_MARGIN*2, frame.size.height - 190 - 30));
+    tv_content.textMaxLength = 100;
 //    tv_content.maxHeight = frame.size.height - 190 - 30;
     iv_contentBackView.frame = CGRectMake(tv_content.frame.origin.x, tv_content.frame.origin.y, tv_content.frame.size.width, tv_content.frame.size.height + 8);
     [tv_content refreshHeight];

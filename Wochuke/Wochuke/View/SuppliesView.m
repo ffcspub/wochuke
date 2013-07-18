@@ -150,9 +150,10 @@
     }
 }
 
-
 -(void)cellDelete{
-    [self postNotification:NOTIFICATION_SUPPLIECELLDELETE withObject:self];
+    JCSupply *supply = (JCSupply *)self.cellData;
+    int index = [[ShareVaule shareInstance].editGuideEx.supplies indexOfObject:supply];
+    [self postNotification:NOTIFICATION_SUPPLIECELLDELETE withObject:[NSNumber numberWithInt:index]];
 }
 
 -(void)load{
@@ -164,7 +165,7 @@
     _tf_name.textColor = [UIColor darkTextColor];
     [self addSubview:_tf_name];
     
-    _tf_quantity = [[EMKeyboardBarTextField alloc]init];
+    _tf_quantity = [[[EMKeyboardBarTextField alloc]init]autorelease];
     _tf_quantity.placeholder = @"分量";
     _tf_quantity.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     _tf_quantity.textAlignment = UITextAlignmentCenter;
@@ -172,7 +173,7 @@
     _tf_quantity.textColor = [UIColor darkTextColor];
     [self addSubview:_tf_quantity];
     
-    _btn_del = [[UIButton alloc]init];
+    _btn_del = [[[UIButton alloc]init]autorelease];
     [_btn_del setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [_btn_del.titleLabel setFont:[UIFont systemFontOfSize:14]];
     [_btn_del setTitle:@"删除" forState:UIControlStateNormal];
@@ -245,13 +246,19 @@
 
 -(void)handleNotification:(NSNotification *)notification{
     if ([notification.name isEqual:NOTIFICATION_SUPPLIECELLDELETE]) {
-        SuppliesEditCell *cell = (SuppliesEditCell *)notification.object;
-        JCSupply *supply = (JCSupply *)cell.cellData;
-        NSInteger index = [[ShareVaule shareInstance].editGuideEx.supplies indexOfObject:supply];
+        NSNumber *indexNum = (NSNumber *)notification.object;
+        int index = [indexNum intValue];
         [(NSMutableArray *)[ShareVaule shareInstance].editGuideEx.supplies removeObjectAtIndex:index];
-        [_tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [_tableView beginUpdates];
+            [_tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
+            [_tableView endUpdates];
+        });
+        
     }else if([notification.name isEqual:NOTIFICATION_SUPPLIERELOAD]){
-        [_tableView reloadData];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [_tableView reloadData];
+        });
     }
 }
 
@@ -313,7 +320,10 @@
 -(void)addCell{
     JCSupply *supply = [[[JCSupply alloc]init]autorelease];
     [(NSMutableArray *)[ShareVaule shareInstance].editGuideEx.supplies addObject:supply];
+    [_tableView beginUpdates];
     [_tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:[ShareVaule shareInstance].editGuideEx.supplies.count-1 inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
+    [_tableView endUpdates];
+    
 }
 
 -(void)dealloc{
