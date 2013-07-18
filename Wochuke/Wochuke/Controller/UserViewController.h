@@ -18,7 +18,6 @@
 
 @property (retain, nonatomic) IBOutlet UIButton *btn_follow;
 
-
 @property (retain, nonatomic) IBOutlet UIImageView *iv_face;
 
 @property (retain, nonatomic) IBOutlet UIView *bottomBackView;

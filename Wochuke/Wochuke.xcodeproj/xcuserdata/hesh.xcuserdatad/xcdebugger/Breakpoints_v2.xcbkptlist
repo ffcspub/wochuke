@@ -2111,7 +2111,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "716"
             endingLineNumber = "716"
-            landmarkName = "-sinaweibo:logInDidFailWithError:"
+            landmarkName = "-sinaweiboDidLogIn:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -2127,22 +2127,6 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "742"
             endingLineNumber = "742"
-            landmarkName = "-request:didFinishLoadingWithResult:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Wochuke/Controller/GuideViewController.m"
-            timestampString = "395682367.325586"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "591"
-            endingLineNumber = "591"
             landmarkName = "@implementation GuideViewController"
             landmarkType = "3">
          </BreakpointContent>
@@ -2157,9 +2141,25 @@
             timestampString = "395682367.325586"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "591"
+            endingLineNumber = "591"
+            landmarkName = "-DidTapOnItemAtIndex:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Wochuke/Controller/GuideViewController.m"
+            timestampString = "395682367.325586"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
             startingLineNumber = "600"
             endingLineNumber = "600"
-            landmarkName = "-loadShareViewController:"
+            landmarkName = "-DidTapOnItemAtIndex:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -2191,7 +2191,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "702"
             endingLineNumber = "702"
-            landmarkName = "-sinaweiboDidLogOut:"
+            landmarkName = "-bindSnsByKeyId:valueId:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -2207,7 +2207,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "595"
             endingLineNumber = "595"
-            landmarkName = "-loadShareViewController:"
+            landmarkName = "-DidTapOnItemAtIndex:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -2223,7 +2223,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "594"
             endingLineNumber = "594"
-            landmarkName = "-loadShareViewController:"
+            landmarkName = "-DidTapOnItemAtIndex:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -2239,7 +2239,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "596"
             endingLineNumber = "596"
-            landmarkName = "-loadShareViewController:"
+            landmarkName = "-DidTapOnItemAtIndex:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -2255,8 +2255,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "703"
             endingLineNumber = "703"
-            landmarkName = "-sinaweiboDidLogOut:"
-            landmarkType = "5">
+            landmarkName = "@implementation GuideViewController"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2271,8 +2271,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "704"
             endingLineNumber = "704"
-            landmarkName = "-sinaweiboDidLogOut:"
-            landmarkType = "5">
+            landmarkName = "@implementation GuideViewController"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy

@@ -76,12 +76,25 @@
     }
 }
 
+-(void)handleSingleTapFrom{
+    if (_delegate && [_delegate respondsToSelector:@selector(commentCellShowUser:)]) {
+        JCComment *comment = (JCComment *)_cellData;
+        [_delegate commentCellShowUser:comment.userId];
+    }
+}
+
 - (void)load
 {
     iv_heard = [[[MyWebImgView alloc]init]autorelease];
     iv_heard.contentMode = UIViewContentModeScaleAspectFill;
     iv_heard.layer.cornerRadius = 6;
     iv_heard.layer.masksToBounds = YES;
+    
+    UITapGestureRecognizer* singleRecognizer;  
+    singleRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTapFrom)];  
+    singleRecognizer.numberOfTapsRequired = 1; // 单击  
+    [iv_heard addGestureRecognizer:singleRecognizer];  
+    [iv_heard setUserInteractionEnabled:YES];
     
     lb_name = [[[UILabel alloc]init]autorelease];
     lb_name.font = [UIFont boldSystemFontOfSize:13];

@@ -88,7 +88,7 @@
             [_myViewNaviationController.view setFrame: [self.view bounds]];
             [self.view addSubview:_myViewNaviationController.view];
         }else{
-//            [_myViewNaviationController viewWillAppear:YES];
+            [_myViewNaviationController viewWillAppear:YES];
         }
         currentController = _myViewNaviationController;
     }

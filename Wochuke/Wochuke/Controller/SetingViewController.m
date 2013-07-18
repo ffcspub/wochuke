@@ -15,6 +15,7 @@
 #import "DriverManagerViewController.h"
 #import "AboutViewController.h"
 #import "FeedbackViewController.h"
+#import "SDImageCache.h"
 
 
 @interface SetingViewController ()<UIAlertViewDelegate,SinaWeiboDelegate,SinaWeiboRequestDelegate>{
@@ -164,7 +165,7 @@
     }else if (section == 1){
         return 1;
     }else if (section == 2){
-        return 2;
+        return 3;
     }
     return 0;
 }
@@ -192,6 +193,8 @@
         if (indexPath.row == 0) {
             cell.textLabel.text = @"意见反馈";
         }else if (indexPath.row ==1){
+            cell.textLabel.text = @"清除缓存";
+        }else if (indexPath.row ==2){
             cell.textLabel.text = @"关于";
         }
     }
@@ -235,6 +238,9 @@
             FeedbackViewController *vlc = [[[FeedbackViewController alloc]initWithNibName:@"FeedbackViewController" bundle:nil]autorelease];
             [self.navigationController pushViewController:vlc animated:YES];
         }else if(indexPath.row == 1){
+            [[SDImageCache sharedImageCache]cleanDisk];
+            [SVProgressHUD showSuccessWithStatus:@"缓存已清除"];
+        }else if(indexPath.row == 2){
             //关于
             AboutViewController *vlc = [[[AboutViewController alloc]initWithNibName:@"AboutViewController" bundle:nil]autorelease];
             [self.navigationController pushViewController:vlc animated:YES];

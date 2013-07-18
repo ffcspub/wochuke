@@ -128,13 +128,13 @@
 //        [_picker setAllowsEditing:YES];
         _picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
         _picker.delegate = self;
-        [self presentModalViewController:_picker animated:YES];
+        [self presentViewController:_picker animated:YES completion:nil];
     }else if(buttonIndex == 1){
         _picker = [[UIImagePickerController alloc]init];
 //        [_picker setAllowsEditing:YES];
         _picker.sourceType = UIImagePickerControllerSourceTypeCamera;
         _picker.delegate = self;
-        [self presentModalViewController:_picker animated:YES];
+        [self presentViewController:_picker animated:YES completion:nil];
     }
 }
 
@@ -239,7 +239,7 @@
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker{
-    [self dismissModalViewControllerAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
     [_picker release];
     _picker = nil;
 }

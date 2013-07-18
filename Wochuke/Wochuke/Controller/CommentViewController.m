@@ -15,8 +15,9 @@
 #import "SVPullToRefresh.h"
 #import "NSObject+Notification.h"
 #import "LoginViewController.h"
+#import "UserViewController.h"
 
-@interface CommentViewController ()<UITableViewDataSource,UITableViewDelegate>{
+@interface CommentViewController ()<UITableViewDataSource,UITableViewDelegate,CommentCellDelegate>{
     NSMutableArray *_datas;
     int pageIndex;
     int pageSize;
@@ -189,7 +190,7 @@
         LoginViewController *vlc = [[[LoginViewController alloc]initWithNibName:@"LoginViewController" bundle:nil]autorelease];
         UINavigationController *navController = [[[UINavigationController alloc]initWithRootViewController:vlc ]autorelease];
         navController.navigationBarHidden = YES;
-        [self presentModalViewController:navController animated:YES];
+        [self presentViewController:navController animated:YES completion:nil];
         return NO;
     }
     return YES;
@@ -398,6 +399,7 @@
     UITableViewCell *cell = nil;
     cell = [tableView dequeueReusableCellWithBeeUIGirdCellClass:[CommentCell class]];
     cell.gridCell.cellData = [_datas objectAtIndex:indexPath.row];
+    ((CommentCell *)cell.gridCell).delegate = self;
     cell.accessoryType = UITableViewCellAccessoryNone;
     return cell;
 }
@@ -424,6 +426,55 @@
     if (buttonIndex == 1) {
         [self deleteComment];
     }
+}
+
+#pragma mark -CommentCellDelegate
+-(void)commentCellShowUser:(NSString *)userId;{
+    [SVProgressHUD show];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+        @try {
+            id<JCAppIntfPrx> proxy = [[ICETool shareInstance] createProxy];
+            @try {
+                JCUser *user = [proxy getUserById:[ShareVaule shareInstance].userId userId:userId];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [SVProgressHUD dismiss];
+                    UserViewController *vlc = [[UserViewController alloc]initWithNibName:@"UserViewController" bundle:nil];
+                    vlc.user = user;
+                    [self.navigationController pushViewController:vlc animated:YES];
+                    [vlc release];
+                });
+                
+            }
+            @catch (ICEException *exception) {
+                if ([exception isKindOfClass:[JCGuideException class]]) {
+                    JCGuideException *_exception = (JCGuideException *)exception;
+                    if (_exception.reason_) {
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [SVProgressHUD showErrorWithStatus:_exception.reason_];
+                        });
+                    }else{
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [SVProgressHUD showErrorWithStatus:ERROR_MESSAGE];
+                        });
+                    }
+                }else{
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [SVProgressHUD showErrorWithStatus:ERROR_MESSAGE];
+                    });
+                }
+            }
+            @finally {
+                
+            }
+        }@catch (ICEException *exception) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [SVProgressHUD showErrorWithStatus:@"服务访问异常"];
+            });
+        }
+        
+        
+    });
+
 }
 
 - (void)dealloc {

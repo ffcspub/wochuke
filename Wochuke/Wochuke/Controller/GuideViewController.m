@@ -48,6 +48,9 @@
                 JCGuideDetail *detail = [proxy getGuideDetail:[ShareVaule shareInstance].userId guideId:_guide.id_];
                 if (detail) {
                     _detail = [detail retain];
+                    _guide.commentCount = _detail.commentCount;
+                    _guide.viewCount = _detail.viewCount;
+                    _guide.favoriteCount  = _detail.favoriteCount;
                 }
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [SVProgressHUD dismiss];
@@ -118,6 +121,7 @@
         _badgeView.badgePositionAdjustment = CGPointMake(-10, 10);
     }
     [self observeNotification:StepPreviewController.TAP];
+    
     // Do any additional setup after loading the view from its nib.
 }
 
@@ -241,13 +245,16 @@
                 dispatch_async(dispatch_get_main_queue(), ^{
                     //                [SVProgressHUD dismiss];
                     if (_detail.favorited) {
+                        _guide.favoriteCount ++;
                         [SVProgressHUD showSuccessWithStatus:@"已收藏"];
                         [_btn_like setImage:[UIImage imageNamed:@"ic_cook_like_bottom_pressed"] forState:UIControlStateNormal];
                     }else{
+                        _guide.favoriteCount --;
                         [SVProgressHUD showSuccessWithStatus:@"已取消收藏"];
                         [_btn_like setImage:[UIImage imageNamed:@"ic_cook_like_bottom"] forState:UIControlStateNormal];
                     }
-                    [_pagedFlowView reloadData];
+                    [self postNotification:NOTIFICATION_FAVORITECOUNT];
+//                    [_pagedFlowView reloadData];
                 });
             }
             @catch (ICEException *exception) {
@@ -404,7 +411,7 @@
         LoginViewController *vlc = [[[LoginViewController alloc]initWithNibName:@"LoginViewController" bundle:nil]autorelease];
         UINavigationController *navController = [[[UINavigationController alloc]initWithRootViewController:vlc ]autorelease];
         navController.navigationBarHidden = YES;
-        [self presentModalViewController:navController animated:YES];
+        [self presentViewController:navController animated:YES completion:nil];
     }
 }
 

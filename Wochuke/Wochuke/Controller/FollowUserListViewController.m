@@ -227,7 +227,7 @@
                         }else{
                             [SVProgressHUD showSuccessWithStatus:@"已关注"];
                         }
-                        [self postNotification:NOTIFICATION_FOLLOWSTATECHANGE];
+                        [self postNotification:NOTIFICATION_FOLLOWSTATECHANGE withObject:user.id_];
                         [self reloadDatas];
                     });
                 }

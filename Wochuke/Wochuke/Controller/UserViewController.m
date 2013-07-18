@@ -64,14 +64,71 @@
     [self.tableView.pullToRefreshView setTitle:@"松开刷新" forState:SVPullToRefreshStateAll];
     [self.tableView.pullToRefreshView setTitle:@"下拉刷新" forState:SVPullToRefreshStateTriggered];
     [self.tableView.pullToRefreshView setTitle:@"正在加载" forState:SVPullToRefreshStateLoading];
-    
     // Do any additional setup after loading the view from its nib.
+}
+
+-(void)loadUser{
+    [SVProgressHUD show];
+    if ([ShareVaule shareInstance].userId) {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+            @try {
+                id<JCAppIntfPrx> proxy = [[ICETool shareInstance] createProxy];
+                @try {
+                    JCUser * user = [proxy getUserById:[ShareVaule shareInstance].userId userId:_user.id_];
+                    if (user) {
+                        _user.favoriteCount = user.favoriteCount;
+                        _user.followerCount = user.followerCount;
+                        _user.followingCount = user.followingCount;
+                        _user.followState = user.followState;
+                        _user.guideCount = user.guideCount;
+                    }
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        _lb_uploadCount.text = [NSString stringWithFormat:@"%d",user.guideCount];
+                        _lb_favCount.text = [NSString stringWithFormat:@"%d",user.favoriteCount];
+                        _lb_followCount.text = [NSString stringWithFormat:@"%d",user.followingCount];
+                        _lb_fanceCount.text = [NSString stringWithFormat:@"%d",user.followerCount];
+                        if (_user.id_) {
+                            [_iv_face setImageWithURL:[NSURL URLWithString:_user.avatar.url] placeholderImage:[UIImage imageNamed:@"ic_user_top"]];
+                            UIImage *backImage = [[UIImage imageNamed:@"btn_grad"]resizableImageWithCapInsets:UIEdgeInsetsMake(12, 12, 12, 12) ];
+                            [_btn_follow setBackgroundImage:backImage forState:UIControlStateNormal];
+                            if ([_user.id_ isEqual:[ShareVaule shareInstance].userId]) {
+                                [_btn_follow setHidden:YES];
+                            }
+                            if (_user.followState == 1 || _user.followState == 3) {
+                                [_btn_follow setTitle:@"取消关注" forState:UIControlStateNormal];
+                                [_btn_follow setTitleColor:[UIColor darkGrayColor]  forState:UIControlStateNormal];
+                            }else{
+                                [_btn_follow setTitle:@"加关注" forState:UIControlStateNormal];
+                                [_btn_follow setTitleColor:[UIColor redColor]  forState:UIControlStateNormal];
+                            }
+                        
+                        }
+
+                        [SVProgressHUD dismiss];
+                    });
+                }
+                @catch (ICEException *exception) {
+                    
+                }
+                @finally {
+                    
+                }
+            }@catch (ICEException *exception) {
+                //            dispatch_async(dispatch_get_main_queue(), ^{
+                //                [SVProgressHUD showErrorWithStatus:@"服务访问异常"];
+                //            });
+            }@finally {
+                
+            }
+        });
+    }
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
+    [self loadUser];
     if (_user) {
         _lb_uploadCount.text = [NSString stringWithFormat:@"%d",_user.guideCount];
         _lb_favCount.text = [NSString stringWithFormat:@"%d",_user.favoriteCount];
@@ -81,7 +138,6 @@
     
     UIImage *backImage = [[UIImage imageNamed:@"bg_classify_card"]resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
     [_iv_bottomBackView setImage:backImage];
-    
     if (_user.id_) {
         [_bottomBackView setHidden:NO];
         _lb_username.text = _user.name;
@@ -197,7 +253,7 @@
                 }
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [SVProgressHUD dismiss];
-                    if (pageIndex==0) {
+                    if (pageIndex==0 && list.count == 0) {
                         _bottomBackView.hidden = YES;
                     }else{
                         _bottomBackView.hidden = NO;
@@ -618,7 +674,8 @@
                             [_btn_follow setTitle:@"加关注" forState:UIControlStateNormal];
                             [_btn_follow setTitleColor:[UIColor redColor]  forState:UIControlStateNormal];
                         }
-                        [self postNotification:NOTIFICATION_FOLLOWSTATECHANGE];
+                        [self loadUser];
+                        [self postNotification:NOTIFICATION_FOLLOWSTATECHANGE withObject:user.id_];
                     });
                 }
                 @catch (ICEException *exception) {

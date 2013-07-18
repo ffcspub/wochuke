@@ -106,9 +106,13 @@
 -(void)handleNotification:(NSNotification *)notification{
     if ([notification.name isEqual:NOTIFICATION_FOLLOWSTATECHANGE]) {
         JCUser *user = (JCUser *)self.cellData;
-        if (user) {
-            [btn_following setTitle:user.followState==1||user.followState==3?@"取消关注":@"添加关注" forState:UIControlStateNormal];
+        if ([notification.object isEqual:user.id_]) {
+            if (user) {
+                [btn_following setTitle:user.followState==1||user.followState==3?@"取消关注":@"添加关注" forState:UIControlStateNormal];
+                [btn_following setTitleColor:user.followState==1||user.followState==3?[UIColor grayColor]:[UIColor redColor] forState:UIControlStateNormal];
+            }
         }
+        
     }
 }
 

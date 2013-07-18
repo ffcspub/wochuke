@@ -70,7 +70,6 @@
     
     if ([ShareVaule shareInstance].userId) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-            
             @try {
                 id<JCAppIntfPrx> proxy = [[ICETool shareInstance] createProxy];
                 @try {
@@ -83,6 +82,7 @@
                         _lb_favCount.text = [NSString stringWithFormat:@"%d",user.favoriteCount];
                         _lb_followCount.text = [NSString stringWithFormat:@"%d",user.followingCount];
                         _lb_fanceCount.text = [NSString stringWithFormat:@"%d",user.followerCount];
+                        
                     });
                 }
                 @catch (ICEException *exception) {
@@ -179,6 +179,10 @@
 }
 
 - (IBAction)uploadListAction:(id)sender {
+    if (![ShareVaule shareInstance].user) {
+        [self loginAction:sender];
+        return;
+    }
     [_iv_topBackView setImage:[UIImage imageNamed:@"bg_card_user_top_1"]];
     type = 0;
     [self upCountLableColor];
@@ -186,6 +190,10 @@
 }
 
 - (IBAction)favListAction:(id)sender {
+    if (![ShareVaule shareInstance].user) {
+        [self loginAction:sender];
+        return;
+    }
     [_iv_topBackView setImage:[UIImage imageNamed:@"bg_card_user_top_2"]];
     type = 1;
     [self upCountLableColor];
@@ -193,6 +201,10 @@
 }
 
 - (IBAction)followListAction:(id)sender {
+    if (![ShareVaule shareInstance].user) {
+        [self loginAction:sender];
+        return;
+    }
     FollowUserListViewController *vlc = [[FollowUserListViewController alloc]initWithNibName:@"FollowUserListViewController" bundle:nil];
     vlc.user = [ShareVaule shareInstance].user;
     vlc.filterCode = 0;
@@ -201,10 +213,10 @@
 }
 
 - (IBAction)fanceListAction:(id)sender {
-    //    [_iv_topBackView setImage:[UIImage imageNamed:@"bg_card_user_top_4"]];
-    //    type = 3;
-    //    [self upCountLableColor];
-    //    [self reloadDatas];
+    if (![ShareVaule shareInstance].user) {
+        [self loginAction:sender];
+        return;
+    }
     FollowUserListViewController *vlc = [[FollowUserListViewController alloc]initWithNibName:@"FollowUserListViewController" bundle:nil];
     vlc.user = [ShareVaule shareInstance].user;
     vlc.filterCode = 1;

@@ -297,7 +297,8 @@
         
         UINavigationController *navController = [[[ UINavigationController alloc]initWithRootViewController:vlc]autorelease];
         navController.navigationBarHidden = YES;
-        [self presentModalViewController:navController animated:YES];
+        [self presentViewController:navController animated:YES completion:nil];
+
     }
     
 }

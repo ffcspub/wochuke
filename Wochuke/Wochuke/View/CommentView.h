@@ -13,6 +13,7 @@
 
 @end
 
+@protocol CommentCellDelegate;
 
 @interface CommentCell : BeeUIGridCell{
     UIImageView *iv_heard;//头像
@@ -21,5 +22,16 @@
     UILabel *lb_time;//时间
     UIView *line;
 }
+
+@property(nonatomic,assign) id<CommentCellDelegate> delegate;
+
+@end
+
+
+@protocol CommentCellDelegate <NSObject>
+
+@optional
+
+-(void)commentCellShowUser:(NSString *)userId;
 
 @end
