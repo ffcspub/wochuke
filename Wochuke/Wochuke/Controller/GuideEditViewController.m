@@ -95,6 +95,7 @@
     [self postNotification:UIKeyboardWillHideNotification];
     if (_controllerDelegate) {
         [_controllerDelegate controllerWillHide];
+        [[ShareVaule shareInstance] removeEmptySupply];
     }
 //    [self.navigationController popViewControllerAnimated:YES];
 }

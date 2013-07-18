@@ -248,10 +248,11 @@
     if ([notification.name isEqual:NOTIFICATION_SUPPLIECELLDELETE]) {
         NSNumber *indexNum = (NSNumber *)notification.object;
         int index = [indexNum intValue];
-        [(NSMutableArray *)[ShareVaule shareInstance].editGuideEx.supplies removeObjectAtIndex:index];
         dispatch_async(dispatch_get_main_queue(), ^{
+//            [_tableView reloadData];
             [_tableView beginUpdates];
-            [_tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
+            [(NSMutableArray *)[ShareVaule shareInstance].editGuideEx.supplies removeObjectAtIndex:index];
+            [_tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationFade]; 
             [_tableView endUpdates];
         });
         
@@ -319,11 +320,13 @@
 
 -(void)addCell{
     JCSupply *supply = [[[JCSupply alloc]init]autorelease];
+//    BOOL flag = [ShareVaule shareInstance].editGuideEx.supplies.count == 0;
     [(NSMutableArray *)[ShareVaule shareInstance].editGuideEx.supplies addObject:supply];
+
     [_tableView beginUpdates];
     [_tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:[ShareVaule shareInstance].editGuideEx.supplies.count-1 inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
     [_tableView endUpdates];
-    
+//
 }
 
 -(void)dealloc{

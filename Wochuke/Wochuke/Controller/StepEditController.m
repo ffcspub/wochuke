@@ -53,13 +53,10 @@
         _guide = nil;
     }
     _guide = [guide retain];
-    NSMutableArray *steps = [[[NSMutableArray alloc]init]autorelease];
-    NSMutableArray *supplies = [[[NSMutableArray alloc]init]autorelease];
-    JCGuide * guideInfo = [[guide copy]autorelease];
-    [ShareVaule shareInstance].editGuideEx = [JCGuideEx guideEx:guideInfo supplies:supplies steps:steps];
-    NSLog(@"%d",[[ShareVaule shareInstance].editGuideEx retainCount]);
+    NSMutableArray *steps = [[NSMutableArray alloc]init];
+    NSMutableArray *supplies = [[NSMutableArray alloc]init];
+    [ShareVaule shareInstance].editGuideEx = [JCGuideEx guideEx:_guide supplies:supplies steps:steps];
     [[ShareVaule shareInstance].stepImageDic removeAllObjects];
-   
     [self loadDetail];
 }
 
@@ -143,8 +140,6 @@
     if (!_guide) {
         _guide = [[ShareVaule shareInstance].editGuideEx.guideInfo retain];
     }
-    
-    
     // Do any additional setup after loading the view from its nib.
     
 //    [btn_add setBackgroundImage:[[UIImage imageNamed:@"btn_orange_small"]resizableImageWithCapInsets:UIEdgeInsetsMake(12, 12, 12, 12)] forState:UIControlStateNormal];
@@ -163,7 +158,11 @@
 }
 
 -(void)dealloc{
+    [guideEditViewNavigationController release];
+    guideEditViewNavigationController = nil;
     [ShareVaule shareInstance].noChanged = YES;
+    [ShareVaule shareInstance].editGuideEx.steps = nil;
+    [ShareVaule shareInstance].editGuideEx.supplies = nil;
     [ShareVaule shareInstance].editGuideEx = nil;
     [ShareVaule shareInstance].guideImage = nil;
     [[ShareVaule shareInstance].stepImageDic removeAllObjects];
