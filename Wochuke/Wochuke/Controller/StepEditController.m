@@ -17,10 +17,13 @@
 #import "CreateGuideViewController.h"
 #import "CreateStepViewController.h"
 #import "PublishViewController.h"
+#import "StepPreviewController.h"
 
 
-@interface StepEditController ()<UIActionSheetDelegate>{
+@interface StepEditController ()<UIActionSheetDelegate,GuideEditViewControllerDelegate>{
     NSInteger _lastDeleteItemIndexAsked;
+    UINavigationController *guideEditViewNavigationController ;
+    
 }
 
 @end
@@ -56,6 +59,7 @@
     [ShareVaule shareInstance].editGuideEx = [JCGuideEx guideEx:guideInfo supplies:supplies steps:steps];
     NSLog(@"%d",[[ShareVaule shareInstance].editGuideEx retainCount]);
     [[ShareVaule shareInstance].stepImageDic removeAllObjects];
+   
     [self loadDetail];
 }
 
@@ -73,6 +77,7 @@
                 }
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [SVProgressHUD dismiss];
+                    [guideEditViewNavigationController viewWillAppear:YES];
                     [_girdView reloadData];
                 });
             }
@@ -132,18 +137,37 @@
     if (!_guide) {
         _guide = [[ShareVaule shareInstance].editGuideEx.guideInfo retain];
     }
+    
+    GuideEditViewController *guideEditViewController = [[[GuideEditViewController alloc]initWithNibName:@"GuideEditViewController" bundle:nil]autorelease];
+    guideEditViewController.controllerDelegate = self;
+    guideEditViewNavigationController = [[UINavigationController alloc]initWithRootViewController:guideEditViewController];
+    guideEditViewNavigationController.navigationBarHidden = YES;
+    guideEditViewNavigationController.view.hidden = YES;
+    [guideEditViewNavigationController.view setFrame: [self.view bounds]];
+    [self.view addSubview:guideEditViewNavigationController.view];
+    [self.view sendSubviewToBack:guideEditViewNavigationController.view];
     // Do any additional setup after loading the view from its nib.
     
 //    [btn_add setBackgroundImage:[[UIImage imageNamed:@"btn_orange_small"]resizableImageWithCapInsets:UIEdgeInsetsMake(12, 12, 12, 12)] forState:UIControlStateNormal];
 //    [btn_add setBackgroundImage:[[UIImage imageNamed:@"btn_orange_small_press"]resizableImageWithCapInsets:UIEdgeInsetsMake(12, 12, 12, 12)] forState:UIControlStateHighlighted];
 }
 
+#pragma mark -GuideEditViewControllerDelegate
+-(void) controllerWillHide;{
+    [UIView animateWithDuration:0.3 animations:^{
+        guideEditViewNavigationController.view.frame = CGRectMake(self.view.frame.size.width, 0, guideEditViewNavigationController.view.frame.size.width, guideEditViewNavigationController.view.frame.size.height);
+    } completion:^(BOOL finished) {
+        guideEditViewNavigationController.view.hidden = YES;
+        [self.view sendSubviewToBack:guideEditViewNavigationController.view];
+    }];
+}
+
 -(void)dealloc{
-    [_guide release];
     [ShareVaule shareInstance].noChanged = YES;
     [ShareVaule shareInstance].editGuideEx = nil;
     [ShareVaule shareInstance].guideImage = nil;
     [[ShareVaule shareInstance].stepImageDic removeAllObjects];
+    [_guide release];
     [btn_add release];
     [super dealloc];
 }
@@ -179,21 +203,22 @@
 
 - (BOOL)GMGridView:(GMGridView *)gridView canDeleteItemAtIndex:(NSInteger)index
 {
-    return index>1; //index % 2 == 0;
+    return index>1;
 }
 
+-(void)showGuideViewController{
+    [guideEditViewNavigationController.view setFrame:CGRectMake(self.view.frame.size.width, 0, guideEditViewNavigationController.view.frame.size.width, guideEditViewNavigationController.view.frame.size.height)];
+    [self.view bringSubviewToFront:guideEditViewNavigationController.view];
+    guideEditViewNavigationController.view.hidden = NO;
+    [UIView animateWithDuration:0.3 animations:^{
+        guideEditViewNavigationController.view.frame = CGRectMake(0, 0, guideEditViewNavigationController.view.frame.size.width, guideEditViewNavigationController.view.frame.size.height);
+    }];
+}
 
 #pragma mark - GMGridViewActionDelegate
 - (void)GMGridView:(GMGridView *)gridView didTapOnItemAtIndex:(NSInteger)position;{
-    GuideEditViewController *guideEditViewController = [[[GuideEditViewController alloc]initWithNibName:@"GuideEditViewController" bundle:nil]autorelease];
-    [self.navigationController pushViewController:guideEditViewController animated:YES];
-    double delayInSeconds = 0.2;
-    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
-    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-        [guideEditViewController scrollToIndex:position];
-    });
-    
-//    [guideEditViewController.pagedFlowView scrollToPage:position animation:NO];
+    [self postNotification:StepPreviewController.TAP withObject:[NSNumber numberWithInt:position]];
+    [self showGuideViewController];
 }
 
 -(BOOL)GMGridView:(GMGridView *)gridView shouldAllowActionForItemAtIndex:(NSInteger)index{
@@ -204,7 +229,6 @@
     }
     return YES;
 }
-
 
 - (void)GMGridView:(GMGridView *)gridView processDeleteActionForItemAtIndex:(NSInteger)index
 {
@@ -220,7 +244,6 @@
     if (buttonIndex == 1)
     {
         NSMutableArray *steps = (NSMutableArray *)[ShareVaule shareInstance].editGuideEx.steps;
-        
         JCStep *oldStep = [steps objectAtIndex:_lastDeleteItemIndexAsked -2];
         [[ShareVaule shareInstance]removeStep:oldStep];
         [_girdView removeObjectAtIndex:_lastDeleteItemIndexAsked withAnimation:GMGridViewItemAnimationFade];
