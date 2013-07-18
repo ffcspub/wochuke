@@ -84,6 +84,7 @@
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [_pagedFlowView reloadData];
+    [self postNotification:NOTIFICATION_SUPPLIERELOAD];
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -111,6 +112,7 @@
         [alert show];
         [alert release];
     }else{
+        [self postNotification:NOTIFICATION_CANNELEDIT];
         PublishViewController *vlc = [[PublishViewController alloc]initWithNibName:@"PublishViewController" bundle:nil];
         [self.navigationController pushViewController:vlc animated:YES];
         [vlc release];

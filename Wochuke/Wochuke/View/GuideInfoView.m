@@ -429,6 +429,12 @@
 
 
 #pragma mark -HPGrowingTextViewDelegate
+
+- (BOOL)growingTextViewShouldReturn:(HPGrowingTextView *)growingTextView;{
+    [growingTextView resignFirstResponder];
+    return NO;
+}
+
 - (BOOL)growingTextViewShouldBeginEditing:(HPGrowingTextView *)growingTextView;{
     if (growingTextView == tv_content) {
         oldCenter = self.center;

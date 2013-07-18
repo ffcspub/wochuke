@@ -572,12 +572,12 @@
             return YES;
         }
         else{
-            NSRange rg = {0,[atext length]+res};
-            if (rg.length>0) {
-                NSString *s = [atext substringWithRange:rg];
-                [textView setText:[textView.text stringByReplacingCharactersInRange:range withString:s]];
-            }
-            return NO;  
+//            NSRange rg = {0,[atext length]+res};
+//            if (rg.length>0) {
+//                NSString *s = [atext substringWithRange:rg];
+//                [textView setText:[textView.text stringByReplacingCharactersInRange:range withString:s]];
+//            }
+            return NO;
         }
     }
     

@@ -12,6 +12,7 @@
 #import "UITableView+BeeUIGirdCell.h"
 #import "NSObject+Notification.h"
 #import "EMKeyboardBarTextField.h"
+#import "TPKeyboardAvoidingTableView.h"
 
 @implementation SuppliesView
 
@@ -157,7 +158,7 @@
 }
 
 -(void)load{
-    _tf_name = [[[EMKeyboardBarTextField alloc]init]autorelease];
+    _tf_name = [[[UITextField alloc]init]autorelease];
     _tf_name.placeholder = @"食材";
     _tf_name.textAlignment = UITextAlignmentCenter;
     _tf_name.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
@@ -165,7 +166,7 @@
     _tf_name.textColor = [UIColor darkTextColor];
     [self addSubview:_tf_name];
     
-    _tf_quantity = [[[EMKeyboardBarTextField alloc]init]autorelease];
+    _tf_quantity = [[[UITextField alloc]init]autorelease];
     _tf_quantity.placeholder = @"分量";
     _tf_quantity.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     _tf_quantity.textAlignment = UITextAlignmentCenter;
@@ -282,7 +283,7 @@
     UIImage *backImage = [[UIImage imageNamed:@"lightBoard"]resizableImageWithCapInsets:UIEdgeInsetsMake(14, 14, 14, 14)];
     [backImageView setImage:backImage];
     
-    _tableView = [[[UITableView alloc]initWithFrame:CGRectZero style:UITableViewStylePlain]autorelease];
+    _tableView = [[[TPKeyboardAvoidingTableView alloc]initWithFrame:CGRectZero style:UITableViewStylePlain]autorelease];
     _tableView.delegate = self;
     _tableView.dataSource = self;
     UITapGestureRecognizer* singleRecognizer;  

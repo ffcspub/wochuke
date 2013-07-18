@@ -276,6 +276,7 @@
 		4C0A0A5A1791A74A007CB0DC /* AboutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C0A0A581791A74A007CB0DC /* AboutViewController.xib */; };
 		4C0A0A5D1791C287007CB0DC /* bg_setting_card.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C0A0A5B1791C287007CB0DC /* bg_setting_card.png */; };
 		4C0A0A5E1791C287007CB0DC /* bg_setting_card@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C0A0A5C1791C287007CB0DC /* bg_setting_card@2x.png */; };
+		4C1189D517983ED5001C1EF4 /* TPKeyboardAvoidingTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1189D417983ED5001C1EF4 /* TPKeyboardAvoidingTableView.m */; };
 		4C1678AA179597D500983D8F /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1678A9179597D500983D8F /* BaseViewController.m */; };
 		4C28A463178E9A8A00AA06D4 /* UserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C28A461178E9A8800AA06D4 /* UserViewController.m */; };
 		4C28A464178E9A8A00AA06D4 /* UserViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C28A462178E9A8900AA06D4 /* UserViewController.xib */; };
@@ -814,6 +815,8 @@
 		4C0A0A581791A74A007CB0DC /* AboutViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AboutViewController.xib; sourceTree = "<group>"; };
 		4C0A0A5B1791C287007CB0DC /* bg_setting_card.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bg_setting_card.png; sourceTree = "<group>"; };
 		4C0A0A5C1791C287007CB0DC /* bg_setting_card@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bg_setting_card@2x.png"; sourceTree = "<group>"; };
+		4C1189D317983ED5001C1EF4 /* TPKeyboardAvoidingTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPKeyboardAvoidingTableView.h; sourceTree = "<group>"; };
+		4C1189D417983ED5001C1EF4 /* TPKeyboardAvoidingTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPKeyboardAvoidingTableView.m; sourceTree = "<group>"; };
 		4C1678A8179597D400983D8F /* BaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
 		4C1678A9179597D500983D8F /* BaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
 		4C28A460178E9A8700AA06D4 /* UserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserViewController.h; sourceTree = "<group>"; };
@@ -1607,6 +1610,8 @@
 		18E457BA17796D55003A0BBA /* View */ = {
 			isa = PBXGroup;
 			children = (
+				4C1189D317983ED5001C1EF4 /* TPKeyboardAvoidingTableView.h */,
+				4C1189D417983ED5001C1EF4 /* TPKeyboardAvoidingTableView.m */,
 				18E457BB17796DAD003A0BBA /* GuideCoverView.h */,
 				18E457BC17796DAD003A0BBA /* GuideCoverView.m */,
 				18E457C617798F91003A0BBA /* GuideInfoView.h */,
@@ -2354,6 +2359,7 @@
 				4CA419161794D453001879C8 /* AWActionSheet.m in Sources */,
 				4C1678AA179597D500983D8F /* BaseViewController.m in Sources */,
 				4C57631117969BBA00DCA4A8 /* YYJSONHelper.m in Sources */,
+				4C1189D517983ED5001C1EF4 /* TPKeyboardAvoidingTableView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

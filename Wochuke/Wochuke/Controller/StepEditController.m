@@ -73,14 +73,15 @@
                 }
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [SVProgressHUD dismiss];
-                    GuideEditViewController *guideEditViewController = [[[GuideEditViewController alloc]initWithNibName:@"GuideEditViewController" bundle:nil]autorelease];
-                    guideEditViewController.controllerDelegate = self;
-                    guideEditViewNavigationController = [[UINavigationController alloc]initWithRootViewController:guideEditViewController];
-                    guideEditViewNavigationController.navigationBarHidden = YES;
-                    guideEditViewNavigationController.view.hidden = YES;
-                    [guideEditViewNavigationController.view setFrame: [self.view bounds]];
-                    [self.view addSubview:guideEditViewNavigationController.view];
-                    [self.view sendSubviewToBack:guideEditViewNavigationController.view];
+//                    GuideEditViewController *guideEditViewController = [[[GuideEditViewController alloc]initWithNibName:@"GuideEditViewController" bundle:nil]autorelease];
+//                    guideEditViewController.controllerDelegate = self;
+//                    guideEditViewNavigationController = [[UINavigationController alloc]initWithRootViewController:guideEditViewController];
+//                    guideEditViewNavigationController.navigationBarHidden = YES;
+//                    guideEditViewNavigationController.view.hidden = YES;
+//                    [guideEditViewNavigationController.view setFrame: [self.view bounds]];
+//                    [self.view addSubview:guideEditViewNavigationController.view];
+//                    [self.view sendSubviewToBack:guideEditViewNavigationController.view];
+                    [guideEditViewNavigationController.topViewController viewWillAppear:YES];
                     [_girdView reloadData];
                 });
             }
@@ -142,6 +143,14 @@
     }
     // Do any additional setup after loading the view from its nib.
     
+    GuideEditViewController *guideEditViewController = [[[GuideEditViewController alloc]initWithNibName:@"GuideEditViewController" bundle:nil]autorelease];
+    guideEditViewController.controllerDelegate = self;
+    guideEditViewNavigationController = [[UINavigationController alloc]initWithRootViewController:guideEditViewController];
+    guideEditViewNavigationController.navigationBarHidden = YES;
+    guideEditViewNavigationController.view.hidden = YES;
+    [guideEditViewNavigationController.view setFrame: [self.view bounds]];
+    [self.view addSubview:guideEditViewNavigationController.view];
+    [self.view sendSubviewToBack:guideEditViewNavigationController.view];
 //    [btn_add setBackgroundImage:[[UIImage imageNamed:@"btn_orange_small"]resizableImageWithCapInsets:UIEdgeInsetsMake(12, 12, 12, 12)] forState:UIControlStateNormal];
 //    [btn_add setBackgroundImage:[[UIImage imageNamed:@"btn_orange_small_press"]resizableImageWithCapInsets:UIEdgeInsetsMake(12, 12, 12, 12)] forState:UIControlStateHighlighted];
 }
