@@ -255,7 +255,7 @@
             [_tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationFade]; 
             [_tableView endUpdates];
         });
-        
+        [ShareVaule shareInstance].noChanged = NO;
     }else if([notification.name isEqual:NOTIFICATION_SUPPLIERELOAD]){
         dispatch_async(dispatch_get_main_queue(), ^{
             [_tableView reloadData];
