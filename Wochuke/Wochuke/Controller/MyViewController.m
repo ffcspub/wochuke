@@ -82,7 +82,10 @@
                         _lb_favCount.text = [NSString stringWithFormat:@"%d",user.favoriteCount];
                         _lb_followCount.text = [NSString stringWithFormat:@"%d",user.followingCount];
                         _lb_fanceCount.text = [NSString stringWithFormat:@"%d",user.followerCount];
-                        
+                        [_loginButton setTitle:@"上传"];
+                        [_bottomBackView setHidden:NO];
+                        [_nickNameBtn setTitle:user.name forState:UIControlStateNormal];
+                        [_iv_face setImageWithURL:[NSURL URLWithString:user.avatar.url] placeholderImage:[UIImage imageNamed:@"ic_user_top"]];
                     });
                 }
                 @catch (ICEException *exception) {

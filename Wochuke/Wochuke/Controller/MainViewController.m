@@ -52,7 +52,7 @@
             [_homeViewNaviationController.view setFrame: [self.view bounds]];
             [self.view addSubview:_homeViewNaviationController.view];
         }else{
-//            [_homeViewNaviationController viewWillAppear:YES];
+            [_homeViewNaviationController.topViewController viewWillAppear:YES];
         }
         currentController = _homeViewNaviationController;
     }else if(tag ==2){
@@ -64,7 +64,7 @@
             [_catoryViewNaviationController.view setFrame: [self.view bounds]];
             [self.view addSubview:_catoryViewNaviationController.view];
         }else{
-//            [_catoryViewNaviationController viewWillAppear:YES];
+            [_catoryViewNaviationController.topViewController viewWillAppear:YES];
         }
         currentController = _catoryViewNaviationController;
     }else if(tag ==3){
@@ -76,7 +76,7 @@
             [_actionViewNaviationController.view setFrame: [self.view bounds]];
             [self.view addSubview:_actionViewNaviationController.view];
         }else{
-//            [_myViewNaviationController viewWillAppear:YES];
+            [_actionViewNaviationController.topViewController viewWillAppear:YES];
         }
         currentController = _actionViewNaviationController;
     }else if(tag ==4){
@@ -88,7 +88,7 @@
             [_myViewNaviationController.view setFrame: [self.view bounds]];
             [self.view addSubview:_myViewNaviationController.view];
         }else{
-            [_myViewNaviationController viewWillAppear:YES];
+            [_myViewNaviationController.topViewController viewWillAppear:YES];
         }
         currentController = _myViewNaviationController;
     }
@@ -118,6 +118,27 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
+    if (currentController != _homeViewNaviationController) {
+        [_homeViewNaviationController.view removeFromSuperview];
+        [_homeViewNaviationController release];
+        _homeViewNaviationController = nil;
+    }
+    if (currentController != _catoryViewNaviationController) {
+        [_catoryViewNaviationController.view removeFromSuperview];
+        [_catoryViewNaviationController release];
+        _catoryViewNaviationController = nil;
+    }
+    if (currentController != _actionViewNaviationController) {
+        [_actionViewNaviationController.view removeFromSuperview];
+        [_actionViewNaviationController release];
+        _actionViewNaviationController = nil;
+    }
+    if (currentController != _myViewNaviationController) {
+        [_myViewNaviationController.view removeFromSuperview];
+        [_myViewNaviationController release];
+        _myViewNaviationController = nil;
+    }
+    [currentController viewWillAppear:YES];
     // Dispose of any resources that can be recreated.
 }
 

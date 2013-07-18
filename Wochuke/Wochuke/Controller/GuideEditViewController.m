@@ -28,6 +28,7 @@
 
 @implementation GuideEditViewController
 
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -44,6 +45,7 @@
     _pagedFlowView.dataSource = self;
     _pagedFlowView.minimumPageAlpha = 1.0;
     _pagedFlowView.minimumPageScale = 1.0;
+    [self observeNotification:StepPreviewController.TAP];
     // Do any additional setup after loading the view from its nib.
 }
 
@@ -52,11 +54,12 @@
 }
 
 
-
 -(void)handleNotification:(NSNotification *)notification{
     if ([notification is:StepPreviewController.TAP]) {
         NSNumber *index = (NSNumber *)notification.object;
-        [_pagedFlowView scrollToPage:[index integerValue] animation:NO];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [_pagedFlowView scrollToPage:[index integerValue] animation:NO];
+        });
     }
 }
 
@@ -67,7 +70,7 @@
 }
 
 - (void)dealloc {
-    [[ShareVaule shareInstance]removeEmptySupply];
+    [self unobserveNotification:StepPreviewController.TAP];
     [_steptemp release];
     [_pagedFlowView release];
     [super dealloc];
@@ -89,7 +92,12 @@
 }
 
 - (IBAction)popAction:(id)sender {
-    [self.navigationController popViewControllerAnimated:YES];
+    [SVProgressHUD dismiss];
+    [self postNotification:UIKeyboardWillHideNotification];
+    if (_controllerDelegate) {
+        [_controllerDelegate controllerWillHide];
+    }
+//    [self.navigationController popViewControllerAnimated:YES];
 }
 
 
@@ -343,7 +351,7 @@
 {
     PECropViewController *controller = [[[PECropViewController alloc] init]autorelease];
     controller.delegate = self;
-    controller.image = image;
+    controller.image = [image retain];
     
     UINavigationController *navigationController = [[[UINavigationController alloc] initWithRootViewController:controller]autorelease];
     

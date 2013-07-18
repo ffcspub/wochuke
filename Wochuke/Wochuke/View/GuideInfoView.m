@@ -297,12 +297,23 @@
 
 @implementation GuideEditView
 
+-(void)handleNotification:(NSNotification *)notification{
+    if ([notification.name isEqual:UIKeyboardWillHideNotification]) {
+        [UIView animateWithDuration:0.3 animations:^{
+            self.frame = saveRect;
+        }];
+        [tv_content resignFirstResponder];
+        [tv_title resignFirstResponder];
+    }
+}
+
 -(void)beginEdit;{
     [tv_title becomeFirstResponder];
 }
 
 -(void)setFrame:(CGRect)frame{
     [super setFrame:frame];
+    saveRect = frame;
     backImageView.frame = CGRectMake(0, 0, frame.size.width, frame.size.height);
     backTopImageView.frame = CGRectMake(5, 5, frame.size.width - 10, frame.size.height -10);
     
@@ -409,11 +420,8 @@
         singleRecognizer.numberOfTapsRequired = 1; // 单击
         [self addGestureRecognizer:singleRecognizer];
         self.userInteractionEnabled = YES;
-        NSNotificationCenter *notification = [NSNotificationCenter defaultCenter];
-        [notification addObserver:self
-                         selector:@selector(hideKeyBoard)
-                             name:UIKeyboardWillHideNotification
-                           object:nil];
+        
+        [self observeNotification:UIKeyboardWillHideNotification];
     }
     return self;
 }
@@ -440,6 +448,10 @@
     }
 }
 
+- (void)growingTextViewDidEndEditing:(HPGrowingTextView *)growingTextView;{
+    [ShareVaule shareInstance].noChanged = NO;
+}
+
 -(void)hideKeyBoard{
     [tv_title resignFirstResponder];
     [tv_content resignFirstResponder];
@@ -455,11 +467,7 @@
 
 -(void)dealloc{
     tv_content.delegate = nil;
-    NSNotificationCenter *notification = [NSNotificationCenter defaultCenter];
-    [notification removeObserver:self
-                            name:UIKeyboardWillHideNotification
-                          object:nil];
-
+    [self unobserveNotification:UIKeyboardWillHideNotification];
     [keyBoardController release];
     [super dealloc];
 }

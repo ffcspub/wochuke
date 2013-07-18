@@ -163,7 +163,12 @@
 }
 
 - (IBAction)popAction:(id)sender {
-    [self.navigationController popViewControllerAnimated:YES];
+    if (self.navigationController) {
+        [self.navigationController popViewControllerAnimated:YES];
+    }else{
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }
+    
 }
 
 - (IBAction)showPreviewAction:(id)sender {
@@ -810,7 +815,7 @@
 - (void)getUserInfoResponse:(APIResponse *)response
 {
     if (response.retCode == URLREQUEST_SUCCEED) {
-        NSString *qqname = [[response.jsonResponse objectForKey:@"nickname"]retain];
+        NSString *qqname = [response.jsonResponse objectForKey:@"nickname"];
         [ShareVaule shareInstance].qqName = qqname;
         if ([ShareVaule shareInstance].user.id_.length
             >0) {
@@ -822,7 +827,9 @@
             });
             
         }
-    } 
+    } else{
+        [SVProgressHUD showErrorWithStatus:response.errorMsg];
+    }
 }
 
 @end

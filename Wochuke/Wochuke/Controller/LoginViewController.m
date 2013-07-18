@@ -18,7 +18,10 @@
 #import "NSString+BeeExtension.h"
 #import "SinaWeibo.h"
 
-@interface LoginViewController ()<SinaWeiboDelegate,SinaWeiboRequestDelegate>
+@interface LoginViewController ()<SinaWeiboDelegate,SinaWeiboRequestDelegate>{
+    NSString *_faceUrl;
+}
+
 
 @end
 
@@ -187,18 +190,49 @@
                 JCUser *userInfo = [proxy getUserBySns:idKey idValue:idValue];
                 if (userInfo.id_.length == 0) {
                    userInfo = [proxy saveUser:user];
+                    if (_faceUrl) {
+                        NSString *fileId = userInfo.avatar.id_;
+                        NSData *_blobImage = [NSData dataWithContentsOfURL:[NSURL URLWithString:_faceUrl]];
+                        int length = _blobImage.length;
+                        int count =  ceil((float)length / FILEBLOCKLENGTH);
+                        int loc = 0;
+                        for (int i= 0; i<count; i++) {
+                            NSData *data = [_blobImage subdataWithRange:NSMakeRange(loc, MIN(FILEBLOCKLENGTH,_blobImage.length - loc))];
+                            JCFileBlock *fileBlock = [JCFileBlock fileBlock:fileId blockIdx:i blockSize:data.length isLastBlock:i==count-1 data:data];
+                            [proxy saveFileBlock:fileBlock];
+                            loc += FILEBLOCKLENGTH;
+                        }
+                    }
+                    
                 }
                 if (userInfo.id_) {
-                    if ([idKey isEqual:@"qqId"]) {
-                        [ShareVaule shareInstance].sinaweiboName = nil;
-                    }else{
+                    NSMutableDictionary *snsId = [NSMutableDictionary dictionaryWithDictionary:userInfo.snsIds];
+                    NSString *qqId = [snsId objectForKey:@"qqId"];
+                    if (qqId.length == 0) {
                         [ShareVaule shareInstance].qqName = nil;
+                    }else if ([[ShareVaule shareInstance].tencentOAuth isSessionValid]) {
+                        if (![qqId isEqual:[[ShareVaule shareInstance].tencentOAuth openId]]) {
+                            [ShareVaule shareInstance].qqName = @" ";
+                        }
+                    }else{
+                        [ShareVaule shareInstance].qqName = @" ";
+                    }
+                    NSString *sinaId = [snsId objectForKey:@"sinaId"];
+                    if (sinaId.length == 0) {
+                        [ShareVaule shareInstance].sinaweiboName = nil;
+                    }else if ([[ShareVaule shareInstance].sinaweibo isAuthValid]) {
+                        if (![sinaId isEqual:[[ShareVaule shareInstance].sinaweibo userID]]) {
+                            [ShareVaule shareInstance].sinaweiboName = @" ";
+                        }
+                    }else{
+                        [ShareVaule shareInstance].sinaweiboName = @" ";
                     }
                     NSLog(@"regiterByThirdUserInfo userInfo存在 userInfo.id_ == %@",userInfo.id_);
                     [ShareVaule shareInstance].userId = userInfo.id_;
                     [ShareVaule shareInstance].user = userInfo;
                     NSLog(@"regiterByThirdUserInfo userInfo.id_ == %@",userInfo.id_);
                     dispatch_async(dispatch_get_main_queue(), ^{
+                        [SVProgressHUD dismiss];
                         [self.navigationController dismissViewControllerAnimated:YES completion:nil];
                     });
                 } else {
@@ -248,6 +282,7 @@
 }
 
 - (IBAction)qqLoginAction:(id)sender {
+    [SVProgressHUD show];
     [ShareVaule shareInstance].tencentOAuth.sessionDelegate = self;
     NSArray *array = [NSArray arrayWithObjects:kOPEN_PERMISSION_GET_USER_INFO, kOPEN_PERMISSION_GET_SIMPLE_USER_INFO, kOPEN_PERMISSION_ADD_ONE_BLOG, nil];
     BOOL flag = [[ShareVaule shareInstance].tencentOAuth authorize:array inSafari:NO];
@@ -262,6 +297,7 @@
 
 
 - (IBAction)sinaLoginAction:(id)sender {
+    [SVProgressHUD show];
     SinaWeibo *sinaweibo = [ShareVaule shareInstance].sinaweibo;
     sinaweibo.delegate = self;
     [sinaweibo logIn];
@@ -326,11 +362,10 @@
 }
 
 #pragma mark - UITextField Delegate
-
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
 {
     [UIView animateWithDuration:0.3 animations:^{
-        self.view.frame = CGRectMake(0, -150, self.view.frame.size.width, self.view.frame.size.height);
+        self.view.frame = CGRectMake(0, -170, self.view.frame.size.width, self.view.frame.size.height);
     }];
     return YES;
 }
@@ -351,7 +386,9 @@
         [_tf_password becomeFirstResponder];
     }else if (textField == _tf_password){
         [_tf_password resignFirstResponder];
-        [self login];
+        if (_tf_password.text.length>0) {
+            [self login];
+        }
     }
     return YES;
 }
@@ -400,6 +437,10 @@
         SinaWeibo *sinaweibo = [ShareVaule shareInstance].sinaweibo;
         JCUser *user = [[JCUser alloc] init];
         NSLog(@"result == %@",result);
+        NSString *profile_image_url = [result objectForKey:@"profile_image_url"];
+        if (profile_image_url) {
+            _faceUrl = [profile_image_url retain];
+        }
         NSLog(@"sinaweibo.userID == %@",sinaweibo.userID);
         user.name = [result objectForKey:@"name"];
         user.avatar.url = [result objectForKey:@"profile_image_url"];
@@ -430,7 +471,7 @@
 
 - (void)tencentDidNotLogin:(BOOL)cancelled
 {
-    
+    [SVProgressHUD dismiss];
 //    [SVProgressHUD showErrorWithStatus:@"未登录QQ"];
 }
 
@@ -445,6 +486,10 @@
     if (response.retCode == URLREQUEST_SUCCEED) {
         JCUser *user = [[JCUser alloc] init];
         user.name = [response.jsonResponse objectForKey:@"nickname"];
+        NSString *profile_image_url = [response.jsonResponse objectForKey:@"figureurl_qq_2"];
+        if (profile_image_url) {
+            _faceUrl = [profile_image_url retain];
+        }
         [ShareVaule shareInstance].qqName = [response.jsonResponse objectForKey:@"nickname"];
         user.avatar.url = [response.jsonResponse objectForKey:@"figureurl"];
         NSDictionary *snsIds = [NSDictionary dictionaryWithObjectsAndKeys:[[ShareVaule shareInstance].tencentOAuth openId], @"qqId", nil];
@@ -453,13 +498,12 @@
             [self regiterByThirdUserInfo:user idKey:@"qqId" idValue:[ShareVaule shareInstance].tencentOAuth.openId];
         });
     } else {
-        
+        [SVProgressHUD showErrorWithStatus:response.errorMsg];
     }
 }
 
 
 - (void)dealloc {
-    
     [ShareVaule shareInstance].sinaweibo.delegate = nil;
     [ShareVaule shareInstance].tencentOAuth.sessionDelegate = nil;
     [_tf_name release];
@@ -473,5 +517,13 @@
     [self setTf_password:nil];
     [self setIv_back:nil];
     [super viewDidUnload];
+}
+
+-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
+    [UIView animateWithDuration:0.3 animations:^{
+        [_tf_password resignFirstResponder];
+        [_tf_name resignFirstResponder];
+        self.view.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
+    }];
 }
 @end

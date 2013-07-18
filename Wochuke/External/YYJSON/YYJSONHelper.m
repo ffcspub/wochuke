@@ -148,7 +148,7 @@ static void YY_swizzleInstanceMethod(Class c, SEL original, SEL replacement) {
 @implementation NSObject (YYProperties)
 - (NSArray *)yyPropertiesOfClass:(Class)aClass
 {
-    NSMutableArray *propertyNames = [[NSMutableArray alloc] init];
+    NSMutableArray *propertyNames = [[[NSMutableArray alloc] init]autorelease];
     id obj = objc_getClass([NSStringFromClass(aClass) cStringUsingEncoding:4]);
     unsigned int outCount, i;
     objc_property_t *properties = class_copyPropertyList(obj, &outCount);
@@ -198,7 +198,7 @@ static void YY_swizzleInstanceMethod(Class c, SEL original, SEL replacement) {
     NSData *jsonData = self.YYJSONData;
     if (jsonData)
     {
-        return [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+        return [[[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding]autorelease];
     }
     return nil;
 }
@@ -295,7 +295,7 @@ static void YY_swizzleInstanceMethod(Class c, SEL original, SEL replacement) {
 
 - (NSString *)YYJSONString
 {
-    return [[NSString alloc] initWithData:self encoding:NSUTF8StringEncoding];
+    return [[[NSString alloc] initWithData:self encoding:NSUTF8StringEncoding]autorelease];
 }
 
 

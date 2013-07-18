@@ -19,7 +19,6 @@
 
 @interface HomeViewController (){
     JCMutableGuideList *_datas;
-   
 }
 
 -(void)loadDatas;

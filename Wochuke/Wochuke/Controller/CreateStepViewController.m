@@ -274,7 +274,7 @@
 {
     PECropViewController *controller = [[[PECropViewController alloc] init]autorelease];
     controller.delegate = self;
-    controller.image = image;
+    controller.image = [image retain];
     
     UINavigationController *navigationController = [[[UINavigationController alloc] initWithRootViewController:controller]autorelease];
     

@@ -10,15 +10,25 @@
 #import "PagedFlowView.h"
 #import <Guide.h>
 
+@protocol GuideEditViewControllerDelegate;
+
+
 @interface GuideEditViewController : BaseViewController<PagedFlowViewDataSource,PagedFlowViewDelegate>
 
 @property (retain, nonatomic) IBOutlet PagedFlowView *pagedFlowView;
+@property (nonatomic,assign) id<GuideEditViewControllerDelegate> controllerDelegate;
 
 -(void)scrollToIndex:(int)index;
 
 - (IBAction)pubishAction:(id)sender;
 
 - (IBAction)popAction:(id)sender;
+
+@end
+
+@protocol GuideEditViewControllerDelegate <NSObject>
+
+-(void) controllerWillHide;
 
 @end
 

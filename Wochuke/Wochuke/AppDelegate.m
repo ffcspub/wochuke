@@ -17,6 +17,8 @@
 #import "SinaWeibo.h"
 #import<TencentOpenAPI/QQApiInterface.h> 
 #import<TencentOpenAPI/TencentOAuth.h>
+#import "JSONKit.h"
+#import "GuideViewController.h"
 
 @implementation AppDelegate
 
@@ -145,11 +147,53 @@
 
 -(void) onReq:(BaseReq*)req
 {
-//    if([req isKindOfClass:[ShowMessageFromWXReq class]])
-//    {
-//        ShowMessageFromWXReq *wxreq = (ShowMessageFromWXReq *)req;
-//        
-//    }
+    if([req isKindOfClass:[ShowMessageFromWXReq class]])
+    {
+        ShowMessageFromWXReq *wxreq = (ShowMessageFromWXReq *)req;
+        if (wxreq.message.mediaObject && [wxreq.message.mediaObject isKindOfClass:[WXAppExtendObject class]]) {
+            WXAppExtendObject *ext = wxreq.message.mediaObject;
+            NSString *jsonString = ext.extInfo;
+            jsonString = [jsonString stringByReplacingOccurrencesOfString:@"id" withString:@"id_"];
+            jsonString = [jsonString stringByReplacingOccurrencesOfString:@"description" withString:@"description_"];
+            NSDictionary* guideDict = [jsonString objectFromJSONString];
+            NSString *id_ = (NSString *)[guideDict objectForKey:@"id_"];
+            NSString *title = [guideDict objectForKey:@"title"];
+            NSString *description_ = [guideDict objectForKey:@"description_"];
+            NSString *typeId = [guideDict objectForKey:@"typeId"];
+            NSString *typeName = [guideDict objectForKey:@"typeName"];
+            NSString *userId = [guideDict objectForKey:@"userId"];;
+            NSString *userName = [guideDict objectForKey:@"userName"];
+            NSString *publishedTime  = [guideDict objectForKey:@"publishedTime"];
+            NSNumber *published  = (NSNumber *)[guideDict objectForKey:@"published"];
+            NSNumber *featured  = (NSNumber *)[guideDict objectForKey:@"featured"];
+            NSNumber * isLoaded = (NSNumber *)[guideDict objectForKey:@"isLoaded"];
+            NSNumber * viewCount = (NSNumber *)[guideDict objectForKey:@"viewCount"];
+            NSNumber * favoriteCount = (NSNumber *)[guideDict objectForKey:@"favoriteCount"];
+            NSNumber * commentCount = (NSNumber *)[guideDict objectForKey:@"commentCount"];
+            NSNumber * mutedCount = (NSNumber *)[guideDict objectForKey:@"mutedCount"];
+            NSNumber * reportedCount = (NSNumber *)[guideDict objectForKey:@"reportedCount"];
+            
+            NSDictionary *coverdict = [guideDict objectForKey:@"cover"];
+            JCFileInfo *cover = nil;
+            if (coverdict) {
+                cover = [[[JCFileInfo alloc]init]autorelease];
+                cover.url = [coverdict objectForKey:@"url"];
+            }
+            NSDictionary *userAvatardict = [guideDict objectForKey:@"userAvatar"];
+            JCFileInfo *userAvatar = nil;
+            if (userAvatardict) {
+                userAvatar = [[[JCFileInfo alloc]init]autorelease];
+                userAvatar.url = [userAvatardict objectForKey:@"url"];
+            }
+                        
+            JCGuide *guide = [[[JCGuide alloc]init:id_ title:title description_:description_ typeId:typeId typeName:typeName cover:cover smallCover:nil userId:userId userName:userName userAvatar:userAvatar publishedTime:publishedTime published:[published boolValue] featured:[featured boolValue] isLoaded:[isLoaded boolValue] viewCount:[viewCount intValue] favoriteCount:[favoriteCount intValue] commentCount:[commentCount intValue] mutedCount:[mutedCount intValue] reportedCount:[reportedCount intValue]]autorelease];
+            
+            GuideViewController *vlc = [[[GuideViewController alloc]initWithNibName:@"GuideViewController" bundle:nil]autorelease];
+            vlc.guide = guide;
+            [self.window.rootViewController presentViewController:vlc animated:YES completion:nil];
+        }
+        
+    }
 }
 
 -(void) onResp:(BaseResp*)resp

@@ -353,7 +353,7 @@
 - (void)getUserInfoResponse:(APIResponse *)response
 {
     if (response.retCode == URLREQUEST_SUCCEED) {
-        NSString *_qqName = [[response.jsonResponse objectForKey:@"nickname"]retain];
+        NSString *_qqName = [response.jsonResponse objectForKey:@"nickname"];
         [ShareVaule shareInstance].qqName = _qqName;
         if (updateModel) {
             if ([ShareVaule shareInstance].user.id_.length
@@ -365,7 +365,7 @@
             updateModel = NO;
         }
     } else {
-        [SVProgressHUD showErrorWithStatus:@"登录失败"];
+        [SVProgressHUD showErrorWithStatus:response.errorMsg];
     }
 }
 

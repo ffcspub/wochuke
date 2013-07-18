@@ -14,6 +14,7 @@
 #import <Guide.h>
 #import "ICETool.h"
 #import "StepImageChooseViewController.h"
+#import "GuideEditViewController.h"
 
 @interface PublishViewController ()<UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>{
     UIImagePickerController *_picker;
@@ -272,7 +273,14 @@
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [SVProgressHUD dismiss];
                     [SVProgressHUD showSuccessWithStatus:@"发布成功!"];
-                    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+                    
+                    UIViewController *vlc = [self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count - 2];
+                    if ([vlc isKindOfClass:[GuideEditViewController class]] ) {
+                        GuideEditViewController *controller = (GuideEditViewController *)vlc;
+                        [((UIViewController *)controller.controllerDelegate).navigationController dismissViewControllerAnimated:YES completion:nil];
+                    }else{
+                        [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+                    }
                 });
             }
             @catch (NSException *exception) {
@@ -484,7 +492,7 @@
 {
     PECropViewController *controller = [[[PECropViewController alloc] init]autorelease];
     controller.delegate = self;
-    controller.image = image;
+    controller.image = [image retain];
     
     UINavigationController *navigationController = [[[UINavigationController alloc] initWithRootViewController:controller]autorelease];
     

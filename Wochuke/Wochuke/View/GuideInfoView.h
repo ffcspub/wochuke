@@ -59,6 +59,7 @@
     UIKeyboardViewController *keyBoardController;
     UIPanGestureRecognizer *panGestureRecognizer;
     CGPoint oldCenter;
+    CGRect saveRect;
 }
 
 -(void)beginEdit;

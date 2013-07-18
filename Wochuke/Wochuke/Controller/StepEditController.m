@@ -77,7 +77,7 @@
                 }
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [SVProgressHUD dismiss];
-                    [guideEditViewNavigationController viewWillAppear:YES];
+                    [guideEditViewNavigationController.topViewController viewWillAppear:YES];
                     [_girdView reloadData];
                 });
             }
@@ -210,8 +210,10 @@
     [guideEditViewNavigationController.view setFrame:CGRectMake(self.view.frame.size.width, 0, guideEditViewNavigationController.view.frame.size.width, guideEditViewNavigationController.view.frame.size.height)];
     [self.view bringSubviewToFront:guideEditViewNavigationController.view];
     guideEditViewNavigationController.view.hidden = NO;
-    [UIView animateWithDuration:0.3 animations:^{
+    [UIView  animateWithDuration:0.3 animations:^{
         guideEditViewNavigationController.view.frame = CGRectMake(0, 0, guideEditViewNavigationController.view.frame.size.width, guideEditViewNavigationController.view.frame.size.height);
+    } completion:^(BOOL finished) {
+//        [guideEditViewNavigationController.topViewController viewWillAppear:YES];
     }];
 }
 
